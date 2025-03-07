@@ -1,14 +1,13 @@
 <main class="flex flex-col min-h-screen">
   <!-- Cabeçalho -->
-  <app-header />
+  <app-header class="w-full" />
 
   <!-- Conteúdo principal com deferimento -->
-  <section class="flex-grow">
+  <section class="flex-grow px-4 md:px-12">
     <!-- Aqui usamos deferimento e placeholders -->
     @defer(on viewport) {
     <section>
       <app-sobre />
-
       <app-planos id="planos" />
       <app-funcionalidades />
       <app-graficos />
@@ -32,4 +31,4 @@
 </main>
 
 <!-- Footer -->
-<app-footer class="mt-auto" />
+<app-footer class="mt-auto w-full" />
