@@ -1,0 +1,65 @@
+<section
+  id="faq"
+  class="w-full flex flex-col items-center px-4 py-12 md:py-20 bg-gradient-to-r from-[#5e6d72] to-[#b6c6cc]"
+>
+  <div class="mb-6 lg:mb-10 w-full max-w-[922px]">
+    <h2
+      class="text-3xl md:text-5xl font-bold text-base-text text-center mb-6 lg:mb-10 font-sans text-white"
+    >
+      Perguntas frequentes
+    </h2>
+
+    <dl class="w-full flex flex-col items-center cursor-pointer">
+      <!-- Pergunta 1 -->
+      <div
+        *ngFor="let faq of faqs; let i = index"
+        class="w-full flex flex-col border border-solid border-[#d1d3d5] rounded-lg px-6 py-4 relative transition-all ease-in-out duration-200 overflow-hidden mb-5"
+        (click)="toggleFAQ(i)"
+      >
+        <dt
+          class="text-black font-sans text-[#454843] text-lg font-bold pr-4 h-[64px]"
+        >
+          <h3 class="w-[90%] flex items-center flex-start h-[64px]">
+            {{ faq.question }}
+          </h3>
+        </dt>
+        <dd
+          *ngIf="faq.open"
+          class="text-white text-[#454843] text-lg font-sans pr-8 mt-5 pb-[30px]"
+        >
+          {{ faq.answer }}
+        </dd>
+        <a
+          href="#"
+          class="focus:shadow-none hover:opacity-50 transition-all ease-in-out duration-300 toggle-faq-item absolute top-0 right-0 h-[64px] w-16 flex items-center justify-center"
+        >
+          <svg
+            [ngClass]="{ hidden: faq.open, block: !faq.open }"
+            class="plus min-w-[14px] min-h-[14px]"
+            width="14"
+            height="14"
+            viewBox="0 0 14 14"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M14 8H8V14H6V8H0V6H6V0H8V6H14V8Z"
+              class="fill-black"
+            ></path>
+          </svg>
+          <svg
+            [ngClass]="{ hidden: !faq.open, block: faq.open }"
+            class="minus min-w-[14px] min-h-[14px]"
+            width="14"
+            height="2"
+            viewBox="0 0 14 2"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M14 2H0V0H14V2Z" class="fill-black"></path>
+          </svg>
+        </a>
+      </div>
+    </dl>
+  </div>
+</section>

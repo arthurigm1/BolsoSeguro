@@ -1,0 +1,62 @@
+<div class="container mx-auto p-6 mb-10">
+  <!-- Título Chamativo -->
+  <h1
+    class="text-4xl font-bold text-center mb-4 text-[#5e6d72] animate-fade-in"
+  >
+    Visualize suas Finanças de Forma Clara e Poderosa com o BolsoSeguro!
+  </h1>
+  <p
+    class="text-2xl font-semibold text-center mb-8 text-[#5e6d72] animate-fade-in delay-100"
+  >
+    Gráficos Totalmente Personalizados!
+  </p>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
+    <!-- Gráfico de Barras (Pagamentos) -->
+    <div
+      class="bg-white shadow-lg rounded-lg p-6 transform transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-xl animate-slide-in-left"
+    >
+      <h2 class="text-xl font-semibold mb-4">Contagem de Pagamentos</h2>
+      <div class="chart-container" style="height: 300px">
+        <canvas id="barChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Gráfico de Pizza (Distribuição de Gastos) -->
+    <div
+      class="bg-white shadow-lg rounded-lg p-6 transform transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-xl animate-slide-in-right flex flex-col items-center justify-center text-center"
+    >
+      <h2 class="text-xl font-semibold mb-4">Distribuição de Gastos</h2>
+      <div
+        class="chart-container flex justify-center items-center"
+        style="height: 300px; width: 100%"
+      >
+        <canvas id="pieChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Gráfico de Linha (Evolução de Receitas e Despesas) -->
+    <div
+      class="bg-white shadow-lg rounded-lg p-6 transform transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-xl animate-slide-in-left"
+    >
+      <h2 class="text-xl font-semibold mb-4">
+        Evolução de Receitas e Despesas
+      </h2>
+      <div class="chart-container" style="height: 300px">
+        <canvas id="lineChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Gráfico de Barras Horizontal (Metas de Economia) -->
+    <div
+      class="bg-white shadow-lg rounded-lg p-6 transform transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-xl animate-slide-in-right"
+    >
+      <h2 class="text-xl font-semibold mb-4">
+        Metas de Economia vs. Gastos Reais
+      </h2>
+      <div class="chart-container" style="height: 300px">
+        <canvas id="horizontalBarChart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>

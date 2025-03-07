@@ -1,0 +1,22 @@
+@keyframes typing {
+    0% {
+        width: 0;
+    }
+
+    20% {
+        width: 10%;
+        /* Exibe um pequeno trecho no início */
+    }
+
+    100% {
+        width: 100%;
+    }
+}
+
+.typing-animation {
+    overflow: hidden;
+    white-space: nowrap;
+    width: 0;
+    animation: typing 2s steps(50) forwards;
+    /* Remove o delay de 1s para iniciar imediatamente */
+}
