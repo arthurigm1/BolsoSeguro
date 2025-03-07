@@ -1,42 +1,52 @@
-<header class="bg-white p-9 shadow-lg shadow-[#5e6d72] mb-8">
+<header class="bg-white p-2 shadow-lg shadow-[#5e6d72] mb-8">
   <div
-    class="max-w-[2000px] mx-auto flex flex-wrap items-center justify-between px-12 gap-16"
+    class="max-w-[1500px] mx-auto flex items-center justify-between px-12 gap-16"
   >
     <!-- Logo -->
-    <div class="flex items-center flex-grow w-full md:w-auto mb-4 md:mb-0">
+    <div class="flex items-center mb-4 md:mb-0">
       <a href="/">
         <img src="assets/img/logo.png" alt="Logo" class="h-25 w-auto" />
       </a>
     </div>
 
+    <!-- Botão de Menu Mobile -->
+    <div class="md:hidden flex items-center">
+      <button
+        (click)="toggleMenu()"
+        class="text-[#5e6d72] text-3xl font-semibold focus:outline-none"
+      >
+        &#9776;
+        <!-- Ícone de menu hamburguer -->
+      </button>
+    </div>
+
     <!-- Links Centrais -->
     <nav
-      class="flex flex-col md:flex-row items-center space-y-4 md:space-x-16 flex-grow justify-center w-full md:w-auto"
+      [class.hidden]="!menuOpen"
+      class="md:flex items-center space-x-16 w-full md:w-auto md:flex-row flex-col md:space-x-16 md:space-y-0 space-y-4"
     >
       <a
         href="/quem-somos"
-        class="text-[#5e6d72] text-3xl font-semibold relative hover:scale-105 rounded-sm md:p-0 transition-all duration-300 ease-in-out after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-black after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 hover:text-black cursor-pointer"
+        class="text-[#5e6d72] text-2xl font-semibold relative hover:scale-105 rounded-sm md:p-0 transition-all duration-300 ease-in-out after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-black after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 hover:text-black cursor-pointer"
       >
         Quem somos
       </a>
       <a
-        href="#planos"
-        class="text-[#5e6d72] text-3xl font-semibold relative hover:scale-105 rounded-sm md:p-0 transition-all duration-300 ease-in-out after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-black after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 hover:text-black cursor-pointer"
-      >
-        Planos
-      </a>
-      <a
         href="#faq"
-        class="text-[#5e6d72] text-3xl font-semibold relative hover:scale-105 rounded-sm md:p-0 transition-all duration-300 ease-in-out after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-black after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 hover:text-black cursor-pointer"
+        class="text-[#5e6d72] text-2xl font-semibold relative hover:scale-105 rounded-sm md:p-0 transition-all duration-300 ease-in-out after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-black after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 hover:text-black cursor-pointer"
       >
         FAQ
+      </a>
+      <a
+        href="#planos"
+        class="text-[#5e6d72] text-2xl font-semibold relative hover:scale-105 rounded-sm md:p-0 transition-all duration-300 ease-in-out after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-black after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 hover:text-black cursor-pointer"
+      >
+        Planos
       </a>
     </nav>
 
     <!-- Links à Direita -->
-    <div
-      class="flex flex-col md:flex-row items-center space-y-4 md:space-x-8 flex-grow justify-end w-full md:w-auto"
-    >
+    <div class="flex items-center space-x-8">
       <a
         href="/login"
         class="text-[#5e6d72] text-2xl font-semibold relative hover:scale-105 rounded-sm md:p-0 transition-all duration-300 ease-in-out after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-black after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 hover:text-black cursor-pointer"
