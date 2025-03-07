@@ -1,13 +1,13 @@
 <div class="flex min-h-screen items-center justify-center p-6">
   <div
-    class="bg-white shadow-2xl flex flex-col md:flex-row w-full overflow-hidden transform transition duration-500 h-auto md:h-[90vh]"
+    class="bg-white shadow-2xl flex flex-col md:flex-row w-full overflow-hidden transform transition duration-500 h-auto md:h-[80vh]"
   >
     <!-- Image Section -->
-    <div class="w-full md:w-1/2 h-auto">
+    <div class="w-full md:w-1/2 min-h-full flex">
       <img
         src="assets/img/login.png"
         alt="Login Image"
-        class="h-full w-full object-cover"
+        class="h-full w-full object-left"
       />
     </div>
 
@@ -37,7 +37,7 @@
       </a>
 
       <h2
-        class="text-4xl md:text-5xl font-bold text-gray-800 mb-8 text-center font-serif mb-12 md:mb-20"
+        class="text-4xl md:text-4xl font-bold text-gray-800 mb-8 text-center font-serif mb-12 md:mb-20"
       >
         Bem-vindo ao <span class="text-[#5e6d72]">BolsoSeguro</span>
       </h2>
@@ -45,13 +45,13 @@
       <form class="space-y-6 w-full max-w-md mx-auto">
         <!-- Email Input -->
         <div class="relative">
-          <label class="block text-xl text-gray-600 mb-2 font-medium"
+          <label class="block text-base text-gray-600 mb-2 font-medium"
             >E-mail</label
           >
           <div class="relative">
             <input
               type="email"
-              class="w-full pl-12 pr-5 py-4 text-xl border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e6d72] focus:border-transparent transition duration-300"
+              class="w-full pl-12 pr-5 py-4 text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e6d72] focus:border-transparent transition duration-300"
               placeholder="Digite seu e-mail"
             />
             <i
@@ -62,13 +62,13 @@
 
         <!-- Password Input -->
         <div class="relative">
-          <label class="block text-xl text-gray-600 mb-2 font-medium"
+          <label class="block text-base text-gray-600 mb-2 font-medium"
             >Senha</label
           >
           <div class="relative">
             <input
               type="password"
-              class="w-full pl-12 pr-5 py-4 text-xl border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e6d72] focus:border-transparent transition duration-300"
+              class="w-full pl-12 pr-5 py-4 text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e6d72] focus:border-transparent transition duration-300"
               placeholder="Digite sua senha"
             />
             <i
@@ -79,14 +79,17 @@
 
         <!-- Forgot Password Link -->
         <div class="text-right">
-          <a href="#" class="text-xl text-[#5e6d72] hover:underline transition">
+          <a
+            href="#"
+            class="text-base text-[#5e6d72] hover:underline transition"
+          >
             Esqueci minha senha
           </a>
         </div>
 
         <!-- Login Button -->
         <button
-          class="w-full bg-gradient-to-r from-[#5e6d72] to-[#b6c6cc] text-white py-5 rounded-xl font-semibold text-xl shadow-lg hover:opacity-90 transition transform hover:scale-105 cursor-pointer"
+          class="w-full bg-gradient-to-r from-[#5e6d72] to-[#b6c6cc] text-white py-4 rounded-xl font-semibold text-base shadow-lg hover:opacity-90 transition transform hover:scale-105 cursor-pointer"
         >
           Entrar
         </button>
