@@ -1,11 +1,11 @@
-<header class="bg-white p-2 shadow-lg shadow-[#5e6d72] mb-8">
+<header class="bg-white shadow-lg shadow-[#5e6d72] fixed w-full z-50">
   <div
-    class="max-w-[1500px] mx-auto flex items-center justify-between px-12 gap-16"
+    class="max-w-[1500px] mx-auto flex items-center justify-between px-6 md:px-12 py-4 gap-16"
   >
     <!-- Logo -->
     <div class="flex items-center mb-4 md:mb-0">
       <a href="/">
-        <img src="assets/img/logo.png" alt="Logo" class="h-25 w-auto" />
+        <img src="assets/img/logo.png" alt="Logo" class="h-20 w-auto" />
       </a>
     </div>
 
@@ -13,52 +13,66 @@
     <div class="md:hidden flex items-center">
       <button
         (click)="toggleMenu()"
-        class="text-[#5e6d72] text-3xl font-semibold focus:outline-none"
+        class="text-[#5e6d72] text-3xl focus:outline-none"
+        aria-label="Abrir menu"
       >
         &#9776;
-        <!-- Ícone de menu hamburguer -->
       </button>
     </div>
 
-    <!-- Links Centrais -->
-    <nav
-      [class.hidden]="!menuOpen"
-      class="md:flex items-center space-x-16 w-full md:w-auto md:flex-row flex-col md:space-x-16 md:space-y-0 space-y-4"
-    >
+    <!-- Links Centrais (Desktop) -->
+    <nav class="hidden md:flex items-center space-x-8">
       <a
-        href="/quem-somos"
-        class="text-[#5e6d72] text-2xl font-semibold relative hover:scale-105 rounded-sm md:p-0 transition-all duration-300 ease-in-out after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-black after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 hover:text-black cursor-pointer"
+        *ngFor="let link of navLinks"
+        [href]="link.path"
+        class="text-[#5e6d72] text-2xl font-semibold relative hover:text-black transition-all duration-300 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-black after:transition-all after:duration-300 hover:after:w-full"
       >
-        Quem somos
-      </a>
-      <a
-        href="#faq"
-        class="text-[#5e6d72] text-2xl font-semibold relative hover:scale-105 rounded-sm md:p-0 transition-all duration-300 ease-in-out after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-black after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 hover:text-black cursor-pointer"
-      >
-        FAQ
-      </a>
-      <a
-        href="#planos"
-        class="text-[#5e6d72] text-2xl font-semibold relative hover:scale-105 rounded-sm md:p-0 transition-all duration-300 ease-in-out after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-black after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 hover:text-black cursor-pointer"
-      >
-        Planos
+        {{ link.label }}
       </a>
     </nav>
 
-    <!-- Links à Direita -->
-    <div class="flex items-center space-x-8">
+    <!-- Links à Direita (Desktop) -->
+    <div class="hidden md:flex items-center space-x-6">
       <a
         href="/login"
-        class="text-[#5e6d72] text-2xl font-semibold relative hover:scale-105 rounded-sm md:p-0 transition-all duration-300 ease-in-out after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-black after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 hover:text-black cursor-pointer"
+        class="text-[#5e6d72] text-lg font-semibold hover:text-black transition-all duration-300"
       >
         Login
       </a>
       <a
         href="/registro"
-        class="bg-[#5e6d72] text-white text-2xl font-semibold py-2 px-8 rounded-lg hover:bg-black hover:scale-105 transition-all duration-300"
+        class="bg-[#5e6d72] text-white text-lg font-semibold py-2 px-6 rounded-lg hover:bg-black hover:scale-105 transition-all duration-300"
       >
         Comece já
       </a>
     </div>
+  </div>
+
+  <!-- Menu Mobile -->
+  <div
+    *ngIf="menuOpen"
+    class="md:hidden bg-white fixed top-16 left-0 w-full h-full p-6 transition-all duration-300 ease-in-out"
+  >
+    <nav class="flex flex-col space-y-6">
+      <a
+        *ngFor="let link of navLinks"
+        [href]="link.path"
+        class="text-[#5e6d72] text-2xl font-semibold hover:text-black transition-all duration-300"
+      >
+        {{ link.label }}
+      </a>
+      <a
+        href="/login"
+        class="text-[#5e6d72] text-2xl font-semibold hover:text-black transition-all duration-300"
+      >
+        Login
+      </a>
+      <a
+        href="/registro"
+        class="bg-[#5e6d72] text-white text-2xl font-semibold py-2 px-6 rounded-lg hover:bg-black hover:scale-105 transition-all duration-300"
+      >
+        Comece já
+      </a>
+    </nav>
   </div>
 </header>
