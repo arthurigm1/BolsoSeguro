@@ -1,259 +1,195 @@
-<section class="zze-layout_content">
-  <div ui-view="zze-front" class="container ng-scope" id="content">
-    <div class="zze-context_dashboard ng-scope">
-      <div class="zze-box-content">
-        <div class="zze-group-content">
-          <div class="row">
-            <!-- Widget de Visão Geral -->
+<div class="min-h-screen bg-gradient-to-r from-white to-[#b6c6cc] p-8">
+  <!-- Cabeçalho -->
+  <header
+    class="bg-gray-100 rounded-xl shadow-lg p-6 mb-8 flex justify-between items-center"
+  >
+    <div>
+      <h1 class="text-3xl font-bold text-black">Olá, Arthur!</h1>
+      <p class="text-sm text-black mt-1">
+        Gerencie suas finanças de forma inteligente.
+      </p>
+    </div>
+    <div class="bg-gray-100 p-6 rounded-lg shadow-lg shadow-[#b6c6cc]">
+      <h2 class="text-lg font-semibold text-gray-800 mb-4">Acesso Rápido</h2>
+      <ul class="flex space-x-6">
+        <!-- Despesa -->
+        <li>
+          <a
+            href="#"
+            class="flex items-center space-x-2 text-[#ff6b6b] hover:text-[#ff5252] transition-colors"
+            tooltip-static="Clique para adicionar uma Despesa"
+          >
+            <i class="fas fa-minus-circle text-xl"></i>
+            <span class="font-medium">DESPESA</span>
+          </a>
+        </li>
+        <!-- Receita -->
+        <li>
+          <a
+            href="#"
+            class="flex items-center space-x-2 text-[#4caf50] hover:text-[#388e3c] transition-colors"
+            tooltip-static="Clique para adicionar uma Receita"
+          >
+            <i class="fas fa-plus-circle text-xl"></i>
+            <span class="font-medium">RECEITA</span>
+          </a>
+        </li>
+        <!-- Transferência -->
+        <li>
+          <a
+            href="#"
+            class="flex items-center space-x-2 text-[#2196f3] hover:text-[#1976d2] transition-colors"
+            tooltip-static="Clique para adicionar uma Transferência"
+          >
+            <i class="fas fa-exchange-alt text-xl"></i>
+            <span class="font-medium">TRANSF.</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- Resumo Financeiro -->
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+    <!-- Saldo Atual -->
+    <div
+      class="bg-gray-100 rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow"
+    >
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-lg font-semibold text-gray-700">Saldo Atual</h2>
+          <p class="text-2xl font-bold text-gray-900 mt-2">R$ 5.000,00</p>
+        </div>
+        <div class="bg-blue-100 p-3 rounded-full">
+          <i class="fas fa-wallet text-blue-600 text-xl"></i>
+        </div>
+      </div>
+    </div>
+    <!-- Receita Mensal -->
+    <div
+      class="bg-gray-100 rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow"
+    >
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-lg font-semibold text-gray-700">Receita Mensal</h2>
+          <p class="text-2xl font-bold text-[#4caf50] mt-2">R$ 22.440,00</p>
+        </div>
+        <div class="bg-green-100 p-3 rounded-full">
+          <i class="fas fa-arrow-up text-green-600 text-xl"></i>
+        </div>
+      </div>
+    </div>
+    <!-- Despesa Mensal -->
+    <div
+      class="bg-gray-100 rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow"
+    >
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-lg font-semibold text-gray-700">Despesa Mensal</h2>
+          <p class="text-2xl font-bold text-[#ff6b6b] mt-2">R$ 2.024,66</p>
+        </div>
+        <div class="bg-red-100 p-3 rounded-full">
+          <i class="fas fa-arrow-down text-red-600 text-xl"></i>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="bg-gray-100 rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow"
+    >
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-lg font-semibold text-gray-700">Investimentos</h2>
+          <p class="text-2xl font-bold text-[#9c27b0] mt-2">R$ 8.500,00</p>
+        </div>
+        <div class="bg-purple-200 p-3 rounded-full">
+          <i class="fas fa-chart-line text-purple-600 text-2xl"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gráfico de Despesas vs Receitas -->
+    <div class="bg-gray-100 rounded-xl shadow-sm p-6 mb-8">
+      <h2 class="text-xl font-semibold text-gray-900 mb-6">
+        Despesas vs Receitas
+      </h2>
+      <div class="chart-container">
+        <canvas id="incomeExpenseChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Metas Financeiras -->
+    <div class="bg-gray-100 rounded-xl shadow-sm p-6 mb-8">
+      <h2 class="text-xl font-semibold text-gray-900 mb-6">
+        Metas Financeiras
+      </h2>
+      <div class="space-y-4">
+        <!-- Meta 1 -->
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-lg font-medium text-gray-800">
+              Economizar para Viagem
+            </h3>
+            <p class="text-sm text-gray-500">R$ 2.000,00 / R$ 5.000,00</p>
+          </div>
+          <div class="w-1/2 bg-gray-100 rounded-full h-2.5">
             <div
-              id="widget-top_overview"
-              class="w-full p-4 bg-gray-100 shadow-lg rounded-md mb-6"
-            >
-              <div class="inner-content flex flex-col md:flex-row items-start">
-                <!-- Lado Esquerdo: Informações Financeiras -->
-                <div
-                  class="leftside-box flex-1 p-6 bg-white rounded-md shadow-md"
-                >
-                  <div class="greeting text-xl text-gray-800 mb-6">
-                    <small class="text-sm text-gray-600">Boa tarde,</small>
-                    <strong class="text-2xl font-semibold"
-                      >Arthur Ignacio Martins!
-                      <img
-                        src="/assets/application/dashboard/afternoon-e5a099146d1bef3701f74360c874b4f4a593f99bc8b880ded0757424810a6782.png"
-                        alt="Afternoon Icon"
-                        class="inline-block ml-2"
-                      />
-                    </strong>
-                  </div>
-                  <div class="blocks-of-info space-y-6">
-                    <!-- Saldo Atual -->
-                    <div>
-                      <label class="text-sm text-gray-600">Saldo Atual</label>
-                      <strong
-                        class="balance block text-2xl font-semibold text-blue-600"
-                        >R$ 5.000,00</strong
-                      >
-                    </div>
-                    <hr class="border-gray-200" />
-                    <!-- Receita Mensal -->
-                    <div>
-                      <label class="text-sm text-gray-600"
-                        >Receita mensal</label
-                      >
-                      <strong
-                        class="earning block text-xl font-semibold text-green-500"
-                        >R$ 22,44</strong
-                      >
-                    </div>
-                    <!-- Despesa Mensal -->
-                    <div>
-                      <label class="text-sm text-gray-600"
-                        >Despesa mensal</label
-                      >
-                      <strong
-                        class="expense block text-xl font-semibold text-red-500"
-                        >R$ 2.024.666,66</strong
-                      >
-                    </div>
-                    <!-- Link para Relatório Detalhado -->
-                    <a
-                      href="/5920718/relatorios/entradas-e-saidas"
-                      class="text-blue-600 hover:underline flex items-center"
-                      title="Ver relatório detalhado"
-                    >
-                      <svg
-                        viewBox="0 0 192 192"
-                        fill="#2E312D"
-                        class="w-6 h-6 mr-2"
-                      >
-                        <polyline
-                          points="24.85 110.98 52.78 138.91 52.78 138.92 91.18 100.53 91.16 100.51 108.43 117.97 167.15 59.23"
-                          style="
-                            fill: none;
-                            stroke: #2e312d;
-                            stroke-linecap: round;
-                            stroke-linejoin: round;
-                            stroke-width: 7px;
-                          "
-                        ></polyline>
-                      </svg>
-                      Ver Relatório
-                    </a>
-                  </div>
-                </div>
-
-                <!-- Lado Direito: Acesso Rápido -->
-                <div
-                  class="rightside-box fast-add p-6 bg-white rounded-md shadow-md ml-4"
-                >
-                  <h2 class="widget-title text-xl font-semibold mb-6">
-                    Acesso rápido
-                  </h2>
-                  <ul class="space-y-4">
-                    <!-- Adicionar Despesa -->
-                    <li>
-                      <a
-                        href="#"
-                        class="text-red-500 hover:underline flex items-center"
-                        tooltip-static="Clique para adicionar uma Despesa"
-                      >
-                        <i class="icon-expense-dashboard mr-2"></i>DESPESA
-                      </a>
-                    </li>
-                    <!-- Adicionar Receita -->
-                    <li>
-                      <a
-                        href="#"
-                        class="text-green-500 hover:underline flex items-center"
-                        tooltip-static="Clique para adicionar uma Receita"
-                      >
-                        <i class="icon-earning-dashboard mr-2"></i>RECEITA
-                      </a>
-                    </li>
-                    <!-- Adicionar Transferência -->
-                    <li>
-                      <a
-                        href="#"
-                        class="text-blue-500 hover:underline flex items-center"
-                        tooltip-static="Clique para adicionar uma Transferência"
-                      >
-                        <i class="icon-transfer-dashboard mr-2"></i>TRANSF.
-                      </a>
-                    </li>
-                    <!-- Importar Arquivos -->
-                    <li>
-                      <a
-                        href="/5920718/conciliations/account-statements/new"
-                        class="text-purple-500 hover:underline flex items-center"
-                        tooltip-static="Clique para importar arquivos OFX"
-                      >
-                        <svg
-                          width="32"
-                          height="32"
-                          viewBox="0 0 32 32"
-                          fill="none"
-                          class="mr-2"
-                        >
-                          <g id="link">
-                            <path
-                              d="M22.668 9.33337H18.668C17.9346 9.33337 17.3346 9.93337 17.3346 10.6667C17.3346 11.4 17.9346 12 18.668 12H22.668C24.868 12 26.668 13.8 26.668 16C26.668 18.2 24.868 20 22.668 20H18.668C17.9346 20 17.3346 20.6 17.3346 21.3334C17.3346 22.0667 17.9346 22.6667 18.668 22.6667H22.668C26.348 22.6667 29.3346 19.68 29.3346 16C29.3346 12.32 26.348 9.33337 22.668 9.33337ZM10.668 16C10.668 16.7334 11.268 17.3334 12.0013 17.3334H20.0013C20.7346 17.3334 21.3346 16.7334 21.3346 16C21.3346 15.2667 20.7346 14.6667 20.0013 14.6667H12.0013C11.268 14.6667 10.668 15.2667 10.668 16ZM13.3346 20H9.33464C7.13464 20 5.33464 18.2 5.33464 16C5.33464 13.8 7.13464 12 9.33464 12H13.3346C14.068 12 14.668 11.4 14.668 10.6667C14.668 9.93337 14.068 9.33337 13.3346 9.33337H9.33464C5.65464 9.33337 2.66797 12.32 2.66797 16C2.66797 19.68 5.65464 22.6667 9.33464 22.6667H13.3346C14.068 22.6667 14.668 22.0667 14.668 21.3334C14.668 20.6 14.068 20 13.3346 20Z"
-                              fill="#3062D4"
-                            ></path>
-                          </g>
-                        </svg>
-                        IMPORTAR
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <!-- Gráfico de Despesas e Receitas -->
-            <div class="w-full p-4 bg-white rounded-md shadow-md mb-6">
-              <h2 class="text-xl font-semibold mb-4">Despesas vs Receitas</h2>
-              <div class="chart-container">
-                <canvas id="incomeExpenseChart"></canvas>
-              </div>
-            </div>
-
-            <!-- Metas Financeiras -->
-            <div class="w-full p-4 bg-white rounded-md shadow-md mb-6">
-              <h2 class="text-xl font-semibold mb-4">Metas Financeiras</h2>
-              <div class="space-y-4">
-                <!-- Meta 1 -->
-                <div class="flex items-center justify-between">
-                  <div>
-                    <h3 class="text-lg font-medium">Economizar para Viagem</h3>
-                    <p class="text-sm text-gray-600">
-                      R$ 2.000,00 / R$ 5.000,00
-                    </p>
-                  </div>
-                  <div class="w-1/2 bg-gray-200 rounded-full h-2">
-                    <div
-                      class="bg-blue-500 h-2 rounded-full"
-                      style="width: 40%"
-                    ></div>
-                  </div>
-                </div>
-                <!-- Meta 2 -->
-                <div class="flex items-center justify-between">
-                  <div>
-                    <h3 class="text-lg font-medium">Fundo de Emergência</h3>
-                    <p class="text-sm text-gray-600">
-                      R$ 1.500,00 / R$ 10.000,00
-                    </p>
-                  </div>
-                  <div class="w-1/2 bg-gray-200 rounded-full h-2">
-                    <div
-                      class="bg-green-500 h-2 rounded-full"
-                      style="width: 15%"
-                    ></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Últimas Transações -->
-            <div class="w-full p-4 bg-white rounded-md shadow-md">
-              <h2 class="text-xl font-semibold mb-4">Últimas Transações</h2>
-              <div class="space-y-4">
-                <!-- Transação 1 -->
-                <div class="flex items-center justify-between">
-                  <div>
-                    <h3 class="text-lg font-medium">Supermercado</h3>
-                    <p class="text-sm text-gray-600">12/10/2023</p>
-                  </div>
-                  <strong class="text-red-500">- R$ 250,00</strong>
-                </div>
-                <!-- Transação 2 -->
-                <div class="flex items-center justify-between">
-                  <div>
-                    <h3 class="text-lg font-medium">Salário</h3>
-                    <p class="text-sm text-gray-600">10/10/2023</p>
-                  </div>
-                  <strong class="text-green-500">+ R$ 5.000,00</strong>
-                </div>
-              </div>
-            </div>
+              class="bg-blue-500 h-2.5 rounded-full"
+              style="width: 40%"
+            ></div>
+          </div>
+        </div>
+        <!-- Meta 2 -->
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-lg font-medium text-gray-800">
+              Fundo de Emergência
+            </h3>
+            <p class="text-sm text-gray-500">R$ 1.500,00 / R$ 10.000,00</p>
+          </div>
+          <div class="w-1/2 bg-gray-100 rounded-full h-2.5">
+            <div
+              class="bg-green-500 h-2.5 rounded-full"
+              style="width: 15%"
+            ></div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- Script para o Gráfico (Chart.js) -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-  const ctx = document.getElementById("incomeExpenseChart").getContext("2d");
-  const incomeExpenseChart = new Chart(ctx, {
-    type: "bar",
-    data: {
-      labels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho"],
-      datasets: [
-        {
-          label: "Receitas",
-          data: [5000, 6000, 5500, 7000, 6500, 8000],
-          backgroundColor: "rgba(75, 192, 192, 0.2)",
-          borderColor: "rgba(75, 192, 192, 1)",
-          borderWidth: 1,
-        },
-        {
-          label: "Despesas",
-          data: [4000, 4500, 5000, 5500, 6000, 6500],
-          backgroundColor: "rgba(255, 99, 132, 0.2)",
-          borderColor: "rgba(255, 99, 132, 1)",
-          borderWidth: 1,
-        },
-      ],
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true,
-        },
-      },
-    },
-  });
-</script>
+    <!-- Últimas Transações -->
+    <div class="bg-gray-100 rounded-xl shadow-sm p-6">
+      <h2 class="text-xl font-semibold text-gray-900 mb-6">
+        Últimas Transações
+      </h2>
+      <div class="space-y-4">
+        <!-- Transação 1 -->
+        <div class="flex items-center justify-between">
+          <div class="flex items-center">
+            <div class="bg-red-100 p-2.5 rounded-full mr-3">
+              <i class="fas fa-shopping-cart text-red-600"></i>
+            </div>
+            <div>
+              <h3 class="text-lg font-medium text-gray-800">Supermercado</h3>
+              <p class="text-sm text-gray-500">12/10/2023</p>
+            </div>
+          </div>
+          <strong class="text-red-600">- R$ 250,00</strong>
+        </div>
+        <!-- Transação 2 -->
+        <div class="flex items-center justify-between">
+          <div class="flex items-center">
+            <div class="bg-green-100 p-2.5 rounded-full mr-3">
+              <i class="fas fa-money-bill-wave text-green-600"></i>
+            </div>
+            <div>
+              <h3 class="text-lg font-medium text-gray-800">Salário</h3>
+              <p class="text-sm text-gray-500">10/10/2023</p>
+            </div>
+          </div>
+          <strong class="text-green-600">+ R$ 5.000,00</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
