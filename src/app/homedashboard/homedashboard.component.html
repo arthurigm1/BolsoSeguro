@@ -1,0 +1,29 @@
+<main
+  class="bg-gradient-to-r from-[#5e6d72] to-[#b6c6cc] flex flex-col min-h-screen"
+>
+  <!-- Cabeçalho -->
+
+  <app-divtop class="mb-5" />
+  <!-- Conteúdo principal com deferimento -->
+  <section class="flex-grow">
+    <!-- Aqui usamos deferimento e placeholders -->
+    @defer(on viewport) {
+    <section>
+      <app-dashboard />
+    </section>
+    } @placeholder {
+    <section>
+      <div class="loading">
+        <p>Carregando...</p>
+      </div>
+    </section>
+    } @error {
+    <section>
+      <div class="error">
+        <h1>Erro</h1>
+        <p>Erro ao carregar a página.</p>
+      </div>
+    </section>
+    }
+  </section>
+</main>
