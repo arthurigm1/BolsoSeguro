@@ -2,8 +2,8 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './TelaInicial/home/home.component';
 import { RegistroComponent } from './registro/registro.component';
 import { LoginComponent } from './login/login.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { HomedashboardComponent } from './homedashboard/homedashboard.component';
+import { DashboardComponent } from './TelaDashboard/dashboard/dashboard.component';
+import { HomedashboardComponent } from './TelaDashboard/homedashboard/homedashboard.component';
 
 export const routes: Routes = [
   {
