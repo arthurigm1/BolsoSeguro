@@ -4,7 +4,7 @@
     class="bg-gray-100 rounded-xl shadow-lg p-6 mb-8 flex justify-between items-center"
   >
     <div>
-      <h1 class="text-3xl font-bold text-black">Olá, Arthur!</h1>
+      <h1 class="text-3xl font-bold text-black">Olá, {{ nome }}!</h1>
       <p class="text-sm text-black mt-1">
         Gerencie suas finanças de forma inteligente.
       </p>
@@ -15,9 +15,8 @@
         <!-- Despesa -->
         <li>
           <a
-            href="#"
+            (click)="openModal('Despesa')"
             class="flex items-center space-x-2 text-[#ff6b6b] hover:text-[#ff5252] transition-colors"
-            tooltip-static="Clique para adicionar uma Despesa"
           >
             <i class="fas fa-minus-circle text-xl"></i>
             <span class="font-medium">DESPESA</span>
@@ -26,9 +25,8 @@
         <!-- Receita -->
         <li>
           <a
-            href="#"
+            (click)="openModal('Receita')"
             class="flex items-center space-x-2 text-[#4caf50] hover:text-[#388e3c] transition-colors"
-            tooltip-static="Clique para adicionar uma Receita"
           >
             <i class="fas fa-plus-circle text-xl"></i>
             <span class="font-medium">RECEITA</span>
@@ -37,9 +35,8 @@
         <!-- Transferência -->
         <li>
           <a
-            href="#"
+            (click)="openModal('Transferência')"
             class="flex items-center space-x-2 text-[#2196f3] hover:text-[#1976d2] transition-colors"
-            tooltip-static="Clique para adicionar uma Transferência"
           >
             <i class="fas fa-exchange-alt text-xl"></i>
             <span class="font-medium">TRANSF.</span>
@@ -49,6 +46,215 @@
     </div>
   </header>
 
+  <!-- Modal -->
+  <div
+    *ngIf="isModalOpen"
+    class="fixed inset-0 bg-opacity-50 backdrop-blur-md flex items-center justify-center p-4 z-50"
+  >
+    <div class="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden">
+      <!-- Cabeçalho do Modal -->
+      <div
+        class="flex justify-between items-center p-6 bg-gradient-to-r from-blue-500 to-indigo-600"
+      >
+        <h3 class="text-xl font-semibold text-white">{{ modalTitle }}</h3>
+        <button
+          (click)="closeModal()"
+          class="text-white hover:text-gray-200 transition-colors"
+        >
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <!-- Corpo do Modal -->
+      <div class="p-6">
+        <!-- Formulário de Despesa -->
+        <form
+          *ngIf="modalType === 'Despesa'"
+          (ngSubmit)="submitDespesa()"
+          class="space-y-5"
+        >
+          <!-- Campo Valor -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Valor</label
+            >
+            <input
+              type="number"
+              [(ngModel)]="despesa.valor"
+              name="valor"
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
+              required
+            />
+          </div>
+
+          <!-- Campo Data -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Data</label
+            >
+            <input
+              type="date"
+              [(ngModel)]="despesa.data"
+              name="data"
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
+              required
+            />
+          </div>
+
+          <!-- Campo Categoria -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Categoria</label
+            >
+            <select
+              [(ngModel)]="despesa.categoria"
+              name="categoria"
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
+              required
+            >
+              <option
+                *ngFor="let categoria of categorias"
+                [value]="categoria.id"
+              >
+                {{ categoria.nome }}
+              </option>
+            </select>
+          </div>
+
+          <!-- Campo Conta -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Conta</label
+            >
+            <select
+              [(ngModel)]="despesa.contaId"
+              name="contaId"
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
+              required
+            >
+              <option *ngFor="let conta of contas" [value]="conta.id">
+                {{ conta.nome }}
+              </option>
+            </select>
+          </div>
+
+          <!-- Campo Descrição -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Descrição</label
+            >
+            <textarea
+              [(ngModel)]="despesa.descricao"
+              name="descricao"
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
+              rows="3"
+            ></textarea>
+          </div>
+          <div class="flex justify-end p-6 bg-gray-50 border-t">
+            <button
+              (click)="closeModal()"
+              class="px-6 py-2 text-gray-600 hover:text-gray-800 bg-transparent hover:bg-gray-100 rounded-lg transition-colors"
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              class="ml-4 px-6 py-2 bg-blue-500 text-white hover:bg-blue-600 rounded-lg transition-colors"
+            >
+              Salvar
+            </button>
+          </div>
+        </form>
+
+        <!-- Formulário de Receita -->
+        <form
+          *ngIf="modalType === 'Receita'"
+          (ngSubmit)="submitReceita()"
+          class="space-y-5"
+        >
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Valor</label
+            >
+            <input
+              type="number"
+              [(ngModel)]="receita.valor"
+              name="valor"
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
+              required
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Data</label
+            >
+            <input
+              type="date"
+              [(ngModel)]="receita.data"
+              name="data"
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
+              required
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Categoria</label
+            >
+            <input
+              type="text"
+              [(ngModel)]="receita.categoria"
+              name="categoria"
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
+              required
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Descrição</label
+            >
+            <textarea
+              [(ngModel)]="receita.descricao"
+              name="descricao"
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
+              rows="3"
+            ></textarea>
+          </div>
+        </form>
+
+        <!-- Formulário de Transferência -->
+        <form
+          *ngIf="modalType === 'Transferência'"
+          (ngSubmit)="submitTransferencia()"
+          class="space-y-5"
+        >
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Valor</label
+            >
+            <input
+              type="number"
+              [(ngModel)]="transferencia.valor"
+              name="valor"
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
+              required
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Data</label
+            >
+            <input
+              type="date"
+              [(ngModel)]="transferencia.data"
+              name="data"
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
+              required
+            />
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
   <!-- Resumo Financeiro -->
   <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
     <!-- Saldo Atual -->
@@ -58,7 +264,7 @@
       <div class="flex items-center justify-between">
         <div>
           <h2 class="text-lg font-semibold text-gray-700">Saldo Atual</h2>
-          <p class="text-2xl font-bold text-gray-900 mt-2">R$ 5.000,00</p>
+          <p class="text-2xl font-bold text-gray-900 mt-2">{{ saldo }}</p>
         </div>
         <div class="bg-blue-100 p-3 rounded-full">
           <i class="fas fa-wallet text-blue-600 text-xl"></i>
@@ -72,7 +278,9 @@
       <div class="flex items-center justify-between">
         <div>
           <h2 class="text-lg font-semibold text-gray-700">Receita Mensal</h2>
-          <p class="text-2xl font-bold text-[#4caf50] mt-2">R$ 22.440,00</p>
+          <p class="text-2xl font-bold text-[#4caf50] mt-2">
+            R$ {{ totalReceitas }}
+          </p>
         </div>
         <div class="bg-green-100 p-3 rounded-full">
           <i class="fas fa-arrow-up text-green-600 text-xl"></i>
@@ -86,7 +294,9 @@
       <div class="flex items-center justify-between">
         <div>
           <h2 class="text-lg font-semibold text-gray-700">Despesa Mensal</h2>
-          <p class="text-2xl font-bold text-[#ff6b6b] mt-2">R$ 2.024,66</p>
+          <p class="text-2xl font-bold text-[#ff6b6b] mt-2">
+            R$ {{ totalDespesas }}
+          </p>
         </div>
         <div class="bg-red-100 p-3 rounded-full">
           <i class="fas fa-arrow-down text-red-600 text-xl"></i>
@@ -163,31 +373,48 @@
         Últimas Transações
       </h2>
       <div class="space-y-4">
-        <!-- Transação 1 -->
-        <div class="flex items-center justify-between">
+        <div
+          *ngFor="let transacao of transacoes"
+          class="flex items-center justify-between"
+        >
           <div class="flex items-center">
-            <div class="bg-red-100 p-2.5 rounded-full mr-3">
-              <i class="fas fa-shopping-cart text-red-600"></i>
+            <div
+              class="p-2.5 rounded-full mr-3"
+              [ngClass]="
+                transacao.tipoTransacao === 'RECEITA'
+                  ? 'bg-green-100'
+                  : 'bg-red-100'
+              "
+            >
+              <i
+                class="fas"
+                [ngClass]="
+                  transacao.tipoTransacao === 'RECEITA'
+                    ? 'fa-money-bill-wave text-green-600'
+                    : 'fa-shopping-cart text-red-600'
+                "
+              >
+              </i>
             </div>
             <div>
-              <h3 class="text-lg font-medium text-gray-800">Supermercado</h3>
-              <p class="text-sm text-gray-500">12/10/2023</p>
+              <h3 class="text-lg font-medium text-gray-800">
+                {{ transacao.nomeConta }}
+              </h3>
+              <p class="text-sm text-gray-500">
+                {{ transacao.dataTransacao | date : "dd/MM/yyyy" }}
+              </p>
             </div>
           </div>
-          <strong class="text-red-600">- R$ 250,00</strong>
-        </div>
-        <!-- Transação 2 -->
-        <div class="flex items-center justify-between">
-          <div class="flex items-center">
-            <div class="bg-green-100 p-2.5 rounded-full mr-3">
-              <i class="fas fa-money-bill-wave text-green-600"></i>
-            </div>
-            <div>
-              <h3 class="text-lg font-medium text-gray-800">Salário</h3>
-              <p class="text-sm text-gray-500">10/10/2023</p>
-            </div>
-          </div>
-          <strong class="text-green-600">+ R$ 5.000,00</strong>
+          <strong
+            [ngClass]="
+              transacao.tipoTransacao === 'RECEITA'
+                ? 'text-green-600'
+                : 'text-red-600'
+            "
+          >
+            {{ transacao.tipoTransacao === "RECEITA" ? "+" : "-" }} R$
+            {{ transacao.valor | number : "1.2-2" }}
+          </strong>
         </div>
       </div>
     </div>

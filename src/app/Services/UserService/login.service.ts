@@ -11,17 +11,21 @@ export class LoginService {
   private isLoggedInSubject = new BehaviorSubject<boolean>(this.checkToken());
   isLoggedIn$: Observable<boolean> = this.isLoggedInSubject.asObservable();
 
-  private checkToken(): boolean {
+  public checkToken(): boolean {
     const token = localStorage.getItem('authToken');
     if (!token) return false;
+
     try {
       const decodedToken = this.decodeToken(token);
-      return decodedToken.exp > Date.now() / 1000;
+      const currentTime = Date.now() / 1000; // Tempo atual em segundos
+      // Verifica se o token não está expirado
+      return decodedToken.exp > currentTime;
     } catch (error) {
       console.error('Erro ao decodificar o token', error);
       return false;
     }
   }
+
   private decodeToken(token: string): any {
     const payload = token.split('.')[1];
     return JSON.parse(atob(payload));

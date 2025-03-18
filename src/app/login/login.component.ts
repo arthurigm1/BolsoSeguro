@@ -5,9 +5,12 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
+
 import { CommonModule } from '@angular/common';
 import { LoginService } from '../Services/UserService/login.service';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+
 interface LoginForm {
   email: FormControl;
   senha: FormControl;
@@ -24,7 +27,8 @@ export class LoginComponent {
 
   constructor(
     private loginService: LoginService,
-    private toastService: ToastrService
+    private toastService: ToastrService,
+    private router: Router
   ) {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -34,6 +38,12 @@ export class LoginComponent {
       ]),
     });
   }
+  ngOnInit(): void {
+    // Verifica o token assim que o componente for carregado
+    if (this.loginService.checkToken()) {
+      this.router.navigate(['/dashboard']);
+    }
+  }
 
   submit() {
     this.loginService
@@ -41,7 +51,7 @@ export class LoginComponent {
       .subscribe({
         next: (response: any) => {
           this.toastService.success('Login efetuado com sucesso');
-          this.toastService.show('teste');
+          this.router.navigate(['/dashboard']);
         },
         error: () => this.toastService.error('Senha ou Email Incorreto!'),
       });
