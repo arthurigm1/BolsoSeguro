@@ -42,7 +42,11 @@
         Crie sua conta no <span class="text-[#5e6d72]">BolsoSeguro</span>
       </h2>
 
-      <form class="space-y-3 w-full max-w-md mx-auto">
+      <form
+        [formGroup]="cadastroForm"
+        (ngSubmit)="submit()"
+        class="space-y-3 w-full max-w-md mx-auto"
+      >
         <!-- Nome Completo -->
         <div class="relative">
           <label class="block text-base text-gray-600 mb-2 font-medium"
@@ -50,9 +54,24 @@
           >
           <input
             type="text"
+            formControlName="nome"
             class="w-full pl-4 pr-5 py-4 text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e6d72] focus:border-transparent transition duration-300"
             placeholder="Digite seu nome completo"
           />
+          <div
+            *ngIf="
+              cadastroForm.controls['nome'].invalid &&
+              cadastroForm.controls['nome'].touched
+            "
+            class="text-red-500 text-sm"
+          >
+            <p *ngIf="cadastroForm.controls['nome'].hasError('required')">
+              Nome é obrigatório.
+            </p>
+            <p *ngIf="cadastroForm.controls['nome'].hasError('minlength')">
+              Nome deve ter pelo menos 3 caracteres.
+            </p>
+          </div>
         </div>
 
         <!-- Email Input -->
@@ -62,37 +81,84 @@
           >
           <input
             type="email"
+            formControlName="email"
             class="w-full pl-4 pr-5 py-4 text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e6d72] focus:border-transparent transition duration-300"
             placeholder="Digite seu e-mail"
           />
+          <div
+            *ngIf="
+              cadastroForm.get('email')?.invalid &&
+              cadastroForm.get('email')?.touched
+            "
+            class="text-red-500 text-sm"
+          >
+            <p *ngIf="cadastroForm.get('email')?.hasError('required')">
+              Email é obrigatório.
+            </p>
+            <p *ngIf="cadastroForm.get('email')?.hasError('email')">
+              Por favor, insira um email válido.
+            </p>
+          </div>
         </div>
 
         <!-- Password Input -->
+        <!-- Senha -->
         <div class="relative">
           <label class="block text-base text-gray-600 mb-2 font-medium"
             >Senha</label
           >
           <input
             type="password"
+            formControlName="senha"
             class="w-full pl-4 pr-5 py-4 text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e6d72] focus:border-transparent transition duration-300"
             placeholder="Crie uma senha"
           />
+          <div
+            *ngIf="
+              cadastroForm.get('senha')?.invalid &&
+              cadastroForm.get('senha')?.touched
+            "
+            class="text-red-500 text-sm"
+          >
+            <p *ngIf="cadastroForm.get('senha')?.hasError('required')">
+              A senha é obrigatória.
+            </p>
+            <p *ngIf="cadastroForm.get('senha')?.hasError('minlength')">
+              A senha deve ter pelo menos 6 caracteres.
+            </p>
+          </div>
         </div>
 
-        <!-- Confirm Password Input -->
+        <!-- Confirmar Senha -->
         <div class="relative">
           <label class="block text-base text-gray-600 mb-2 font-medium"
             >Confirme sua Senha</label
           >
           <input
             type="password"
+            formControlName="confirmarSenha"
             class="w-full pl-4 pr-5 py-4 text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e6d72] focus:border-transparent transition duration-300"
             placeholder="Repita sua senha"
           />
+          <div
+            *ngIf="
+              cadastroForm.get('confirmarSenha')?.invalid &&
+              cadastroForm.get('confirmarSenha')?.touched
+            "
+            class="text-red-500 text-sm"
+          >
+            <p *ngIf="cadastroForm.get('confirmarSenha')?.hasError('required')">
+              Confirme sua senha.
+            </p>
+            <p *ngIf="cadastroForm.hasError('senhasDiferentes')">
+              As senhas não coincidem.
+            </p>
+          </div>
         </div>
 
         <!-- Register Button -->
         <button
+          type="submit"
           class="w-full bg-gradient-to-r from-[#5e6d72] to-[#b6c6cc] text-white py-4 rounded-xl font-semibold text-base shadow-lg hover:opacity-90 transition transform hover:scale-105 cursor-pointer"
         >
           Criar Conta

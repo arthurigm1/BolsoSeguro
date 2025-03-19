@@ -30,9 +30,11 @@ export class AuthGuard implements CanActivate {
     }
     // Se o token não for válido, redireciona para a página de login
     if (state.url !== '/login') {
+      localStorage.removeItem('authToken');
       this.router.navigate(['/login']);
       return false;
     }
+
     return true;
   }
 }

@@ -53,9 +53,7 @@ export class LoginService {
       .post<LoginResponse>(this.apiUrl + '/register', { email, nome, senha })
       .pipe(
         timeout(this.timeoutDuration),
-        tap((value) => {
-          sessionStorage.setItem('username', value.email);
-        })
+        tap((value) => {})
       )
       .pipe(timeout(this.timeoutDuration));
   }
