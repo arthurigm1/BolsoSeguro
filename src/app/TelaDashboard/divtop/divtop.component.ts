@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener } from '@angular/core';
+import { Component, EventEmitter, HostListener, Output } from '@angular/core';
+import { LoginService } from '../../Services/UserService/login.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-divtop',
@@ -11,8 +13,24 @@ import { Component, HostListener } from '@angular/core';
 export class DivtopComponent {
   isSettingsDropdownOpen = false; // Controla o dropdown de configurações
   isAccountDropdownOpen = false; // Controla o dropdown da conta
+  @Output() activeComponentChange = new EventEmitter<string>();
+  @Output() viewChange: EventEmitter<string> = new EventEmitter<string>();
+  constructor(
+    private loginService: LoginService,
+    private toastService: ToastrService
+  ) {}
+  alterarComponente(componente: string): void {
+    this.viewChange.emit(componente);
+  }
+  @Output() pageSelected = new EventEmitter<string>();
 
-  // Fecha os dropdowns ao clicar fora deles
+  mudarPagina(pagina: string, activeComponent: string) {
+    this.viewChange.emit(pagina); // Troca para 'configuracoes'
+    this.activeComponentChange.emit(activeComponent); // Define o subcomponente
+  }
+  onSelectPage(page: string): void {
+    this.pageSelected.emit(page);
+  }
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     const settingsButton = document.getElementById('settings-button');
@@ -74,5 +92,10 @@ export class DivtopComponent {
   toggleSettingsDropdown(event: Event) {
     event.stopPropagation(); // Impede que o clique feche o menu imediatamente
     this.isSettingsDropdownOpen = !this.isSettingsDropdownOpen;
+  }
+  logout(): void {
+    this.loginService.logout();
+    this.toastService.info('Logout efetuado com sucesso');
+    location.reload();
   }
 }

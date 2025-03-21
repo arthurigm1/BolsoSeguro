@@ -4,7 +4,7 @@
   <div class="container mx-auto flex items-center justify-between p-2">
     <!-- Logo -->
     <div class="flex items-center">
-      <a href="/" class="flex items-center">
+      <a href="/dashboard" class="flex items-center">
         <img
           src="assets/img/logo.png"
           alt="Logo"
@@ -18,8 +18,8 @@
       <ul class="flex space-x-6">
         <li>
           <a
-            href="/5920718/a/inicio"
-            class="text-lg font-medium hover:text-[#8a999f] transition-colors duration-300 transform hover:scale-105"
+            (click)="alterarComponente('dashboard')"
+            class="text-lg font-medium hover:text-[#8a999f] transition-colors duration-300 transform hover:scale-105 cursor-pointer"
             >Visão Geral</a
           >
         </li>
@@ -40,7 +40,7 @@
         <li>
           <a
             href="#"
-            class="text-lg font-medium bg-[#5e6d72] text-white px-4 py-2 rounded-lg hover:bg-[#8a999f] transition-colors duration-300 transform hover:scale-105"
+            class="text-lg font-medium bg-gradient-to-r from-[#b6c6cc] to-[#5e6d72] text-white px-4 py-2 rounded-lg hover:bg-[#8a999f] transition-colors duration-300 transform hover:scale-105"
             >Conversor de Moedas</a
           >
         </li>
@@ -79,44 +79,68 @@
 
         <div
           *ngIf="isSettingsDropdownOpen"
-          class="absolute right-0 mt-2 w-64 bg-white text-[#2F4F4F] rounded-lg shadow-lg transition-opacity duration-300 transform origin-top-right scale-95 group-hover:scale-100"
+          class="absolute top-full right-0 mt-2 w-64 bg-white text-[#2F4F4F] rounded-lg shadow-lg transition-all duration-300 ease-out transform origin-top-right opacity-0 scale-95 translate-y-[-10px]"
+          [class.opacity-100]="isSettingsDropdownOpen"
+          [class.scale-100]="isSettingsDropdownOpen"
+          [class.translate-y-0]="isSettingsDropdownOpen"
         >
-          <ul>
+          <ul class="py-2">
+            <!-- Categorias -->
             <li>
               <a
-                href="/5920718/a/configuracoes/categorias"
-                class="block px-4 py-2 hover:bg-[#8a999f] hover:text-white transition-colors duration-300"
-                >Categorias</a
+                (click)="mudarPagina('configuracoes', 'categorias')"
+                class="block px-4 py-2 cursor-pointer rounded-md hover:bg-[#8a999f] hover:text-white transition-all duration-200 focus:bg-[#8a999f] focus:text-white"
+                tabindex="0"
+                (keydown.enter)="mudarPagina('configuracoes', 'categorias')"
               >
+                Categorias
+              </a>
             </li>
+            <li class="border-t border-gray-300 my-2"></li>
+            <!-- Contas -->
             <li>
               <a
-                href="/5920718/configuracoes/contas"
-                class="block px-4 py-2 hover:bg-[#8a999f] hover:text-white transition-colors duration-300"
-                >Contas</a
+                (click)="mudarPagina('configuracoes', 'contas')"
+                class="block px-4 py-2 cursor-pointer rounded-md hover:bg-[#8a999f] hover:text-white transition-all duration-200 focus:bg-[#8a999f] focus:text-white"
+                tabindex="0"
+                (keydown.enter)="mudarPagina('configuracoes', 'contas')"
               >
+                Contas
+              </a>
             </li>
+            <li class="border-t border-gray-300 my-2"></li>
+            <!-- Cartões de Crédito -->
             <li>
               <a
-                href="/5920718/configuracoes/cartoes-de-credito"
-                class="block px-4 py-2 hover:bg-[#8a999f] hover:text-white transition-colors duration-300"
-                >Cartões de Crédito</a
+                (click)="mudarPagina('configuracoes', 'cartoes')"
+                class="block px-4 py-2 cursor-pointer rounded-md hover:bg-[#8a999f] hover:text-white transition-all duration-200 focus:bg-[#8a999f] focus:text-white"
+                tabindex="0"
+                (keydown.enter)="mudarPagina('configuracoes', 'cartoes')"
               >
+                Cartões de Crédito
+              </a>
             </li>
-            <li class="border-t border-[#5e6d72]"></li>
+
+            <!-- Linha de separação -->
+            <li class="border-t border-gray-300 my-2"></li>
+            <!-- Preferências -->
             <li>
               <a
-                href="/5920718/configuracoes/preferencias"
-                class="block px-4 py-2 hover:bg-[#8a999f] hover:text-white transition-colors duration-300"
-                >Preferências</a
+                class="block px-4 py-2 cursor-pointer rounded-md hover:bg-[#8a999f] hover:text-white transition-all duration-200 focus:bg-[#8a999f] focus:text-white"
+                tabindex="0"
               >
+                Preferências
+              </a>
             </li>
+
+            <!-- Meu Plano -->
             <li>
               <a
-                href="/5920718/configuracoes/plano-e-faturamento"
-                class="block px-4 py-2 hover:bg-[#8a999f] hover:text-white transition-colors duration-300"
-                >Meu Plano</a
+                class="block px-4 py-2 cursor-pointer rounded-md hover:bg-[#8a999f] hover:text-white transition-all duration-200 focus:bg-[#8a999f] focus:text-white"
+                tabindex="0"
               >
+                Meu Plano
+              </a>
             </li>
           </ul>
         </div>
@@ -158,8 +182,8 @@
               >Minha Conta</a
             >
             <a
-              href="/logout?current_entity_id=5920718"
-              class="block py-2 hover:bg-[#8a999f] hover:text-white transition-colors duration-300"
+              (click)="logout()"
+              class="block py-2 hover:bg-[#8a999f] hover:text-white transition-colors duration-300 cursor-pointer"
               >Sair</a
             >
           </div>

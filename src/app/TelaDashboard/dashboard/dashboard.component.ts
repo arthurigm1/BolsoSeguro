@@ -7,6 +7,9 @@ import { Despesa } from '../../Interface/Despesapost.type';
 import { Receita } from '../../Interface/Receitapost.type';
 import { DespesaService } from '../../Services/DespesaService/despesa.service';
 import { ToastrService } from 'ngx-toastr';
+import { ReceitaService } from '../../Services/ReceitaService/receita.service';
+import { ContaSaldoDTO } from '../../Interface/ContaSaldoDTO.type';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,15 +22,18 @@ export class DashboardComponent {
     private transacaoService: TransacoesService,
     private despesaService: DespesaService,
     private cdr: ChangeDetectorRef,
-    private toastService: ToastrService
+    private toastService: ToastrService,
+    private receitaService: ReceitaService
   ) {}
+  accounts: ContaSaldoDTO[] = [];
   saldo: number = 0;
   totalReceitas: number = 0;
   totalDespesas: number = 0;
   transacoes: any[] = [];
   nome: string = '';
   contas: { id: string; nome: string }[] = [];
-  categorias: { id: number; nome: string; fixa: boolean }[] = [];
+  categoriasDespesas: any[] = [];
+  categoriasReceitas: any[] = [];
   despesa: Despesa = {
     valor: 0,
     data: new Date(),
@@ -52,7 +58,6 @@ export class DashboardComponent {
   };
 
   ngOnInit(): void {
-    this.renderChart();
     this.carregarDados();
   }
 
@@ -68,64 +73,35 @@ export class DashboardComponent {
     this.transacaoService
       .obterTotalDespesasMes()
       .subscribe((data) => (this.totalDespesas = data));
+
     this.transacaoService
       .obterUltimasTransacoes()
       .subscribe((data) => (this.transacoes = data));
-  }
-  renderChart(): void {
-    const ctx = document.getElementById(
-      'incomeExpenseChart'
-    ) as HTMLCanvasElement;
-    const incomeExpenseChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho'],
-        datasets: [
-          {
-            label: 'Receitas',
-            data: [5000, 6000, 5500, 7000, 6500, 8000],
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1,
-          },
-          {
-            label: 'Despesas',
-            data: [4000, 4500, 5000, 5500, 6000, 6500],
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            borderColor: 'rgba(255, 99, 132, 1)',
-            borderWidth: 1,
-          },
-        ],
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true,
-          },
-        },
-      },
-    });
+
+    this.transacaoService
+      .getSaldoContas()
+      .subscribe((data) => (this.accounts = data));
   }
 
   openModal(type: string) {
     this.modalType = type;
     this.modalTitle = `Adicionar ${type}`;
 
-    // Carregar contas e categorias e depois abrir o modal
     this.carregarContas()
       .then(() => {
-        return this.carregarCategorias(); // Aguarda a carga das categorias depois de contas
+        if (type === 'Despesa') {
+          return this.getCategoriasDespesas();
+        }
+        return this.getCategoriasReceitas();
       })
       .then(() => {
-        this.cdr.detectChanges(); // Força a detecção de mudanças após a atribuição
-        this.isModalOpen = true; // Abre o modal quando contas e categorias estiverem carregadas
+        this.cdr.detectChanges(); // Força a atualização do Angular
+        this.isModalOpen = true; // Abre o modal após carregar os dados
       })
       .catch((error) => {
-        console.error('Erro ao carregar dados para o modal:', error); // Exibe erro caso falhe
+        console.error('Erro ao carregar dados para o modal:', error);
       });
   }
-
-  // Atualize as funções carregarContas e carregarCategorias para retornar promessas
   carregarContas(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.transacaoService.obterContas().subscribe(
@@ -140,16 +116,30 @@ export class DashboardComponent {
     });
   }
 
-  carregarCategorias(): Promise<void> {
+  getCategoriasDespesas(): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.transacaoService.obterCategorias().subscribe(
+      this.transacaoService.obterCategoriasDespesas().subscribe(
         (data) => {
-          console.log('Categorias carregadas:', data); // Verificar a resposta no console
-          this.categorias = data; // Atribuir os dados diretamente
+          this.categoriasDespesas = data;
           resolve();
         },
         (error) => {
-          console.error('Erro ao carregar categorias:', error);
+          console.error('Erro ao carregar categorias de despesas:', error);
+          reject(error);
+        }
+      );
+    });
+  }
+
+  getCategoriasReceitas(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.transacaoService.obterCategoriasReceitas().subscribe(
+        (data) => {
+          this.categoriasReceitas = data;
+          resolve();
+        },
+        (error) => {
+          console.error('Erro ao carregar categorias de receitas:', error);
           reject(error);
         }
       );
@@ -184,7 +174,28 @@ export class DashboardComponent {
     });
   }
 
-  submitReceita() {}
+  submitReceita() {
+    const receita = {
+      contaId: this.receita.contaId, // ID da conta
+      categoria: this.receita.categoria, // Categoria da despesa
+      valor: this.receita.valor, // Valor da despesa
+      data: this.receita.data, // Data da despesa
+      descricao: this.receita.descricao, // Descrição da despesa
+    };
+
+    // Envia os dados para o back-end via serviço
+    this.receitaService.adicionarReceita(receita).subscribe({
+      next: () => {
+        this.toastService.success('Despesa adicionada com sucesso!');
+        this.carregarDados();
+        this.closeModal();
+      },
+      error: (err) => {
+        this.toastService.error('Erro ao adicionar despesa');
+        console.error('Erro:', err);
+      },
+    });
+  }
 
   submitTransferencia() {}
 }

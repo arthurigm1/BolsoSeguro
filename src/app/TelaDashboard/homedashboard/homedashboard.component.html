@@ -3,13 +3,22 @@
 >
   <!-- Cabeçalho -->
 
-  <app-divtop />
+  <app-divtop
+    (viewChange)="alterarComponente($event)"
+    (activeComponentChange)="alterarSubcomponente($event)"
+  />
+
   <!-- Conteúdo principal com deferimento -->
   <section class="flex-grow">
     <!-- Aqui usamos deferimento e placeholders -->
     @defer(on viewport) {
-    <section>
-      <app-dashboard />
+    <section [ngSwitch]="paginaAtual">
+      <app-dashboard *ngSwitchCase="'dashboard'"></app-dashboard>
+
+      <app-configuracoes
+        *ngSwitchCase="'configuracoes'"
+        [activeComponent]="activeComponent"
+      ></app-configuracoes>
     </section>
     } @placeholder {
     <section>

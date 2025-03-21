@@ -57,4 +57,9 @@ export class LoginService {
       )
       .pipe(timeout(this.timeoutDuration));
   }
+  logout(): void {
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('id');
+    this.isLoggedInSubject.next(false);
+  }
 }

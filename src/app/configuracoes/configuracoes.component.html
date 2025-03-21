@@ -1,0 +1,146 @@
+<section class="min-h-screen bg-gradient-to-r from-white to-[#b6c6cc] flex p-5">
+  <div class="container mx-auto flex justify-center">
+    <!-- Coluna da Esquerda (Menu de Navegação) -->
+    <div class="p-8 rounded-lg transform transition-transform duration-300">
+      <ul class="space-y-10">
+        <li>
+          <a
+            (click)="setActive('categorias')"
+            class="flex items-center text-gray-700 hover:text-gray-200 transition-colors duration-300 cursor-pointer"
+          >
+            <i class="fas fa-tags text-black mr-3 text-lg"></i>
+            <span class="text-lg font-medium">Categorias</span>
+          </a>
+        </li>
+        <li>
+          <a
+            (click)="setActive('contas')"
+            class="flex items-center text-gray-700 hover:text-gray-200 transition-colors duration-300 cursor-pointer"
+          >
+            <i class="fas fa-wallet text-black mr-3 text-lg"></i>
+            <span class="text-lg font-medium">Contas</span>
+          </a>
+        </li>
+        <li>
+          <a
+            (click)="setActive('cartoes')"
+            class="flex items-center text-gray-700 hover:text-gray-200 transition-colors duration-300 cursor-pointer"
+          >
+            <i class="fas fa-credit-card text-black mr-3 text-lg"></i>
+            <span class="text-lg font-medium">Cartões de crédito</span>
+          </a>
+        </li>
+        <li>
+          <a
+            (click)="setActive('preferencias')"
+            class="flex items-center text-gray-700 hover:text-gray-200 transition-colors duration-300 cursor-pointer"
+          >
+            <i class="fas fa-cog text-black mr-3 text-lg"></i>
+            <span class="text-lg font-medium">Configurações</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Coluna da Direita (Conteúdo Dinâmico) -->
+    <div
+      class="w-1/2 ml-5 bg-white p-8 rounded-lg shadow-lg transform transition-transform duration-300 cursor-pointer h-min"
+    >
+      <!-- Usando ngSwitch para alternar os componentes -->
+      <div [ngSwitch]="activeComponent">
+        <app-contas
+          *ngSwitchCase="'contas'"
+          (openModalEvent)="openGlobalModal()"
+        ></app-contas>
+        <app-categorias *ngSwitchCase="'categorias'"></app-categorias>
+        <app-cartao *ngSwitchCase="'cartoes'"></app-cartao>
+
+        <!-- Caso nenhum componente seja selecionado -->
+        <p *ngSwitchDefault>Por favor, selecione uma opção do menu.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<div
+  *ngIf="isModalOpen"
+  class="fixed inset-0 bg-opacity-50 backdrop-blur-md flex items-center justify-center z-50"
+>
+  <div
+    class="bg-white rounded-lg w-full max-w-md p-6 shadow-lg relative"
+    (click)="$event.stopPropagation()"
+  >
+    <!-- Título e Botão de Fechar -->
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-lg font-semibold text-gray-900">Adicionar Nova Conta</h3>
+      <button
+        (click)="closeGlobalModal()"
+        class="text-gray-500 hover:text-gray-700 focus:outline-none"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Formulário -->
+    <form (ngSubmit)="addAccount()" class="space-y-4">
+      <!-- Nome do Banco -->
+      <div>
+        <label for="bankName" class="block text-sm font-medium text-gray-700">
+          Nome do Banco
+        </label>
+        <input
+          type="text"
+          id="bankName"
+          [(ngModel)]="newAccount.name"
+          name="bankName"
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+          required
+        />
+      </div>
+
+      <!-- Saldo Inicial -->
+      <div>
+        <label for="balance" class="block text-sm font-medium text-gray-700">
+          Saldo Inicial
+        </label>
+        <input
+          type="number"
+          id="balance"
+          [(ngModel)]="newAccount.balance"
+          name="balance"
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+          required
+        />
+      </div>
+
+      <!-- Botões -->
+      <div class="flex justify-end space-x-2">
+        <button
+          type="button"
+          (click)="closeGlobalModal()"
+          class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition duration-300"
+        >
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300"
+        >
+          Salvar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

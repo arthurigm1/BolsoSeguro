@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
+import { ContaSaldoDTO } from '../../Interface/ContaSaldoDTO.type';
 
 @Injectable({
   providedIn: 'root',
@@ -40,11 +41,22 @@ export class TransacoesService {
     });
   }
 
-  obterCategorias(): Observable<{ id: number; nome: string; fixa: boolean }[]> {
-    return this.http.get<{ id: number; nome: string; fixa: boolean }[]>(
-      `${this.apiUrl}/categorias`,
-      { headers: this.getAuthHeaders() }
-    );
+  // Obtém categorias de despesas
+  obterCategoriasDespesas(): Observable<
+    { id: number; nome: string; fixa: boolean; tipo: string }[]
+  > {
+    return this.http.get<
+      { id: number; nome: string; fixa: boolean; tipo: string }[]
+    >(`${this.apiUrl}/categorias/despesas`, { headers: this.getAuthHeaders() });
+  }
+
+  // Obtém categorias de receitas
+  obterCategoriasReceitas(): Observable<
+    { id: number; nome: string; fixa: boolean; tipo: string }[]
+  > {
+    return this.http.get<
+      { id: number; nome: string; fixa: boolean; tipo: string }[]
+    >(`${this.apiUrl}/categorias/receitas`, { headers: this.getAuthHeaders() });
   }
 
   obterContas(): Observable<{ id: string; nome: string }[]> {
@@ -52,5 +64,12 @@ export class TransacoesService {
       `${this.apiUrl}/contas`,
       { headers: this.getAuthHeaders() }
     );
+  }
+
+  getSaldoContas(): Observable<ContaSaldoDTO[]> {
+    // Realiza a requisição GET ao backend para obter o saldo das contas
+    return this.http.get<ContaSaldoDTO[]>(`${this.apiUrl}/contas/saldo`, {
+      headers: this.getAuthHeaders(), // Aqui você envia os cabeçalhos de autenticação
+    });
   }
 }
