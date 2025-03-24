@@ -9,12 +9,13 @@ import { ContasComponent } from '../contas/contas.component';
 import { CategoriasComponent } from '../categorias/categorias.component';
 import { CartaoComponent } from '../cartao/cartao.component';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ContaService } from '../../Services/ContaService/conta.service';
 import { ContaCadastroDTO } from '../../Interface/ContaCadastroDTO.type';
 import { ToastrService } from 'ngx-toastr';
 import { MetasfinanceirasComponent } from '../metasfinanceiras/metasfinanceiras.component';
+import { CategoriaDTO } from '../../Interface/CategoriaDTO.interface';
+import { CategoriaService } from '../../Services/CategoriaService/categoria.service';
 
 @Component({
   selector: 'app-configuracoes',
@@ -32,20 +33,24 @@ import { MetasfinanceirasComponent } from '../metasfinanceiras/metasfinanceiras.
 export class ConfiguracoesComponent {
   constructor(
     private contaService: ContaService,
-    // Adicione este serviço
-    private toastrService: ToastrService
+
+    private toastrService: ToastrService,
+    private categoriaService: CategoriaService
   ) {}
 
   @Input() activeComponent: string = 'categorias';
   @Output() contaAtualizada = new EventEmitter<void>();
-  @Output() categoriaAtualizada = new EventEmitter<void>(); // Novo EventEmitter
+  @Output() categoriaAtualizada = new EventEmitter<void>();
+  @Output() metaAtualizada = new EventEmitter<void>(); // Novo EventEmitter
   @ViewChild(ContasComponent) contasComponent!: ContasComponent;
-  @ViewChild(CategoriasComponent) categoriasComponent!: CategoriasComponent; // Nova referência
+  @ViewChild(CategoriasComponent) categoriasComponent!: CategoriasComponent;
+  @ViewChild(MetasfinanceirasComponent)
+  metasComponent!: MetasfinanceirasComponent; // Nova referência
 
   // Estados do modal
   isModalOpen = false;
-  modalType: 'conta' | 'categoria' = 'conta';
-  categoriaModalType: 'expenses' | 'earnings' = 'expenses'; // Tipo de categoria (despesa/receita)
+  modalType: 'conta' | 'categoria' | 'meta' = 'conta'; // Adicionado tipo 'meta'
+  categoriaModalType: 'expenses' | 'earnings' = 'expenses';
 
   // Objetos para formulários
   newAccount = {
@@ -55,25 +60,31 @@ export class ConfiguracoesComponent {
 
   newCategory = {
     name: '',
-    type: 'expense', // 'expense' ou 'income'
+    type: 'expense',
+  };
+
+  newGoal = {
+    name: '',
+    targetValue: 0,
+    currentValue: 0,
   };
 
   setActive(component: string) {
     this.activeComponent = component;
   }
 
-  // Métodos para abrir modais
   openGlobalModal(
-    type: 'conta' | 'categoria',
-    categoriaType?: 'expenses' | 'earnings'
+    type: 'conta' | 'categoria' | 'meta',
+    categoriaTipo?: 'expense' | 'income'
   ) {
     this.modalType = type;
     this.isModalOpen = true;
 
-    if (type === 'categoria' && categoriaType) {
-      this.categoriaModalType = categoriaType;
-      this.newCategory.type =
-        categoriaType === 'expenses' ? 'expense' : 'income';
+    if (type === 'categoria' && categoriaTipo) {
+      // Define o tipo fixo baseado no que veio do componente filho
+      this.newCategory.type = categoriaTipo;
+      this.categoriaModalType =
+        categoriaTipo === 'expense' ? 'expenses' : 'earnings';
     }
   }
 
@@ -85,9 +96,9 @@ export class ConfiguracoesComponent {
   resetForms() {
     this.newAccount = { name: '', balance: 0 };
     this.newCategory = { name: '', type: 'expense' };
+    this.newGoal = { name: '', targetValue: 0, currentValue: 0 };
   }
 
-  // Adiciona uma nova conta
   addAccount() {
     const contaCadastro: ContaCadastroDTO = {
       banco: this.newAccount.name,
@@ -107,6 +118,26 @@ export class ConfiguracoesComponent {
     );
   }
 
-  // Adiciona uma nova categoria
-  addCategory() {}
+  addCategory() {
+    const categoriaDTO: CategoriaDTO = {
+      nome: this.newCategory.name,
+      tipo: this.newCategory.type === 'expense' ? 'DESPESA' : 'RECEITA',
+    };
+
+    this.categoriaService.criarCategoria(categoriaDTO).subscribe(
+      (response) => {
+        this.toastrService.success('Categoria criada com sucesso!');
+        this.categoriasComponent.getCategoriasDespesas();
+        this.categoriasComponent.getCategoriasReceitas();
+        this.closeGlobalModal();
+        this.categoriaAtualizada.emit();
+      },
+      (error) => {
+        this.toastrService.error('Erro ao criar categoria!');
+        console.error(error);
+      }
+    );
+  }
+
+  addGoal() {}
 }

@@ -7,8 +7,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MetaService } from '../../meta.service';
+
 import { CommonModule } from '@angular/common';
+import { MetaService } from '../../Services/MetaService/meta.service';
 
 @Component({
   selector: 'app-metasfinanceiras',

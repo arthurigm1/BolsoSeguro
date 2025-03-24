@@ -11,16 +11,18 @@ import { TransacoesService } from '../../Services/TransacaoService/transacoes.se
 })
 export class CategoriasComponent {
   constructor(private transacaoService: TransacoesService) {}
-  activeTab = 'expenses';
-  @Output() openModalEvent = new EventEmitter<string>();
+  activeTab: 'expenses' | 'earnings' = 'expenses';
+  @Output() openModalEvent = new EventEmitter<'expense' | 'income'>();
   categoriasDespesas: any[] = [];
   categoriasReceitas: any[] = [];
-  setActiveTab(tab: string) {
+  setActiveTab(tab: 'expenses' | 'earnings') {
     this.activeTab = tab;
   }
 
-  openModal(modalType: string) {
-    this.openModalEvent.emit(modalType);
+  openModal() {
+    // Envia o tipo fixo baseado na aba ativa
+    const tipo = this.activeTab === 'expenses' ? 'expense' : 'income';
+    this.openModalEvent.emit(tipo);
   }
   ngOnInit(): void {
     this.getCategoriasDespesas();

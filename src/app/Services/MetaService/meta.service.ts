@@ -1,10 +1,11 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+
+import { Observable } from 'rxjs';
 import {
   MetaFinanceiraRequestDTO,
   MetaFinanceiraResponseDTO,
-} from './Interface/MetaFinanceiraResponseDTO.interface';
-import { Observable } from 'rxjs';
+} from '../../Interface/MetaFinanceiraResponseDTO.interface';
 
 @Injectable({
   providedIn: 'root',

@@ -17,7 +17,7 @@ import { ContaSaldoDTO } from '../../Interface/ContaSaldoDTO.type';
 import { Observable } from 'rxjs';
 import { ContaService } from '../../Services/ContaService/conta.service';
 import { MetaFinanceiraResponseDTO } from '../../Interface/MetaFinanceiraResponseDTO.interface';
-import { MetaService } from '../../meta.service';
+import { MetaService } from '../../Services/MetaService/meta.service';
 
 @Component({
   selector: 'app-dashboard',

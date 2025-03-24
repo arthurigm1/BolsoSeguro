@@ -66,10 +66,13 @@
 
         <app-categorias
           *ngSwitchCase="'categorias'"
-          (openModalEvent)="openGlobalModal('categoria')"
+          (openModalEvent)="openGlobalModal('categoria', $event)"
         ></app-categorias>
         <app-cartao *ngSwitchCase="'cartoes'"></app-cartao>
-        <app-metasfinanceiras *ngSwitchCase="'metas'"></app-metasfinanceiras>
+        <app-metasfinanceiras
+          *ngSwitchCase="'metas'"
+          (openModalEvent)="openGlobalModal('meta')"
+        ></app-metasfinanceiras>
 
         <!-- Caso nenhum componente seja selecionado -->
         <p *ngSwitchDefault>Por favor, selecione uma opção do menu.</p>
@@ -78,6 +81,7 @@
   </div>
 </section>
 <!-- Modal Global -->
+
 <div
   *ngIf="isModalOpen"
   class="fixed inset-0 bg-opacity-50 backdrop-blur-md flex items-center justify-center z-50"
@@ -86,15 +90,17 @@
     class="bg-white rounded-lg w-full max-w-md p-6 shadow-lg relative"
     (click)="$event.stopPropagation()"
   >
-    <!-- Título e Botão de Fechar -->
+    <!-- Cabeçalho dinâmico -->
     <div class="flex justify-between items-center mb-4">
       <h3 class="text-lg font-semibold text-gray-900">
         {{
           modalType === "conta"
             ? "Adicionar Nova Conta"
-            : categoriaModalType === "expenses"
-            ? "Nova Categoria de Despesa"
-            : "Nova Categoria de Receita"
+            : modalType === "categoria"
+            ? categoriaModalType === "expenses"
+              ? "Nova Categoria de Despesa"
+              : "Nova Categoria de Receita"
+            : "Nova Meta Financeira"
         }}
       </h3>
       <button
@@ -118,53 +124,127 @@
       </button>
     </div>
 
-    <!-- Formulário Dinâmico -->
+    <!-- Formulário dinâmico -->
     <form
-      (ngSubmit)="modalType === 'conta' ? addAccount() : addCategory()"
+      (ngSubmit)="
+        modalType === 'conta'
+          ? addAccount()
+          : modalType === 'categoria'
+          ? addCategory()
+          : addGoal()
+      "
       class="space-y-4"
     >
-      <!-- Campo Nome -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700">
-          {{ modalType === "conta" ? "Nome do Banco" : "Nome da Categoria" }}
-        </label>
-        <input
-          type="text"
-          [ngModel]="modalType === 'conta' ? newAccount.name : newCategory.name"
-          (ngModelChange)="
-            modalType === 'conta'
-              ? (newAccount.name = $event)
-              : (newCategory.name = $event)
-          "
-          name="{{ modalType === 'conta' ? 'accountName' : 'categoryName' }}"
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-          required
-        />
-      </div>
-
-      <!-- Campo Específico para Conta (Saldo) -->
+      <!-- Formulário de Conta -->
       <div *ngIf="modalType === 'conta'">
-        <label class="block text-sm font-medium text-gray-700">
-          Saldo Inicial
-        </label>
-        <input
-          type="number"
-          [(ngModel)]="newAccount.balance"
-          name="balance"
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-          required
-          min="0"
-          step="0.01"
-        />
+        <div>
+          <label class="block text-sm font-medium text-gray-700"
+            >Nome do Banco</label
+          >
+          <input
+            type="text"
+            [(ngModel)]="newAccount.name"
+            name="accountName"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            required
+          />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700"
+            >Saldo Inicial</label
+          >
+          <input
+            type="number"
+            [(ngModel)]="newAccount.balance"
+            name="balance"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            required
+          />
+        </div>
       </div>
 
-      <!-- Campo Específico para Categoria (Tipo - apenas visual) -->
+      <!-- Formulário de Categoria -->
+      <!-- Modal de Categoria -->
       <div *ngIf="modalType === 'categoria'">
-        <label class="block text-sm font-medium text-gray-700">
-          Tipo de Categoria
-        </label>
-        <div class="mt-1 p-2 border border-gray-300 rounded-md bg-gray-50">
-          {{ categoriaModalType === "expenses" ? "Despesa" : "Receita" }}
+        <div>
+          <label class="block text-sm font-medium text-gray-700"
+            >Nome da Categoria</label
+          >
+          <input
+            type="text"
+            [(ngModel)]="newCategory.name"
+            name="categoryName"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            required
+          />
+        </div>
+        <div class="mt-4">
+          <label class="block text-sm font-medium text-gray-700"
+            >Tipo de Categoria</label
+          >
+          <div class="mt-1 p-3 border border-gray-300 rounded-md bg-gray-50">
+            <span
+              class="font-medium"
+              [ngClass]="{
+                'text-red-500': newCategory.type === 'expense',
+                'text-green-600': newCategory.type === 'income'
+              }"
+            >
+              {{ newCategory.type === "expense" ? "Despesa" : "Receita" }}
+            </span>
+            <p class="text-sm text-gray-500 mt-1">
+              {{
+                newCategory.type === "expense"
+                  ? "Esta categoria será registrada como despesa"
+                  : "Esta categoria será registrada como receita"
+              }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Formulário de Meta -->
+      <div *ngIf="modalType === 'meta'">
+        <div>
+          <label class="block text-sm font-medium text-gray-700"
+            >Nome da Meta</label
+          >
+          <input
+            type="text"
+            [(ngModel)]="newGoal.name"
+            name="goalName"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            required
+          />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700"
+            >Valor Alvo (R$)</label
+          >
+          <input
+            type="number"
+            [(ngModel)]="newGoal.targetValue"
+            name="targetValue"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            required
+            min="0.01"
+            step="0.01"
+          />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700"
+            >Valor Atual (R$)</label
+          >
+          <input
+            type="number"
+            [(ngModel)]="newGoal.currentValue"
+            name="currentValue"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            required
+            min="0"
+            step="0.01"
+            [max]="newGoal.targetValue"
+          />
         </div>
       </div>
 
