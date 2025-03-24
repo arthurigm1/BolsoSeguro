@@ -1,0 +1,77 @@
+<div class="p-6">
+  <!-- Cabeçalho -->
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-extrabold text-gray-900">Categorias</h1>
+    <div class="flex space-x-4">
+      <button
+        (click)="openModal(activeTab)"
+        class="flex items-center bg-gradient-to-r from-[#b6c6cc] to-[#5e6d72] text-white px-6 py-3 rounded-full shadow-lg hover:scale-105 transform transition-all duration-300 ease-in-out"
+      >
+        <i class="fas fa-plus-circle mr-3"></i>
+        {{
+          activeTab === "expenses"
+            ? "Categoria de Despesa"
+            : "Categoria de Receita"
+        }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Abas de Navegação -->
+  <div class="bg-white rounded-lg shadow-md mb-6">
+    <ul class="flex border-b">
+      <li
+        [ngClass]="{ 'border-b-4 border-red-500': activeTab === 'expenses' }"
+        class="flex-1 text-center"
+      >
+        <button
+          (click)="setActiveTab('expenses')"
+          class="w-full py-3 text-gray-700 hover:text-red-500 transition duration-300"
+        >
+          <i class="fas fa-wallet mr-2"></i> Despesas
+        </button>
+      </li>
+      <li
+        [ngClass]="{ 'border-b-4 border-green-600': activeTab === 'earnings' }"
+        class="flex-1 text-center"
+      >
+        <button
+          (click)="setActiveTab('earnings')"
+          class="w-full py-3 text-gray-700 hover:text-green-500 transition duration-300"
+        >
+          <i class="fas fa-dollar-sign mr-2"></i> Receitas
+        </button>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Lista de Categorias -->
+  <div class="bg-white rounded-lg shadow-md p-6">
+    <div *ngIf="activeTab === 'expenses'">
+      <h2 class="text-2xl font-semibold mb-4 text-gray-800">
+        Categorias de Despesas
+      </h2>
+      <ul class="space-y-2">
+        <li
+          *ngFor="let category of categoriasDespesas"
+          class="p-3 hover:bg-gray-50 rounded-lg transition duration-300 ease-in-out"
+        >
+          <i class="fas fa-minus-circle mr-2"></i>{{ category.nome }}
+        </li>
+      </ul>
+    </div>
+    <div *ngIf="activeTab === 'earnings'">
+      <h2 class="text-2xl font-semibold mb-4 text-gray-800">
+        Categorias de Receitas
+      </h2>
+      <ul class="space-y-2">
+        <li
+          *ngFor="let category of categoriasReceitas"
+          class="p-3 hover:bg-gray-50 rounded-lg transition duration-300 ease-in-out"
+        >
+          <i class="fas fa-plus-circle mr-2"></i>{{ category.nome }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

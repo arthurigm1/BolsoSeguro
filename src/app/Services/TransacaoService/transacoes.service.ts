@@ -66,10 +66,9 @@ export class TransacoesService {
     );
   }
 
-  getSaldoContas(): Observable<ContaSaldoDTO[]> {
-    // Realiza a requisição GET ao backend para obter o saldo das contas
-    return this.http.get<ContaSaldoDTO[]>(`${this.apiUrl}/contas/saldo`, {
-      headers: this.getAuthHeaders(), // Aqui você envia os cabeçalhos de autenticação
+  obterSaldoInvestimentos(): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/transacoes/investimento`, {
+      headers: this.getAuthHeaders(),
     });
   }
 }

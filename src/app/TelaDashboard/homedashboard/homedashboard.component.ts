@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { DivtopComponent } from '../divtop/divtop.component';
 import { DashboardComponent } from '../dashboard/dashboard.component';
-import { ContasComponent } from '../contas/contas.component';
+import { ContasComponent } from '../../TelaConfiguracoes/contas/contas.component';
 import { CommonModule } from '@angular/common';
-import { ConfiguracoesComponent } from '../../configuracoes/configuracoes.component';
+import { ConfiguracoesComponent } from '../../TelaConfiguracoes/configuracoes/configuracoes.component';
 
 @Component({
   selector: 'app-homedashboard',

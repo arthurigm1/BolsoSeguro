@@ -307,7 +307,9 @@
       <div class="flex items-center justify-between">
         <div>
           <h2 class="text-lg font-semibold text-gray-700">Saldo Atual</h2>
-          <p class="text-2xl font-bold text-gray-900 mt-2">{{ saldo }}</p>
+          <p class="text-2xl font-bold text-gray-900 mt-2">
+            R$ {{ saldo | number : "1.2-2" }}
+          </p>
         </div>
         <div class="bg-gray-300 p-3 rounded-full">
           <i
@@ -325,7 +327,7 @@
         <div>
           <h2 class="text-lg font-semibold text-gray-700">Receita Mensal</h2>
           <p class="text-2xl font-bold text-[#4caf50] mt-2">
-            R$ {{ totalReceitas }}
+            R$ {{ totalReceitas | number : "1.2-2" }}
           </p>
         </div>
         <div class="bg-green-100 p-3 rounded-full">
@@ -341,7 +343,7 @@
         <div>
           <h2 class="text-lg font-semibold text-gray-700">Despesa Mensal</h2>
           <p class="text-2xl font-bold text-[#ff6b6b] mt-2">
-            R$ {{ totalDespesas }}
+            R$ {{ totalDespesas | number : "1.2-2" }}
           </p>
         </div>
         <div class="bg-red-100 p-3 rounded-full">
@@ -356,7 +358,9 @@
       <div class="flex items-center justify-between">
         <div>
           <h2 class="text-lg font-semibold text-gray-700">Investimentos</h2>
-          <p class="text-2xl font-bold text-[#9c27b0] mt-2">R$ 8.500,00</p>
+          <p class="text-2xl font-bold text-[#9c27b0] mt-2">
+            R$ {{ totalInvestimento | number : "1.2-2" }}
+          </p>
         </div>
         <div class="bg-purple-200 p-3 rounded-full">
           <i class="fas fa-chart-line text-purple-600 text-2xl"></i>
@@ -365,39 +369,47 @@
     </div>
 
     <div
-      class="bg-gray-100 rounded-xl shadow-sm p-6 flex flex-col justify-between h-full"
+      class="bg-gray-100 rounded-xl shadow-sm p-4 sm:p-6 flex flex-col justify-between h-full"
     >
-      <h2 class="text-xl font-semibold text-gray-900 mb-6">Minhas Contas</h2>
-      <ul class="flex-1">
+      <h2 class="text-lg sm:text-xl font-semibold text-gray-900 mb-4 sm:mb-6">
+        Minhas Contas
+      </h2>
+      <ul class="flex-1 space-y-3 sm:space-y-4">
         <li
           *ngFor="let account of accounts"
-          class="flex items-center justify-between mb-4 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow"
+          class="flex items-center justify-between p-3 sm:p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow"
         >
-          <div class="flex items-center">
-            <!-- Ícone do FontAwesome -->
-            <i class="fas fa-wallet text-2xl text-blue-500 mr-4"></i>
-            <div>
-              <p class="text-lg font-semibold text-gray-900">
+          <div class="flex items-center min-w-0">
+            <!-- Ícone ajustado para mobile -->
+            <i
+              class="fas fa-wallet text-xl sm:text-2xl text-blue-500 mr-3 sm:mr-4"
+            ></i>
+            <div class="min-w-0">
+              <p
+                class="text-base sm:text-lg font-semibold text-gray-900 truncate"
+              >
                 {{ account.nome }}
               </p>
             </div>
           </div>
-          <div class="text-right">
-            <p class="text-lg font-semibold text-gray-900">
+          <div class="text-right ml-2 min-w-0">
+            <p
+              class="text-base sm:text-lg font-semibold text-gray-900 truncate"
+            >
               {{ account.saldo | currency : "BRL" : "symbol" : "1.2-2" }}
             </p>
-            <p class="text-sm text-gray-500">Saldo disponível</p>
+            <p class="text-xs sm:text-sm text-gray-500">Saldo disponível</p>
           </div>
         </li>
       </ul>
-      <!-- Botão de Gerenciar Contas -->
+      <!-- Botão ajustado para mobile -->
       <button
-        class="mt-6 w-full bg-[#5e6d72] text-white px-4 py-2 rounded-lg hover:bg-[#8a999f] transition-colors duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer"
+        (click)="mudarPagina('configuracoes', 'contas')"
+        class="mt-4 sm:mt-6 w-full bg-[#5e6d72] text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg hover:bg-[#8a999f] transition-colors duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer text-sm sm:text-base"
       >
         Gerenciar Contas
       </button>
     </div>
-
     <!-- Metas Financeiras -->
     <div
       class="bg-gray-100 rounded-xl shadow-sm p-6 flex flex-col justify-between h-full"
@@ -405,99 +417,123 @@
       <h2 class="text-xl font-semibold text-gray-900 mb-6">
         Metas Financeiras
       </h2>
+
       <div class="space-y-4 flex-grow">
-        <!-- Meta 1 -->
-        <div class="flex items-center justify-between">
-          <div>
-            <h3 class="text-lg font-medium text-gray-800">
-              Economizar para Viagem
-            </h3>
-            <p class="text-sm text-gray-500">R$ 2.000,00 / R$ 5.000,00</p>
-          </div>
-          <div class="w-1/2 bg-gray-100 rounded-full h-2.5">
-            <div
-              class="bg-blue-500 h-2.5 rounded-full"
-              style="width: 40%"
-            ></div>
-          </div>
+        <!-- Mensagem quando não há metas -->
+        <div
+          *ngIf="metas.length === 0"
+          class="flex items-center justify-center h-full"
+        >
+          <p class="text-gray-500">Nenhuma Meta Financeira cadastrada.</p>
         </div>
-        <!-- Meta 2 -->
-        <div class="flex items-center justify-between">
+
+        <!-- Lista de metas (mostra no máximo 2) -->
+        <div
+          *ngFor="let meta of metas.slice(0, 2)"
+          class="flex items-center justify-between"
+        >
           <div>
-            <h3 class="text-lg font-medium text-gray-800">
-              Fundo de Emergência
-            </h3>
-            <p class="text-sm text-gray-500">R$ 1.500,00 / R$ 10.000,00</p>
+            <h3 class="text-lg font-medium text-gray-800">{{ meta.nome }}</h3>
+            <p class="text-sm text-gray-500">
+              {{ meta.valorAtual || 0 | currency : "BRL" : "symbol" : "1.2-2" }}
+              /
+              {{ meta.valorMeta | currency : "BRL" : "symbol" : "1.2-2" }}
+            </p>
           </div>
-          <div class="w-1/2 bg-gray-100 rounded-full h-2.5">
+          <div class="w-1/2 bg-gray-200 rounded-full h-2.5">
             <div
-              class="bg-green-500 h-2.5 rounded-full"
-              style="width: 15%"
+              class="h-2.5 rounded-full"
+              [ngClass]="{
+                'bg-blue-500': calcularProgresso(meta) < 100,
+                'bg-green-500': calcularProgresso(meta) >= 100
+              }"
+              [style.width.%]="calcularProgresso(meta)"
             ></div>
           </div>
         </div>
       </div>
+
       <button
+        (click)="mudarPagina('configuracoes', 'metas')"
         class="mt-6 w-full bg-[#5e6d72] text-white px-4 py-2 rounded-lg hover:bg-[#8a999f] transition-colors duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer"
       >
-        Gerenciar Metas
+        {{ metas.length > 0 ? "Gerenciar Metas" : "Criar Primeira Meta" }}
       </button>
     </div>
 
     <!-- Últimas Transações -->
-    <div class="bg-gray-100 rounded-xl shadow-sm p-6">
+    <div
+      class="bg-gray-100 rounded-xl shadow-sm p-6 flex flex-col justify-between h-full"
+    >
       <h2 class="text-xl font-semibold text-gray-900 mb-6">
         Últimas Transações
       </h2>
-      <div class="space-y-4">
-        <div
-          *ngFor="let transacao of transacoes"
-          class="flex items-center justify-between"
-        >
-          <div class="flex items-center">
-            <div
-              class="p-2.5 rounded-full mr-3"
-              [ngClass]="
-                transacao.tipoTransacao === 'RECEITA'
-                  ? 'bg-green-100'
-                  : 'bg-red-100'
-              "
-            >
-              <i
-                class="fas"
+      <div *ngIf="transacoes.length === 0" class="text-center text-gray-500">
+        Não há transações realizadas.
+      </div>
+      <div *ngIf="transacoes.length > 0">
+        <div class="space-y-4">
+          <div
+            *ngFor="let transacao of transacoes"
+            class="flex items-center justify-between"
+          >
+            <div class="flex items-center">
+              <div
+                class="p-2.5 rounded-full mr-3"
                 [ngClass]="
                   transacao.tipoTransacao === 'RECEITA'
-                    ? 'fa-money-bill-wave text-green-600'
-                    : 'fa-shopping-cart text-red-600'
+                    ? 'bg-green-100'
+                    : 'bg-red-100'
                 "
               >
-              </i>
+                <i
+                  class="fas"
+                  [ngClass]="
+                    transacao.tipoTransacao === 'RECEITA'
+                      ? 'fa-money-bill-wave text-green-600'
+                      : 'fa-shopping-cart text-red-600'
+                  "
+                >
+                </i>
+              </div>
+              <div>
+                <h3 class="text-lg font-medium text-gray-800">
+                  {{ transacao.nomeConta }}
+                </h3>
+                <p class="text-sm text-gray-500">
+                  {{ transacao.dataTransacao | date : "dd/MM/yyyy" }}
+                </p>
+              </div>
             </div>
-            <div>
-              <h3 class="text-lg font-medium text-gray-800">
-                {{ transacao.nomeConta }}
-              </h3>
-              <p class="text-sm text-gray-500">
-                {{ transacao.dataTransacao | date : "dd/MM/yyyy" }}
-              </p>
-            </div>
+            <strong
+              [ngClass]="
+                transacao.tipoTransacao === 'RECEITA'
+                  ? 'text-green-600'
+                  : 'text-red-600'
+              "
+            >
+              {{ transacao.tipoTransacao === "RECEITA" ? "+" : "-" }} R$
+              {{ transacao.valor | number : "1.2-2" }}
+            </strong>
           </div>
-          <strong
-            [ngClass]="
-              transacao.tipoTransacao === 'RECEITA'
-                ? 'text-green-600'
-                : 'text-red-600'
-            "
-          >
-            {{ transacao.tipoTransacao === "RECEITA" ? "+" : "-" }} R$
-            {{ transacao.valor | number : "1.2-2" }}
-          </strong>
         </div>
       </div>
       <button
         class="mt-6 w-full bg-[#5e6d72] text-white px-4 py-2 rounded-lg hover:bg-[#8a999f] transition-colors duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer"
       >
         Ver todas Transações
+      </button>
+    </div>
+    <div
+      class="bg-gray-100 rounded-xl shadow-sm p-6 flex flex-col justify-between h-full"
+    >
+      <h2 class="text-xl font-semibold text-gray-900 mb-6">Meus cartões</h2>
+
+      <button
+        (click)="mudarPagina('configuracoes', 'cartoes')"
+        class="mt-6 w-full bg-[#5e6d72] text-white px-4 py-2 rounded-lg hover:bg-[#8a999f] transition-colors duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer"
+      >
+        Gerenciar Cartões
       </button>
     </div>
   </div>

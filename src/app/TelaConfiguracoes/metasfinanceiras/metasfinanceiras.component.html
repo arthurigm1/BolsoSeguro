@@ -1,0 +1,115 @@
+<div class="p-4">
+  <div class="flex justify-between items-center mb-4">
+    <h1 class="text-2xl font-extrabold text-gray-900">Minhas Metas</h1>
+    <button
+      (click)="openCreateModal()"
+      class="flex items-center bg-black text-white px-4 py-2 rounded-lg transition duration-300 hover:bg-gray-800"
+    >
+      <span class="mr-2">+</span>
+      Nova Meta
+    </button>
+  </div>
+
+  <div class="bg-white rounded-lg shadow">
+    <ul class="divide-y divide-gray-200">
+      <li *ngFor="let meta of metas" class="p-4 hover:bg-gray-50">
+        <div class="flex items-center">
+          <div class="flex items-center flex-1">
+            <div
+              class="w-10 h-10 rounded-full flex items-center justify-center bg-blue-100 mr-4"
+            >
+              <i class="fas fa-bullseye text-blue-500"></i>
+            </div>
+            <div class="flex-1">
+              <strong class="block text-gray-900">{{ meta.nome }}</strong>
+              <small class="block text-gray-500">
+                Valor: {{ meta.valorMeta | currency : "BRL" }}
+              </small>
+            </div>
+            <div class="flex items-center">
+              <span
+                class="text-sm font-medium mr-4"
+                [ngClass]="{
+                  'text-green-500': (meta?.progresso ?? 0) >= 100,
+                  'text-yellow-500': (meta?.progresso ?? 0) < 100
+                }"
+              >
+                {{ meta.progresso }}% concluído
+              </span>
+              <i class="fas fa-chevron-right text-gray-400"></i>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Modal para criar nova meta -->
+  <div
+    *ngIf="showCreateModal"
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+  >
+    <div class="bg-white rounded-lg p-6 w-full max-w-md">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-bold text-gray-900">Nova Meta Financeira</h2>
+        <button
+          (click)="closeCreateModal()"
+          class="text-gray-500 hover:text-gray-700"
+        >
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <form [formGroup]="metaForm" (ngSubmit)="onSubmit()">
+        <div class="mb-4">
+          <label for="nome" class="block text-sm font-medium text-gray-700 mb-1"
+            >Nome da Meta</label
+          >
+          <input
+            type="text"
+            id="nome"
+            formControlName="nome"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Ex: Viagem para Europa"
+            required
+          />
+        </div>
+
+        <div class="mb-4">
+          <label
+            for="valorMeta"
+            class="block text-sm font-medium text-gray-700 mb-1"
+            >Valor da Meta (R$)</label
+          >
+          <input
+            type="number"
+            id="valorMeta"
+            formControlName="valorMeta"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="0,00"
+            min="0.01"
+            step="0.01"
+            required
+          />
+        </div>
+
+        <div class="flex justify-end space-x-3">
+          <button
+            type="button"
+            (click)="closeCreateModal()"
+            class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
+            [disabled]="metaForm.invalid"
+          >
+            Criar Meta
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

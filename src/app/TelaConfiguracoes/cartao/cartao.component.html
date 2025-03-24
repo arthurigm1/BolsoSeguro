@@ -1,0 +1,38 @@
+<div class="p-4">
+  <div class="flex justify-between items-center mb-4">
+    <h1 class="text-2xl font-extrabold text-gray-900">Meus Cartões</h1>
+    <button
+      class="flex items-center bg-black text-white px-4 py-2 rounded-lg transition duration-300"
+    >
+      <span class="mr-2">+</span>
+      Novo Cartão
+    </button>
+  </div>
+
+  <div class="bg-white rounded-lg shadow">
+    <ul id="creditcards-sortable" class="divide-y divide-gray-200">
+      <li
+        *ngFor="let card of creditCards"
+        class="p-4 hover:bg-gray-50 cursor-move"
+      >
+        <div class="flex items-center">
+          <i class="fas fa-grip-lines text-gray-400 mr-4"></i>
+          <div class="flex items-center flex-1">
+            <div
+              class="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 mr-4"
+            >
+              <img [src]="card.logo" alt="{{ card.name }}" class="w-6 h-6" />
+            </div>
+            <div class="flex-1">
+              <strong class="block text-gray-900"
+                >•••• {{ card.lastDigits }}</strong
+              >
+              <small class="block text-gray-500">{{ card.type }}</small>
+            </div>
+            <i class="fas fa-chevron-right text-gray-400"></i>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

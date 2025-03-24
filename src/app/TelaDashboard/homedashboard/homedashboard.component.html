@@ -2,7 +2,6 @@
   class="bg-gradient-to-r from-[#5e6d72] to-[#b6c6cc] flex flex-col min-h-screen"
 >
   <!-- Cabeçalho -->
-
   <app-divtop
     (viewChange)="alterarComponente($event)"
     (activeComponentChange)="alterarSubcomponente($event)"
@@ -13,7 +12,11 @@
     <!-- Aqui usamos deferimento e placeholders -->
     @defer(on viewport) {
     <section [ngSwitch]="paginaAtual">
-      <app-dashboard *ngSwitchCase="'dashboard'"></app-dashboard>
+      <app-dashboard
+        *ngSwitchCase="'dashboard'"
+        (viewChange)="alterarComponente($event)"
+        (activeComponentChange)="alterarSubcomponente($event)"
+      ></app-dashboard>
 
       <app-configuracoes
         *ngSwitchCase="'configuracoes'"

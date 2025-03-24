@@ -1,4 +1,9 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Output,
+} from '@angular/core';
 import { Chart } from 'chart.js';
 import { TransacoesService } from '../../Services/TransacaoService/transacoes.service';
 import { CommonModule } from '@angular/common';
@@ -10,6 +15,9 @@ import { ToastrService } from 'ngx-toastr';
 import { ReceitaService } from '../../Services/ReceitaService/receita.service';
 import { ContaSaldoDTO } from '../../Interface/ContaSaldoDTO.type';
 import { Observable } from 'rxjs';
+import { ContaService } from '../../Services/ContaService/conta.service';
+import { MetaFinanceiraResponseDTO } from '../../Interface/MetaFinanceiraResponseDTO.interface';
+import { MetaService } from '../../meta.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,12 +31,19 @@ export class DashboardComponent {
     private despesaService: DespesaService,
     private cdr: ChangeDetectorRef,
     private toastService: ToastrService,
-    private receitaService: ReceitaService
+    private receitaService: ReceitaService,
+    private contaService: ContaService,
+    private metaService: MetaService
   ) {}
+  @Output() activeComponentChange = new EventEmitter<string>();
+  @Output() viewChange: EventEmitter<string> = new EventEmitter<string>();
   accounts: ContaSaldoDTO[] = [];
   saldo: number = 0;
+  metas: MetaFinanceiraResponseDTO[] = [];
+
   totalReceitas: number = 0;
   totalDespesas: number = 0;
+  totalInvestimento: number = 0;
   transacoes: any[] = [];
   nome: string = '';
   contas: { id: string; nome: string }[] = [];
@@ -74,11 +89,14 @@ export class DashboardComponent {
       .obterTotalDespesasMes()
       .subscribe((data) => (this.totalDespesas = data));
 
+    this.metaService.listarMetas().subscribe((data) => (this.metas = data));
     this.transacaoService
       .obterUltimasTransacoes()
       .subscribe((data) => (this.transacoes = data));
-
     this.transacaoService
+      .obterSaldoInvestimentos()
+      .subscribe((data) => (this.totalInvestimento = data));
+    this.contaService
       .getSaldoContas()
       .subscribe((data) => (this.accounts = data));
   }
@@ -114,6 +132,10 @@ export class DashboardComponent {
         }
       );
     });
+  }
+  calcularProgresso(meta: MetaFinanceiraResponseDTO): number {
+    const progresso = ((meta.valorAtual || 0) / meta.valorMeta) * 100;
+    return Math.min(100, Math.round(progresso)); // Limita a 100% e arredonda
   }
 
   getCategoriasDespesas(): Promise<void> {
@@ -198,4 +220,9 @@ export class DashboardComponent {
   }
 
   submitTransferencia() {}
+
+  mudarPagina(pagina: string, activeComponent: string) {
+    this.viewChange.emit(pagina); // Troca para 'configuracoes'
+    this.activeComponentChange.emit(activeComponent); // Define o subcomponente
+  }
 }
