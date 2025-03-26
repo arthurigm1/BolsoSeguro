@@ -1,7 +1,7 @@
 <header
   class="bg-gradient-to-r from-white to-[#b6c6cc] text-black shadow-lg sticky top-0 z-20"
 >
-  <div class="container mx-auto flex items-center justify-between p-2">
+  <div class="container mx-auto flex items-center justify-between p-2 relative">
     <!-- Logo -->
     <div class="flex items-center">
       <a href="/dashboard" class="flex items-center">
@@ -13,133 +13,198 @@
       </a>
     </div>
 
+    <!-- Botão de Menu Mobile -->
+    <button
+      id="mobile-menu-button"
+      class="md:hidden p-2 focus:outline-none"
+      (click)="toggleMobileMenu()"
+      aria-label="Menu"
+    >
+      <svg
+        class="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M4 6h16M4 12h16M4 18h16"
+        ></path>
+      </svg>
+    </button>
+
     <!-- Navegação Principal -->
-    <nav id="main-nav" class="hidden md:flex space-x-6">
-      <ul class="flex space-x-6">
+    <!-- Menu principal (Hambúrguer no Mobile) -->
+    <nav
+      id="main-nav"
+      class="fixed inset-0 bg-white z-40 flex flex-col items-center justify-center transition-all duration-300 ease-in-out transform"
+      [class.translate-y-0]="isMobileMenuOpen"
+      [class.-translate-y-full]="!isMobileMenuOpen"
+      [class.md:translate-y-0]="true"
+      [class.md:relative]="true"
+      [class.md:flex]="true"
+      [class.md:bg-transparent]="true"
+      [class.md:inset-auto]="true"
+    >
+      <ul
+        class="flex flex-col md:flex-row md:space-x-6 space-y-2 md:space-y-0 w-full"
+      >
         <li>
           <a
             (click)="alterarComponente('dashboard')"
-            class="text-lg font-medium hover:text-[#8a999f] transition-colors duration-300 transform hover:scale-105 cursor-pointer"
+            class="text-[#5e6d72] text-lg font-semibold relative hover:text-black transition-all duration-300 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-black after:transition-all after:duration-300 hover:after:w-full cursor-pointer"
             >Visão Geral</a
           >
         </li>
         <li>
           <a
-            href="/5920718/a/lancamentos"
-            class="text-lg font-medium hover:text-[#8a999f] transition-colors duration-300 transform hover:scale-105"
+            (click)="alterarComponente('lancamentos')"
+            class="text-[#5e6d72] text-lg font-semibold relative hover:text-black transition-all duration-300 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-black after:transition-all after:duration-300 hover:after:w-full cursor-pointer"
             >Lançamentos</a
           >
         </li>
         <li>
           <a
             href="/5920718/relatorios/categorias"
-            class="text-lg font-medium hover:text-[#8a999f] transition-colors duration-300 transform hover:scale-105"
+            class="text-[#5e6d72] text-lg font-semibold relative hover:text-black transition-all duration-300 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-black after:transition-all after:duration-300 hover:after:w-full cursor-pointer"
             >Relatórios</a
           >
         </li>
         <li>
           <a
             href="#"
-            class="text-lg font-medium bg-gradient-to-r from-[#b6c6cc] to-[#5e6d72] text-white px-4 py-2 rounded-lg hover:bg-[#8a999f] transition-colors duration-300 transform hover:scale-105"
+            class="text-lg font-medium bg-gradient-to-r from-[#b6c6cc] to-[#5e6d72] text-white px-4 py-2 rounded-lg hover:bg-[#8a999f] transition-colors duration-300 transform hover:scale-105 cursor-pointer"
             >Conversor de Moedas</a
           >
+        </li>
+
+        <!-- Configurações (Somente no Mobile) -->
+        <li class="md:hidden">
+          <button
+            (click)="toggleSettingsDropdown($event)"
+            class="text-lg font-medium hover:text-[#8a999f] transition-colors duration-300 cursor-pointer block py-2"
+          >
+            Configurações
+          </button>
+          <ul *ngIf="isSettingsDropdownOpen" class="py-2">
+            <li>
+              <a
+                (click)="mudarPagina('configuracoes', 'categorias')"
+                class="block px-4 py-2 cursor-pointer hover:bg-[#8a999f] hover:text-white"
+                >Categorias</a
+              >
+            </li>
+            <li class="border-t border-gray-300 my-2"></li>
+            <li>
+              <a
+                (click)="mudarPagina('configuracoes', 'contas')"
+                class="block px-4 py-2 cursor-pointer hover:bg-[#8a999f] hover:text-white"
+                >Contas</a
+              >
+            </li>
+            <li class="border-t border-gray-300 my-2"></li>
+            <li>
+              <a
+                (click)="mudarPagina('configuracoes', 'cartoes')"
+                class="block px-4 py-2 cursor-pointer hover:bg-[#8a999f] hover:text-white"
+                >Cartões de Crédito</a
+              >
+            </li>
+            <li class="border-t border-gray-300 my-2"></li>
+            <li>
+              <a
+                class="block px-4 py-2 cursor-pointer hover:bg-[#8a999f] hover:text-white"
+                >Metas Financeiras</a
+              >
+            </li>
+          </ul>
+        </li>
+
+        <!-- Minha Conta (Somente no Mobile) -->
+        <li class="md:hidden">
+          <button
+            (click)="toggleAccountDropdown($event)"
+            class="text-lg font-medium hover:text-[#8a999f] transition-colors duration-300 cursor-pointer block py-2"
+          >
+            Minha Conta
+          </button>
+          <div *ngIf="isAccountDropdownOpen" class="p-4">
+            <div class="flex items-center space-x-2">
+              <img
+                src="https://utils.organizze.com.br/avatar/avatar-missing.png"
+                alt="Avatar"
+                class="w-8 h-8 rounded-full"
+              />
+              <strong>Bem vindo!</strong>
+            </div>
+            <hr class="my-2 border-[#5e6d72]" />
+            <a
+              href="/configuracoes/minha-conta"
+              class="block py-2 hover:bg-[#8a999f] hover:text-white"
+              >Configurações</a
+            >
+            <a
+              (click)="logout()"
+              class="block py-2 hover:bg-[#8a999f] hover:text-white cursor-pointer"
+              >Sair</a
+            >
+          </div>
         </li>
       </ul>
     </nav>
 
-    <!-- Navegação à Direita (Configurações, Notificações, Conta) -->
-    <nav id="right-nav" class="flex items-center space-x-4">
+    <!-- Navegação à Direita (Apenas Desktop) -->
+    <nav id="right-nav" class="hidden md:flex items-center space-x-4">
       <!-- Configurações -->
-      <div
-        class="relative group"
-        (mouseover)="openSettingsDropdown()"
-        (mouseleave)="delayedCloseSettingsDropdown()"
-        (click)="toggleSettingsDropdown($event)"
-      >
+      <div class="relative group">
         <button
-          id="settings-button"
+          (click)="toggleSettingsDropdown($event)"
           class="p-2 hover:bg-[#5e6d72] rounded-lg transition-colors duration-300 focus:outline-none transform hover:scale-105"
         >
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 32 32"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor"
-          >
-            <g id="SVGRepo_iconCarrier">
-              <title>Configurações</title>
-              <path
-                d="M23.265,24.381l.9-.894c4.164.136,4.228-.01,4.411-.438l1.144-2.785L29.805,20l-.093-.231c-.049-.122-.2-.486-2.8-2.965V15.5c3-2.89,2.936-3.038,2.765-3.461L28.538,9.225c-.171-.422-.236-.587-4.37-.474l-.9-.93a20.166,20.166,0,0,0-.141-4.106l-.116-.263-2.974-1.3c-.438-.2-.592-.272-3.4,2.786l-1.262-.019c-2.891-3.086-3.028-3.03-3.461-2.855L9.149,3.182c-.433.175-.586.237-.418,4.437l-.893.89c-4.162-.136-4.226.012-4.407.438L2.285,11.733,2.195,12l.094.232c.049.12.194.48,2.8,2.962l0,1.3c-3,2.89-2.935,3.038-2.763,3.462l1.138,2.817c.174.431.236.584,4.369.476l.9.935a20.243,20.243,0,0,0,.137,4.1l.116.265,2.993,1.308c.435.182.586.247,3.386-2.8l1.262.016c2.895,3.09,3.043,3.03,3.466,2.859l2.759-1.115C23.288,28.644,23.44,28.583,23.265,24.381ZM11.407,17.857a4.957,4.957,0,1,1,6.488,2.824A5.014,5.014,0,0,1,11.407,17.857Z"
-                fill="#000000"
-              ></path>
-            </g>
-          </svg>
+          <i class="fas fa-gear fa-2x" style="font-size: 25px"></i>
         </button>
-
-        <div
+        <ul
           *ngIf="isSettingsDropdownOpen"
-          class="absolute top-full right-0 mt-2 w-64 bg-white text-[#2F4F4F] rounded-lg shadow-lg transition-all duration-300 ease-out transform origin-top-right opacity-0 scale-95 translate-y-[-10px]"
-          [class.opacity-100]="isSettingsDropdownOpen"
-          [class.scale-100]="isSettingsDropdownOpen"
-          [class.translate-y-0]="isSettingsDropdownOpen"
+          class="absolute top-full right-0 mt-2 w-64 bg-white text-[#2F4F4F] rounded-lg shadow-lg"
         >
-          <ul class="py-2">
-            <!-- Categorias -->
-            <li>
-              <a
-                (click)="mudarPagina('configuracoes', 'categorias')"
-                class="block px-4 py-2 cursor-pointer rounded-md hover:bg-[#8a999f] hover:text-white transition-all duration-200 focus:bg-[#8a999f] focus:text-white"
-                tabindex="0"
-                (keydown.enter)="mudarPagina('configuracoes', 'categorias')"
-              >
-                Categorias
-              </a>
-            </li>
-            <li class="border-t border-gray-300 my-2"></li>
-            <!-- Contas -->
-            <li>
-              <a
-                (click)="mudarPagina('configuracoes', 'contas')"
-                class="block px-4 py-2 cursor-pointer rounded-md hover:bg-[#8a999f] hover:text-white transition-all duration-200 focus:bg-[#8a999f] focus:text-white"
-                tabindex="0"
-                (keydown.enter)="mudarPagina('configuracoes', 'contas')"
-              >
-                Contas
-              </a>
-            </li>
-            <li class="border-t border-gray-300 my-2"></li>
-            <!-- Cartões de Crédito -->
-            <li>
-              <a
-                (click)="mudarPagina('configuracoes', 'cartoes')"
-                class="block px-4 py-2 cursor-pointer rounded-md hover:bg-[#8a999f] hover:text-white transition-all duration-200 focus:bg-[#8a999f] focus:text-white"
-                tabindex="0"
-                (keydown.enter)="mudarPagina('configuracoes', 'cartoes')"
-              >
-                Cartões de Crédito
-              </a>
-            </li>
-
-            <!-- Linha de separação -->
-            <li class="border-t border-gray-300 my-2"></li>
-            <!-- Preferências -->
-            <li>
-              <a
-                class="block px-4 py-2 cursor-pointer rounded-md hover:bg-[#8a999f] hover:text-white transition-all duration-200 focus:bg-[#8a999f] focus:text-white"
-                tabindex="0"
-              >
-                Metas Financeiras
-              </a>
-            </li>
-          </ul>
-        </div>
+          <li>
+            <a
+              (click)="mudarPagina('configuracoes', 'categorias')"
+              class="block px-4 py-2 cursor-pointer hover:bg-[#8a999f] hover:text-white"
+              >Categorias</a
+            >
+          </li>
+          <li class="border-t border-gray-300 my-2"></li>
+          <li>
+            <a
+              (click)="mudarPagina('configuracoes', 'contas')"
+              class="block px-4 py-2 cursor-pointer hover:bg-[#8a999f] hover:text-white"
+              >Contas</a
+            >
+          </li>
+          <li class="border-t border-gray-300 my-2"></li>
+          <li>
+            <a
+              (click)="mudarPagina('configuracoes', 'cartoes')"
+              class="block px-4 py-2 cursor-pointer hover:bg-[#8a999f] hover:text-white"
+              >Cartões de Crédito</a
+            >
+          </li>
+          <li class="border-t border-gray-300 my-2"></li>
+          <li>
+            <a
+              class="block px-4 py-2 cursor-pointer hover:bg-[#8a999f] hover:text-white"
+              >Metas Financeiras</a
+            >
+          </li>
+        </ul>
       </div>
 
       <!-- Minha Conta -->
       <div class="relative group">
-        <a
-          id="account-button"
+        <button
           (click)="toggleAccountDropdown($event)"
           class="flex items-center p-2 hover:bg-[#5e6d72] rounded-lg transition-colors duration-300 transform hover:scale-105"
         >
@@ -148,37 +213,36 @@
             alt="Avatar"
             class="w-8 h-8 rounded-full"
           />
-        </a>
-        <div
+        </button>
+        <ul
           *ngIf="isAccountDropdownOpen"
-          class="absolute right-0 mt-2 w-64 bg-white text-[#2F4F4F] rounded-lg shadow-lg transition-opacity duration-300 transform origin-top-right scale-95 group-hover:scale-100"
+          class="absolute right-0 mt-2 w-64 bg-white text-[#2F4F4F] rounded-lg shadow-lg"
         >
-          <div class="p-4">
+          <li class="p-4"><strong>Bem vindo!</strong></li>
+          <li class="border-t border-[#5e6d72]"></li>
+          <li>
             <a
-              href="/5920718/configuracoes/minha-conta"
-              class="flex items-center space-x-2"
-            >
-              <img
-                src="https://utils.organizze.com.br/avatar/avatar-missing.png"
-                alt="Avatar"
-                class="w-8 h-8 rounded-full"
-              />
-              <strong>Bem vindo!</strong>
-            </a>
-            <hr class="my-2 border-[#5e6d72]" />
-            <a
-              href="/5920718/configuracoes/minha-conta"
-              class="block py-2 hover:bg-[#8a999f] hover:text-white transition-colors duration-300"
+              href="/configuracoes/minha-conta"
+              class="block py-2 hover:bg-[#8a999f] hover:text-white"
               >Configurações</a
             >
+          </li>
+          <li>
             <a
               (click)="logout()"
-              class="block py-2 hover:bg-[#8a999f] hover:text-white transition-colors duration-300 cursor-pointer"
+              class="block py-2 hover:bg-[#8a999f] hover:text-white cursor-pointer"
               >Sair</a
             >
-          </div>
-        </div>
+          </li>
+        </ul>
       </div>
     </nav>
+
+    <!-- Overlay para mobile - Corrigido -->
+    <div
+      *ngIf="isMobileMenuOpen"
+      class="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden"
+      (click)="closeMobileMenu()"
+    ></div>
   </div>
 </header>

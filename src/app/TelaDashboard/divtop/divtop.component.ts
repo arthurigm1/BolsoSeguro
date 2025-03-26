@@ -8,92 +8,83 @@ import { ToastrService } from 'ngx-toastr';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './divtop.component.html',
-  styleUrl: './divtop.component.scss',
+  styleUrls: ['./divtop.component.scss'],
 })
 export class DivtopComponent {
-  isSettingsDropdownOpen = false; // Controla o dropdown de configurações
-  isAccountDropdownOpen = false; // Controla o dropdown da conta
+  isMobileMenuOpen = false;
+  isSettingsDropdownOpen = false;
+  isAccountDropdownOpen = false;
+
   @Output() activeComponentChange = new EventEmitter<string>();
-  @Output() viewChange: EventEmitter<string> = new EventEmitter<string>();
+  @Output() viewChange = new EventEmitter<string>();
+
   constructor(
     private loginService: LoginService,
     private toastService: ToastrService
   ) {}
-  alterarComponente(componente: string): void {
-    this.viewChange.emit(componente);
-  }
-  @Output() pageSelected = new EventEmitter<string>();
 
-  mudarPagina(pagina: string, activeComponent: string) {
-    this.viewChange.emit(pagina); // Troca para 'configuracoes'
-    this.activeComponentChange.emit(activeComponent); // Define o subcomponente
-  }
-  onSelectPage(page: string): void {
-    this.pageSelected.emit(page);
-  }
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
-    const settingsButton = document.getElementById('settings-button');
-    const accountButton = document.getElementById('account-button');
-
-    if (
-      !settingsButton?.contains(event.target as Node) &&
-      !document
-        .getElementById('settings-dropdown')
-        ?.contains(event.target as Node)
-    ) {
-      this.isSettingsDropdownOpen = false;
+  toggleMobileMenu() {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+    if (this.isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
     }
+  }
+
+  closeMobileMenu() {
+    this.isMobileMenuOpen = false;
+    document.body.style.overflow = '';
+  }
+
+  toggleSettingsDropdown(event: Event) {
+    event.stopPropagation();
+    this.isSettingsDropdownOpen = !this.isSettingsDropdownOpen;
+    this.isAccountDropdownOpen = false;
+  }
+
+  toggleAccountDropdown(event: Event) {
+    event.stopPropagation();
+    this.isAccountDropdownOpen = !this.isAccountDropdownOpen;
+    this.isSettingsDropdownOpen = false;
+  }
+
+  @HostListener('document:click', ['$event'])
+  handleClickOutside(event: MouseEvent) {
+    const target = event.target as HTMLElement;
 
     if (
-      !accountButton?.contains(event.target as Node) &&
-      !document
-        .getElementById('account-dropdown')
-        ?.contains(event.target as Node)
+      !target.closest('#mobile-menu-button') &&
+      !target.closest('#main-nav') &&
+      !target.closest('#settings-button') &&
+      !target.closest('#account-button')
     ) {
+      this.closeMobileMenu();
+      this.isSettingsDropdownOpen = false;
       this.isAccountDropdownOpen = false;
     }
   }
 
-  // Alterna o estado do dropdown da conta (Click)
-  toggleAccountDropdown(event: Event) {
-    event.stopPropagation();
-    this.isAccountDropdownOpen = !this.isAccountDropdownOpen;
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    if (window.innerWidth >= 768) {
+      this.closeMobileMenu();
+    }
   }
 
-  // Abre o dropdown ao passar o mouse
-
-  openAccountDropdown() {
-    this.isAccountDropdownOpen = true;
+  // Outros métodos permanecem iguais
+  alterarComponente(componente: string) {
+    this.viewChange.emit(componente);
+    this.closeMobileMenu();
   }
 
-  // Fecha o dropdown ao sair com o mouse
-  closeSettingsDropdown() {
-    this.isSettingsDropdownOpen = false;
+  mudarPagina(pagina: string, activeComponent: string) {
+    this.viewChange.emit(pagina);
+    this.activeComponentChange.emit(activeComponent);
+    this.closeMobileMenu();
   }
 
-  closeAccountDropdown() {
-    this.isAccountDropdownOpen = false;
-  }
-
-  settingsTimeout: any;
-
-  openSettingsDropdown() {
-    clearTimeout(this.settingsTimeout); // Impede que o menu feche imediatamente
-    this.isSettingsDropdownOpen = true;
-  }
-
-  delayedCloseSettingsDropdown() {
-    this.settingsTimeout = setTimeout(() => {
-      this.isSettingsDropdownOpen = false;
-    }, 200); // Pequeno delay para evitar fechamento imediato
-  }
-
-  toggleSettingsDropdown(event: Event) {
-    event.stopPropagation(); // Impede que o clique feche o menu imediatamente
-    this.isSettingsDropdownOpen = !this.isSettingsDropdownOpen;
-  }
-  logout(): void {
+  logout() {
     this.loginService.logout();
     this.toastService.info('Logout efetuado com sucesso');
     location.reload();

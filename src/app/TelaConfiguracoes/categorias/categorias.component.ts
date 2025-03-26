@@ -2,7 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TransacoesService } from '../../Services/TransacaoService/transacoes.service';
-
+import { CategoriaService } from '../../Services/CategoriaService/categoria.service';
+import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-categorias',
   imports: [CommonModule, FormsModule],
@@ -10,7 +12,11 @@ import { TransacoesService } from '../../Services/TransacaoService/transacoes.se
   styleUrls: ['./categorias.component.scss'], // Corrigido para styleUrls
 })
 export class CategoriasComponent {
-  constructor(private transacaoService: TransacoesService) {}
+  constructor(
+    private transacaoService: TransacoesService,
+    private categoriaService: CategoriaService,
+    private toastrService: ToastrService
+  ) {}
   activeTab: 'expenses' | 'earnings' = 'expenses';
   @Output() openModalEvent = new EventEmitter<'expense' | 'income'>();
   categoriasDespesas: any[] = [];
@@ -56,6 +62,40 @@ export class CategoriasComponent {
           reject(error);
         }
       );
+    });
+  }
+
+  deletarCategoria(id: string) {
+    Swal.fire({
+      title: 'Tem certeza?',
+      text: 'Esta ação não pode ser desfeita! Não e possivel excluir categorias com despesas ou receitas associadas.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Sim, excluir!',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.categoriaService.deletarCategoria(id).subscribe(
+          () => {
+            Swal.fire(
+              'Excluída!',
+              'A categoria foi excluída com sucesso.',
+              'success'
+            );
+            this.getCategoriasDespesas();
+            this.getCategoriasReceitas();
+          },
+          (error) => {
+            Swal.fire(
+              'Erro!',
+              'Erro ao excluir categoria, ela está associada a uma Despesa ou Receita.',
+              'error'
+            );
+          }
+        );
+      }
     });
   }
 }

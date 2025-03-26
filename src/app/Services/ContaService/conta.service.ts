@@ -26,4 +26,10 @@ export class ContaService {
       headers: this.getAuthHeaders(),
     });
   }
+
+  deletarConta(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/contas/${id}`, {
+      headers: this.getAuthHeaders(),
+    });
+  }
 }

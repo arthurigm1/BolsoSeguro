@@ -9,13 +9,16 @@ import { ContasComponent } from '../contas/contas.component';
 import { CategoriasComponent } from '../categorias/categorias.component';
 import { CartaoComponent } from '../cartao/cartao.component';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ContaService } from '../../Services/ContaService/conta.service';
 import { ContaCadastroDTO } from '../../Interface/ContaCadastroDTO.type';
-import { ToastrService } from 'ngx-toastr';
+
 import { MetasfinanceirasComponent } from '../metasfinanceiras/metasfinanceiras.component';
 import { CategoriaDTO } from '../../Interface/CategoriaDTO.interface';
 import { CategoriaService } from '../../Services/CategoriaService/categoria.service';
+import { MetaService } from '../../Services/MetaService/meta.service';
+import { MetaFinanceiraRequestDTO } from '../../Interface/MetaFinanceiraResponseDTO.interface';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-configuracoes',
@@ -26,6 +29,7 @@ import { CategoriaService } from '../../Services/CategoriaService/categoria.serv
     CommonModule,
     FormsModule,
     MetasfinanceirasComponent,
+    ReactiveFormsModule,
   ],
   templateUrl: './configuracoes.component.html',
   styleUrl: './configuracoes.component.scss',
@@ -33,9 +37,10 @@ import { CategoriaService } from '../../Services/CategoriaService/categoria.serv
 export class ConfiguracoesComponent {
   constructor(
     private contaService: ContaService,
-
     private toastrService: ToastrService,
-    private categoriaService: CategoriaService
+
+    private categoriaService: CategoriaService,
+    private metaService: MetaService
   ) {}
 
   @Input() activeComponent: string = 'categorias';
@@ -140,4 +145,32 @@ export class ConfiguracoesComponent {
   }
 
   addGoal() {}
+  addMeta() {
+    const metaRequest: MetaFinanceiraRequestDTO = {
+      nome: this.newGoal.name,
+      valorMeta: this.newGoal.targetValue,
+    };
+
+    this.metaService.criarMeta(metaRequest).subscribe({
+      next: (response) => {
+        this.toastrService.success('Categoria criada com sucesso!');
+        this.metasComponent.carregarMetas();
+        this.metaAtualizada.emit();
+        this.closeGlobalModal();
+        this.resetGoalForm();
+      },
+      error: (error) => {
+        console.error('Erro ao criar meta:', error);
+        // Mostre uma mensagem de erro para o usuário
+      },
+    });
+  }
+
+  resetGoalForm() {
+    this.newGoal = {
+      name: '',
+      targetValue: 0,
+      currentValue: 0,
+    };
+  }
 }

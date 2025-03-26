@@ -60,21 +60,4 @@ export class MetasfinanceirasComponent implements OnInit {
     this.showCreateModal = false;
     this.metaForm.reset();
   }
-
-  onSubmit(): void {
-    if (this.metaForm.valid) {
-      this.metaService.criarMeta(this.metaForm.value).subscribe({
-        next: (novaMeta) => {
-          this.metas.push({
-            ...novaMeta,
-            progresso: 0,
-          });
-          this.closeCreateModal();
-        },
-        error: (err) => {
-          console.error('Erro ao criar meta', err);
-        },
-      });
-    }
-  }
 }

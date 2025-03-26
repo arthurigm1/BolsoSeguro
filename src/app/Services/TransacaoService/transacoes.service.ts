@@ -71,4 +71,21 @@ export class TransacoesService {
       headers: this.getAuthHeaders(),
     });
   }
+  obterTransacoesPorMes(mes: number, ano: number): Observable<any[]> {
+    return this.http.get<any[]>(
+      `${this.apiUrl}/transacoes/saldosMes?mes=${mes}&ano=${ano}`,
+      {
+        headers: this.getAuthHeaders(),
+      }
+    );
+  }
+  gerarRelatorio(mes: number, ano: number): Observable<Blob> {
+    return this.http.get(
+      `${this.apiUrl}/transacoes/relatorio?mes=${mes}&ano=${ano}`,
+      {
+        responseType: 'blob', // Importante para retornar o arquivo
+        headers: this.getAuthHeaders(), // Incluindo o Bearer no cabeçalho
+      }
+    );
+  }
 }
