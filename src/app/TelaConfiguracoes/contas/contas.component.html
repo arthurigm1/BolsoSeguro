@@ -1,42 +1,148 @@
-<div class="p-4">
-  <div class="flex justify-between items-center mb-4">
-    <h1 class="text-2xl font-extrabold text-gray-900">Minhas Contas</h1>
-    <button
-      (click)="openModal()"
-      class="flex items-center bg-black text-white px-4 py-2 rounded-lg transition duration-300 cursor-pointer"
+<div class="p-6">
+  <!-- Container Principal -->
+  <div class="max-w-4xl mx-auto">
+    <!-- Header -->
+    <div
+      class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4"
     >
-      <span class="mr-2">+</span>
-      Nova Conta
-    </button>
-  </div>
-
-  <div class="bg-white rounded-lg shadow">
-    <ul id="accounts-sortable" class="divide-y divide-gray-200">
-      <li
-        *ngFor="let account of accounts"
-        class="p-4 hover:bg-gray-50 flex justify-between items-center"
+      <div>
+        <h1 class="text-2xl font-extrabold text-gray-900">Minhas Contas</h1>
+        <p class="text-gray-500 mt-1">
+          Gerencie suas contas bancárias e carteiras
+        </p>
+      </div>
+      <button
+        (click)="openModal()"
+        class="flex items-center bg-gradient-to-r from-[#b6c6cc] to-[#5e6d72] text-white px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300"
       >
-        <div class="flex items-center flex-1">
-          <i class="fas fa-bars text-gray-400 mr-4 cursor-pointer"></i>
-          <div
-            class="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 mr-4"
-          >
-            <i class="fas fa-wallet text-gray-700 text-xl"></i>
-          </div>
-          <div class="flex-1">
-            <strong class="block text-gray-900">{{ account.nome }}</strong>
-            <small class="block text-gray-500"
-              >Saldo: R$ {{ account.saldo }}</small
-            >
-          </div>
-        </div>
-        <button
-          (click)="deleteAccount(account.id)"
-          class="text-red-500 hover:text-red-700 cursor-pointer"
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5 mr-2"
+          viewBox="0 0 20 20"
+          fill="currentColor"
         >
-          <i class="fas fa-trash text-lg"></i>
-        </button>
-      </li>
-    </ul>
+          <path
+            fill-rule="evenodd"
+            d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        <span class="font-semibold">Nova Conta</span>
+      </button>
+    </div>
+
+    <!-- Lista de Contas -->
+    <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+      <ul id="accounts-sortable" class="divide-y divide-gray-100">
+        <li
+          *ngFor="let account of accounts"
+          class="p-5 hover:bg-gray-50 transition-colors duration-200 ease-out"
+        >
+          <div class="flex justify-between items-center">
+            <!-- Informações da Conta -->
+            <div class="flex items-center flex-1 min-w-0">
+              <div class="relative">
+                <div
+                  class="absolute -inset-1 bg-indigo-100 rounded-full opacity-75 animate-pulse"
+                ></div>
+                <div
+                  class="relative flex items-center justify-center h-12 w-12 rounded-full bg-indigo-50 text-indigo-600"
+                >
+                  <i class="fas fa-wallet text-gray-700 text-2xl"></i>
+                </div>
+              </div>
+
+              <div class="ml-4 flex-1 min-w-0">
+                <div class="flex items-center gap-2">
+                  <strong
+                    class="block text-lg font-semibold text-gray-900 truncate"
+                    >{{ account.nome }}</strong
+                  >
+                </div>
+                <div class="flex items-center mt-1">
+                  <small class="block text-gray-500">Saldo:</small>
+                  <span
+                    class="block ml-2 font-medium"
+                    [class.text-green-600]="account.saldo >= 0"
+                    [class.text-red-600]="account.saldo < 0"
+                  >
+                    {{ account.saldo | currency : "BRL" : "symbol" : "1.2-2" }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Ações -->
+            <div class="flex items-center space-x-4 ml-4">
+              <button
+                (click)="deleteAccount(account.id)"
+                class="text-gray-400 hover:text-red-600 transition-colors duration-200"
+                aria-label="Excluir conta"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </li>
+
+        <!-- Estado vazio -->
+        <li *ngIf="accounts.length === 0" class="p-10 text-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-16 w-16 mx-auto text-gray-300"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"
+            />
+          </svg>
+          <h3 class="mt-4 text-lg font-medium text-gray-700">
+            Nenhuma conta cadastrada
+          </h3>
+          <p class="mt-1 text-gray-500">
+            Adicione sua primeira conta para começar
+          </p>
+          <button
+            (click)="openModal()"
+            class="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            Criar Conta
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Totalizador -->
+    <div
+      *ngIf="accounts.length > 0"
+      class="mt-6 bg-white rounded-2xl shadow-sm p-5"
+    >
+      <div class="flex justify-between items-center">
+        <h3 class="text-lg font-medium text-gray-700">Saldo Total</h3>
+        <span
+          class="text-2xl font-bold"
+          [class.text-green-600]="getTotalBalance() >= 0"
+          [class.text-red-600]="getTotalBalance() < 0"
+        >
+          {{ getTotalBalance() | currency : "BRL" : "symbol" : "1.2-2" }}
+        </span>
+      </div>
+    </div>
   </div>
 </div>

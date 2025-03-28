@@ -68,7 +68,10 @@
           *ngSwitchCase="'categorias'"
           (openModalEvent)="openGlobalModal('categoria', $event)"
         ></app-categorias>
-        <app-cartao *ngSwitchCase="'cartoes'"></app-cartao>
+        <app-cartao
+          *ngSwitchCase="'cartoes'"
+          (openModalEvent)="openGlobalModal('cartao')"
+        ></app-cartao>
         <app-metasfinanceiras
           *ngSwitchCase="'metas'"
           (openModalEvent)="openGlobalModal('meta')"
@@ -133,6 +136,8 @@
           ? addCategory()
           : modalType === 'meta'
           ? addMeta()
+          : modalType === 'cartao'
+          ? addCard()
           : null
       "
       #goalForm="ngForm"
@@ -248,6 +253,155 @@
             step="0.01"
             [max]="newGoal.targetValue"
           />
+        </div>
+      </div>
+
+      <div *ngIf="modalType === 'cartao'" class="space-y-4">
+        <!-- Seção de Bandeiras -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">
+            Bandeira do Cartão
+          </label>
+          <div class="flex justify-center space-x-4">
+            <!-- Visa -->
+            <div
+              class="bandeira-option transition-all duration-200"
+              [class.selected]="newCard.bandeira === 'VISA'"
+              (click)="selectBandeira('VISA')"
+            >
+              <div
+                class="p-3 rounded-lg border-2"
+                [class.border-blue-500]="newCard.bandeira === 'VISA'"
+                [class.border-gray-200]="newCard.bandeira !== 'VISA'"
+                [class.bg-blue-50]="newCard.bandeira === 'VISA'"
+              >
+                <img
+                  src="assets/img/visa.png"
+                  alt="Visa"
+                  class="w-16 h-16 rounded-full object-contain mx-auto"
+                />
+                <span class="block text-center text-xs mt-2 font-medium"
+                  >Visa</span
+                >
+              </div>
+            </div>
+
+            <!-- Mastercard -->
+            <div
+              class="bandeira-option transition-all duration-200"
+              [class.selected]="newCard.bandeira === 'MASTERCARD'"
+              (click)="selectBandeira('MASTERCARD')"
+            >
+              <div
+                class="p-3 rounded-lg border-2"
+                [class.border-red-500]="newCard.bandeira === 'MASTERCARD'"
+                [class.border-gray-200]="newCard.bandeira !== 'MASTERCARD'"
+                [class.bg-red-50]="newCard.bandeira === 'MASTERCARD'"
+              >
+                <img
+                  src="assets/img/mastercard.png"
+                  alt="Mastercard"
+                  class="w-16 h-16 object-contain mx-auto rounded-full"
+                />
+                <span class="block text-center text-xs mt-2 font-medium"
+                  >Mastercard</span
+                >
+              </div>
+            </div>
+
+            <!-- Outros -->
+            <div
+              class="bandeira-option transition-all duration-200"
+              [class.selected]="newCard.bandeira === 'OUTROS'"
+              (click)="selectBandeira('OUTROS')"
+            >
+              <div
+                class="p-3 rounded-lg border-2"
+                [class.border-purple-500]="newCard.bandeira === 'OUTROS'"
+                [class.border-gray-200]="newCard.bandeira !== 'OUTROS'"
+                [class.bg-purple-50]="newCard.bandeira === 'OUTROS'"
+              >
+                <img
+                  src="assets/img/outroscard.png"
+                  alt="Outros"
+                  class="w-16 h-16 object-contain mx-auto"
+                />
+                <span
+                  class="block rounded-full text-center text-xs mt-2 font-medium"
+                  >Outros</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Nome do Cartão -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700"
+            >Nome do Cartão</label
+          >
+          <input
+            type="text"
+            [(ngModel)]="newCard.nome"
+            name="nome"
+            placeholder="Ex: Cartão Nubank"
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            required
+          />
+        </div>
+
+        <!-- Limite Total -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700"
+            >Limite Total</label
+          >
+          <div class="mt-1 relative rounded-md shadow-sm">
+            <div
+              class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+            >
+              <span class="text-gray-500 sm:text-sm">R$</span>
+            </div>
+            <input
+              type="number"
+              [(ngModel)]="newCard.limiteTotal"
+              name="limiteTotal"
+              placeholder="0,00"
+              class="block w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+              required
+            />
+          </div>
+        </div>
+
+        <!-- Dia de Fechamento da Fatura -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700">
+            Dia de Fechamento da Fatura
+          </label>
+          <select
+            [(ngModel)]="newCard.diaFechamentoFatura"
+            name="diaFechamentoFatura"
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            required
+          >
+            <option value="" disabled selected>Selecione o dia</option>
+            <option *ngFor="let dia of dias" [value]="dia">{{ dia }}</option>
+          </select>
+        </div>
+
+        <!-- Dia de Vencimento -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700">
+            Dia de Vencimento
+          </label>
+          <select
+            [(ngModel)]="newCard.vencimentoFatura"
+            name="diaVencimentoFatura"
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            required
+          >
+            <option value="" disabled selected>Selecione o dia</option>
+            <option *ngFor="let dia of dias" [value]="dia">{{ dia }}</option>
+          </select>
         </div>
       </div>
 

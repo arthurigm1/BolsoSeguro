@@ -61,4 +61,7 @@ export class ContasComponent {
       }
     });
   }
+  getTotalBalance(): number {
+    return this.accounts.reduce((total, account) => total + account.saldo, 0);
+  }
 }

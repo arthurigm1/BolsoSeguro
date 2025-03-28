@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { CartaoResponseDTO } from '../../Interface/CartaoDTO.interface';
+import { CartaoService } from '../../Services/CartaoService/cartao.service';
 
 @Component({
   selector: 'app-cartao',
@@ -7,21 +9,42 @@ import { Component } from '@angular/core';
   templateUrl: './cartao.component.html',
   styleUrls: ['./cartao.component.scss'],
 })
-export class CartaoComponent {
-  creditCards: any[] = [
-    {
-      id: 1,
-      name: 'Cartão Mastercard',
-      lastDigits: '5555',
-      type: 'Crédito',
-      logo: 'https://assets.organizze.com.br/institutions/logos/mastercard.png',
-    },
-    {
-      id: 2,
-      name: 'Cartão Visa',
-      lastDigits: '1234',
-      type: 'Débito',
-      logo: 'https://assets.organizze.com.br/institutions/logos/visa.png',
-    },
-  ];
+export class CartaoComponent implements OnInit {
+  creditCards: CartaoResponseDTO[] = [];
+  constructor(private cartaoService: CartaoService) {}
+  @Output() openModalEvent = new EventEmitter<void>();
+  openModal() {
+    this.openModalEvent.emit();
+  }
+  ngOnInit() {
+    this.buscarCartoes();
+  }
+  buscarCartoes() {
+    this.cartaoService.buscarCartoesPorUsuario().subscribe(
+      (response: CartaoResponseDTO[]) => {
+        this.creditCards = response; // Atribui a resposta ao array de cartões
+      },
+      (error) => {
+        console.error('Erro ao buscar cartões', error);
+      }
+    );
+  }
+  getCardLogo(bandeira: string): string {
+    switch (bandeira) {
+      case 'VISA':
+        return 'assets/img/visa.png'; // Atualize com o caminho correto das imagens
+      case 'MASTERCARD':
+        return 'assets/img/mastercard.png';
+      case 'ELO':
+        return 'assets/logos/elo.png';
+      case 'AMEX':
+        return 'assets/logos/amex.png';
+      case 'HIPERCARD':
+        return 'assets/logos/hipercard.png';
+      case 'OUTROS':
+        return 'assets/img/outroscard.png';
+      default:
+        return 'assets/logos/default.png'; // Logo padrão
+    }
+  }
 }

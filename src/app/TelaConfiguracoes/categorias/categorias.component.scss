@@ -3,10 +3,7 @@ button {
     transition: all 0.3s ease-in-out;
 }
 
-button:hover {
-    transform: translateY(-4px);
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
+
 
 // Adicionando animação para o modal
 .modal-enter {

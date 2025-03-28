@@ -18,6 +18,8 @@ import { Observable } from 'rxjs';
 import { ContaService } from '../../Services/ContaService/conta.service';
 import { MetaFinanceiraResponseDTO } from '../../Interface/MetaFinanceiraResponseDTO.interface';
 import { MetaService } from '../../Services/MetaService/meta.service';
+import { CartaoService } from '../../Services/CartaoService/cartao.service';
+import { CartaoResponseDTO } from '../../Interface/CartaoDTO.interface';
 
 @Component({
   selector: 'app-dashboard',
@@ -33,14 +35,15 @@ export class DashboardComponent {
     private toastService: ToastrService,
     private receitaService: ReceitaService,
     private contaService: ContaService,
-    private metaService: MetaService
+    private metaService: MetaService,
+    private cartaoService: CartaoService
   ) {}
   @Output() activeComponentChange = new EventEmitter<string>();
   @Output() viewChange: EventEmitter<string> = new EventEmitter<string>();
   accounts: ContaSaldoDTO[] = [];
   saldo: number = 0;
+  cartoes: CartaoResponseDTO[] = [];
   metas: MetaFinanceiraResponseDTO[] = [];
-
   totalReceitas: number = 0;
   totalDespesas: number = 0;
   totalInvestimento: number = 0;
@@ -71,7 +74,9 @@ export class DashboardComponent {
     valor: null,
     data: null,
   };
-
+  alterarComponente(componente: string) {
+    this.viewChange.emit(componente);
+  }
   ngOnInit(): void {
     this.carregarDados();
   }
@@ -99,6 +104,9 @@ export class DashboardComponent {
     this.contaService
       .getSaldoContas()
       .subscribe((data) => (this.accounts = data));
+    this.cartaoService.buscarCartoesPorUsuario().subscribe((data) => {
+      this.cartoes = data;
+    });
   }
 
   openModal(type: string) {
@@ -117,7 +125,7 @@ export class DashboardComponent {
         this.isModalOpen = true; // Abre o modal após carregar os dados
       })
       .catch((error) => {
-        console.error('Erro ao carregar dados para o modal:', error);
+        this.toastService.error('Erro ao carregar dados');
       });
   }
   carregarContas(): Promise<void> {
@@ -146,7 +154,7 @@ export class DashboardComponent {
           resolve();
         },
         (error) => {
-          console.error('Erro ao carregar categorias de despesas:', error);
+          this.toastService.error('Erro ao carregar categorias de despesas');
           reject(error);
         }
       );
@@ -161,7 +169,7 @@ export class DashboardComponent {
           resolve();
         },
         (error) => {
-          console.error('Erro ao carregar categorias de receitas:', error);
+          this.toastService.error('Erro ao carregar categorias de receitas');
           reject(error);
         }
       );
@@ -174,24 +182,30 @@ export class DashboardComponent {
   }
 
   submitDespesa() {
-    const despesa = {
-      contaId: this.despesa.contaId, // ID da conta
-      categoria: this.despesa.categoria, // Categoria da despesa
-      valor: this.despesa.valor, // Valor da despesa
-      data: this.despesa.data, // Data da despesa
-      descricao: this.despesa.descricao, // Descrição da despesa
+    const despesa: any = {
+      categoria: this.despesa.categoria,
+      valor: this.despesa.valor,
+      data: this.despesa.data,
+      descricao: this.despesa.descricao,
     };
 
-    // Envia os dados para o back-end via serviço
+    const isConta = this.contas.some((c) => c.id === this.despesa.contaId);
+
+    if (isConta) {
+      despesa.contaId = this.despesa.contaId;
+    } else {
+      despesa.cartaoId = this.despesa.contaId; // Sim, usa o mesmo campo mas como cartão
+    }
+
+    // Enviar despesa para o serviço
     this.despesaService.adicionarDespesa(despesa).subscribe({
       next: () => {
         this.toastService.success('Despesa adicionada com sucesso!');
         this.carregarDados();
         this.closeModal();
       },
-      error: (err) => {
+      error: () => {
         this.toastService.error('Erro ao adicionar despesa');
-        console.error('Erro:', err);
       },
     });
   }
@@ -205,7 +219,6 @@ export class DashboardComponent {
       descricao: this.receita.descricao, // Descrição da despesa
     };
 
-    // Envia os dados para o back-end via serviço
     this.receitaService.adicionarReceita(receita).subscribe({
       next: () => {
         this.toastService.success('Despesa adicionada com sucesso!');
@@ -214,7 +227,6 @@ export class DashboardComponent {
       },
       error: (err) => {
         this.toastService.error('Erro ao adicionar despesa');
-        console.error('Erro:', err);
       },
     });
   }
@@ -224,5 +236,18 @@ export class DashboardComponent {
   mudarPagina(pagina: string, activeComponent: string) {
     this.viewChange.emit(pagina); // Troca para 'configuracoes'
     this.activeComponentChange.emit(activeComponent); // Define o subcomponente
+  }
+
+  getCardLogo(bandeira: string): string {
+    switch (bandeira) {
+      case 'VISA':
+        return 'assets/img/visa.png'; // Atualize com o caminho correto das imagens
+      case 'MASTERCARD':
+        return 'assets/img/mastercard.png';
+      case 'OUTROS':
+        return 'assets/img/outroscard.png';
+      default:
+        return 'assets/logos/default.png'; // Logo padrão
+    }
   }
 }

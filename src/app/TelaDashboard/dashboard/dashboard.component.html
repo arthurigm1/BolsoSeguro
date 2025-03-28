@@ -1,24 +1,29 @@
 <div class="min-h-screen bg-gradient-to-r from-white to-[#b6c6cc] p-8">
   <!-- Cabeçalho -->
   <header
-    class="bg-gray-100 rounded-xl shadow-lg p-6 mb-8 flex flex-col md:flex-row justify-between items-center"
+    class="bg-gray-50 rounded-xl shadow-md p-6 mb-8 flex flex-col md:flex-row justify-between items-center gap-6"
   >
-    <div class="mb-4 md:mb-0">
-      <h1 class="text-3xl font-bold text-black">Olá, {{ nome }}!</h1>
-      <p class="text-sm text-black mt-1">
+    <!-- Texto de boas-vindas -->
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900">Olá, {{ nome }}!</h1>
+      <p class="text-sm text-gray-600 mt-1">
         Gerencie suas finanças de forma inteligente.
       </p>
     </div>
-    <div
-      class="bg-white p-6 rounded-lg shadow-lg shadow-[#b6c6cc] w-full md:w-auto"
-    >
-      <h2 class="text-lg font-semibold text-gray-800 mb-4">Acesso Rápido</h2>
-      <ul class="flex flex-col md:flex-row md:space-x-6 space-y-4 md:space-y-0">
+
+    <!-- Acesso Rápido -->
+    <div class="bg-white p-5 rounded-lg shadow-md w-full md:w-auto">
+      <h2
+        class="text-lg font-semibold text-gray-800 mb-3 text-center md:text-left"
+      >
+        Acesso Rápido
+      </h2>
+      <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <!-- Despesa -->
         <li>
           <a
             (click)="openModal('Despesa')"
-            class="flex items-center space-x-2 text-[#ff6b6b] hover:text-[#ff5252] transition-colors cursor-pointer"
+            class="flex items-center justify-center space-x-2 text-red-500 hover:text-red-600 transition-all cursor-pointer p-2 rounded-lg hover:bg-red-100"
           >
             <i class="fas fa-minus-circle text-xl"></i>
             <span class="font-medium">DESPESA</span>
@@ -28,20 +33,10 @@
         <li>
           <a
             (click)="openModal('Receita')"
-            class="flex items-center space-x-2 text-[#4caf50] hover:text-[#388e3c] transition-colors cursor-pointer"
+            class="flex items-center justify-center space-x-2 text-green-600 hover:text-green-700 transition-all cursor-pointer p-2 rounded-lg hover:bg-green-100"
           >
             <i class="fas fa-plus-circle text-xl"></i>
             <span class="font-medium">RECEITA</span>
-          </a>
-        </li>
-        <!-- Transferência -->
-        <li>
-          <a
-            (click)="openModal('Transferência')"
-            class="flex items-center space-x-2 text-[#2196f3] hover:text-[#1976d2] transition-colors cursor-pointer"
-          >
-            <i class="fas fa-exchange-alt text-xl"></i>
-            <span class="font-medium">TRANSF.</span>
           </a>
         </li>
       </ul>
@@ -124,10 +119,10 @@
             </select>
           </div>
 
-          <!-- Campo Conta -->
+          <!-- Campo Conta/Cartão -->
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1"
-              >Conta</label
+              >Conta/Cartão</label
             >
             <select
               [(ngModel)]="despesa.contaId"
@@ -135,9 +130,17 @@
               class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
               required
             >
-              <option *ngFor="let conta of contas" [value]="conta.id">
-                {{ conta.nome }}
-              </option>
+              <optgroup label="Contas">
+                <option *ngFor="let conta of contas" [value]="conta.id">
+                  {{ conta.nome }}
+                </option>
+              </optgroup>
+
+              <optgroup label="Cartões">
+                <option *ngFor="let cartao of cartoes" [value]="cartao.id">
+                  {{ cartao.nome }}
+                </option>
+              </optgroup>
             </select>
           </div>
 
@@ -153,6 +156,7 @@
               rows="3"
             ></textarea>
           </div>
+
           <div class="flex justify-end p-6 border-t">
             <button
               type="button"
@@ -263,38 +267,6 @@
             </button>
           </div>
         </form>
-
-        <!-- Formulário de Transferência -->
-        <form
-          *ngIf="modalType === 'Transferência'"
-          (ngSubmit)="submitTransferencia()"
-          class="space-y-5"
-        >
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1"
-              >Valor</label
-            >
-            <input
-              type="number"
-              [(ngModel)]="transferencia.valor"
-              name="valor"
-              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
-              required
-            />
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1"
-              >Data</label
-            >
-            <input
-              type="date"
-              [(ngModel)]="transferencia.data"
-              name="data"
-              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
-              required
-            />
-          </div>
-        </form>
       </div>
     </div>
   </div>
@@ -369,7 +341,7 @@
     </div>
 
     <div
-      class="bg-gray-100 rounded-xl shadow-sm p-4 sm:p-6 flex flex-col justify-between h-full"
+      class="bg-gray-100 rounded-xl shadow-sm p-6 flex flex-col justify-between h-full"
     >
       <h2 class="text-lg sm:text-xl font-semibold text-gray-900 mb-4 sm:mb-6">
         Minhas Contas
@@ -465,7 +437,7 @@
     <div
       class="bg-gray-100 rounded-xl shadow-sm p-6 flex flex-col justify-between h-full"
     >
-      <h2 class="text-xl font-semibold text-gray-900 mb-6">
+      <h2 class="text-lg sm:text-xl font-semibold text-gray-900 mb-4 sm:mb-6">
         Últimas Transações
       </h2>
       <div *ngIf="transacoes.length === 0" class="text-center text-gray-500">
@@ -519,6 +491,7 @@
         </div>
       </div>
       <button
+        (click)="alterarComponente('lancamentos')"
         class="mt-6 w-full bg-[#5e6d72] text-white px-4 py-2 rounded-lg hover:bg-[#8a999f] transition-colors duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer"
       >
         Ver todas Transações
@@ -527,14 +500,54 @@
     <div
       class="bg-gray-100 rounded-xl shadow-sm p-6 flex flex-col justify-between h-full"
     >
-      <h2 class="text-xl font-semibold text-gray-900 mb-6">Meus cartões</h2>
+      <h2 class="text-xl font-semibold text-gray-900 mb-6">Meus Cartões</h2>
 
+      <!-- Exibindo a lista de cartões -->
+      <div *ngIf="cartoes.length > 0; else noCards">
+        <div
+          *ngFor="let card of cartoes"
+          class="mb-4 p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+        >
+          <div class="flex justify-between items-center">
+            <div class="flex items-center">
+              <div
+                class="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 mr-4"
+              >
+                <!-- Exibir logo do cartão -->
+                <img
+                  [src]="getCardLogo(card.bandeira)"
+                  alt="{{ card.nome }}"
+                  class="w-6 h-6"
+                />
+              </div>
+              <div>
+                <strong class="block text-gray-900">{{ card.nome }}</strong>
+                <small class="block text-gray-500">{{ card.bandeira }}</small>
+                <small class="block text-gray-500">
+                  Limite disponível:
+                  {{
+                    card.limiteDisponivel
+                      | currency : "BRL" : "symbol" : "1.2-2"
+                  }}
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <button
         (click)="mudarPagina('configuracoes', 'cartoes')"
         class="mt-6 w-full bg-[#5e6d72] text-white px-4 py-2 rounded-lg hover:bg-[#8a999f] transition-colors duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer"
       >
         Gerenciar Cartões
       </button>
+
+      <!-- Template para exibir mensagem caso não haja cartões -->
+      <ng-template #noCards>
+        <p class="text-gray-500 text-center mt-4">
+          Você não tem cartões cadastrados.
+        </p>
+      </ng-template>
     </div>
   </div>
 </div>

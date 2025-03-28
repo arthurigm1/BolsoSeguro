@@ -1,9 +1,12 @@
 <div class="p-4">
   <div class="flex justify-between items-center mb-4">
-    <h1 class="text-2xl font-extrabold text-gray-900">Minhas Metas</h1>
+    <div>
+      <h1 class="text-2xl font-extrabold text-gray-900">Minhas Metas</h1>
+      <p class="text-gray-500 mt-1">Gerencie suas Metas Financeiras</p>
+    </div>
     <button
       (click)="openCreateModal()"
-      class="flex items-center bg-black text-white px-4 py-2 rounded-lg transition duration-300 hover:bg-gray-800"
+      class="flex items-center bg-gradient-to-r from-[#b6c6cc] to-[#5e6d72] text-white px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300"
     >
       <span class="mr-2">+</span>
       Nova Meta
@@ -42,5 +45,27 @@
         </div>
       </li>
     </ul>
+  </div>
+  <div *ngIf="metas.length === 0" class="col-span-full py-12 text-center">
+    <div class="mx-auto max-w-md">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-12 w-12 mx-auto"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1.5"
+          d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+        />
+      </svg>
+      <h3 class="mt-4 text-lg font-medium text-gray-900">
+        Nenhuma Meta Financeira Cadastrada
+      </h3>
+      <p class="mt-1 text-gray-500">Comece planejando seu futuro financeiro</p>
+    </div>
   </div>
 </div>

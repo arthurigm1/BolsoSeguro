@@ -19,6 +19,8 @@ import { CategoriaService } from '../../Services/CategoriaService/categoria.serv
 import { MetaService } from '../../Services/MetaService/meta.service';
 import { MetaFinanceiraRequestDTO } from '../../Interface/MetaFinanceiraResponseDTO.interface';
 import { ToastrService } from 'ngx-toastr';
+import { CartaoService } from '../../Services/CartaoService/cartao.service';
+import { CartaoDTO } from '../../Interface/CartaoDTO.interface';
 
 @Component({
   selector: 'app-configuracoes',
@@ -38,7 +40,7 @@ export class ConfiguracoesComponent {
   constructor(
     private contaService: ContaService,
     private toastrService: ToastrService,
-
+    private cartaoService: CartaoService,
     private categoriaService: CategoriaService,
     private metaService: MetaService
   ) {}
@@ -46,15 +48,17 @@ export class ConfiguracoesComponent {
   @Input() activeComponent: string = 'categorias';
   @Output() contaAtualizada = new EventEmitter<void>();
   @Output() categoriaAtualizada = new EventEmitter<void>();
+  @Output() cartaoAtualizado = new EventEmitter<void>();
   @Output() metaAtualizada = new EventEmitter<void>(); // Novo EventEmitter
   @ViewChild(ContasComponent) contasComponent!: ContasComponent;
   @ViewChild(CategoriasComponent) categoriasComponent!: CategoriasComponent;
+  @ViewChild(CartaoComponent) cartaoComponent!: CartaoComponent;
   @ViewChild(MetasfinanceirasComponent)
   metasComponent!: MetasfinanceirasComponent; // Nova referência
 
   // Estados do modal
   isModalOpen = false;
-  modalType: 'conta' | 'categoria' | 'meta' = 'conta'; // Adicionado tipo 'meta'
+  modalType: 'conta' | 'categoria' | 'meta' | 'cartao' = 'conta'; // Adicionado tipo 'meta'
   categoriaModalType: 'expenses' | 'earnings' = 'expenses';
 
   // Objetos para formulários
@@ -62,7 +66,13 @@ export class ConfiguracoesComponent {
     name: '',
     balance: 0,
   };
-
+  newCard = {
+    nome: '',
+    limiteTotal: 0,
+    bandeira: '', // Inicia com valor vazio
+    vencimentoFatura: 0,
+    diaFechamentoFatura: 0,
+  };
   newCategory = {
     name: '',
     type: 'expense',
@@ -73,13 +83,16 @@ export class ConfiguracoesComponent {
     targetValue: 0,
     currentValue: 0,
   };
+  selectBandeira(bandeira: string) {
+    this.newCard.bandeira = bandeira;
+  }
 
   setActive(component: string) {
     this.activeComponent = component;
   }
 
   openGlobalModal(
-    type: 'conta' | 'categoria' | 'meta',
+    type: 'conta' | 'categoria' | 'meta' | 'cartao',
     categoriaTipo?: 'expense' | 'income'
   ) {
     this.modalType = type;
@@ -143,8 +156,42 @@ export class ConfiguracoesComponent {
       }
     );
   }
+  dias: number[] = Array.from({ length: 31 }, (_, i) => i + 1);
 
-  addGoal() {}
+  addCard() {
+    // Garantir que o dia de fechamento da fatura seja um valor válido
+    const diaFechamento = +this.newCard.diaFechamentoFatura;
+
+    // Criar o vencimento da fatura como um número (exemplo: mês de vencimento)
+    const vencimento = new Date();
+    vencimento.setMonth(vencimento.getMonth() + 1); // Define para o próximo mês
+    vencimento.setDate(diaFechamento); // Define o dia conforme o valor de diaFechamentoFatura
+
+    // Usando o mês como o número para vencimento (1-12)
+    const vencimentoFaturaNumero = vencimento.getMonth() + 1; // Mês (1-12)
+
+    const cartaoDTO: CartaoDTO = {
+      nome: this.newCard.nome,
+      limiteTotal: this.newCard.limiteTotal,
+      bandeira: this.newCard.bandeira,
+      vencimentoFatura: vencimentoFaturaNumero, // Passando o mês como número
+      diaFechamentoFatura: diaFechamento, // Passa o dia também
+    };
+
+    // Chamada ao serviço para criar o cartão
+    this.cartaoService.criarCartao(cartaoDTO).subscribe({
+      next: () => {
+        this.toastrService.success('Cartão criado com sucesso!');
+        this.cartaoComponent.buscarCartoes();
+        this.cartaoAtualizado.emit();
+        this.closeGlobalModal();
+      },
+      error: (err) => {
+        this.toastrService.error('Erro ao criar cartão!');
+      },
+    });
+  }
+
   addMeta() {
     const metaRequest: MetaFinanceiraRequestDTO = {
       nome: this.newGoal.name,
