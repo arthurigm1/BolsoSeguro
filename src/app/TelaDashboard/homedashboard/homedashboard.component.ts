@@ -5,6 +5,7 @@ import { ContasComponent } from '../../TelaConfiguracoes/contas/contas.component
 import { CommonModule } from '@angular/common';
 import { ConfiguracoesComponent } from '../../TelaConfiguracoes/configuracoes/configuracoes.component';
 import { LancamentosComponent } from '../../lancamentos/lancamentos.component';
+import { GraficosgeraisComponent } from '../../graficosgerais/graficosgerais.component';
 
 @Component({
   selector: 'app-homedashboard',
@@ -15,6 +16,7 @@ import { LancamentosComponent } from '../../lancamentos/lancamentos.component';
     CommonModule,
     ConfiguracoesComponent,
     LancamentosComponent,
+    GraficosgeraisComponent,
   ],
   templateUrl: './homedashboard.component.html',
   styleUrl: './homedashboard.component.scss',

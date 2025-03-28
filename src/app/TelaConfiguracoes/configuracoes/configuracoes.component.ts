@@ -21,6 +21,7 @@ import { MetaFinanceiraRequestDTO } from '../../Interface/MetaFinanceiraResponse
 import { ToastrService } from 'ngx-toastr';
 import { CartaoService } from '../../Services/CartaoService/cartao.service';
 import { CartaoDTO } from '../../Interface/CartaoDTO.interface';
+import { MinhacontaComponent } from '../minhaconta/minhaconta.component';
 
 @Component({
   selector: 'app-configuracoes',
@@ -32,6 +33,7 @@ import { CartaoDTO } from '../../Interface/CartaoDTO.interface';
     FormsModule,
     MetasfinanceirasComponent,
     ReactiveFormsModule,
+    MinhacontaComponent,
   ],
   templateUrl: './configuracoes.component.html',
   styleUrl: './configuracoes.component.scss',

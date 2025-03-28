@@ -7,7 +7,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-
 import { CommonModule } from '@angular/common';
 import { MetaService } from '../../Services/MetaService/meta.service';
 
@@ -19,9 +18,12 @@ import { MetaService } from '../../Services/MetaService/meta.service';
 })
 export class MetasfinanceirasComponent implements OnInit {
   metas: MetaFinanceiraResponseDTO[] = [];
-  showCreateModal = false;
+
   metaForm: FormGroup;
+  selectedMeta: MetaFinanceiraResponseDTO | null = null;
+
   @Output() openModalEvent = new EventEmitter<void>();
+
   constructor(private metaService: MetaService, private fb: FormBuilder) {
     this.metaForm = this.fb.group({
       nome: ['', [Validators.required, Validators.minLength(3)]],
@@ -48,16 +50,44 @@ export class MetasfinanceirasComponent implements OnInit {
   }
 
   calcularProgresso(meta: MetaFinanceiraResponseDTO): number {
-    // Implemente a lógica de cálculo de progresso conforme sua necessidade
-    return 0; // Substitua pelo cálculo real
+    return Math.round(((meta.valorAtual ?? 0) / meta.valorMeta) * 100);
   }
 
   openCreateModal(): void {
     this.openModalEvent.emit();
   }
 
-  closeCreateModal(): void {
-    this.showCreateModal = false;
+  editMeta(meta: MetaFinanceiraResponseDTO): void {
+    this.selectedMeta = { ...meta };
+    this.metaForm.patchValue({
+      nome: meta.nome,
+      valorMeta: meta.valorMeta,
+    });
+  }
+
+  closeModal(): void {
+    this.selectedMeta = null;
     this.metaForm.reset();
   }
+
+  criarMeta(): void {
+    if (this.metaForm.invalid) return;
+
+    const novaMeta = {
+      nome: this.metaForm.value.nome,
+      valorMeta: this.metaForm.value.valorMeta,
+      valorAtual: 0,
+    };
+
+    this.metaService.criarMeta(novaMeta).subscribe({
+      next: () => {
+        this.carregarMetas();
+      },
+      error: (err) => {
+        console.error('Erro ao criar meta', err);
+      },
+    });
+  }
+
+  saveMeta(): void {}
 }

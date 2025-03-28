@@ -9,7 +9,7 @@
     </div>
     <button
       (click)="openModal()"
-      class="flex items-center bg-gradient-to-r from-[#b6c6cc] to-[#5e6d72] text-white px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300"
+      class="flex items-center bg-gradient-to-r from-[#b6c6cc] to-[#5e6d72] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 font-semibold cursor-pointer"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -28,7 +28,7 @@
   </div>
 
   <!-- Cards List -->
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
     <!-- Card Item -->
     <div
       *ngFor="let card of creditCards"

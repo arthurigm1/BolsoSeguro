@@ -43,7 +43,7 @@
 
         <li>
           <a
-            (click)="setActive('preferencias')"
+            (click)="setActive('minhaconta')"
             class="flex items-center text-gray-700 hover:text-gray-200 transition-colors duration-300 cursor-pointer"
           >
             <i class="fas fa-cog text-black mr-3 text-lg"></i>
@@ -76,6 +76,8 @@
           *ngSwitchCase="'metas'"
           (openModalEvent)="openGlobalModal('meta')"
         ></app-metasfinanceiras>
+
+        <app-minhaconta *ngSwitchCase="'minhaconta'"></app-minhaconta>
 
         <!-- Caso nenhum componente seja selecionado -->
         <p *ngSwitchDefault>Por favor, selecione uma opção do menu.</p>
