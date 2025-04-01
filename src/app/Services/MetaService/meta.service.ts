@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
@@ -30,6 +30,31 @@ export class MetaService {
     dto: MetaFinanceiraRequestDTO
   ): Observable<MetaFinanceiraResponseDTO> {
     return this.http.post<MetaFinanceiraResponseDTO>(this.apiUrl, dto, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  editarMeta(
+    metaId: string,
+    valorMeta: number,
+    valorAtual: number
+  ): Observable<MetaFinanceiraResponseDTO> {
+    const url = `${this.apiUrl}/${metaId}`;
+
+    const body = {
+      valorMeta,
+      valorAtual,
+    };
+
+    return this.http.put<MetaFinanceiraResponseDTO>(url, body, {
+      headers: this.getAuthHeaders(),
+      responseType: 'json',
+    });
+  }
+
+  // Deletar meta financeira
+  deletarMeta(metaId: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${metaId}`, {
       headers: this.getAuthHeaders(),
     });
   }

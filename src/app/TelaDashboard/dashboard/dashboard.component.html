@@ -1,7 +1,7 @@
 <div class="min-h-screen bg-gradient-to-r from-white to-[#b6c6cc] p-8">
   <!-- Cabeçalho -->
   <header
-    class="bg-gray-50 rounded-xl shadow-md p-6 mb-8 flex flex-col md:flex-row justify-between items-center gap-6"
+    class="bg-gray-100 rounded-xl shadow-md p-6 mb-8 flex flex-col md:flex-row justify-between items-center gap-6"
   >
     <!-- Texto de boas-vindas -->
     <div>
@@ -80,7 +80,7 @@
               type="number"
               [(ngModel)]="despesa.valor"
               name="valor"
-              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-black focus:ring-2 focus:ring-blue-200 transition-colors"
               required
             />
           </div>
@@ -94,7 +94,7 @@
               type="date"
               [(ngModel)]="despesa.data"
               name="data"
-              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-black focus:ring-2 focus:ring-blue-200 transition-colors"
               required
             />
           </div>
@@ -107,7 +107,7 @@
             <select
               [(ngModel)]="despesa.categoria"
               name="categoria"
-              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-black focus:ring-2 focus:ring-blue-200 transition-colors"
               required
             >
               <option
@@ -127,7 +127,7 @@
             <select
               [(ngModel)]="despesa.contaId"
               name="contaId"
-              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-black focus:ring-2 focus:ring-blue-200 transition-colors"
               required
             >
               <optgroup label="Contas">
@@ -152,7 +152,7 @@
             <textarea
               [(ngModel)]="despesa.descricao"
               name="descricao"
-              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-black focus:ring-2 focus:ring-blue-200 transition-colors"
               rows="3"
             ></textarea>
           </div>
@@ -188,7 +188,7 @@
               type="number"
               [(ngModel)]="receita.valor"
               name="valor"
-              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-black focus:ring-2 focus:ring-blue-200 transition-colors"
               required
             />
           </div>
@@ -200,7 +200,7 @@
               type="date"
               [(ngModel)]="receita.data"
               name="data"
-              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-black focus:ring-2 focus:ring-blue-200 transition-colors"
               required
             />
           </div>
@@ -212,7 +212,7 @@
             <select
               [(ngModel)]="receita.categoria"
               name="categoria"
-              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-black focus:ring-2 focus:ring-blue-200 transition-colors"
               required
             >
               <option
@@ -232,7 +232,7 @@
             <select
               [(ngModel)]="receita.contaId"
               name="contaId"
-              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-black focus:ring-2 focus:ring-blue-200 transition-colors"
               required
             >
               <option *ngFor="let conta of contas" [value]="conta.id">
@@ -247,7 +247,7 @@
             <textarea
               [(ngModel)]="receita.descricao"
               name="descricao"
-              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-black focus:ring-2 focus:ring-blue-200 transition-colors"
               rows="3"
             ></textarea>
           </div>
@@ -293,7 +293,7 @@
     </div>
     <!-- Receita Mensal -->
     <div
-      class="bg-gray-100 rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow"
+      class="bg-gradient-to-br from-green-50 to-green-100 p-5 rounded-xl border border-green-100 shadow-sm hover:shadow-md transition-shadow"
     >
       <div class="flex items-center justify-between">
         <div>
@@ -302,14 +302,16 @@
             R$ {{ totalReceitas | number : "1.2-2" }}
           </p>
         </div>
-        <div class="bg-green-100 p-3 rounded-full">
-          <i class="fas fa-arrow-up text-green-600 text-xl"></i>
+        <div
+          class="w-12 h-12 rounded-lg bg-gradient-to-r from-green-400 to-green-600 flex items-center justify-center shadow-md"
+        >
+          <i class="fas fa-arrow-up text-white text-xl"></i>
         </div>
       </div>
     </div>
     <!-- Despesa Mensal -->
     <div
-      class="bg-gray-100 rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow"
+      class="bg-gradient-to-br from-red-50 to-red-100 p-5 rounded-xl border border-red-100 shadow-sm"
     >
       <div class="flex items-center justify-between">
         <div>
@@ -318,14 +320,16 @@
             R$ {{ totalDespesas | number : "1.2-2" }}
           </p>
         </div>
-        <div class="bg-red-100 p-3 rounded-full">
-          <i class="fas fa-arrow-down text-red-600 text-xl"></i>
+        <div
+          class="w-12 h-12 rounded-lg bg-gradient-to-r from-red-400 to-red-600 flex items-center justify-center shadow-md"
+        >
+          <i class="fas fa-arrow-down text-white text-xl"></i>
         </div>
       </div>
     </div>
 
     <div
-      class="bg-gray-100 rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow"
+      class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow"
     >
       <div class="flex items-center justify-between">
         <div>
@@ -334,8 +338,11 @@
             R$ {{ totalInvestimento | number : "1.2-2" }}
           </p>
         </div>
-        <div class="bg-purple-200 p-3 rounded-full">
-          <i class="fas fa-chart-line text-purple-600 text-2xl"></i>
+
+        <div
+          class="w-12 h-12 rounded-lg bg-gradient-to-r from-purple-400 to-purple-500 flex items-center justify-center shadow-md"
+        >
+          <i class="fas fa-chart-line text-purple-900 text-2xl"></i>
         </div>
       </div>
     </div>
@@ -354,7 +361,7 @@
           <div class="flex items-center min-w-0">
             <!-- Ícone ajustado para mobile -->
             <i
-              class="fas fa-wallet text-xl sm:text-2xl text-blue-500 mr-3 sm:mr-4"
+              class="fas fa-wallet text-xl sm:text-2xl text-black mr-3 sm:mr-4"
             ></i>
             <div class="min-w-0">
               <p
@@ -377,7 +384,7 @@
       <!-- Botão ajustado para mobile -->
       <button
         (click)="mudarPagina('configuracoes', 'contas')"
-        class="mt-4 sm:mt-6 w-full bg-[#5e6d72] text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg hover:bg-[#8a999f] transition-colors duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer text-sm sm:text-base"
+        class="mt-4 sm:mt-6 w-full bg-[#5e6d72] text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg hover:bg-[#8a999f] transition-colors duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 cursor-pointer text-sm sm:text-base"
       >
         Gerenciar Contas
       </button>
@@ -401,7 +408,7 @@
 
         <!-- Lista de metas (mostra no máximo 2) -->
         <div
-          *ngFor="let meta of metas.slice(0, 2)"
+          *ngFor="let meta of metas"
           class="flex items-center justify-between"
         >
           <div>
@@ -427,7 +434,7 @@
 
       <button
         (click)="mudarPagina('configuracoes', 'metas')"
-        class="mt-6 w-full bg-[#5e6d72] text-white px-4 py-2 rounded-lg hover:bg-[#8a999f] transition-colors duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer"
+        class="mt-6 w-full bg-[#5e6d72] text-white px-4 py-2 rounded-lg hover:bg-[#8a999f] transition-colors duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 cursor-pointer"
       >
         {{ metas.length > 0 ? "Gerenciar Metas" : "Criar Primeira Meta" }}
       </button>
@@ -492,7 +499,7 @@
       </div>
       <button
         (click)="alterarComponente('lancamentos')"
-        class="mt-6 w-full bg-[#5e6d72] text-white px-4 py-2 rounded-lg hover:bg-[#8a999f] transition-colors duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer"
+        class="mt-6 w-full bg-[#5e6d72] text-white px-4 py-2 rounded-lg hover:bg-[#8a999f] transition-colors duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 cursor-pointer"
       >
         Ver todas Transações
       </button>
@@ -537,7 +544,7 @@
       </div>
       <button
         (click)="mudarPagina('configuracoes', 'cartoes')"
-        class="mt-6 w-full bg-[#5e6d72] text-white px-4 py-2 rounded-lg hover:bg-[#8a999f] transition-colors duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer"
+        class="mt-6 w-full bg-[#5e6d72] text-white px-4 py-2 rounded-lg hover:bg-[#8a999f] transition-colors duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 cursor-pointer"
       >
         Gerenciar Cartões
       </button>

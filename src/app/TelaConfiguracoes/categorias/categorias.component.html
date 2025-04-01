@@ -1,16 +1,18 @@
-<div class="p-6">
-  <!-- Cabeçalho -->
-  <div class="flex justify-between items-center mb-6">
-    <div>
+<div class="max-w-4xl mx-auto p-6">
+  <!-- Header -->
+  <div
+    class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4"
+  >
+    <div class="mb-4 md:mb-0">
       <h1 class="text-2xl font-extrabold text-gray-900">Categorias</h1>
-      <p class="text-gray-500 mt-1">
-        Gerencie suas Categorias de Despesa e Receita
+      <p class="text-gray-500 mt-1 text-sm">
+        Gerencie suas categorias de despesas e receitas
       </p>
     </div>
-    <div class="flex space-x-4">
+    <div>
       <button
         (click)="openModal()"
-        class="flex items-center bg-gradient-to-r from-[#b6c6cc] to-[#5e6d72] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 font-semibold cursor-pointer"
+        class="flex items-center font-semibold bg-gradient-to-r from-[#b6c6cc] to-[#5e6d72] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -26,34 +28,36 @@
         </svg>
         {{
           activeTab === "expenses"
-            ? "Categoria de Despesa"
-            : "Categoria de Receita"
+            ? "Nova Categoria de Despesa"
+            : "Nova Categoria de Receita"
         }}
       </button>
     </div>
   </div>
 
-  <!-- Abas de Navegação -->
-  <div class="bg-white rounded-lg shadow-md mb-6">
-    <ul class="flex border-b">
+  <!-- Navigation Tabs -->
+  <div class="bg-white rounded-lg shadow-sm mb-8">
+    <ul class="flex border-b border-gray-200">
       <li
-        [ngClass]="{ 'border-b-4 border-red-500': activeTab === 'expenses' }"
         class="flex-1 text-center"
+        [class.border-b-2]="activeTab === 'expenses'"
+        [class.border-red-500]="activeTab === 'expenses'"
       >
         <button
           (click)="setActiveTab('expenses')"
-          class="w-full py-3 text-gray-700 hover:text-red-500 transition duration-300 cursor-pointer"
+          class="w-full py-4 text-gray-700 hover:text-red-500 rounded-lg transition duration-200 cursor-pointer font-medium text-sm md:text-base focus:outline-none"
         >
           <i class="fas fa-wallet mr-2"></i> Despesas
         </button>
       </li>
       <li
-        [ngClass]="{ 'border-b-4 border-green-600': activeTab === 'earnings' }"
         class="flex-1 text-center"
+        [class.border-b-2]="activeTab === 'earnings'"
+        [class.border-green-500]="activeTab === 'earnings'"
       >
         <button
           (click)="setActiveTab('earnings')"
-          class="w-full py-3 text-gray-700 hover:text-green-500 transition duration-300 cursor-pointer"
+          class="w-full py-4 text-gray-700 hover:text-green-500 rounded-lg transition duration-200 cursor-pointer font-medium text-sm md:text-base focus:outline-none"
         >
           <i class="fas fa-dollar-sign mr-2"></i> Receitas
         </button>
@@ -61,70 +65,73 @@
     </ul>
   </div>
 
-  <!-- Lista de Categorias -->
-  <div class="bg-white rounded-lg shadow-md p-6">
+  <!-- Categories List -->
+  <div class="bg-white rounded-lg shadow-sm p-6">
+    <!-- Expense Categories -->
     <div *ngIf="activeTab === 'expenses'">
-      <h2 class="text-2xl font-semibold mb-4 text-gray-800">
-        Categorias de Despesas
+      <h2 class="text-xl font-semibold mb-6 text-gray-800 flex items-center">
+        <i class="fas fa-list-ul mr-3"></i>Categorias de Despesas
       </h2>
-      <ul class="space-y-2">
+
+      <!-- Empty State -->
+      <div
+        *ngIf="categoriasDespesas.length === 0"
+        class="flex flex-col items-center justify-center py-12 text-gray-400"
+      >
+        <i class="fas fa-folder-open text-4xl mb-3"></i>
+        <p>Nenhuma categoria de despesa cadastrada</p>
+      </div>
+
+      <ul class="divide-y divide-gray-100">
         <li
           *ngFor="let category of categoriasDespesas"
-          class="p-3 hover:bg-gray-50 rounded-lg transition duration-300 ease-in-out flex justify-between items-center"
+          class="px-4 py-4 hover:bg-gray-50 rounded-lg transition duration-150 ease-in-out flex justify-between items-center"
         >
           <div class="flex items-center">
-            <i class="fas fa-minus-circle mr-2"></i>{{ category.nome }}
+            <i class="fas fa-minus-circle mr-3 text-lg text-red-500"></i>
+            <span class="text-gray-700 font-medium">{{ category.nome }}</span>
           </div>
           <button
             (click)="deletarCategoria(category.id)"
-            class="text-gray-400 hover:text-red-600 transition-colors duration-200 cursor-pointer"
-            aria-label="Excluir conta"
+            class="text-gray-400 hover:text-red-500 transition-colors duration-200 cursor-pointer p-2 rounded-full hover:bg-gray-100"
+            aria-label="Excluir categoria"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                clip-rule="evenodd"
-              />
-            </svg>
+            <i class="fas fa-trash-alt"></i>
           </button>
         </li>
       </ul>
     </div>
+
+    <!-- Income Categories -->
     <div *ngIf="activeTab === 'earnings'">
-      <h2 class="text-2xl font-semibold mb-4 text-gray-800">
-        Categorias de Receitas
+      <h2 class="text-xl font-semibold mb-6 text-gray-800 flex items-center">
+        <i class="fas fa-list-ul mr-3"></i>Categorias de Receitas
       </h2>
-      <ul class="space-y-2">
+
+      <!-- Empty State -->
+      <div
+        *ngIf="categoriasReceitas.length === 0"
+        class="flex flex-col items-center justify-center py-12 text-gray-400"
+      >
+        <i class="fas fa-folder-open text-4xl mb-3"></i>
+        <p>Nenhuma categoria de receita cadastrada</p>
+      </div>
+
+      <ul class="divide-y divide-gray-100">
         <li
           *ngFor="let category of categoriasReceitas"
-          class="p-3 hover:bg-gray-50 rounded-lg transition duration-300 ease-in-out flex justify-between items-center"
+          class="px-4 py-4 hover:bg-gray-50 rounded-lg transition duration-150 ease-in-out flex justify-between items-center"
         >
           <div class="flex items-center">
-            <i class="fas fa-plus-circle mr-2"></i>{{ category.nome }}
+            <i class="fas fa-plus-circle mr-3 text-lg text-green-500"></i>
+            <span class="text-gray-700 font-medium">{{ category.nome }}</span>
           </div>
           <button
             (click)="deletarCategoria(category.id)"
-            class="text-gray-400 hover:text-red-600 transition-colors duration-200 cursor-pointer"
-            aria-label="Excluir conta"
+            class="text-gray-400 hover:text-red-500 transition-colors duration-200 cursor-pointer p-2 rounded-full hover:bg-gray-100"
+            aria-label="Excluir categoria"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                clip-rule="evenodd"
-              />
-            </svg>
+            <i class="fas fa-trash-alt"></i>
           </button>
         </li>
       </ul>

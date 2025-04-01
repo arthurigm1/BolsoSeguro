@@ -115,7 +115,7 @@ export class LancamentosComponent implements OnInit {
         const url = window.URL.createObjectURL(response);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'relatorio_mes.pdf'; // Nome do arquivo
+        a.download = `relatorio_${mes}_${ano}.pdf`;
         a.click(); // Simula o clique para iniciar o download
 
         // Liberar o objeto URL após o download

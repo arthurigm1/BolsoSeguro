@@ -1,109 +1,126 @@
-<div class="min-h-screen bg-gradient-to-r from-white to-[#b6c6cc] p-6">
+<div class="min-h-screen bg-gradient-to-r from-white to-[#e0e7ec] p-8">
   <!-- Cabeçalho -->
   <div
-    class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4"
+    class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6"
   >
     <div>
-      <h1 class="text-3xl md:text-4xl font-bold text-gray-800">
-        <i class="fas fa-chart-pie text-gray-700 mr-2"></i> Dashboard Financeiro
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900">
+        <i class="fas fa-chart-pie text-black mr-3"></i> Dashboard Financeiro
       </h1>
-      <p class="text-gray-500 mt-2">Análise completa das suas transações</p>
+      <p class="text-gray-600 mt-3 text-lg">
+        Obtenha insights detalhados sobre suas transações financeiras
+      </p>
     </div>
 
-    <div class="flex items-center gap-4">
+    <div class="flex items-center gap-6">
       <div class="relative">
         <label
-          class="absolute -top-2 left-3 rounded-md bg-white px-1 text-xs text-gray-500"
+          class="absolute -top-3 left-4 rounded-md bg-white px-2 text-sm text-gray-600"
           >Período</label
         >
         <input
           type="month"
           [(ngModel)]="selectedDate"
           (change)="carregarTransacoes()"
-          class="border bg-white border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-gray-500 focus:border-gray-500"
+          class="border bg-white border-gray-300 rounded-lg px-5 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
         />
       </div>
       <button
         (click)="limparFiltros()"
-        class="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+        class="flex items-center gap-3 px-5 py-3 bg-gray-100 text-white font-medium rounded-lg hover:bg-blue-700 transition-all shadow-md"
       >
-        <i class="fas fa-sync-alt text-gray-500"></i>
+        <i class="fas fa-sync-alt"></i>
         <span>Resetar</span>
       </button>
     </div>
   </div>
 
   <!-- Cards Resumo -->
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
     <!-- Card Receitas -->
     <div
-      class="bg-white rounded-xl shadow-md p-5 border border-gray-200 hover:shadow-lg transition-all"
+      class="bg-gradient-to-br from-green-50 to-green-100 p-5 rounded-xl border border-green-100 shadow-sm"
     >
-      <div class="flex justify-between items-start">
+      <div class="flex justify-between items-center">
         <div>
-          <p class="text-gray-500 text-sm font-medium uppercase tracking-wider">
+          <p
+            class="text-gray-500 text-xs font-semibold uppercase tracking-wide"
+          >
             Receitas
           </p>
-          <h3 class="text-2xl font-bold text-gray-800 mt-1">
+          <h3 class="text-2xl font-bold text-black mt-1">
             {{ totalReceitas | currency : "BRL" : "symbol" : "1.2-2" }}
           </h3>
         </div>
         <div
-          class="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center"
+          class="w-12 h-12 rounded-lg bg-gradient-to-r from-green-400 to-green-600 flex items-center justify-center shadow-md"
         >
-          <i class="fas fa-arrow-up text-gray-700 text-xl"></i>
+          <i class="fas fa-arrow-up text-white text-xl"></i>
         </div>
       </div>
     </div>
 
     <!-- Card Despesas -->
     <div
-      class="bg-white rounded-xl shadow-md p-5 border border-gray-200 hover:shadow-lg transition-all"
+      class="bg-gradient-to-br from-red-50 to-red-100 p-5 rounded-xl border border-red-100 shadow-sm"
     >
-      <div class="flex justify-between items-start">
+      <div class="flex justify-between items-center">
         <div>
-          <p class="text-gray-500 text-sm font-medium uppercase tracking-wider">
+          <p
+            class="text-gray-500 text-xs font-semibold uppercase tracking-wide"
+          >
             Despesas
           </p>
-          <h3 class="text-2xl font-bold text-gray-800 mt-1">
+          <h3 class="text-2xl font-bold text-black mt-1">
             {{ totalDespesas | currency : "BRL" : "symbol" : "1.2-2" }}
           </h3>
         </div>
         <div
-          class="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center"
+          class="w-12 h-12 rounded-lg bg-gradient-to-r from-red-400 to-red-600 flex items-center justify-center shadow-md"
         >
-          <i class="fas fa-arrow-down text-gray-700 text-xl"></i>
+          <i class="fas fa-arrow-down text-white text-xl"></i>
         </div>
       </div>
     </div>
 
     <!-- Card Saldo -->
     <div
-      class="bg-white rounded-xl shadow-md p-5 border border-gray-200 hover:shadow-lg transition-all"
+      class="bg-white rounded-xl shadow-md p-4 border border-gray-200 hover:shadow-lg transition-all"
     >
-      <div class="flex justify-between items-start">
+      <div class="flex justify-between items-center">
         <div>
-          <p class="text-gray-500 text-sm font-medium uppercase tracking-wider">
+          <p
+            class="text-gray-500 text-xs font-semibold uppercase tracking-wide"
+          >
             Saldo
           </p>
-          <h3 class="text-2xl font-bold mt-1 text-gray-800">
+          <h3
+            class="text-2xl font-bold mt-1"
+            [ngClass]="saldo >= 0 ? 'text-green-700' : 'text-red-600'"
+          >
             {{ saldo | currency : "BRL" : "symbol" : "1.2-2" }}
           </h3>
         </div>
         <div
-          class="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center"
+          class="w-12 h-12 rounded-lg bg-gradient-to-r from-gray-300 to-gray-400 flex items-center justify-center shadow-md"
         >
-          <i class="fas fa-wallet text-xl text-gray-700"></i>
+          <i class="fas fa-wallet text-white text-xl"></i>
         </div>
       </div>
-      <div class="mt-4 pt-3 border-t border-gray-100">
-        <div class="flex items-center text-sm text-gray-700">
+      <div class="mt-3 pt-2 border-t border-gray-100">
+        <div
+          class="flex items-center text-sm font-medium"
+          [ngClass]="saldo >= 0 ? 'text-green-600' : 'text-red-600'"
+        >
           <i
-            class="fas mr-1"
-            [class.fa-caret-up]="saldo >= 0"
-            [class.fa-caret-down]="saldo < 0"
+            class="fas mr-2"
+            [class.fa-check-circle]="saldo >= 0"
+            [class.fa-times-circle]="saldo < 0"
           ></i>
-          <span>{{ saldo >= 0 ? "Positivo" : "Negativo" }} no período</span>
+          <span
+            >{{ saldo >= 0 ? "Saldo positivo" : "Saldo negativo" }} no
+            período</span
+          >
         </div>
       </div>
     </div>
@@ -264,11 +281,7 @@
             <i class="fas fa-chart-pie text-gray-700 mr-2"></i> Distribuição de
             Gastos
           </h3>
-          <div class="flex items-center gap-2">
-            <button class="text-gray-400 hover:text-gray-600">
-              <i class="fas fa-download"></i>
-            </button>
-          </div>
+          <div class="flex items-center gap-2"></div>
         </div>
         <div class="h-80">
           <canvas id="pieChart"></canvas>
@@ -282,11 +295,7 @@
             <i class="fas fa-chart-bar text-gray-700 mr-2"></i> Receitas vs
             Despesas
           </h3>
-          <div class="flex items-center gap-2">
-            <button class="text-gray-400 hover:text-gray-600">
-              <i class="fas fa-download"></i>
-            </button>
-          </div>
+          <div class="flex items-center gap-2"></div>
         </div>
         <div class="h-80">
           <canvas id="barChart"></canvas>
@@ -304,11 +313,7 @@
           <i class="fas fa-chart-line text-gray-700 mr-2"></i> Evolução
           Financeira
         </h3>
-        <div class="flex items-center gap-2">
-          <button class="text-gray-400 hover:text-gray-600">
-            <i class="fas fa-download"></i>
-          </button>
-        </div>
+        <div class="flex items-center gap-2"></div>
       </div>
       <div class="h-96">
         <canvas id="lineChart"></canvas>
@@ -324,11 +329,7 @@
         <h3 class="text-lg font-semibold text-gray-800">
           <i class="fas fa-university text-gray-700 mr-2"></i> Análise por Banco
         </h3>
-        <div class="flex items-center gap-2">
-          <button class="text-gray-400 hover:text-gray-600">
-            <i class="fas fa-download"></i>
-          </button>
-        </div>
+        <div class="flex items-center gap-2"></div>
       </div>
       <div class="h-96">
         <canvas id="bankChart"></canvas>
@@ -345,11 +346,7 @@
           <i class="fas fa-tags text-gray-700 mr-2"></i> Detalhamento por
           Categoria
         </h3>
-        <div class="flex items-center gap-2">
-          <button class="text-gray-400 hover:text-gray-600">
-            <i class="fas fa-download"></i>
-          </button>
-        </div>
+        <div class="flex items-center gap-2"></div>
       </div>
       <div class="h-96">
         <canvas id="categoryChart"></canvas>
@@ -360,7 +357,7 @@
   <!-- Loading State -->
   <div
     *ngIf="loading"
-    class="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50"
+    class="fixed inset-0 bg-opacity-50 backdrop-blur-md flex items-center justify-center z-50"
   >
     <div class="bg-white rounded-xl p-8 max-w-md text-center">
       <i class="fas fa-spinner fa-spin text-4xl text-gray-700 mb-4"></i>
@@ -376,7 +373,7 @@
   <!-- Error State -->
   <div
     *ngIf="error"
-    class="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50"
+    class="fixed inset-0 bg-opacity-50 backdrop-blur-md flex items-center justify-center z-50"
   >
     <div class="bg-white rounded-xl p-8 max-w-md text-center">
       <i class="fas fa-exclamation-triangle text-4xl text-gray-700 mb-4"></i>

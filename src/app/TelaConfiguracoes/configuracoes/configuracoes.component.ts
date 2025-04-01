@@ -198,19 +198,19 @@ export class ConfiguracoesComponent {
     const metaRequest: MetaFinanceiraRequestDTO = {
       nome: this.newGoal.name,
       valorMeta: this.newGoal.targetValue,
+      valorAtual: this.newGoal.currentValue || 0, // Se o usuário não colocar valorAtual, será atribuído 0
     };
 
     this.metaService.criarMeta(metaRequest).subscribe({
       next: (response) => {
-        this.toastrService.success('Categoria criada com sucesso!');
+        this.toastrService.success('Meta criada com sucesso!');
         this.metasComponent.carregarMetas();
         this.metaAtualizada.emit();
         this.closeGlobalModal();
         this.resetGoalForm();
       },
       error: (error) => {
-        console.error('Erro ao criar meta:', error);
-        // Mostre uma mensagem de erro para o usuário
+        this.toastrService.error('Erro ao criar Meta!');
       },
     });
   }

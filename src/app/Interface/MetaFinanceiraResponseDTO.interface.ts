@@ -2,6 +2,7 @@
 export interface MetaFinanceiraRequestDTO {
   nome: string;
   valorMeta: number;
+  valorAtual?: number;
 }
 
 // meta-financeira-response.dto.ts

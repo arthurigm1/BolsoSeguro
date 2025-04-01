@@ -33,6 +33,7 @@ export class GraficosgeraisComponent implements OnInit, OnDestroy {
   // Data properties
   transacoes: Transacao[] = [];
   transacoesFiltradas: Transacao[] = [];
+  transacoesMesAnterior: Transacao[] = [];
   categorias: string[] = [];
   bancos: string[] = [];
   tipos = ['RECEITA', 'DESPESA'];
@@ -51,6 +52,12 @@ export class GraficosgeraisComponent implements OnInit, OnDestroy {
   totalReceitas = 0;
   totalDespesas = 0;
   saldo = 0;
+  variacaoReceitas = 0;
+  variacaoDespesas = 0;
+  variacaoSaldo = 0;
+  categoriasPrincipais: string[] = [];
+  progresso = 0;
+  dataAtual: Date = new Date();
 
   // UI properties
   selectedDate: string = new Date().toISOString().slice(0, 7);
@@ -91,26 +98,71 @@ export class GraficosgeraisComponent implements OnInit, OnDestroy {
   carregarTransacoes(): void {
     this.loading = true;
     this.error = '';
+    this.progresso = 0;
 
     const [ano, mes] = this.selectedDate.split('-');
+    const mesAtual = parseInt(mes);
+    const anoAtual = parseInt(ano);
 
-    this.subscription?.unsubscribe();
+    // Calcula o mês anterior
+    let mesAnterior = mesAtual - 1;
+    let anoAnterior = anoAtual;
+    if (mesAnterior < 1) {
+      mesAnterior = 12;
+      anoAnterior--;
+    }
+
+    // Simula progresso de carregamento
+    const progressInterval = setInterval(() => {
+      this.progresso += 10;
+      if (this.progresso >= 90) clearInterval(progressInterval);
+    }, 100);
+
+    // Carrega transações do mês atual
     this.subscription = this.transacaoService
-      .obterTransacoesPorMes(parseInt(mes), parseInt(ano))
+      .obterTransacoesPorMes(mesAtual, anoAtual)
       .subscribe({
         next: (data) => {
           this.transacoes = data;
           this.transacoesFiltradas = [...data];
           this.carregarFiltros();
           this.calcularTotais();
-          this.criarGraficos();
-          this.loading = false;
+
+          // Carrega transações do mês anterior para cálculo de variação
+          this.transacaoService
+            .obterTransacoesPorMes(mesAnterior, anoAnterior)
+            .subscribe({
+              next: (dataAnterior) => {
+                this.transacoesMesAnterior = dataAnterior;
+                this.calcularVariacoes();
+                this.identificarCategoriasPrincipais();
+                this.progresso = 100;
+                setTimeout(() => {
+                  this.criarGraficos();
+                  this.loading = false;
+                  clearInterval(progressInterval);
+                }, 300);
+              },
+              error: (err) => {
+                console.error(
+                  'Erro ao carregar transações do mês anterior:',
+                  err
+                );
+                this.progresso = 100;
+                setTimeout(() => {
+                  this.criarGraficos();
+                  this.loading = false;
+                  clearInterval(progressInterval);
+                }, 300);
+              },
+            });
         },
         error: (err) => {
           this.error =
             'Erro ao carregar transações. Por favor, tente novamente.';
           this.loading = false;
           console.error('Erro ao carregar transações:', err);
+          clearInterval(progressInterval);
         },
       });
   }
@@ -125,6 +177,85 @@ export class GraficosgeraisComponent implements OnInit, OnDestroy {
       .reduce((sum, t) => sum + t.valor, 0);
 
     this.saldo = this.totalReceitas - this.totalDespesas;
+  }
+
+  calcularVariacoes(): void {
+    const receitasAnterior = this.transacoesMesAnterior
+      .filter((t) => t.tipo === 'RECEITA')
+      .reduce((sum, t) => sum + t.valor, 0);
+
+    const despesasAnterior = this.transacoesMesAnterior
+      .filter((t) => t.tipo === 'DESPESA')
+      .reduce((sum, t) => sum + t.valor, 0);
+
+    const saldoAnterior = receitasAnterior - despesasAnterior;
+
+    // Evita divisão por zero
+    this.variacaoReceitas =
+      receitasAnterior !== 0
+        ? (this.totalReceitas - receitasAnterior) / receitasAnterior
+        : this.totalReceitas > 0
+        ? 1
+        : 0;
+
+    this.variacaoDespesas =
+      despesasAnterior !== 0
+        ? (this.totalDespesas - despesasAnterior) / despesasAnterior
+        : this.totalDespesas > 0
+        ? 1
+        : 0;
+
+    this.variacaoSaldo =
+      saldoAnterior !== 0
+        ? (this.saldo - saldoAnterior) / Math.abs(saldoAnterior)
+        : this.saldo !== 0
+        ? this.saldo > 0
+          ? 1
+          : -1
+        : 0;
+  }
+
+  identificarCategoriasPrincipais(): void {
+    // Agrupa despesas por categoria
+    const despesasPorCategoria = this.transacoesFiltradas
+      .filter((t) => t.tipo === 'DESPESA')
+      .reduce((acc, t) => {
+        acc[t.categoria] = (acc[t.categoria] || 0) + t.valor;
+        return acc;
+      }, {} as Record<string, number>);
+
+    // Ordena categorias por valor (maior para menor)
+    const categoriasOrdenadas = Object.entries(despesasPorCategoria)
+      .sort((a, b) => b[1] - a[1])
+      .map(([categoria]) => categoria);
+
+    // Pega as top 5 categorias ou todas se tiver menos de 5
+    this.categoriasPrincipais = categoriasOrdenadas.slice(0, 5);
+  }
+
+  getCorCategoria(categoria: string): string {
+    // Mapeia cores fixas para categorias principais
+    const cores: Record<string, string> = {
+      Alimentação: '#FF6384',
+      Transporte: '#36A2EB',
+      Moradia: '#FFCE56',
+      Lazer: '#4BC0C0',
+      Educação: '#9966FF',
+      Saúde: '#FF9F40',
+    };
+
+    return cores[categoria] || this.gerarCorAleatoria(categoria);
+  }
+
+  private gerarCorAleatoria(semente: string): string {
+    // Gera uma cor baseada no nome da categoria para consistência
+    let hash = 0;
+    for (let i = 0; i < semente.length; i++) {
+      hash = semente.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    const h = hash % 360;
+    return `hsl(${h}, 70%, 60%)`;
   }
 
   carregarFiltros(): void {
@@ -159,6 +290,7 @@ export class GraficosgeraisComponent implements OnInit, OnDestroy {
     });
 
     this.calcularTotais();
+    this.identificarCategoriasPrincipais();
     this.criarGraficos();
   }
 
@@ -173,6 +305,7 @@ export class GraficosgeraisComponent implements OnInit, OnDestroy {
     };
     this.aplicarFiltros();
   }
+
   async mudarVisualizacao(viewId: string, event?: Event): Promise<void> {
     if (event) event.stopPropagation();
 
@@ -192,6 +325,7 @@ export class GraficosgeraisComponent implements OnInit, OnDestroy {
       this.criarGraficos();
     }
   }
+
   criarGraficos(): void {
     this.destruirGraficos();
 
@@ -252,7 +386,9 @@ export class GraficosgeraisComponent implements OnInit, OnDestroy {
         datasets: [
           {
             data: dados,
-            backgroundColor: this.getChartColors(categoriasDespesas.length),
+            backgroundColor: categoriasDespesas.map((cat) =>
+              this.getCorCategoria(cat)
+            ),
             borderWidth: 1,
           },
         ],
