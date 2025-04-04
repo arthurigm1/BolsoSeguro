@@ -1,103 +1,123 @@
-<section class="min-h-screen bg-gradient-to-r from-white to-[#b6c6cc] flex p-5">
-  <div class="container mx-auto flex justify-center">
-    <!-- Coluna da Esquerda (Menu de Navegação) -->
-    <div class="p-8 rounded-lg transform transition-transform duration-300">
-      <ul class="space-y-10">
-        <li>
-          <a
-            (click)="setActive('categorias')"
-            class="flex items-center text-gray-700 hover:text-gray-200 transition-colors duration-300 cursor-pointer"
-          >
-            <i class="fas fa-tags text-black mr-3 text-lg"></i>
-            <span class="text-lg font-medium">Categorias</span>
-          </a>
-        </li>
-        <li>
-          <a
-            (click)="setActive('contas')"
-            class="flex items-center text-gray-700 hover:text-gray-200 transition-colors duration-300 cursor-pointer"
-          >
-            <i class="fas fa-wallet text-black mr-3 text-lg"></i>
-            <span class="text-lg font-medium">Contas</span>
-          </a>
-        </li>
-        <li>
-          <a
-            (click)="setActive('cartoes')"
-            class="flex items-center text-gray-700 hover:text-gray-200 transition-colors duration-300 cursor-pointer"
-          >
-            <i class="fas fa-credit-card text-black mr-3 text-lg"></i>
-            <span class="text-lg font-medium">Cartões de crédito</span>
-          </a>
-        </li>
-        <li>
-          <a
-            (click)="setActive('metas')"
-            class="flex items-center text-gray-700 hover:text-gray-200 transition-colors duration-300 cursor-pointer"
-          >
-            <i class="fas fa-chart-line text-black mr-3 text-lg"></i>
+<section class="min-h-screen bg-gradient-to-r from-white to-[#b6c6cc] p-4">
+  <!-- Menu Mobile (Hamburger) -->
+  <div class="md:hidden fixed top-4 left-4 z-50">
+    <button
+      (click)="toggleMobileMenu()"
+      class="text-gray-700 focus:outline-none"
+    >
+      <i class="fas fa-bars text-2xl"></i>
+    </button>
+  </div>
 
-            <span class="text-lg font-medium">Metas Financeiras</span>
-          </a>
-        </li>
-
-        <li>
+  <!-- Menu Lateral (Mobile) -->
+  <div
+    *ngIf="mobileMenuOpen"
+    class="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+    (click)="toggleMobileMenu()"
+  >
+    <div
+      class="absolute left-0 top-0 h-full w-3/4 bg-white p-6 shadow-lg"
+      (click)="$event.stopPropagation()"
+    >
+      <button
+        (click)="toggleMobileMenu()"
+        class="absolute top-4 right-4 text-gray-500"
+      >
+        <i class="fas fa-times"></i>
+      </button>
+      <ul class="space-y-6 mt-10">
+        <li *ngFor="let item of menuItems">
           <a
-            (click)="setActive('minhaconta')"
-            class="flex items-center text-gray-700 hover:text-gray-200 transition-colors duration-300 cursor-pointer"
+            (click)="setActive(item.id); toggleMobileMenu()"
+            class="flex items-center text-gray-700"
           >
-            <i class="fas fa-cog text-black mr-3 text-lg"></i>
-            <span class="text-lg font-medium">Configurações</span>
+            <i [class]="item.icon + ' mr-3 text-lg'"></i>
+            <span class="text-lg font-medium">{{ item.label }}</span>
           </a>
         </li>
       </ul>
     </div>
+  </div>
 
-    <!-- Coluna da Direita (Conteúdo Dinâmico) -->
-    <div
-      class="w-1/2 ml-5 bg-white p-8 rounded-lg shadow-lg transform transition-transform duration-300 h-min"
-    >
-      <!-- Usando ngSwitch para alternar os componentes -->
-      <div [ngSwitch]="activeComponent">
-        <app-contas
-          *ngSwitchCase="'contas'"
-          (openModalEvent)="openGlobalModal('conta')"
-        ></app-contas>
+  <!-- Conteúdo Principal -->
+  <div class="container mx-auto pt-16 md:pt-0">
+    <div class="flex flex-col md:flex-row">
+      <div
+        class="hidden md:block w-1/4 p-4 bg-gray-100 shadow-md rounded-lg h-full mt-4"
+      >
+        <ul class="mt-6 space-y-4">
+          <li *ngFor="let item of menuItems">
+            <a
+              (click)="setActive(item.id)"
+              class="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-300 hover:text-gray-900 transition-all cursor-pointer"
+              [class.bg-gray-200]="activeComponent === item.id"
+              [class.border-l-4]="activeComponent === item.id"
+              [class.border-black]="activeComponent === item.id"
+            >
+              <i [class]="item.icon + ' mr-3 text-xl text-gray-600'"></i>
+              <span class="text-lg font-semibold">{{ item.label }}</span>
+            </a>
+          </li>
+        </ul>
+      </div>
 
-        <app-categorias
-          *ngSwitchCase="'categorias'"
-          (openModalEvent)="openGlobalModal('categoria', $event)"
-        ></app-categorias>
-        <app-cartao
-          *ngSwitchCase="'cartoes'"
-          (openModalEvent)="openGlobalModal('cartao')"
-        ></app-cartao>
-        <app-metasfinanceiras
-          *ngSwitchCase="'metas'"
-          (openModalEvent)="openGlobalModal('meta')"
-        ></app-metasfinanceiras>
+      <!-- Conteúdo Dinâmico -->
+      <div class="w-full md:w-3/4 p-4">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+          <div [ngSwitch]="activeComponent">
+            <app-contas
+              *ngSwitchCase="'contas'"
+              (openModalEvent)="openGlobalModal('conta')"
+            ></app-contas>
 
-        <app-minhaconta *ngSwitchCase="'minhaconta'"></app-minhaconta>
+            <app-categorias
+              *ngSwitchCase="'categorias'"
+              (openModalEvent)="openGlobalModal('categoria', $event)"
+            ></app-categorias>
 
-        <!-- Caso nenhum componente seja selecionado -->
-        <p *ngSwitchDefault>Por favor, selecione uma opção do menu.</p>
+            <app-cartao
+              *ngSwitchCase="'cartoes'"
+              (openModalEvent)="openGlobalModal('cartao')"
+              (showFaturaEvent)="showFaturaDetails($event)"
+            ></app-cartao>
+
+            <app-fatura-detalhes
+              *ngSwitchCase="'cartaofatura'"
+              [faturaData]="faturaData"
+              (backEvent)="backToCards()"
+            ></app-fatura-detalhes>
+
+            <app-metasfinanceiras
+              *ngSwitchCase="'metas'"
+              (openModalEvent)="openGlobalModal('meta')"
+            ></app-metasfinanceiras>
+
+            <app-minhaconta *ngSwitchCase="'minhaconta'"></app-minhaconta>
+
+            <p *ngSwitchDefault class="text-center text-gray-500 py-10">
+              Por favor, selecione uma opção do menu.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
-<!-- Modal Global -->
 
+<!-- Modal Global Mobile -->
 <div
   *ngIf="isModalOpen"
-  class="fixed inset-0 bg-opacity-50 backdrop-blur-md flex items-center justify-center z-50"
+  class="fixed inset-0 backdrop-blur-lg rounded-2xl shadow-2xl flex items-center justify-center p-4 z-50"
 >
   <div
-    class="bg-white rounded-lg w-full max-w-md p-6 shadow-lg relative"
+    class="bg-white rounded-lg w-full max-w-md max-h-[90vh] overflow-y-auto"
     (click)="$event.stopPropagation()"
   >
-    <!-- Cabeçalho dinâmico -->
-    <div class="flex justify-between items-center mb-4">
-      <h3 class="text-lg font-semibold text-gray-900">
+    <!-- Cabeçalho fixo -->
+    <div
+      class="sticky top-0 bg-white p-4 border-b flex justify-between items-center z-10"
+    >
+      <h3 class="text-lg font-semibold">
         {{
           modalType === "conta"
             ? "Adicionar Nova Conta"
@@ -105,325 +125,306 @@
             ? categoriaModalType === "expenses"
               ? "Nova Categoria de Despesa"
               : "Nova Categoria de Receita"
-            : "Nova Meta Financeira"
+            : modalType === "meta"
+            ? "Nova Meta Financeira"
+            : "Novo Cartão de Crédito"
         }}
       </h3>
-      <button
-        (click)="closeGlobalModal()"
-        class="text-gray-500 hover:text-gray-700 focus:outline-none"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M6 18L18 6M6 6l12 12"
-          />
-        </svg>
+      <button (click)="closeGlobalModal()" class="text-gray-500">
+        <i class="fas fa-times"></i>
       </button>
     </div>
 
-    <!-- Formulário dinâmico -->
-    <form
-      (ngSubmit)="
-        modalType === 'conta'
-          ? addAccount()
-          : modalType === 'categoria'
-          ? addCategory()
-          : modalType === 'meta'
-          ? addMeta()
-          : modalType === 'cartao'
-          ? addCard()
-          : null
-      "
-      #goalForm="ngForm"
-      class="space-y-4"
-    >
-      <!-- Formulário de Conta -->
-      <div *ngIf="modalType === 'conta'">
-        <div>
-          <label class="block text-sm font-medium text-gray-700"
-            >Nome do Banco</label
-          >
-          <input
-            type="text"
-            [(ngModel)]="newAccount.name"
-            name="accountName"
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-            required
-          />
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700"
-            >Saldo Inicial</label
-          >
-          <input
-            type="number"
-            [(ngModel)]="newAccount.balance"
-            name="balance"
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-            required
-          />
-        </div>
-      </div>
-
-      <!-- Formulário de Categoria -->
-      <!-- Modal de Categoria -->
-      <div *ngIf="modalType === 'categoria'">
-        <div>
-          <label class="block text-sm font-medium text-gray-700"
-            >Nome da Categoria</label
-          >
-          <input
-            type="text"
-            [(ngModel)]="newCategory.name"
-            name="categoryName"
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-            required
-          />
-        </div>
-        <div class="mt-4">
-          <label class="block text-sm font-medium text-gray-700"
-            >Tipo de Categoria</label
-          >
-          <div class="mt-1 p-3 border border-gray-300 rounded-md bg-gray-50">
-            <span
-              class="font-medium"
-              [ngClass]="{
-                'text-red-500': newCategory.type === 'expense',
-                'text-green-600': newCategory.type === 'income'
-              }"
+    <!-- Conteúdo do formulário -->
+    <div class="p-4">
+      <form
+        (ngSubmit)="
+          modalType === 'conta'
+            ? addAccount()
+            : modalType === 'categoria'
+            ? addCategory()
+            : modalType === 'meta'
+            ? addMeta()
+            : modalType === 'cartao'
+            ? addCard()
+            : null
+        "
+        #goalForm="ngForm"
+        class="space-y-4"
+      >
+        <!-- Formulário de Conta -->
+        <div *ngIf="modalType === 'conta'">
+          <div>
+            <label class="block text-sm font-medium text-gray-700"
+              >Nome do Banco</label
             >
-              {{ newCategory.type === "expense" ? "Despesa" : "Receita" }}
-            </span>
-            <p class="text-sm text-gray-500 mt-1">
-              {{
-                newCategory.type === "expense"
-                  ? "Esta categoria será registrada como despesa"
-                  : "Esta categoria será registrada como receita"
-              }}
-            </p>
+            <input
+              type="text"
+              [(ngModel)]="newAccount.name"
+              name="accountName"
+              class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              required
+            />
           </div>
-        </div>
-      </div>
-
-      <!-- Formulário de Meta -->
-      <div *ngIf="modalType === 'meta'">
-        <div>
-          <label class="block text-sm font-medium text-gray-700"
-            >Nome da Meta</label
-          >
-          <input
-            type="text"
-            [(ngModel)]="newGoal.name"
-            name="goalName"
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-            required
-          />
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700"
-            >Valor Alvo (R$)</label
-          >
-          <input
-            type="number"
-            [(ngModel)]="newGoal.targetValue"
-            name="targetValue"
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-            required
-            min="0.01"
-            step="0.01"
-          />
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700"
-            >Valor Atual (R$)</label
-          >
-          <input
-            type="number"
-            [(ngModel)]="newGoal.currentValue"
-            name="currentValue"
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-            required
-            min="0"
-            step="0.01"
-            [max]="newGoal.targetValue"
-          />
-        </div>
-      </div>
-
-      <div *ngIf="modalType === 'cartao'" class="space-y-4">
-        <!-- Seção de Bandeiras -->
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">
-            Bandeira do Cartão
-          </label>
-          <div class="flex justify-center space-x-4">
-            <!-- Visa -->
-            <div
-              class="bandeira-option transition-all duration-200"
-              [class.selected]="newCard.bandeira === 'VISA'"
-              (click)="selectBandeira('VISA')"
+          <div class="mt-4">
+            <label class="block text-sm font-medium text-gray-700"
+              >Saldo Inicial</label
             >
-              <div
-                class="p-3 rounded-lg border-2"
-                [class.border-blue-500]="newCard.bandeira === 'VISA'"
-                [class.border-gray-200]="newCard.bandeira !== 'VISA'"
-                [class.bg-blue-50]="newCard.bandeira === 'VISA'"
-              >
-                <img
-                  src="assets/img/visa.png"
-                  alt="Visa"
-                  class="w-16 h-16 rounded-full object-contain mx-auto"
-                />
-                <span class="block text-center text-xs mt-2 font-medium"
-                  >Visa</span
-                >
-              </div>
-            </div>
-
-            <!-- Mastercard -->
-            <div
-              class="bandeira-option transition-all duration-200"
-              [class.selected]="newCard.bandeira === 'MASTERCARD'"
-              (click)="selectBandeira('MASTERCARD')"
-            >
-              <div
-                class="p-3 rounded-lg border-2"
-                [class.border-red-500]="newCard.bandeira === 'MASTERCARD'"
-                [class.border-gray-200]="newCard.bandeira !== 'MASTERCARD'"
-                [class.bg-red-50]="newCard.bandeira === 'MASTERCARD'"
-              >
-                <img
-                  src="assets/img/mastercard.png"
-                  alt="Mastercard"
-                  class="w-16 h-16 object-contain mx-auto rounded-full"
-                />
-                <span class="block text-center text-xs mt-2 font-medium"
-                  >Mastercard</span
-                >
-              </div>
-            </div>
-
-            <!-- Outros -->
-            <div
-              class="bandeira-option transition-all duration-200"
-              [class.selected]="newCard.bandeira === 'OUTROS'"
-              (click)="selectBandeira('OUTROS')"
-            >
-              <div
-                class="p-3 rounded-lg border-2"
-                [class.border-purple-500]="newCard.bandeira === 'OUTROS'"
-                [class.border-gray-200]="newCard.bandeira !== 'OUTROS'"
-                [class.bg-purple-50]="newCard.bandeira === 'OUTROS'"
-              >
-                <img
-                  src="assets/img/outroscard.png"
-                  alt="Outros"
-                  class="w-16 h-16 object-contain mx-auto"
-                />
-                <span
-                  class="block rounded-full text-center text-xs mt-2 font-medium"
-                  >Outros</span
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Nome do Cartão -->
-        <div>
-          <label class="block text-sm font-medium text-gray-700"
-            >Nome do Cartão</label
-          >
-          <input
-            type="text"
-            [(ngModel)]="newCard.nome"
-            name="nome"
-            placeholder="Ex: Cartão Nubank"
-            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
-            required
-          />
-        </div>
-
-        <!-- Limite Total -->
-        <div>
-          <label class="block text-sm font-medium text-gray-700"
-            >Limite Total</label
-          >
-          <div class="mt-1 relative rounded-md shadow-sm">
-            <div
-              class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-            >
-              <span class="text-gray-500 sm:text-sm">R$</span>
-            </div>
             <input
               type="number"
-              [(ngModel)]="newCard.limiteTotal"
-              name="limiteTotal"
-              placeholder="0,00"
-              class="block w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+              [(ngModel)]="newAccount.balance"
+              name="balance"
+              class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
               required
             />
           </div>
         </div>
 
-        <!-- Dia de Fechamento da Fatura -->
-        <div>
-          <label class="block text-sm font-medium text-gray-700">
-            Dia de Fechamento da Fatura
-          </label>
-          <select
-            [(ngModel)]="newCard.diaFechamentoFatura"
-            name="diaFechamentoFatura"
-            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
-            required
-          >
-            <option value="" disabled selected>Selecione o dia</option>
-            <option *ngFor="let dia of dias" [value]="dia">{{ dia }}</option>
-          </select>
+        <!-- Formulário de Categoria -->
+        <div *ngIf="modalType === 'categoria'">
+          <div>
+            <label class="block text-sm font-medium text-gray-700"
+              >Nome da Categoria</label
+            >
+            <input
+              type="text"
+              [(ngModel)]="newCategory.name"
+              name="categoryName"
+              class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              required
+            />
+          </div>
+          <div class="mt-4">
+            <label class="block text-sm font-medium text-gray-700"
+              >Tipo de Categoria</label
+            >
+            <div class="mt-1 p-3 border border-gray-300 rounded-lg bg-gray-50">
+              <span
+                class="font-medium"
+                [ngClass]="{
+                  'text-red-500': newCategory.type === 'expense',
+                  'text-green-600': newCategory.type === 'income'
+                }"
+              >
+                {{ newCategory.type === "expense" ? "Despesa" : "Receita" }}
+              </span>
+              <p class="text-sm text-gray-500 mt-1">
+                {{
+                  newCategory.type === "expense"
+                    ? "Esta categoria será registrada como despesa"
+                    : "Esta categoria será registrada como receita"
+                }}
+              </p>
+            </div>
+          </div>
         </div>
 
-        <!-- Dia de Vencimento -->
-        <div>
-          <label class="block text-sm font-medium text-gray-700">
-            Dia de Vencimento
-          </label>
-          <select
-            [(ngModel)]="newCard.vencimentoFatura"
-            name="diaVencimentoFatura"
-            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
-            required
-          >
-            <option value="" disabled selected>Selecione o dia</option>
-            <option *ngFor="let dia of dias" [value]="dia">{{ dia }}</option>
-          </select>
+        <!-- Formulário de Meta -->
+        <div *ngIf="modalType === 'meta'">
+          <div>
+            <label class="block text-sm font-medium text-gray-700"
+              >Nome da Meta</label
+            >
+            <input
+              type="text"
+              [(ngModel)]="newGoal.name"
+              name="goalName"
+              class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              required
+            />
+          </div>
+          <div class="mt-4">
+            <label class="block text-sm font-medium text-gray-700"
+              >Valor Alvo (R$)</label
+            >
+            <input
+              type="number"
+              [(ngModel)]="newGoal.targetValue"
+              name="targetValue"
+              class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              required
+              min="0.01"
+              step="0.01"
+            />
+          </div>
+          <div class="mt-4">
+            <label class="block text-sm font-medium text-gray-700"
+              >Valor Atual (R$)</label
+            >
+            <input
+              type="number"
+              [(ngModel)]="newGoal.currentValue"
+              name="currentValue"
+              class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              required
+              min="0"
+              step="0.01"
+              [max]="newGoal.targetValue"
+            />
+          </div>
         </div>
-      </div>
 
-      <!-- Botões -->
-      <div class="flex justify-end space-x-2">
-        <button
-          type="button"
-          (click)="closeGlobalModal()"
-          class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition duration-300"
-        >
-          Cancelar
-        </button>
-        <button
-          type="submit"
-          [disabled]="goalForm.invalid"
-          class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300 disabled:bg-blue-300"
-        >
-          <i class="fas fa-save mr-2"></i>Salvar
-        </button>
-      </div>
-    </form>
+        <!-- Formulário de Cartão -->
+        <div *ngIf="modalType === 'cartao'" class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              Bandeira do Cartão
+            </label>
+            <div class="flex justify-between space-x-2">
+              <div
+                class="bandeira-option transition-all duration-200 flex-1"
+                [class.selected]="newCard.bandeira === 'VISA'"
+                (click)="selectBandeira('VISA')"
+              >
+                <div
+                  class="p-2 rounded-lg border-2 flex flex-col items-center"
+                  [class.border-blue-500]="newCard.bandeira === 'VISA'"
+                  [class.border-gray-200]="newCard.bandeira !== 'VISA'"
+                  [class.bg-blue-50]="newCard.bandeira === 'VISA'"
+                >
+                  <img
+                    src="assets/img/visa.png"
+                    alt="Visa"
+                    class="w-12 h-12 rounded-full object-contain"
+                  />
+                  <span class="block text-center text-xs mt-1 font-medium"
+                    >Visa</span
+                  >
+                </div>
+              </div>
+
+              <div
+                class="bandeira-option transition-all duration-200 flex-1"
+                [class.selected]="newCard.bandeira === 'MASTERCARD'"
+                (click)="selectBandeira('MASTERCARD')"
+              >
+                <div
+                  class="p-2 rounded-lg border-2 flex flex-col items-center"
+                  [class.border-red-500]="newCard.bandeira === 'MASTERCARD'"
+                  [class.border-gray-200]="newCard.bandeira !== 'MASTERCARD'"
+                  [class.bg-red-50]="newCard.bandeira === 'MASTERCARD'"
+                >
+                  <img
+                    src="assets/img/mastercard.png"
+                    alt="Mastercard"
+                    class="w-12 h-12 object-contain rounded-full"
+                  />
+                  <span class="block text-center text-xs mt-1 font-medium"
+                    >Mastercard</span
+                  >
+                </div>
+              </div>
+
+              <div
+                class="bandeira-option transition-all duration-200 flex-1"
+                [class.selected]="newCard.bandeira === 'OUTROS'"
+                (click)="selectBandeira('OUTROS')"
+              >
+                <div
+                  class="p-2 rounded-lg border-2 flex flex-col items-center"
+                  [class.border-purple-500]="newCard.bandeira === 'OUTROS'"
+                  [class.border-gray-200]="newCard.bandeira !== 'OUTROS'"
+                  [class.bg-purple-50]="newCard.bandeira === 'OUTROS'"
+                >
+                  <img
+                    src="assets/img/outroscard.png"
+                    alt="Outros"
+                    class="w-12 h-12 object-contain"
+                  />
+                  <span
+                    class="block rounded-full text-center text-xs mt-1 font-medium"
+                    >Outros</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700"
+              >Nome do Cartão</label
+            >
+            <input
+              type="text"
+              [(ngModel)]="newCard.nome"
+              name="nome"
+              placeholder="Ex: Cartão Nubank"
+              class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              required
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700"
+              >Limite Total</label
+            >
+            <div class="mt-1 relative rounded-lg shadow-sm">
+              <div
+                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+              >
+                <span class="text-gray-500 sm:text-sm">R$</span>
+              </div>
+              <input
+                type="number"
+                [(ngModel)]="newCard.limiteTotal"
+                name="limiteTotal"
+                placeholder="0,00"
+                class="block w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                required
+              />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700">
+              Dia de Fechamento da Fatura
+            </label>
+            <select
+              [(ngModel)]="newCard.diaFechamentoFatura"
+              name="diaFechamentoFatura"
+              class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              required
+            >
+              <option value="" disabled selected>Selecione o dia</option>
+              <option *ngFor="let dia of dias" [value]="dia">{{ dia }}</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700">
+              Dia de Vencimento
+            </label>
+            <select
+              [(ngModel)]="newCard.vencimentoFatura"
+              name="diaVencimentoFatura"
+              class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              required
+            >
+              <option value="" disabled selected>Selecione o dia</option>
+              <option *ngFor="let dia of dias" [value]="dia">{{ dia }}</option>
+            </select>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Botões fixos no rodapé -->
+    <div
+      class="sticky bottom-0 bg-white p-4 border-t flex justify-end space-x-2 z-10"
+    >
+      <button
+        (click)="closeGlobalModal()"
+        class="px-6 py-3 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300"
+      >
+        Cancelar
+      </button>
+      <button
+        type="submit"
+        [disabled]="goalForm.invalid"
+        class="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-blue-300"
+      >
+        <i class="fas fa-save mr-2"></i>Salvar
+      </button>
+    </div>
   </div>
 </div>

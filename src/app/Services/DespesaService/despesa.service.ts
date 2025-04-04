@@ -22,4 +22,21 @@ export class DespesaService {
       headers,
     });
   }
+  buscarDespesasPorMes(
+    cartaoId: string,
+    ano: number,
+    mes: number
+  ): Observable<any[]> {
+    const token = localStorage.getItem('authToken');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    });
+    return this.http.get<any[]>(
+      `${this.apiUrl}/despesa/cartao/${cartaoId}/${ano}/${mes}`,
+      {
+        headers,
+      }
+    );
+  }
 }

@@ -19,3 +19,112 @@
 .bandeira-option:active {
     transform: scale(0.98);
 }
+
+/* Estilos globais para mobile */
+@media (max-width: 767px) {
+
+    /* Melhoria para inputs em mobile */
+    input,
+    select,
+    textarea {
+        font-size: 16px;
+        /* Evita zoom automático no iOS */
+        padding: 12px 16px !important;
+    }
+
+    /* Ajuste para bandeiras de cartão */
+    .bandeira-option {
+        margin: 0 2px;
+
+        img {
+            width: 40px;
+            height: 40px;
+        }
+
+        span {
+            font-size: 10px;
+        }
+    }
+
+    /* Melhorias de scroll para modal em mobile */
+    .modal-content {
+        -webkit-overflow-scrolling: touch;
+        /* Scroll suave no iOS */
+    }
+
+    /* Botões maiores para toque fácil */
+    button {
+        min-height: 48px;
+        padding: 12px 24px !important;
+    }
+}
+
+/* Estilos comuns */
+.bandeira-option {
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+        transform: translateY(-2px);
+    }
+
+    &.selected {
+        transform: scale(1.05);
+    }
+}
+
+/* Ajustes para desktop */
+@media (min-width: 768px) {
+    .bandeira-option {
+        img {
+            width: 60px;
+            height: 60px;
+        }
+    }
+}
+
+/* Efeitos de transição suave */
+.modal-overlay {
+    transition: opacity 0.3s ease;
+}
+
+.modal-content {
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Scrollbar estilizada */
+.modal-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+/* Efeito de elevação sutil */
+.modal-content {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Bordas arredondadas diferenciadas */
+.modal-content {
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Efeito de vidro no cabeçalho/rodapé */
+.modal-header,
+.modal-footer {
+    backdrop-filter: blur(8px);
+    background-color: rgba(255, 255, 255, 0.8);
+}

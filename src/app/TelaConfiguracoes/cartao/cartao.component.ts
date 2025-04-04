@@ -13,6 +13,10 @@ export class CartaoComponent implements OnInit {
   creditCards: CartaoResponseDTO[] = [];
   constructor(private cartaoService: CartaoService) {}
   @Output() openModalEvent = new EventEmitter<void>();
+  @Output() showFaturaEvent = new EventEmitter<string>();
+  verDetalhesFatura(cartaoId: string): void {
+    this.showFaturaEvent.emit(cartaoId);
+  }
   openModal() {
     this.openModalEvent.emit();
   }

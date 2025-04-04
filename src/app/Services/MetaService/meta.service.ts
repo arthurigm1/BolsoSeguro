@@ -11,7 +11,7 @@ import {
   providedIn: 'root',
 })
 export class MetaService {
-  private apiUrl = 'http://localhost:8080/api/metas'; // URL do seu backend
+  private apiUrl = 'http://localhost:8080/api/metas';
 
   constructor(private http: HttpClient) {}
 

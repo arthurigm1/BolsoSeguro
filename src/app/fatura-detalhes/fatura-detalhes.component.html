@@ -1,0 +1,529 @@
+<div class="min-h-screen p-4 md:p-8">
+  <div class="max-w-5xl mx-auto space-y-8">
+    <!-- Botão de voltar -->
+    <div class="mb-6">
+      <button
+        (click)="voltar()"
+        class="flex items-center text-blue-600 hover:text-blue-800 transition-colors duration-200 group"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5 mr-2"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        Voltar para Cartões
+      </button>
+    </div>
+
+    <!-- Container principal -->
+    <div class="space-y-6">
+      <!-- Seção do Cartão -->
+      <div
+        class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200"
+      >
+        <div class="p-6">
+          <div
+            class="flex flex-col md:flex-row md:items-center md:justify-between gap-4"
+          >
+            <div class="flex items-center">
+              <img
+                [src]="getCardLogo(fatura?.bandeira || 'default')"
+                [alt]="fatura?.bandeira || 'Bandeira do cartão'"
+                class="h-18 w-auto mr-4 rounded-full shadow-md"
+              />
+              <div>
+                <h2 class="text-xl font-semibold text-gray-900">
+                  {{ fatura?.nomeCartao }}
+                </h2>
+                <div class="flex items-center mt-1">
+                  <span class="text-sm text-gray-500 mr-2">
+                    {{ fatura?.bandeira }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div class="text-right">
+                <p class="text-sm text-gray-500">Limite total</p>
+                <p class="text-lg font-medium text-gray-900">
+                  {{
+                    fatura?.limiteTotal | currency : "BRL" : "symbol" : "1.2-2"
+                  }}
+                </p>
+              </div>
+              <div class="text-right">
+                <p class="text-sm text-gray-500">Disponível</p>
+                <p
+                  class="text-lg font-medium"
+                  [ngClass]="{
+                    'text-red-600': (fatura?.limiteDisponivel ?? 0) < 0,
+                    'text-black': (fatura?.limiteDisponivel ?? 0) >= 0
+                  }"
+                >
+                  {{
+                    fatura?.limiteDisponivel
+                      | currency : "BRL" : "symbol" : "1.2-2"
+                  }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seção de Período e Fatura -->
+      <!-- Seção de Período e Fatura -->
+      <div class="grid grid-cols-1 lg:grid-cols-1 gap-6">
+        <div class="bg-white rounded-2xl shadow-md border border-gray-100 p-6">
+          <div class="flex flex-col items-center">
+            <h3 class="text-lg font-semibold text-gray-900 mb-6">
+              Período da Fatura
+            </h3>
+
+            <div class="flex items-center justify-center w-full max-w-md">
+              <button
+                (click)="alterarMes(-1)"
+                class="p-3 rounded-xl hover:bg-gray-50 transition-all transform hover:-translate-x-0.5"
+                aria-label="Mês anterior"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6 text-gray-500"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </button>
+
+              <div class="text-center mx-6">
+                <p class="text-3xl font-bold text-gray-800">
+                  {{ getNomeMes(faturaData.mes) }}
+                </p>
+                <p class="text-xl text-gray-600 mt-1">{{ faturaData.ano }}</p>
+              </div>
+
+              <button
+                (click)="alterarMes(1)"
+                class="p-3 rounded-xl hover:bg-gray-50 transition-all transform hover:translate-x-0.5"
+                aria-label="Próximo mês"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6 text-gray-500"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </button>
+            </div>
+
+            <div
+              *ngIf="fatura && !loading"
+              class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mt-8"
+            >
+              <!-- Cartão de Valor Total -->
+              <div
+                class="bg-gradient-to-br from-blue-50 to-indigo-50 p-5 rounded-xl border border-blue-100 text-center shadow-sm"
+              >
+                <div
+                  class="h-12 w-12 mx-auto bg-blue-100 rounded-full flex items-center justify-center mb-3"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6 text-blue-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                </div>
+                <p class="text-sm font-medium text-gray-600">Valor Total</p>
+                <p class="text-2xl font-bold text-gray-900 mt-1">
+                  {{ fatura.valor | currency : "BRL" : "symbol" : "1.2-2" }}
+                </p>
+              </div>
+
+              <!-- Cartão de Vencimento -->
+              <div
+                class="bg-gradient-to-br from-purple-50 to-violet-50 p-5 rounded-xl border border-purple-100 text-center shadow-sm"
+              >
+                <div
+                  class="h-12 w-12 mx-auto bg-purple-100 rounded-full flex items-center justify-center mb-3"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6 text-purple-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    />
+                  </svg>
+                </div>
+                <p class="text-sm font-medium text-gray-600">Vencimento</p>
+                <p class="text-2xl font-bold text-gray-900 mt-1">
+                  {{ formatarData(fatura.dataVencimento) }}
+                </p>
+              </div>
+
+              <!-- Cartão de Status -->
+              <div
+                class="p-5 rounded-xl border text-center shadow-sm"
+                [class.bg-gradient-to-br]="fatura.paga"
+                [class.from-green-50]="fatura.paga"
+                [class.to-emerald-50]="fatura.paga"
+                [class.border-green-200]="fatura.paga"
+                [class.from-red-50]="!fatura.paga"
+                [class.to-rose-50]="!fatura.paga"
+                [class.border-red-200]="!fatura.paga"
+              >
+                <div
+                  class="h-12 w-12 mx-auto rounded-full flex items-center justify-center mb-3"
+                  [class.bg-green-100]="fatura.paga"
+                  [class.bg-red-100]="!fatura.paga"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6"
+                    [class.text-green-600]="fatura.paga"
+                    [class.text-red-600]="!fatura.paga"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                </div>
+                <p
+                  class="text-sm font-medium"
+                  [class.text-green-700]="fatura.paga"
+                  [class.text-red-700]="!fatura.paga"
+                >
+                  Status
+                </p>
+                <p
+                  class="text-2xl font-bold mt-1"
+                  [class.text-green-800]="fatura?.paga === true"
+                  [class.text-red-800]="fatura?.paga === false"
+                  [class.text-gray-500]="
+                    fatura === null ||
+                    fatura === undefined ||
+                    fatura.paga === undefined
+                  "
+                >
+                  {{
+                    !fatura
+                      ? "SEM DADOS"
+                      : fatura.paga === true
+                      ? "PAGA"
+                      : fatura.paga === false
+                      ? "EM ABERTO"
+                      : "SEM DADOS"
+                  }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seção de Transações -->
+      <!-- Seção de Transações -->
+      <div
+        class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden"
+      >
+        <div class="p-6 border-b border-gray-100">
+          <div
+            class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4"
+          >
+            <div>
+              <h3 class="text-xl font-bold text-gray-900">Transações</h3>
+              <p class="text-sm text-gray-500 mt-1">
+                Todas as compras deste período
+              </p>
+            </div>
+            <div class="flex items-center gap-3">
+              <span
+                class="text-sm text-gray-500 bg-gray-100 px-3 py-1.5 rounded-full"
+              >
+                {{ despesas.length }}
+                {{ despesas.length === 1 ? "transação" : "transações" }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div
+          *ngIf="despesas.length > 0; else semDespesas"
+          class="divide-y divide-gray-100"
+        >
+          <div
+            *ngFor="let despesa of despesas"
+            class="p-5 hover:bg-gray-50 transition-colors group"
+          >
+            <div class="flex justify-between items-start">
+              <div class="flex items-start gap-4">
+                <div class="mt-1">
+                  <div
+                    class="h-10 w-10 rounded-lg flex items-center justify-center"
+                    [ngClass]="{
+                      'bg-blue-100 text-blue-600':
+                        despesa.categoria === 'Compras',
+                      'bg-green-100 text-green-600':
+                        despesa.categoria === 'Alimentação',
+                      'bg-purple-100 text-purple-600':
+                        despesa.categoria === 'Lazer',
+                      'bg-red-100 text-red-600': despesa.categoria === 'Saúde',
+                      'bg-yellow-100 text-yellow-600':
+                        despesa.categoria === 'Transporte'
+                    }"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <div>
+                  <p class="font-semibold text-gray-900">
+                    {{ despesa.descricao }}
+                  </p>
+                  <div class="flex flex-wrap items-center mt-1.5 gap-2">
+                    <span class="text-sm text-gray-500 flex items-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-3.5 w-3.5 mr-1"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                        />
+                      </svg>
+                      {{ formatarData(despesa.data) }}
+                    </span>
+                    <span
+                      class="text-xs font-medium px-2 py-1 rounded"
+                      [ngClass]="{
+                        'bg-blue-100 text-blue-800':
+                          despesa.categoria === 'Compras',
+                        'bg-green-100 text-green-800':
+                          despesa.categoria === 'Alimentação',
+                        'bg-purple-100 text-purple-800':
+                          despesa.categoria === 'Lazer',
+                        'bg-red-100 text-red-800':
+                          despesa.categoria === 'Saúde',
+                        'bg-yellow-100 text-yellow-800':
+                          despesa.categoria === 'Transporte'
+                      }"
+                    >
+                      {{ despesa.categoria }}
+                    </span>
+                    <span
+                      *ngIf="despesa.parcelamento"
+                      class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded"
+                    >
+                      {{ despesa.parcelamento }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="text-right">
+                <p class="font-bold text-red-600">
+                  - {{ despesa.valor | currency : "BRL" : "symbol" : "1.2-2" }}
+                </p>
+                <p
+                  *ngIf="despesa.parcelamento"
+                  class="text-xs text-gray-500 mt-1"
+                >
+                  {{ despesa.parcelamento }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <ng-template #semDespesas>
+          <div class="text-center py-12 px-6">
+            <div class="mx-auto h-24 w-24 text-gray-300">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1"
+                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                />
+              </svg>
+            </div>
+            <h4 class="mt-4 text-lg font-semibold text-gray-700">
+              Nenhuma transação encontrada
+            </h4>
+            <p class="mt-2 text-gray-500 max-w-md mx-auto">
+              Não foram registradas transações para este cartão no período
+              selecionado.
+            </p>
+          </div>
+        </ng-template>
+      </div>
+
+      <!-- Seção de Ações -->
+      <!-- Seção de Ações -->
+      <div class="bg-white rounded-2xl shadow-md border border-gray-100 p-6">
+        <div
+          class="flex flex-col md:flex-row justify-between items-center gap-6"
+        >
+          <div class="text-center md:text-left">
+            <h4 class="text-lg font-semibold text-gray-900">Total da Fatura</h4>
+            <p class="text-3xl font-bold text-gray-900 mt-1">
+              {{ fatura?.valor | currency : "BRL" : "symbol" : "1.2-2" }}
+            </p>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
+            <button
+              (click)="downloadReport()"
+              [disabled]="loading || !fatura"
+              class="flex-1 px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-medium flex items-center justify-center gap-2 transition-colors"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
+                />
+              </svg>
+              <span *ngIf="!loading">Baixar Relatorio</span>
+              <span *ngIf="loading">Gerando PDF...</span>
+            </button>
+
+            <button
+              *ngIf="!fatura?.paga"
+              (click)="pagarFatura()"
+              [disabled]="loading"
+              class="flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg text-white font-medium hover:from-blue-700 hover:to-indigo-700 shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 disabled:opacity-70"
+            >
+              <svg
+                *ngIf="!loading"
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
+                />
+              </svg>
+              <svg
+                *ngIf="loading"
+                class="animate-spin h-5 w-5"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+              {{ loading ? "Processando..." : "Pagar Fatura" }}
+            </button>
+
+            <div
+              *ngIf="fatura?.paga"
+              class="flex-1 px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg text-white font-medium flex items-center justify-center gap-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+              Fatura Paga
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

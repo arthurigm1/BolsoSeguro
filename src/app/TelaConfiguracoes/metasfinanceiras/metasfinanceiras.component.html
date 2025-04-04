@@ -1,5 +1,5 @@
 <div class="min-h-screen p-6">
-  <div class="max-w-7xl mx-auto">
+  <div class="max-w-4xl mx-auto">
     <!-- Cabeçalho -->
     <div
       class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6"
@@ -37,7 +37,7 @@
       <!-- Card de Meta -->
       <div
         *ngFor="let meta of metas"
-        class="bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200/70 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 overflow-hidden"
+        class="bg-gray-100 backdrop-blur-sm rounded-2xl border border-gray-200/70 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 overflow-hidden"
       >
         <div class="p-6">
           <!-- Cabeçalho do Card -->
@@ -46,7 +46,7 @@
               class="w-14 h-14 rounded-xl flex items-center justify-center"
               [ngClass]="{
                 'bg-green-100 text-green-600': (meta.progresso ?? 0) >= 100,
-                'bg-gray-300 text-black': (meta.progresso ?? 0) < 100
+                'bg-gray-300 text-gray-900': (meta.progresso ?? 0) < 100
               }"
             >
               <i class="fas fa-bullseye text-2xl"></i>

@@ -22,6 +22,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CartaoService } from '../../Services/CartaoService/cartao.service';
 import { CartaoDTO } from '../../Interface/CartaoDTO.interface';
 import { MinhacontaComponent } from '../minhaconta/minhaconta.component';
+import { FaturaDetalhesComponent } from '../../fatura-detalhes/fatura-detalhes.component';
 
 @Component({
   selector: 'app-configuracoes',
@@ -34,6 +35,7 @@ import { MinhacontaComponent } from '../minhaconta/minhaconta.component';
     MetasfinanceirasComponent,
     ReactiveFormsModule,
     MinhacontaComponent,
+    FaturaDetalhesComponent,
   ],
   templateUrl: './configuracoes.component.html',
   styleUrl: './configuracoes.component.scss',
@@ -56,8 +58,34 @@ export class ConfiguracoesComponent {
   @ViewChild(CategoriasComponent) categoriasComponent!: CategoriasComponent;
   @ViewChild(CartaoComponent) cartaoComponent!: CartaoComponent;
   @ViewChild(MetasfinanceirasComponent)
+  faturaData: any = null; // Para armazenar os dados da fatura
+  mobileMenuOpen: boolean = false;
+  toggleMobileMenu() {
+    this.mobileMenuOpen = !this.mobileMenuOpen;
+  }
   metasComponent!: MetasfinanceirasComponent; // Nova referência
+  showFaturaDetails(cartaoId: string): void {
+    const hoje = new Date();
+    this.faturaData = {
+      cartaoId,
+      mes: hoje.getMonth() + 1,
+      ano: hoje.getFullYear(),
+    };
 
+    this.activeComponent = 'cartaofatura';
+  }
+  menuItems = [
+    { id: 'categorias', icon: 'fas fa-tags', label: 'Categorias' },
+    { id: 'contas', icon: 'fas fa-wallet', label: 'Contas' },
+    { id: 'cartoes', icon: 'fas fa-credit-card', label: 'Cartões de crédito' },
+    { id: 'metas', icon: 'fas fa-chart-line', label: 'Metas Financeiras' },
+    { id: 'minhaconta', icon: 'fas fa-cog', label: 'Configurações' },
+  ];
+  // Método para voltar para a lista de cartões
+  backToCards(): void {
+    this.activeComponent = 'cartoes';
+    this.faturaData = null;
+  }
   // Estados do modal
   isModalOpen = false;
   modalType: 'conta' | 'categoria' | 'meta' | 'cartao' = 'conta'; // Adicionado tipo 'meta'
