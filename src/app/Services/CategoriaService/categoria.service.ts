@@ -7,7 +7,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class CategoriaService {
-  private apiUrl = 'http://localhost:8080/categorias'; // URL do seu backend
+  private apiUrl =
+    'https://bolsoseguroapi-production.up.railway.app/categorias'; // URL do seu backend
 
   constructor(private http: HttpClient) {}
   private getAuthHeaders(): HttpHeaders {

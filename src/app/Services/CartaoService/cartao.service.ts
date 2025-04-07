@@ -12,7 +12,7 @@ import {
 })
 export class CartaoService {
   constructor(private http: HttpClient) {}
-  private apiUrl = 'http://localhost:8080/cartoes';
+  private apiUrl = 'https://bolsoseguroapi-production.up.railway.app/cartoes';
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('authToken') || '';
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);

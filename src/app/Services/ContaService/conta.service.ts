@@ -8,7 +8,7 @@ import { ContaCadastroDTO } from '../../Interface/ContaCadastroDTO.type';
   providedIn: 'root',
 })
 export class ContaService {
-  private apiUrl = 'http://localhost:8080'; // URL do seu backend
+  private apiUrl = 'https://bolsoseguroapi-production.up.railway.app'; // URL do seu backend
 
   constructor(private http: HttpClient) {}
   private getAuthHeaders(): HttpHeaders {

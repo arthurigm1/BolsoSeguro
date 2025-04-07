@@ -11,7 +11,7 @@ import {
   providedIn: 'root',
 })
 export class FaturaService {
-  private apiUrl = 'http://localhost:8080/faturas';
+  private apiUrl = 'https://bolsoseguroapi-production.up.railway.app/faturas';
   constructor(private http: HttpClient) {}
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('authToken') || '';

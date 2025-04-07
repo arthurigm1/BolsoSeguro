@@ -11,7 +11,7 @@ import { UsuarioInfoResponse } from '../../Interface/UsuarioInfoResponse.interfa
 export class LoginService {
   private isLoggedInSubject = new BehaviorSubject<boolean>(this.checkToken());
   isLoggedIn$: Observable<boolean> = this.isLoggedInSubject.asObservable();
-  apiUrl: string = 'http://localhost:8080/auth';
+  apiUrl: string = 'https://bolsoseguroapi-production.up.railway.app/auth';
   private timeoutDuration = 15000;
 
   constructor(private httpClient: HttpClient, private router: Router) {

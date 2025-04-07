@@ -11,7 +11,7 @@ import {
   providedIn: 'root',
 })
 export class MetaService {
-  private apiUrl = 'http://localhost:8080/api/metas';
+  private apiUrl = 'https://bolsoseguroapi-production.up.railway.app/api/metas';
 
   constructor(private http: HttpClient) {}
 
