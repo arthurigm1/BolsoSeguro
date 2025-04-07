@@ -108,7 +108,7 @@ export class LoginService {
   /** Obtém informações do usuário autenticado */
   getUsuarioInfo(): Observable<UsuarioInfoResponse> {
     return this.httpClient.get<UsuarioInfoResponse>(
-      `http://localhost:8080/user/info`,
+      `https://bolsoseguroapi-production.up.railway.app/user/info`,
       { headers: this.getAuthHeaders() }
     );
   }
