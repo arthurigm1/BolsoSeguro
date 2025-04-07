@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FaturaService } from '../fatura.service';
+
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -8,7 +8,8 @@ import {
   FaturaCartaoDTO,
 } from '../Interface/FaturaCartaoDTO.interface';
 import { DespesaService } from '../Services/DespesaService/despesa.service';
-import { SelecionarcontadialogComponent } from '../selecionarcontadialog/selecionarcontadialog.component';
+import { SelecionarcontadialogComponent } from '../Dialog/selecionarcontadialog/selecionarcontadialog.component';
+import { FaturaService } from '../Services/FaturaService/fatura.service';
 
 @Component({
   selector: 'app-fatura-detalhes',

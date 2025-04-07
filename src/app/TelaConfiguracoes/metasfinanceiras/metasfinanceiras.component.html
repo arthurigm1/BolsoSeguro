@@ -56,7 +56,7 @@
               class="px-3 py-1 rounded-full text-xs font-semibold"
               [ngClass]="{
                 'bg-green-100 text-green-800': (meta.progresso ?? 0) >= 100,
-                'bg-gray-300 text-gray-500': (meta.progresso ?? 0) < 100
+                'bg-yellow-100 text-yellow-800': (meta.progresso ?? 0) < 100
               }"
             >
               {{ (meta.progresso ?? 0) >= 100 ? "Concluída" : "Em andamento" }}
@@ -107,17 +107,44 @@
           >
             <button
               (click)="editMeta(meta); $event.stopPropagation()"
-              class="text-black transition-colors flex items-center rounded-lg p-1 cursor-pointer"
+              class="p-2 rounded-full bg-white bg-opacity-20 hover:bg-opacity-30 transition cursor-pointer"
+              title="Editar"
             >
-              <i class="fas fa-edit mr-2"></i> Editar
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                />
+              </svg>
             </button>
 
             <button
               (click)="deletarMeta(meta.id); $event.stopPropagation()"
-              class="text-gray-400 hover:text-red-500 transition-colors p-1 rounded-lg hover:bg-red-50 cursor-pointer"
-              title="Excluir"
+              class="p-2 rounded-full bg-white bg-opacity-20 hover:bg-opacity-30 transition cursor-pointer"
+              title="Remover"
             >
-              <i class="fas fa-trash-alt"></i>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                />
+              </svg>
             </button>
           </div>
         </div>
@@ -138,13 +165,6 @@
         <p class="text-gray-500 text-lg mb-8">
           Comece criando sua primeira meta financeira
         </p>
-        <button
-          (click)="openCreateModal()"
-          class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-lg font-medium rounded-xl shadow-sm hover:shadow-md transition-all hover:-translate-y-0.5"
-        >
-          <i class="fas fa-plus mr-3"></i>
-          Criar primeira meta
-        </button>
       </div>
     </div>
 
@@ -166,7 +186,7 @@
           </h3>
           <button
             (click)="closeModal()"
-            class="text-gray-400 hover:text-gray-600 transition-colors p-2 rounded-lg hover:bg-gray-100"
+            class="text-red-500 cursor-pointer rounded-full hover:bg-red-100 p-2 transition duration-200"
           >
             <i class="fas fa-times text-lg"></i>
           </button>
@@ -252,14 +272,14 @@
         <div class="border-t border-gray-200/50 p-6 flex justify-end space-x-4">
           <button
             (click)="closeModal()"
-            class="px-6 py-2.5 text-gray-600 hover:text-gray-800 font-medium rounded-lg transition-colors"
+            class="cursor-pointer px-5 py-2.5 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
           >
             Cancelar
           </button>
           <button
             (click)="atualizarMeta()"
             [disabled]="!metaForm.valid"
-            class="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-medium rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all disabled:opacity-70"
+            class="text-bold flex items-center bg-gradient-to-r from-[#b6c6cc] to-[#5e6d72] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
           >
             Salvar Alterações
           </button>

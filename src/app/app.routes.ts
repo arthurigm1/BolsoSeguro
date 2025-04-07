@@ -8,6 +8,8 @@ import { AuthGuard } from './Services/UserService/auth.guard.service';
 import { ContasComponent } from './TelaConfiguracoes/contas/contas.component';
 import { CategoriasComponent } from './TelaConfiguracoes/categorias/categorias.component';
 import { CartaoComponent } from './TelaConfiguracoes/cartao/cartao.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { VerifyComponent } from './verify/verify.component';
 
 export const routes: Routes = [
   {
@@ -26,6 +28,14 @@ export const routes: Routes = [
     path: 'dashboard',
     component: HomedashboardComponent,
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'reset-password',
+    component: ResetPasswordComponent,
+  },
+  {
+    path: 'verify',
+    component: VerifyComponent,
   },
 
   { path: '', redirectTo: '/login', pathMatch: 'full' },

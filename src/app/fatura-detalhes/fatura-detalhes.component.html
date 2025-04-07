@@ -4,7 +4,7 @@
     <div class="mb-6">
       <button
         (click)="voltar()"
-        class="flex items-center text-blue-600 hover:text-blue-800 transition-colors duration-200 group"
+        class="flex items-center text-black hover:text-gray-700 transition-colors duration-200 group cursor-pointer"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -91,7 +91,7 @@
             <div class="flex items-center justify-center w-full max-w-md">
               <button
                 (click)="alterarMes(-1)"
-                class="p-3 rounded-xl hover:bg-gray-50 transition-all transform hover:-translate-x-0.5"
+                class="p-3 rounded-xl hover:bg-gray-50 transition-all transform hover:-translate-x-0.5 cursor-pointer"
                 aria-label="Mês anterior"
               >
                 <svg
@@ -117,7 +117,7 @@
 
               <button
                 (click)="alterarMes(1)"
-                class="p-3 rounded-xl hover:bg-gray-50 transition-all transform hover:translate-x-0.5"
+                class="p-3 rounded-xl hover:bg-gray-50 transition-all transform hover:translate-x-0.5 cursor-pointer"
                 aria-label="Próximo mês"
               >
                 <svg
@@ -196,64 +196,88 @@
               </div>
 
               <!-- Cartão de Status -->
+              <!-- Substitua o cartão de status atual por este -->
               <div
                 class="p-5 rounded-xl border text-center shadow-sm"
-                [class.bg-gradient-to-br]="fatura.paga"
-                [class.from-green-50]="fatura.paga"
-                [class.to-emerald-50]="fatura.paga"
-                [class.border-green-200]="fatura.paga"
-                [class.from-red-50]="!fatura.paga"
-                [class.to-rose-50]="!fatura.paga"
-                [class.border-red-200]="!fatura.paga"
+                [class.bg-gradient-to-br]="fatura.paga || fatura.reaberta"
+                [class.from-green-50]="fatura.paga && !fatura.reaberta"
+                [class.to-emerald-50]="fatura.paga && !fatura.reaberta"
+                [class.border-green-200]="fatura.paga && !fatura.reaberta"
+                [class.from-yellow-50]="fatura.reaberta"
+                [class.to-amber-50]="fatura.reaberta"
+                [class.border-yellow-200]="fatura.reaberta"
+                [class.from-red-50]="!fatura.paga && !fatura.reaberta"
+                [class.to-rose-50]="!fatura.paga && !fatura.reaberta"
+                [class.border-red-200]="!fatura.paga && !fatura.reaberta"
               >
                 <div
                   class="h-12 w-12 mx-auto rounded-full flex items-center justify-center mb-3"
-                  [class.bg-green-100]="fatura.paga"
-                  [class.bg-red-100]="!fatura.paga"
+                  [class.bg-green-100]="fatura.paga && !fatura.reaberta"
+                  [class.bg-yellow-100]="fatura.reaberta"
+                  [class.bg-red-100]="!fatura.paga && !fatura.reaberta"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="h-6 w-6"
-                    [class.text-green-600]="fatura.paga"
-                    [class.text-red-600]="!fatura.paga"
+                    [class.text-green-600]="fatura.paga && !fatura.reaberta"
+                    [class.text-yellow-600]="fatura.reaberta"
+                    [class.text-red-600]="!fatura.paga && !fatura.reaberta"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
                   >
                     <path
+                      *ngIf="fatura.paga && !fatura.reaberta"
                       stroke-linecap="round"
                       stroke-linejoin="round"
                       stroke-width="2"
                       d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                     />
+                    <path
+                      *ngIf="fatura.reaberta"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                    />
+                    <path
+                      *ngIf="!fatura.paga && !fatura.reaberta"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
                   </svg>
                 </div>
                 <p
                   class="text-sm font-medium"
-                  [class.text-green-700]="fatura.paga"
-                  [class.text-red-700]="!fatura.paga"
+                  [class.text-green-700]="fatura.paga && !fatura.reaberta"
+                  [class.text-yellow-700]="fatura.reaberta"
+                  [class.text-red-700]="!fatura.paga && !fatura.reaberta"
                 >
                   Status
                 </p>
                 <p
                   class="text-2xl font-bold mt-1"
-                  [class.text-green-800]="fatura?.paga === true"
-                  [class.text-red-800]="fatura?.paga === false"
-                  [class.text-gray-500]="
-                    fatura === null ||
-                    fatura === undefined ||
-                    fatura.paga === undefined
-                  "
+                  [class.text-green-800]="fatura.paga && !fatura.reaberta"
+                  [class.text-yellow-800]="fatura.reaberta"
+                  [class.text-red-800]="!fatura.paga && !fatura.reaberta"
                 >
                   {{
                     !fatura
                       ? "SEM DADOS"
-                      : fatura.paga === true
+                      : fatura.reaberta
+                      ? "REABERTA"
+                      : fatura.paga
                       ? "PAGA"
-                      : fatura.paga === false
-                      ? "EM ABERTO"
-                      : "SEM DADOS"
+                      : "EM ABERTO"
                   }}
+                </p>
+                <p
+                  *ngIf="fatura?.reaberta"
+                  class="text-xs text-yellow-600 mt-1"
+                >
+                  Reaberta em: {{ formatarData(fatura.dataReabertura) }}
                 </p>
               </div>
             </div>
@@ -430,13 +454,30 @@
             <p class="text-3xl font-bold text-gray-900 mt-1">
               {{ fatura?.valor | currency : "BRL" : "symbol" : "1.2-2" }}
             </p>
+            <p *ngIf="fatura?.reaberta" class="text-sm text-yellow-600 mt-1">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4 inline mr-1"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                />
+              </svg>
+              Esta fatura foi reaberta para novas transações
+            </p>
           </div>
 
           <div class="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
             <button
               (click)="downloadReport()"
               [disabled]="loading || !fatura"
-              class="flex-1 px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-medium flex items-center justify-center gap-2 transition-colors"
+              class="flex-1 px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-medium flex items-center justify-center gap-2 transition-colors cursor-pointer"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -460,7 +501,7 @@
               *ngIf="!fatura?.paga"
               (click)="pagarFatura()"
               [disabled]="loading"
-              class="flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg text-white font-medium hover:from-blue-700 hover:to-indigo-700 shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 disabled:opacity-70"
+              class="flex-1 px-6 py-3 bg-gradient-to-r from-[#b6c6cc] to-[#5e6d72] rounded-lg text-white font-medium shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 disabled:opacity-70 cursor-pointer"
             >
               <svg
                 *ngIf="!loading"

@@ -46,10 +46,14 @@ export class LoginService {
   }
 
   /** Inicia um verificador de expiração do token */
+  private hasLoggedOut = false;
+
   private startTokenExpirationCheck() {
     interval(5000).subscribe(() => {
-      if (!this.checkToken()) {
-        this.logout();
+      const tokenIsValid = this.checkToken();
+      if (!tokenIsValid && !this.hasLoggedOut) {
+        this.hasLoggedOut = true;
+        this.logout(); // Redireciona apenas uma vez
       }
     });
   }
@@ -62,6 +66,7 @@ export class LoginService {
         timeout(this.timeoutDuration),
         tap((value) => {
           localStorage.setItem('authToken', value.token);
+          this.hasLoggedOut = false;
           this.isLoggedInSubject.next(true);
         })
       );
@@ -79,7 +84,25 @@ export class LoginService {
     localStorage.removeItem('authToken');
     localStorage.removeItem('id');
     this.isLoggedInSubject.next(false);
-    this.router.navigate(['/login']);
+
+    // Remove query params e fragmentos da URL
+    const pathname = new URL(window.location.href).pathname;
+
+    const publicRoutes = [
+      '/login',
+      '/registro',
+      '/reset-password',
+      '/verificar-conta',
+      '/verify',
+    ];
+
+    const isPublicRoute = publicRoutes.some((route) =>
+      pathname.startsWith(route)
+    );
+
+    if (!isPublicRoute) {
+      this.router.navigate(['/login']);
+    }
   }
 
   /** Obtém informações do usuário autenticado */
@@ -90,15 +113,18 @@ export class LoginService {
     );
   }
 
-  /** Reseta a senha do usuário */
-  resetPassword(
-    token: string,
-    newPassword: string
-  ): Observable<{ message: string }> {
-    return this.httpClient.post<{ message: string }>(this.apiUrl, {
-      token,
-      password: newPassword,
-    });
+  resetPassword(token: string, password: string): Observable<any> {
+    return this.httpClient
+      .post(`${this.apiUrl}/reset-password`, {
+        token,
+        password,
+      })
+      .pipe(timeout(this.timeoutDuration));
+  }
+  forgotPassword(email: string): Observable<any> {
+    return this.httpClient
+      .post(`${this.apiUrl}/forgot-password`, { email })
+      .pipe(timeout(this.timeoutDuration));
   }
 
   /** Altera a senha do usuário autenticado */
@@ -108,5 +134,10 @@ export class LoginService {
         headers: this.getAuthHeaders(),
       })
       .pipe(timeout(this.timeoutDuration));
+  }
+  verifyAccount(code: string): Observable<string> {
+    return this.httpClient.get(`${this.apiUrl}/verify?code=${code}`, {
+      responseType: 'text',
+    });
   }
 }

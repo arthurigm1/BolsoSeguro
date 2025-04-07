@@ -36,11 +36,30 @@
         </svg>
       </a>
 
-      <h2
-        class="text-4xl md:text-4xl font-bold text-gray-800 mb-8 text-center font-serif mb-12 md:mb-20"
-      >
-        Bem-vindo ao <span class="text-[#5e6d72]">BolsoSeguro</span>
-      </h2>
+      <div class="text-center mb-10">
+        <div
+          class="w-16 h-16 bg-[#5e6d72] rounded-full flex items-center justify-center mx-auto mb-4"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-8 w-8 text-white"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+        </div>
+        <h1 class="text-3xl font-bold text-gray-800 font-serif">
+          Bem-vindo ao <span class="text-[#5e6d72]">BolsoSeguro</span>
+        </h1>
+        <p class="text-gray-500 mt-2">Faça login para acessar sua conta</p>
+      </div>
 
       <form
         [formGroup]="loginForm"
@@ -86,8 +105,8 @@
         <!-- Forgot Password Link -->
         <div class="text-right">
           <a
-            href="#"
-            class="text-base text-[#5e6d72] hover:underline transition"
+            (click)="openForgotPasswordModal($event)"
+            class="text-base text-[#5e6d72] hover:underline transition cursor-pointer"
           >
             Esqueci minha senha
           </a>
@@ -111,6 +130,105 @@
           >Registre-se</a
         >
       </p>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Esqueci minha senha -->
+<div
+  *ngIf="showForgotPasswordModal"
+  class="fixed inset-0 z-50 backdrop-blur-lg flex items-center justify-center"
+>
+  <div
+    class="bg-white p-6 rounded-xl w-[90%] max-w-md shadow-xl relative animate-fadeIn"
+  >
+    <button
+      (click)="closeForgotPasswordModal()"
+      class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 transition cursor-pointer"
+      [disabled]="isSendingEmail"
+    >
+      <svg
+        class="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    </button>
+
+    <h2 class="text-xl font-bold text-[#5e6d72] mb-4 text-center">
+      Recuperar Senha
+    </h2>
+
+    <form
+      (ngSubmit)="submitForgotPassword()"
+      [formGroup]="forgotPasswordForm"
+      class="space-y-4"
+    >
+      <div>
+        <label class="block text-sm font-medium text-gray-600 mb-1"
+          >E-mail</label
+        >
+        <input
+          formControlName="email"
+          type="email"
+          placeholder="Digite seu e-mail"
+          class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#5e6d72]"
+          [disabled]="isSendingEmail"
+        />
+      </div>
+
+      <button
+        type="submit"
+        [disabled]="forgotPasswordForm.invalid || isSendingEmail"
+        class="w-full bg-[#5e6d72] text-white py-3 rounded-lg hover:opacity-90 transition cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+      >
+        <span *ngIf="!isSendingEmail">Enviar</span>
+        <span *ngIf="isSendingEmail" class="flex items-center gap-2">
+          <svg
+            class="animate-spin h-5 w-5 text-white"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            ></circle>
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
+          Enviando...
+        </span>
+      </button>
+    </form>
+
+    <!-- Mensagens de feedback -->
+    <div *ngIf="forgotPasswordMessage" class="mt-4 animate-fadeIn">
+      <div
+        class="bg-green-50 border border-green-200 rounded-lg p-4 text-center"
+      >
+        <p class="text-green-600 text-sm">{{ forgotPasswordMessage }}</p>
+      </div>
+    </div>
+
+    <div *ngIf="forgotPasswordError" class="mt-4 animate-fadeIn">
+      <div class="bg-red-50 border border-red-200 rounded-lg p-4 text-center">
+        <p class="text-red-600 text-sm">{{ forgotPasswordError }}</p>
+      </div>
     </div>
   </div>
 </div>

@@ -20,7 +20,9 @@ import { Router } from '@angular/router';
 })
 export class RegistroComponent {
   cadastroForm!: FormGroup;
-
+  isSubmitting: boolean = false;
+  errorMessage: string = '';
+  successMessage: string = '';
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -50,16 +52,28 @@ export class RegistroComponent {
   submit(): void {
     if (this.cadastroForm.valid) {
       const { nome, email, senha } = this.cadastroForm.value;
-
+      this.isSubmitting = true;
+      this.errorMessage = '';
+      this.successMessage = '';
       this.authService.signup(nome, email, senha).subscribe({
         next: (response) => {
           this.toastService.success(
             'Cadastro realizado com sucesso',
             'Sucesso'
           );
-          this.router.navigate(['/login']);
+          this.successMessage = 'Conta criada com sucesso! Redirecionando...';
+          this.isSubmitting = false;
+          setTimeout(() => {
+            this.router.navigate(['/login']);
+          }, 2000);
         },
-        error: () => this.toastService.error('Revise seus campos'),
+        error: (error) => {
+          this.toastService.error('Revise seus campos');
+          this.isSubmitting = false;
+          this.errorMessage =
+            error.error?.message ||
+            'Erro ao criar conta. Por favor, tente novamente.';
+        },
       });
     } else {
       this.toastService.error(

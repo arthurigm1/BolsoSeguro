@@ -248,7 +248,7 @@ export class GraficosgeraisComponent implements OnInit, OnDestroy {
   }
 
   private gerarCorAleatoria(semente: string): string {
-    // Gera uma cor baseada no nome da categoria para consistência
+   
     let hash = 0;
     for (let i = 0; i < semente.length; i++) {
       hash = semente.charCodeAt(i) + ((hash << 5) - hash);

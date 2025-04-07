@@ -28,6 +28,8 @@ export interface CartaoDetalhesDTO {
   dataVencimento: string;
   valor: number;
   paga: boolean;
+  dataReabertura: string;
+  reaberta: boolean;
 }
 
 export interface PagamentoFaturaRequest {

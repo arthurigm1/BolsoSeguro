@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import {
   CartaoDTO,
   CartaoResponseDTO,
+  CartaoUpdateDTO,
 } from '../../Interface/CartaoDTO.interface';
 
 @Injectable({
@@ -24,6 +25,18 @@ export class CartaoService {
 
   buscarCartoesPorUsuario(): Observable<CartaoResponseDTO[]> {
     return this.http.get<CartaoResponseDTO[]>(this.apiUrl, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  updateCartao(id: string, cartao: CartaoUpdateDTO): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/${id}`, cartao, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  deleteCartao(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, {
       headers: this.getAuthHeaders(),
     });
   }

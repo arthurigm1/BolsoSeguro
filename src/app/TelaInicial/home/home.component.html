@@ -9,11 +9,25 @@
     <!-- Aqui usamos deferimento e placeholders -->
     @defer(on viewport) {
     <section>
-      <app-sobre />
-      <app-planos id="planos" />
-      <app-funcionalidades />
-      <app-graficos />
-      <app-faq id="faq" />
+      <div data-aos="fade-up">
+        <app-sobre />
+      </div>
+
+      <div data-aos="fade-up" data-aos-delay="100">
+        <app-planos id="planos" />
+      </div>
+
+      <div data-aos="fade-up" data-aos-delay="200">
+        <app-funcionalidades />
+      </div>
+
+      <div data-aos="fade-up" data-aos-delay="300">
+        <app-graficos />
+      </div>
+
+      <div data-aos="fade-up" data-aos-delay="400">
+        <app-faq id="faq" />
+      </div>
     </section>
     } @placeholder {
     <section>

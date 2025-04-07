@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
 import { FaqComponent } from '../faq/faq.component';
@@ -6,7 +6,7 @@ import { FuncionalidadesComponent } from '../funcionalidades/funcionalidades.com
 import { PlanosComponent } from '../planos/planos.component';
 import { SobreComponent } from '../sobre/sobre.component';
 import { GraficosComponent } from '../graficos/graficos.component';
-
+import * as AOS from 'aos';
 @Component({
   selector: 'app-home',
   imports: [
@@ -21,4 +21,12 @@ import { GraficosComponent } from '../graficos/graficos.component';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
-export class HomeComponent {}
+export class HomeComponent implements OnInit {
+  // Inicializado o AOS
+  ngOnInit(): void {
+    AOS.init({
+      duration: 800, // milissegundos
+      once: true, // só anima uma vez
+    });
+  }
+}

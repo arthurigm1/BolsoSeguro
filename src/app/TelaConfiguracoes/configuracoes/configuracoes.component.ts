@@ -36,6 +36,7 @@ import { FaturaDetalhesComponent } from '../../fatura-detalhes/fatura-detalhes.c
     ReactiveFormsModule,
     MinhacontaComponent,
     FaturaDetalhesComponent,
+    ReactiveFormsModule,
   ],
   templateUrl: './configuracoes.component.html',
   styleUrl: './configuracoes.component.scss',
@@ -74,6 +75,26 @@ export class ConfiguracoesComponent {
 
     this.activeComponent = 'cartaofatura';
   }
+  onSubmit() {
+    console.log('Formulário enviado! Tipo:', this.modalType);
+    switch (this.modalType) {
+      case 'conta':
+        this.addAccount();
+        break;
+      case 'categoria':
+        this.addCategory();
+        break;
+      case 'meta':
+        this.addMeta();
+        break;
+      case 'cartao':
+        this.addCard();
+        break;
+      default:
+        break;
+    }
+  }
+
   menuItems = [
     { id: 'categorias', icon: 'fas fa-tags', label: 'Categorias' },
     { id: 'contas', icon: 'fas fa-wallet', label: 'Contas' },
@@ -189,6 +210,7 @@ export class ConfiguracoesComponent {
   dias: number[] = Array.from({ length: 31 }, (_, i) => i + 1);
 
   addCard() {
+    console.log('Salvando cartão...', this.newCard);
     // Garantir que o dia de fechamento da fatura seja um valor válido
     const diaFechamento = +this.newCard.diaFechamentoFatura;
 

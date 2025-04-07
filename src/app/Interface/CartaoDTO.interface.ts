@@ -12,3 +12,9 @@ export interface CartaoResponseDTO {
   limiteDisponivel: number;
   bandeira: string;
 }
+
+export interface CartaoUpdateDTO {
+  nomeCartao?: string;
+  limiteTotal?: number;
+  limiteDisponivel?: number;
+}

@@ -79,6 +79,7 @@
           <div class="flex justify-between items-center">
             <div class="flex space-x-2">
               <button
+                (click)="editarCartao(card)"
                 class="p-2 rounded-full bg-white bg-opacity-20 hover:bg-opacity-30 transition cursor-pointer"
                 title="Editar"
               >
@@ -98,6 +99,7 @@
                 </svg>
               </button>
               <button
+                (click)="deletarCartao(card.id)"
                 class="p-2 rounded-full bg-white bg-opacity-20 hover:bg-opacity-30 transition cursor-pointer"
                 title="Remover"
               >

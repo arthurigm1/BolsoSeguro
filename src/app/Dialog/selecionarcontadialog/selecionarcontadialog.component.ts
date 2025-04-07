@@ -7,8 +7,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material/dialog';
-import { ContaService } from '../Services/ContaService/conta.service';
-import { TransacoesService } from '../Services/TransacaoService/transacoes.service';
+import { ContaService } from '../../Services/ContaService/conta.service';
+import { TransacoesService } from '../../Services/TransacaoService/transacoes.service';
 
 @Component({
   selector: 'app-selecionarcontadialog',
@@ -58,15 +58,21 @@ import { TransacoesService } from '../Services/TransacaoService/transacoes.servi
       </div>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
-      <button mat-button mat-dialog-close>Cancelar</button>
-      <button
-        mat-raised-button
-        color="primary"
-        [disabled]="!contaSelecionada || loading"
-        (click)="confirmar()"
-      >
-        Confirmar
-      </button>
+      <div class="bg-gray-50 px-6 py-4 flex justify-end space-x-3">
+        <button
+          mat-dialog-close
+          class="cursor-pointer px-5 py-2.5 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+        >
+          Cancelar
+        </button>
+        <button
+          [disabled]="!contaSelecionada || loading"
+          (click)="confirmar()"
+          class="flex items-center bg-gradient-to-r from-[#b6c6cc] to-[#5e6d72] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
+        >
+          Confirmar
+        </button>
+      </div>
     </mat-dialog-actions>
   `,
   styles: [

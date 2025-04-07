@@ -56,7 +56,7 @@
         <h3 class="text-xl font-semibold text-black">{{ modalTitle }}</h3>
         <button
           (click)="closeModal()"
-          class="text-black hover:text-gray-200 transition-colors cursor-pointer"
+          class="text-red-500 cursor-pointer rounded-full hover:bg-red-100 p-2 transition duration-200"
         >
           <i class="fas fa-times"></i>
         </button>
@@ -157,17 +157,19 @@
             ></textarea>
           </div>
 
-          <div class="flex justify-end p-6 border-t">
+          <div
+            class="border-t border-gray-200/50 p-6 flex justify-end space-x-4"
+          >
             <button
               type="button"
               (click)="closeModal()"
-              class="px-6 py-2 text-gray-600 hover:text-gray-800 bg-transparent hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
+              class="cursor-pointer px-5 py-2.5 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              class="ml-4 px-6 py-2 bg-black text-white hover:bg-[#b6c6cc] rounded-lg transition-colors cursor-pointer"
+              class="text-bold flex items-center bg-gradient-to-r from-[#b6c6cc] to-[#5e6d72] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
             >
               Salvar
             </button>
@@ -251,17 +253,19 @@
               rows="3"
             ></textarea>
           </div>
-          <div class="flex justify-end p-6 border-t">
+          <div
+            class="border-t border-gray-200/50 p-6 flex justify-end space-x-4"
+          >
             <button
               type="button"
               (click)="closeModal()"
-              class="px-6 py-2 text-gray-600 hover:text-gray-800 bg-transparent hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
+              class="cursor-pointer px-5 py-2.5 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              class="ml-4 px-6 py-2 bg-black text-white hover:bg-[#b6c6cc] rounded-lg transition-colors cursor-pointer"
+              class="text-bold flex items-center bg-gradient-to-r from-[#b6c6cc] to-[#5e6d72] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
             >
               Salvar
             </button>
@@ -283,7 +287,10 @@
             R$ {{ saldo | number : "1.2-2" }}
           </p>
         </div>
-        <div class="bg-gray-300 p-3 rounded-full">
+
+        <div
+          class="w-14 h-14 rounded-lg bg-gray-300 flex items-center justify-center"
+        >
           <i
             class="fas fa-money-bill-wave text-black text-2xl"
             aria-hidden="true"
@@ -504,57 +511,67 @@
         Ver todas Transações
       </button>
     </div>
-    <div
-      class="bg-gray-100 rounded-xl shadow-sm p-6 flex flex-col justify-between h-full"
-    >
-      <h2 class="text-xl font-semibold text-gray-900 mb-6">Meus Cartões</h2>
 
-      <!-- Exibindo a lista de cartões -->
-      <div *ngIf="cartoes.length > 0; else noCards">
+    <div class="bg-gray-100 rounded-xl shadow-sm p-6 flex flex-col h-full">
+      <h2 class="text-lg sm:text-xl font-semibold text-gray-900 mb-4">
+        Meus Cartões
+      </h2>
+
+      <!-- Área de rolagem dos cartões -->
+      <div class="flex-1 overflow-auto">
         <div
-          *ngFor="let card of cartoes"
-          class="mb-4 p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+          *ngIf="cartoes.length > 0; else noCards"
+          class="flex flex-col gap-3"
         >
-          <div class="flex justify-between items-center">
-            <div class="flex items-center">
-              <div
-                class="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 mr-4"
-              >
-                <!-- Exibir logo do cartão -->
-                <img
-                  [src]="getCardLogo(card.bandeira)"
-                  alt="{{ card.nome }}"
-                  class="w-6 h-6"
-                />
-              </div>
-              <div>
-                <strong class="block text-gray-900">{{ card.nome }}</strong>
-                <small class="block text-gray-500">{{ card.bandeira }}</small>
-                <small class="block text-gray-500">
-                  Limite disponível:
-                  {{
-                    card.limiteDisponivel
-                      | currency : "BRL" : "symbol" : "1.2-2"
-                  }}
-                </small>
+          <div
+            *ngFor="let card of cartoes"
+            class="flex items-center justify-between p-3 sm:p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow"
+          >
+            <div class="flex items-center min-w-0">
+              <div class="flex items-center">
+                <div
+                  class="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 mr-4"
+                >
+                  <!-- Exibir logo do cartão -->
+                  <img
+                    [src]="getCardLogo(card.bandeira)"
+                    alt="{{ card.nome }}"
+                    class="w-6 h-6"
+                  />
+                </div>
+                <div>
+                  <strong class="block text-gray-900">{{ card.nome }}</strong>
+                  <small class="block text-gray-500">{{ card.bandeira }}</small>
+                  <small class="block text-gray-500">
+                    Limite disponível:
+                    {{
+                      card.limiteDisponivel
+                        | currency : "BRL" : "symbol" : "1.2-2"
+                    }}
+                  </small>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <button
-        (click)="mudarPagina('configuracoes', 'cartoes')"
-        class="mt-6 w-full bg-[#5e6d72] text-white px-4 py-2 rounded-lg hover:bg-[#8a999f] transition-colors duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 cursor-pointer"
-      >
-        Gerenciar Cartões
-      </button>
 
-      <!-- Template para exibir mensagem caso não haja cartões -->
-      <ng-template #noCards>
-        <p class="text-gray-500 text-center mt-4">
-          Você não tem cartões cadastrados.
-        </p>
-      </ng-template>
+        <!-- Template caso não haja cartões -->
+        <ng-template #noCards>
+          <p class="text-gray-500 text-center mt-4">
+            Você não tem cartões cadastrados.
+          </p>
+        </ng-template>
+      </div>
+
+      <!-- Botão fixado na parte inferior da div -->
+      <div class="mt-4">
+        <button
+          (click)="mudarPagina('configuracoes', 'cartoes')"
+          class="w-full bg-[#5e6d72] text-white px-4 py-2 rounded-lg hover:bg-[#8a999f] transition-colors duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 cursor-pointer"
+        >
+          Gerenciar Cartões
+        </button>
+      </div>
     </div>
   </div>
 </div>

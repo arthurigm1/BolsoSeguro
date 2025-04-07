@@ -1,11 +1,11 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+
+import { Observable } from 'rxjs';
 import {
   CartaoDetalhesDTO,
-  FaturaCartaoDTO,
   PagamentoFaturaRequest,
-} from './Interface/FaturaCartaoDTO.interface';
-import { Observable } from 'rxjs';
+} from '../../Interface/FaturaCartaoDTO.interface';
 
 @Injectable({
   providedIn: 'root',
