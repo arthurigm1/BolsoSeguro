@@ -1,5 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { MetaFinanceiraResponseDTO } from '../../Interface/MetaFinanceiraResponseDTO.interface';
+import {
+  MetaFinanceiraRequestDTO,
+  MetaFinanceiraResponseDTO,
+  MetaFinanceiraResponseDTOComId,
+} from '../../Interface/MetaFinanceiraResponseDTO.interface';
 import {
   FormBuilder,
   FormGroup,
@@ -24,7 +28,7 @@ export class MetasfinanceirasComponent implements OnInit {
   isLoading: boolean = true;
   isSaving: boolean = false;
   metaForm: FormGroup;
-  selectedMeta: MetaFinanceiraResponseDTO | null = null;
+  selectedMeta: MetaFinanceiraResponseDTOComId | null = null;
 
   @Output() openModalEvent = new EventEmitter<void>();
 
@@ -69,7 +73,7 @@ export class MetasfinanceirasComponent implements OnInit {
     this.openModalEvent.emit();
   }
 
-  editMeta(meta: MetaFinanceiraResponseDTO): void {
+  editMeta(meta: MetaFinanceiraResponseDTOComId): void {
     this.selectedMeta = { ...meta };
     this.metaForm.patchValue({
       nome: meta.nome,

@@ -14,3 +14,10 @@ export interface MetaFinanceiraResponseDTO {
   valorAtual?: number;
   progresso?: number; // Adicionado no frontend
 }
+
+export interface MetaFinanceiraResponseDTOComId {
+  id: number;
+  nome: string;
+  valorMeta: number;
+  valorAtual?: number;
+}

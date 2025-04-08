@@ -91,7 +91,7 @@
   <div class="bg-gray-100 rounded-lg shadow-sm p-4 sm:p-6">
     <!-- Despesas -->
 
-    <div ngIf="activeTab === 'expenses'">
+    <div *ngIf="activeTab === 'expenses'">
       @if (loadingExpenses) {
       <div class="space-y-4 py-6">
         <!-- Skeleton loading para categorias de despesas -->

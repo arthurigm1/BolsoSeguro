@@ -169,6 +169,7 @@ export class ConfiguracoesComponent {
   }
 
   addAccount() {
+    this.isSaving = true;
     const contaCadastro: ContaCadastroDTO = {
       banco: this.newAccount.name,
       saldo: this.newAccount.balance,
@@ -179,15 +180,18 @@ export class ConfiguracoesComponent {
         this.contasComponent.atualizarContas();
         this.closeGlobalModal();
         this.contaAtualizada.emit();
+        this.isSaving = false;
       },
       (error) => {
         this.toastrService.error('Erro ao cadastrar conta!');
-        console.error(error);
+
+        this.isSaving = false;
       }
     );
   }
 
   addCategory() {
+    this.isSaving = true;
     const categoriaDTO: CategoriaDTO = {
       nome: this.newCategory.name,
       tipo: this.newCategory.type === 'expense' ? 'DESPESA' : 'RECEITA',
@@ -200,18 +204,19 @@ export class ConfiguracoesComponent {
         this.categoriasComponent.getCategoriasReceitas();
         this.closeGlobalModal();
         this.categoriaAtualizada.emit();
+        this.isSaving = false;
       },
       (error) => {
         this.toastrService.error('Erro ao criar categoria!');
-        console.error(error);
+        this.isSaving = false;
       }
     );
   }
   dias: number[] = Array.from({ length: 31 }, (_, i) => i + 1);
 
   addCard() {
-    console.log('Salvando cartão...', this.newCard);
-    // Garantir que o dia de fechamento da fatura seja um valor válido
+    this.isSaving = true;
+
     const diaFechamento = +this.newCard.diaFechamentoFatura;
 
     // Criar o vencimento da fatura como um número (exemplo: mês de vencimento)
@@ -237,14 +242,17 @@ export class ConfiguracoesComponent {
         this.cartaoComponent.buscarCartoes();
         this.cartaoAtualizado.emit();
         this.closeGlobalModal();
+        this.isSaving = false;
       },
       error: (err) => {
         this.toastrService.error('Erro ao criar cartão!');
+        this.isSaving = false;
       },
     });
   }
-
+  isSaving: boolean = false;
   addMeta() {
+    this.isSaving = true;
     const metaRequest: MetaFinanceiraRequestDTO = {
       nome: this.newGoal.name,
       valorMeta: this.newGoal.targetValue,
@@ -258,9 +266,11 @@ export class ConfiguracoesComponent {
         this.metaAtualizada.emit();
         this.closeGlobalModal();
         this.resetGoalForm();
+        this.isSaving = false;
       },
       error: (error) => {
         this.toastrService.error('Erro ao criar Meta!');
+        this.isSaving = false;
       },
     });
   }

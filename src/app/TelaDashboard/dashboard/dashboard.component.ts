@@ -179,6 +179,25 @@ export class DashboardComponent {
   // Fechar modal
   closeModal() {
     this.isModalOpen = false;
+    this.modalType = '';
+    this.modalTitle = '';
+
+    // Limpa os dados dos formulários
+    this.despesa = {
+      valor: 0,
+      data: new Date(),
+      categoria: '',
+      descricao: '',
+      contaId: '',
+    };
+
+    this.receita = {
+      valor: 0,
+      data: new Date(),
+      categoria: '',
+      descricao: '',
+      contaId: '',
+    };
   }
 
   submitDespesa() {
