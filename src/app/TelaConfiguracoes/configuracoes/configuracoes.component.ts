@@ -179,7 +179,7 @@ export class ConfiguracoesComponent {
     this.contaService.cadastrarConta(contaCadastro).subscribe(
       (novaConta) => {
         this.toastrService.success('Conta cadastrada com sucesso!');
-
+        this.contasComponent.carregarContas();
         this.closeGlobalModal();
         this.contaAtualizada.emit();
         this.isSaving = false;

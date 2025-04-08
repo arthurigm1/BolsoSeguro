@@ -35,9 +35,7 @@ export class ContasComponent {
       .subscribe((data) => (this.accounts = data));
     this.isLoading = false;
   }
-  atualizarContas() {
-    this.carregarContas();
-  }
+
   deleteAccount(id: string) {
     Swal.fire({
       title: 'Tem certeza?',
