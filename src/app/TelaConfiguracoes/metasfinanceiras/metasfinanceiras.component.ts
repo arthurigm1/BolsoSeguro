@@ -75,10 +75,6 @@ export class MetasfinanceirasComponent implements OnInit {
 
   editMeta(meta: MetaFinanceiraResponseDTOComId): void {
     this.selectedMeta = { ...meta };
-    this.metaForm.patchValue({
-      nome: meta.nome,
-      valorMeta: meta.valorMeta,
-    });
   }
 
   closeModal(): void {
@@ -92,7 +88,12 @@ export class MetasfinanceirasComponent implements OnInit {
       const valorAtual = this.selectedMeta.valorAtual || 0;
       this.isSaving = true;
       this.metaService
-        .editarMeta(this.selectedMeta.id.toString(), valorMeta, valorAtual)
+        .editarMeta(
+          this.selectedMeta.id.toString(),
+          nome,
+          valorMeta,
+          valorAtual
+        )
         .subscribe({
           next: (metaAtualizada) => {
             this.carregarMetas(); // Recarrega as metas para refletir as alterações

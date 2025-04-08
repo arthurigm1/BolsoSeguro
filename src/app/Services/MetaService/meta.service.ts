@@ -36,12 +36,14 @@ export class MetaService {
 
   editarMeta(
     metaId: string,
+    nomeMeta: string,
     valorMeta: number,
     valorAtual: number
   ): Observable<MetaFinanceiraResponseDTO> {
     const url = `${this.apiUrl}/${metaId}`;
 
     const body = {
+      nomeMeta,
       valorMeta,
       valorAtual,
     };
