@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TransacoesService } from '../../Services/TransacaoService/transacoes.service';
 import { ContaSaldoDTO } from '../../Interface/ContaSaldoDTO.type';
 import { ContaService } from '../../Services/ContaService/conta.service';
@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-contas',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './contas.component.html',
   styleUrl: './contas.component.scss',
 })

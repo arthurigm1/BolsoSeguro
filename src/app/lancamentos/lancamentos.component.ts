@@ -25,6 +25,7 @@ interface TransacaoDetalhadaDTO {
   styleUrl: './lancamentos.component.scss',
 })
 export class LancamentosComponent implements OnInit {
+  isExporting = false;
   currentDate: Date = new Date();
   selectedDate: Date = new Date();
   transacoes: TransacaoDetalhadaDTO[] = [];
@@ -106,6 +107,7 @@ export class LancamentosComponent implements OnInit {
     return this.getTotalReceitas() - this.getTotalDespesas();
   }
   downloadReport() {
+    this.isExporting = true;
     const mes = this.selectedDate.getMonth() + 1; // JavaScript months are 0-based
     const ano = this.selectedDate.getFullYear();
 
@@ -117,11 +119,12 @@ export class LancamentosComponent implements OnInit {
         a.href = url;
         a.download = `relatorio_${mes}_${ano}.pdf`;
         a.click(); // Simula o clique para iniciar o download
-
+        this.isExporting = false;
         // Liberar o objeto URL após o download
         window.URL.revokeObjectURL(url);
       },
       (error) => {
+        this.isExporting = false;
         console.error('Erro ao gerar o relatório:', error);
       }
     );
