@@ -29,6 +29,7 @@
         <span>Nova Conta</span>
       </button>
     </div>
+
     @if (isLoading) {
     <!-- Loading Spinner -->
     <div class="flex items-center justify-center py-12 sm:py-16">
@@ -62,10 +63,8 @@
     <!-- Lista de Contas - Ajustado para mobile -->
     <div class="bg-gray-100 rounded-xl shadow-sm overflow-hidden">
       <ul id="accounts-sortable" class="divide-y divide-gray-200">
-        <li
-          *ngFor="let account of accounts"
-          class="p-3 sm:p-4 hover:bg-gray-50 transition-colors duration-150"
-        >
+        @for (account of accounts; track account.id) {
+        <li class="p-3 sm:p-4 hover:bg-gray-50 transition-colors duration-150">
           <div class="flex justify-between items-center gap-2">
             <div class="flex items-center min-w-0 flex-1">
               <div class="relative">
@@ -120,8 +119,8 @@
             </div>
           </div>
         </li>
-
-        <li *ngIf="accounts.length === 0" class="p-6 text-center">
+        } @if (accounts.length === 0) {
+        <li class="p-6 text-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-12 w-12 mx-auto text-gray-300"
@@ -143,14 +142,13 @@
             Adicione sua primeira conta para começar
           </p>
         </li>
+        }
       </ul>
     </div>
 
     <!-- Totalizador - Ajustado para mobile -->
-    <div
-      *ngIf="accounts.length > 0"
-      class="mt-4 bg-gray-100 rounded-xl shadow-sm p-3 sm:p-4"
-    >
+    @if (accounts.length > 0) {
+    <div class="mt-4 bg-gray-100 rounded-xl shadow-sm p-3 sm:p-4">
       <div class="flex justify-between items-center">
         <h3 class="text-sm sm:text-base font-medium text-gray-700">
           Saldo Total
@@ -164,6 +162,6 @@
         </span>
       </div>
     </div>
-    }
+    } }
   </div>
 </div>
