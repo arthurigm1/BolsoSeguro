@@ -75,6 +75,12 @@ export class MetasfinanceirasComponent implements OnInit {
 
   editMeta(meta: MetaFinanceiraResponseDTOComId): void {
     this.selectedMeta = { ...meta };
+
+    // Preenche o formulário com os valores da meta selecionada
+    this.metaForm.patchValue({
+      nome: meta.nome,
+      valorMeta: meta.valorMeta,
+    });
   }
 
   closeModal(): void {
@@ -83,34 +89,48 @@ export class MetasfinanceirasComponent implements OnInit {
   }
 
   atualizarMeta(): void {
+    // Verifica se o formulário é válido e há uma meta selecionada
     if (this.metaForm.valid && this.selectedMeta) {
-      const { nome, valorMeta } = this.metaForm.value;
-      const valorAtual = this.selectedMeta.valorAtual || 0;
       this.isSaving = true;
+
+      // Pega os valores do formulário
+      const formValues = this.metaForm.value;
+      const valorAtual = this.selectedMeta.valorAtual ?? 0;
+
+      // Cria o objeto com os dados atualizados
+      const metaAtualizada: MetaFinanceiraRequestDTO = {
+        nome: formValues.nome,
+        valorMeta: Number(formValues.valorMeta),
+        valorAtual: Number(valorAtual),
+      };
+
       this.metaService
         .editarMeta(
           this.selectedMeta.id.toString(),
-          nome,
-          valorMeta,
-          valorAtual
+          metaAtualizada.nome,
+          metaAtualizada.valorMeta,
+          metaAtualizada.valorAtual ?? 0
         )
         .subscribe({
-          next: (metaAtualizada) => {
-            this.carregarMetas(); // Recarrega as metas para refletir as alterações
-            this.closeModal(); // Fecha o modal após a atualização
-            this.isSaving = false;
-            this.toasrtservice.success(
-              'Meta financeira atualizada com sucesso!'
-            );
+          next: () => {
+            this.toasrtservice.success('Meta atualizada com sucesso!');
+            this.carregarMetas();
+            this.closeModal();
           },
           error: (err) => {
             this.isSaving = false;
-            this.toasrtservice.error('Erro ao atualizar meta financeira');
+            this.toasrtservice.error('Erro ao atualizar meta');
+            console.error('Erro ao atualizar meta:', err);
+          },
+          complete: () => {
+            this.isSaving = false;
           },
         });
+    } else {
+      // Marca os campos como tocados para mostrar erros de validação
+      this.metaForm.markAllAsTouched();
     }
   }
-
   deletarMeta(id: number): void {
     // Exibe o SweetAlert2 para confirmar a exclusão
     Swal.fire({

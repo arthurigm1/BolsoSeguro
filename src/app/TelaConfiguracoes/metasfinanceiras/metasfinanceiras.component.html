@@ -32,9 +32,9 @@
       </button>
     </div>
 
+    @if (isLoading) {
     <!-- Cards de Metas -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mb-10">
-      @if (isLoading) {
       <div
         class="flex flex-col items-center justify-center p-10 bg-gray-100 rounded-2xl border border-gray-200 shadow-sm"
       >
@@ -66,7 +66,7 @@
           </p>
         </div>
       </div>
-      }@else {
+
       <!-- Card de Meta -->
       <div
         *ngFor="let meta of metas"
@@ -182,9 +182,8 @@
           </div>
         </div>
       </div>
-      }
     </div>
-
+    }@else {
     <!-- Estado Vazio -->
     <div *ngIf="metas.length === 0" class="py-16 text-center">
       <div class="max-w-md mx-auto px-4">
@@ -201,7 +200,7 @@
         </p>
       </div>
     </div>
-
+    }
     <!-- Modal -->
     <div
       *ngIf="selectedMeta"
@@ -215,9 +214,7 @@
         <div
           class="flex justify-between items-center border-b border-gray-200/50 p-6"
         >
-          <h3 class="text-xl font-bold text-gray-800">
-            {{ selectedMeta ? "Editar Meta" : "Nova Meta" }}
-          </h3>
+          <h3 class="text-xl font-bold text-gray-800">Editar Meta</h3>
           <button
             (click)="closeModal()"
             class="text-red-500 cursor-pointer rounded-full hover:bg-red-100 p-2 transition duration-200"

@@ -49,7 +49,7 @@ export class ConfiguracoesComponent {
     private categoriaService: CategoriaService,
     private metaService: MetaService
   ) {}
-
+  isSaving: boolean = false;
   @Input() activeComponent: string = 'categorias';
   @Output() contaAtualizada = new EventEmitter<void>();
   @Output() categoriaAtualizada = new EventEmitter<void>();
@@ -250,7 +250,7 @@ export class ConfiguracoesComponent {
       },
     });
   }
-  isSaving: boolean = false;
+
   addMeta() {
     this.isSaving = true;
     const metaRequest: MetaFinanceiraRequestDTO = {
@@ -262,11 +262,11 @@ export class ConfiguracoesComponent {
     this.metaService.criarMeta(metaRequest).subscribe({
       next: (response) => {
         this.toastrService.success('Meta criada com sucesso!');
+        this.isSaving = false;
         this.metasComponent.carregarMetas();
         this.metaAtualizada.emit();
         this.closeGlobalModal();
         this.resetGoalForm();
-        this.isSaving = false;
       },
       error: (error) => {
         this.toastrService.error('Erro ao criar Meta!');
