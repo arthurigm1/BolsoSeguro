@@ -69,7 +69,7 @@ export class DashboardComponent {
   isModalOpen = false;
   modalTitle = '';
   modalType = '';
-
+  isSaving: boolean = false;
   transferencia = {
     valor: null,
     data: null,
@@ -201,6 +201,7 @@ export class DashboardComponent {
   }
 
   submitDespesa() {
+    this.isSaving = true;
     const despesa: any = {
       categoria: this.despesa.categoria,
       valor: this.despesa.valor,
@@ -219,17 +220,20 @@ export class DashboardComponent {
     // Enviar despesa para o serviço
     this.despesaService.adicionarDespesa(despesa).subscribe({
       next: () => {
+        this.isSaving = false;
         this.toastService.success('Despesa adicionada com sucesso!');
         this.carregarDados();
         this.closeModal();
       },
       error: () => {
+        this.isSaving = false;
         this.toastService.error('Erro ao adicionar despesa');
       },
     });
   }
 
   submitReceita() {
+    this.isSaving = true;
     const receita = {
       contaId: this.receita.contaId, // ID da conta
       categoria: this.receita.categoria, // Categoria da despesa
@@ -240,11 +244,13 @@ export class DashboardComponent {
 
     this.receitaService.adicionarReceita(receita).subscribe({
       next: () => {
+        this.isSaving = false;
         this.toastService.success('Despesa adicionada com sucesso!');
         this.carregarDados();
         this.closeModal();
       },
       error: (err) => {
+        this.isSaving = false;
         this.toastService.error('Erro ao adicionar despesa');
       },
     });
