@@ -26,7 +26,7 @@ export class CartaoComponent implements OnInit {
   verDetalhesFatura(cartaoId: string): void {
     this.showFaturaEvent.emit(cartaoId);
   }
-
+  isLoading = true;
   editarCartao(card: any) {
     const dialogRef = this.dialog.open(EditCardDialogComponent, {
       width: '500px',
@@ -57,12 +57,17 @@ export class CartaoComponent implements OnInit {
     this.buscarCartoes();
   }
   buscarCartoes() {
+    this.isLoading = true;
     this.cartaoService.buscarCartoesPorUsuario().subscribe(
       (response: CartaoResponseDTO[]) => {
-        this.creditCards = response; // Atribui a resposta ao array de cartões
+        this.creditCards = response;
+        this.isLoading = false;
       },
       (error) => {
-        console.error('Erro ao buscar cartões', error);
+        this.toastr.error(
+          'Erro ao carregar os cartões. Tente novamente mais tarde.'
+        );
+        this.isLoading = false;
       }
     );
   }

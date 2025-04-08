@@ -263,7 +263,7 @@ export class ConfiguracoesComponent {
       next: (response) => {
         this.toastrService.success('Meta criada com sucesso!');
         this.isSaving = false;
-        this.metasComponent.carregarMetas();
+        this.metasComponent.atualizarMeta();
         this.metaAtualizada.emit();
         this.closeGlobalModal();
         this.resetGoalForm();

@@ -15,7 +15,7 @@ import Swal from 'sweetalert2';
 })
 export class ContasComponent {
   isModalOpen = false;
-
+  isLoading = true;
   constructor(
     private contaService: ContaService,
     private toastrService: ToastrService
@@ -33,6 +33,7 @@ export class ContasComponent {
     this.contaService
       .getSaldoContas()
       .subscribe((data) => (this.accounts = data));
+    this.isLoading = false;
   }
   atualizarContas() {
     this.carregarContas();
