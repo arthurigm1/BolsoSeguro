@@ -21,8 +21,22 @@ export class CategoriasComponent {
   @Output() openModalEvent = new EventEmitter<'expense' | 'income'>();
   categoriasDespesas: any[] = [];
   categoriasReceitas: any[] = [];
+
+  isLoading: boolean = true;
+  loadingExpenses: boolean = false;
+  loadingEarnings: boolean = false;
+  isAddingCategory: boolean = false;
+  deletingCategoryId: string | null = null;
   setActiveTab(tab: 'expenses' | 'earnings') {
     this.activeTab = tab;
+    if (tab === 'expenses') {
+      this.loadingExpenses = true;
+      // Recarrega dados se necessário
+      setTimeout(() => (this.loadingExpenses = false), 500); // Simula carregamento
+    } else {
+      this.loadingEarnings = true;
+      setTimeout(() => (this.loadingEarnings = false), 500); // Simula carregamento
+    }
   }
 
   openModal() {
@@ -36,13 +50,16 @@ export class CategoriasComponent {
   }
 
   getCategoriasDespesas(): Promise<void> {
+    this.isLoading = true;
     return new Promise((resolve, reject) => {
       this.transacaoService.obterCategoriasDespesas().subscribe(
         (data) => {
+          this.isLoading = false;
           this.categoriasDespesas = data;
           resolve();
         },
         (error) => {
+          this.isLoading = false;
           console.error('Erro ao carregar categorias de despesas:', error);
           reject(error);
         }
@@ -51,13 +68,16 @@ export class CategoriasComponent {
   }
 
   getCategoriasReceitas(): Promise<void> {
+    this.isLoading = true;
     return new Promise((resolve, reject) => {
       this.transacaoService.obterCategoriasReceitas().subscribe(
         (data) => {
+          this.isLoading = false;
           this.categoriasReceitas = data;
           resolve();
         },
         (error) => {
+          this.isLoading = false;
           console.error('Erro ao carregar categorias de receitas:', error);
           reject(error);
         }
@@ -66,6 +86,7 @@ export class CategoriasComponent {
   }
 
   deletarCategoria(id: string) {
+    this.deletingCategoryId = id;
     Swal.fire({
       title: 'Tem certeza?',
       text: 'Esta ação não pode ser desfeita! Não e possivel excluir categorias com despesas ou receitas associadas.',
@@ -84,10 +105,12 @@ export class CategoriasComponent {
               'A categoria foi excluída com sucesso.',
               'success'
             );
+            this.deletingCategoryId = null;
             this.getCategoriasDespesas();
             this.getCategoriasReceitas();
           },
           (error) => {
+            this.deletingCategoryId = null;
             Swal.fire(
               'Erro!',
               'Erro ao excluir categoria, ela está associada a uma Despesa ou Receita.',

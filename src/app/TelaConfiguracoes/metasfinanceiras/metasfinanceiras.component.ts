@@ -21,7 +21,8 @@ import Swal from 'sweetalert2';
 })
 export class MetasfinanceirasComponent implements OnInit {
   metas: MetaFinanceiraResponseDTO[] = [];
-
+  isLoading: boolean = true;
+  isSaving: boolean = false;
   metaForm: FormGroup;
   selectedMeta: MetaFinanceiraResponseDTO | null = null;
 
@@ -43,14 +44,18 @@ export class MetasfinanceirasComponent implements OnInit {
   }
 
   carregarMetas(): void {
+    this.isLoading = true;
     this.metaService.listarMetas().subscribe({
       next: (metas) => {
+        this.isLoading = false;
         this.metas = metas.map((meta) => ({
           ...meta,
+
           progresso: this.calcularProgresso(meta),
         }));
       },
       error: (err) => {
+        this.isLoading = false;
         this.toasrtservice.error('Erro ao carregar metas financeiras');
       },
     });
@@ -81,18 +86,20 @@ export class MetasfinanceirasComponent implements OnInit {
     if (this.metaForm.valid && this.selectedMeta) {
       const { nome, valorMeta } = this.metaForm.value;
       const valorAtual = this.selectedMeta.valorAtual || 0;
-
+      this.isSaving = true;
       this.metaService
         .editarMeta(this.selectedMeta.id.toString(), valorMeta, valorAtual)
         .subscribe({
           next: (metaAtualizada) => {
             this.carregarMetas(); // Recarrega as metas para refletir as alterações
             this.closeModal(); // Fecha o modal após a atualização
+            this.isSaving = false;
             this.toasrtservice.success(
               'Meta financeira atualizada com sucesso!'
             );
           },
           error: (err) => {
+            this.isSaving = false;
             this.toasrtservice.error('Erro ao atualizar meta financeira');
           },
         });

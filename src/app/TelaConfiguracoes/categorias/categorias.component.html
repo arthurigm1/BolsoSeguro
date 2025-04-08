@@ -13,8 +13,31 @@
     </div>
     <button
       (click)="openModal()"
+      [disabled]="isAddingCategory"
       class="w-full sm:w-auto flex items-center justify-center font-semibold bg-gradient-to-r from-[#b6c6cc] to-[#5e6d72] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
     >
+      @if (isAddingCategory) {
+      <svg
+        class="animate-spin h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2 text-white"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <circle
+          class="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          stroke-width="4"
+        ></circle>
+        <path
+          class="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+        ></path>
+      </svg>
+      Processando... } @else {
       <svg
         xmlns="http://www.w3.org/2000/svg"
         class="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2"
@@ -32,6 +55,7 @@
           ? "Nova Categoria de Despesa"
           : "Nova Categoria de Receita"
       }}
+      }
     </button>
   </div>
 
@@ -66,7 +90,23 @@
   <!-- Content Box -->
   <div class="bg-gray-100 rounded-lg shadow-sm p-4 sm:p-6">
     <!-- Despesas -->
-    <div *ngIf="activeTab === 'expenses'">
+
+    <div ngIf="activeTab === 'expenses'">
+      @if (loadingExpenses) {
+      <div class="space-y-4 py-6">
+        <!-- Skeleton loading para categorias de despesas -->
+        <div
+          *ngFor="let i of [1, 2, 3]"
+          class="animate-pulse flex justify-between items-center py-3 px-4"
+        >
+          <div class="flex items-center">
+            <div class="w-6 h-6 bg-gray-200 rounded-full mr-3"></div>
+            <div class="h-4 bg-gray-200 rounded w-32"></div>
+          </div>
+          <div class="w-4 h-4 bg-gray-200 rounded-full"></div>
+        </div>
+      </div>
+      } @else {
       <h2
         class="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-gray-800 flex items-center"
       >
@@ -94,9 +134,32 @@
           </div>
           <button
             (click)="deletarCategoria(category.id)"
+            [disabled]="deletingCategoryId === category.id"
             class="p-2 rounded-full bg-white bg-opacity-20 hover:bg-opacity-30 transition cursor-pointer"
             title="Remover"
           >
+            @if (deletingCategoryId === category.id) {
+            <svg
+              class="animate-spin h-4 w-4 text-gray-500"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+            } @else {
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-4 w-4"
@@ -111,13 +174,30 @@
                 d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
               />
             </svg>
+            }
           </button>
         </li>
       </ul>
-    </div>
 
+      }
+    </div>
     <!-- Receitas -->
     <div *ngIf="activeTab === 'earnings'">
+      @if (loadingEarnings) {
+      <div class="space-y-4 py-6">
+        <!-- Skeleton loading para categorias de receitas -->
+        <div
+          *ngFor="let i of [1, 2, 3]"
+          class="animate-pulse flex justify-between items-center py-3 px-4"
+        >
+          <div class="flex items-center">
+            <div class="w-6 h-6 bg-gray-200 rounded-full mr-3"></div>
+            <div class="h-4 bg-gray-200 rounded w-32"></div>
+          </div>
+          <div class="w-4 h-4 bg-gray-200 rounded-full"></div>
+        </div>
+      </div>
+      } @else {
       <h2
         class="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-gray-800 flex items-center"
       >
@@ -165,6 +245,7 @@
           </button>
         </li>
       </ul>
+      }
     </div>
   </div>
 </div>
