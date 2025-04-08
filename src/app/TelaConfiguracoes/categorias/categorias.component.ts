@@ -17,6 +17,7 @@ export class CategoriasComponent {
     private categoriaService: CategoriaService,
     private toastrService: ToastrService
   ) {}
+  isLoadingPage = true;
   activeTab: 'expenses' | 'earnings' = 'expenses';
   @Output() openModalEvent = new EventEmitter<'expense' | 'income'>();
   categoriasDespesas: any[] = [];
@@ -45,21 +46,24 @@ export class CategoriasComponent {
     this.openModalEvent.emit(tipo);
   }
   ngOnInit(): void {
-    this.getCategoriasDespesas();
-    this.getCategoriasReceitas();
+    Promise.all([this.getCategoriasDespesas(), this.getCategoriasReceitas()])
+      .then(() => {
+        this.isLoadingPage = false;
+      })
+      .catch((err) => {
+        console.error('Erro ao carregar categorias:', err);
+        this.isLoadingPage = false;
+      });
   }
 
   getCategoriasDespesas(): Promise<void> {
-    this.isLoading = true;
     return new Promise((resolve, reject) => {
       this.transacaoService.obterCategoriasDespesas().subscribe(
         (data) => {
-          this.isLoading = false;
           this.categoriasDespesas = data;
           resolve();
         },
         (error) => {
-          this.isLoading = false;
           console.error('Erro ao carregar categorias de despesas:', error);
           reject(error);
         }
@@ -68,16 +72,13 @@ export class CategoriasComponent {
   }
 
   getCategoriasReceitas(): Promise<void> {
-    this.isLoading = true;
     return new Promise((resolve, reject) => {
       this.transacaoService.obterCategoriasReceitas().subscribe(
         (data) => {
-          this.isLoading = false;
           this.categoriasReceitas = data;
           resolve();
         },
         (error) => {
-          this.isLoading = false;
           console.error('Erro ao carregar categorias de receitas:', error);
           reject(error);
         }

@@ -14,7 +14,7 @@ import { DespesaService } from '../../Services/DespesaService/despesa.service';
 import { ToastrService } from 'ngx-toastr';
 import { ReceitaService } from '../../Services/ReceitaService/receita.service';
 import { ContaSaldoDTO } from '../../Interface/ContaSaldoDTO.type';
-import { Observable } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { ContaService } from '../../Services/ContaService/conta.service';
 import { MetaFinanceiraResponseDTO } from '../../Interface/MetaFinanceiraResponseDTO.interface';
 import { MetaService } from '../../Services/MetaService/meta.service';
@@ -38,6 +38,7 @@ export class DashboardComponent {
     private metaService: MetaService,
     private cartaoService: CartaoService
   ) {}
+  isLoading = true;
   @Output() activeComponentChange = new EventEmitter<string>();
   @Output() viewChange: EventEmitter<string> = new EventEmitter<string>();
   accounts: ContaSaldoDTO[] = [];
@@ -80,32 +81,35 @@ export class DashboardComponent {
   ngOnInit(): void {
     this.carregarDados();
   }
-
   carregarDados() {
-    this.transacaoService
-      .obterSaldo()
-      .subscribe(
-        (data) => ((this.saldo = data.saldo), (this.nome = data.nome))
-      );
-    this.transacaoService
-      .obterTotalReceitasMes()
-      .subscribe((data) => (this.totalReceitas = data));
-    this.transacaoService
-      .obterTotalDespesasMes()
-      .subscribe((data) => (this.totalDespesas = data));
+    this.isLoading = true;
 
-    this.metaService.listarMetas().subscribe((data) => (this.metas = data));
-    this.transacaoService
-      .obterUltimasTransacoes()
-      .subscribe((data) => (this.transacoes = data));
-    this.transacaoService
-      .obterSaldoInvestimentos()
-      .subscribe((data) => (this.totalInvestimento = data));
-    this.contaService
-      .getSaldoContas()
-      .subscribe((data) => (this.accounts = data));
-    this.cartaoService.buscarCartoesPorUsuario().subscribe((data) => {
-      this.cartoes = data;
+    forkJoin({
+      saldo: this.transacaoService.obterSaldo(),
+      receitas: this.transacaoService.obterTotalReceitasMes(),
+      despesas: this.transacaoService.obterTotalDespesasMes(),
+      metas: this.metaService.listarMetas(),
+      transacoes: this.transacaoService.obterUltimasTransacoes(),
+      investimentos: this.transacaoService.obterSaldoInvestimentos(),
+      contas: this.contaService.getSaldoContas(),
+      cartoes: this.cartaoService.buscarCartoesPorUsuario(),
+    }).subscribe({
+      next: (res) => {
+        this.saldo = res.saldo.saldo;
+        this.nome = res.saldo.nome;
+        this.totalReceitas = res.receitas;
+        this.totalDespesas = res.despesas;
+        this.metas = res.metas;
+        this.transacoes = res.transacoes;
+        this.totalInvestimento = res.investimentos;
+        this.accounts = res.contas;
+        this.cartoes = res.cartoes;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.toastService.error('Erro ao carregar dados do dashboard');
+        this.isLoading = false;
+      },
     });
   }
 

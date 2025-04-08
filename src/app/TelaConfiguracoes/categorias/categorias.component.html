@@ -58,7 +58,35 @@
       }
     </button>
   </div>
-
+  @if (isLoadingPage) {
+  <div class="flex items-center justify-center min-h-[60vh] w-full">
+    <div class="text-center">
+      <svg
+        class="animate-spin h-10 w-10 sm:h-12 sm:w-12 text-[#5e6d72] mx-auto"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <circle
+          class="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          stroke-width="4"
+        />
+        <path
+          class="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+        />
+      </svg>
+      <p class="mt-4 text-base font-medium text-gray-600">
+        Carregando categorias...
+      </p>
+    </div>
+  </div>
+  } @else {
   <!-- Navigation Tabs -->
   <div class="bg-gray-100 rounded-lg shadow-sm mb-6">
     <ul class="flex flex-col sm:flex-row">
@@ -91,7 +119,7 @@
   <div class="bg-gray-100 rounded-lg shadow-sm p-4 sm:p-6">
     <!-- Despesas -->
 
-    <div *ngIf="activeTab === 'expenses'">
+    <div ngIf="activeTab === 'expenses'">
       @if (loadingExpenses) {
       <div class="space-y-4 py-6">
         <!-- Skeleton loading para categorias de despesas -->
@@ -248,4 +276,5 @@
       }
     </div>
   </div>
+  }
 </div>

@@ -30,10 +30,18 @@ export class ContasComponent {
     this.openModalEvent.emit();
   }
   carregarContas() {
-    this.contaService
-      .getSaldoContas()
-      .subscribe((data) => (this.accounts = data));
-    this.isLoading = false;
+    this.isLoading = true;
+    this.contaService.getSaldoContas().subscribe({
+      next: (data) => {
+        this.accounts = data;
+        this.isLoading = false; // SÓ aqui você pode desativar o loading
+      },
+      error: (err) => {
+        console.error('Erro ao carregar contas:', err);
+        this.toastrService.error('Erro ao carregar contas.');
+        this.isLoading = false;
+      },
+    });
   }
 
   deleteAccount(id: string) {
