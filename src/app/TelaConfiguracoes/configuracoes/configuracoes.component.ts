@@ -59,12 +59,14 @@ export class ConfiguracoesComponent {
   @ViewChild(CategoriasComponent) categoriasComponent!: CategoriasComponent;
   @ViewChild(CartaoComponent) cartaoComponent!: CartaoComponent;
   @ViewChild(MetasfinanceirasComponent)
+  metasComponent!: MetasfinanceirasComponent;
+
   faturaData: any = null; // Para armazenar os dados da fatura
   mobileMenuOpen: boolean = false;
   toggleMobileMenu() {
     this.mobileMenuOpen = !this.mobileMenuOpen;
   }
-  metasComponent!: MetasfinanceirasComponent; // Nova referência
+
   showFaturaDetails(cartaoId: string): void {
     const hoje = new Date();
     this.faturaData = {
@@ -177,7 +179,7 @@ export class ConfiguracoesComponent {
     this.contaService.cadastrarConta(contaCadastro).subscribe(
       (novaConta) => {
         this.toastrService.success('Conta cadastrada com sucesso!');
-        this.contasComponent.atualizarContas();
+
         this.closeGlobalModal();
         this.contaAtualizada.emit();
         this.isSaving = false;
