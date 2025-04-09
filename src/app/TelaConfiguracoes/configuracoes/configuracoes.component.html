@@ -247,7 +247,9 @@
         </div>
 
         <!-- Formulário de Meta -->
+        <!-- Formulário de Meta -->
         <div *ngIf="modalType === 'meta'">
+          <!-- Nome da Meta -->
           <div>
             <label class="block text-sm font-medium text-gray-700"
               >Nome da Meta</label
@@ -256,10 +258,21 @@
               type="text"
               [(ngModel)]="newGoal.name"
               name="goalName"
+              #goalName="ngModel"
               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
               required
             />
+            <div
+              *ngIf="goalName.invalid && goalName.touched"
+              class="text-red-500 text-xs mt-1"
+            >
+              <span *ngIf="goalName.errors?.['required']"
+                >Nome da meta é obrigatório.</span
+              >
+            </div>
           </div>
+
+          <!-- Valor Alvo -->
           <div>
             <label class="block text-sm font-medium text-gray-700"
               >Valor Alvo (R$)</label
@@ -268,12 +281,26 @@
               type="number"
               [(ngModel)]="newGoal.targetValue"
               name="targetValue"
+              #targetValue="ngModel"
               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
               required
               min="0.01"
               step="0.01"
             />
+            <div
+              *ngIf="targetValue.invalid && targetValue.touched"
+              class="text-red-500 text-xs mt-1"
+            >
+              <span *ngIf="targetValue.errors?.['required']"
+                >O valor alvo é obrigatório.</span
+              >
+              <span *ngIf="targetValue.errors?.['min']"
+                >O valor alvo deve ser maior que 0.</span
+              >
+            </div>
           </div>
+
+          <!-- Valor Atual -->
           <div>
             <label class="block text-sm font-medium text-gray-700"
               >Valor Atual (R$)</label
@@ -282,13 +309,39 @@
               type="number"
               [(ngModel)]="newGoal.currentValue"
               name="currentValue"
+              #currentValue="ngModel"
               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
               required
               min="0"
               step="0.01"
               [max]="newGoal.targetValue"
             />
+            <div
+              *ngIf="currentValue.invalid && currentValue.touched"
+              class="text-red-500 text-xs mt-1"
+            >
+              <span *ngIf="currentValue.errors?.['required']"
+                >O valor atual é obrigatório.</span
+              >
+              <span *ngIf="currentValue.errors?.['min']"
+                >O valor atual deve ser maior que 0.</span
+              >
+              <span *ngIf="currentValue.errors?.['max']"
+                >O valor atual não pode ser maior que o valor alvo.</span
+              >
+            </div>
           </div>
+
+          <!-- Botão de Envio -->
+          <button
+            type="submit"
+            class="mt-4 bg-[#5e6d72] text-white py-2 px-4 rounded-lg hover:bg-[#4e5b61]"
+            [disabled]="
+              goalName.invalid || targetValue.invalid || currentValue.invalid
+            "
+          >
+            Salvar Meta
+          </button>
         </div>
 
         <div *ngIf="modalType === 'cartao'" class="space-y-4">

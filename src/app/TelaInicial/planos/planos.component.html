@@ -1,85 +1,135 @@
-<header class="py-12 text-white mb-10">
-  <div class="container mx-auto px-4">
+<header class="py-3 text-[#013E4C]">
+  <div class="container mx-auto px-4 md:px-10 lg:px-20">
     <!-- Título e Descrição -->
-    <div class="text-center mb-12 animate-fade-in">
-      <h1 class="text-3xl md:text-4xl font-bold mb-4 text-[#5e6d72]">
-        Planos BolsoSeguro
+    <div class="text-center mb-16 animate-fade-in">
+      <span
+        class="inline-block bg-[#D8EAE5] text-[#1C6956] text-xs font-semibold px-4 py-1 rounded-full uppercase tracking-wider mb-4"
+      >
+        Planos flexíveis
+      </span>
+      <h1 class="text-5xl md:text-6xl font-black mb-6 leading-tight">
+        Controle financeiro feito para <span class="text-[#1C6956]">você</span>
       </h1>
-      <h3 class="text-xl md:text-x1 text-[#748389]">
-        Controle suas finanças de forma simples e segura.
-        <a href="#" class="text-black hover:text-gray-800 transition-colors">
-          <strong>Comece gratuitamente</strong>
+      <p class="text-lg md:text-xl text-[#5e6d72] max-w-2xl mx-auto">
+        Gerencie seu dinheiro com ferramentas poderosas e uma interface
+        intuitiva.
+        <a
+          href="#"
+          class="text-[#1C6956] hover:text-[#013E4C] font-semibold transition-colors"
+        >
+          Comece gratuitamente →
         </a>
-      </h3>
-
-      <hr class="border-[#8a999f] my-8" />
+      </p>
     </div>
 
     <!-- Cards de Planos -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-      <!-- Plano Gratuito -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 mb-20">
+      <!-- Gratuito -->
       <div
-        class="bg-white rounded-xl shadow-2xl p-8 transform hover:scale-105 transition-transform duration-300 animate-slide-in-left"
+        class="bg-white rounded-3xl shadow-md hover:shadow-xl p-8 transition-transform duration-300 hover:-translate-y-1"
       >
-        <div class="text-center">
-          <h4 class="text-2xl font-bold text-[#5e6d72] mb-4">Gratuito</h4>
-          <h2 class="text-3xl font-bold text-[#748389] mb-4">
-            R$ <span>0,00</span>
-          </h2>
-          <p class="text-[#8a999f] mb-6">
-            Ideal para o gerenciamento financeiro básico. Somente recursos
-            gratuitos.
-          </p>
-          <a
-            href="#"
-            class="bg-[#5e6d72] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#748389] transition-colors"
+        <div class="flex items-center mb-4">
+          <h3 class="text-2xl font-bold text-[#013E4C]">Gratuito</h3>
+          <span
+            class="ml-auto bg-[#D8EAE5] text-[#1C6956] text-xs font-semibold px-3 py-0.5 rounded-full"
           >
-            Comece agora
-          </a>
+            Popular
+          </span>
         </div>
+        <p class="text-[#5e6d72] mb-6 text-sm">
+          Ideal para começar a organizar suas finanças.
+        </p>
+        <div class="mb-8">
+          <span class="text-4xl font-bold text-[#013E4C]">R$0</span>
+          <span class="text-[#748389]">/sempre</span>
+        </div>
+        <a
+          href="#"
+          class="block w-full py-3 px-6 text-center border border-[#E0E5E7] rounded-full font-medium text-[#1C6956] hover:bg-[#F8F7F5] transition-colors"
+        >
+          Começar agora
+        </a>
       </div>
 
-      <!-- Plano Profissional -->
+      <!-- Profissional -->
       <div
-        class="bg-white rounded-xl shadow-2xl p-8 transform hover:scale-105 transition-transform duration-300 animate-slide-in-right relative"
+        class="relative bg-white rounded-3xl shadow-xl border-2 border-[#1C6956] p-8 transform scale-[1.02] hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
       >
         <div
-          class="absolute top-0 right-0 bg-[#748389] text-white px-4 py-2 rounded-bl-xl rounded-tr-xl"
+          class="absolute top-0 right-0 bg-[#1C6956] text-white text-xs font-bold px-3 py-1 rounded-bl-2xl rounded-tr-2xl"
         >
-          Mais contratado
+          RECOMENDADO
         </div>
-        <div class="text-center">
-          <h4 class="text-2xl font-bold text-[#5e6d72] mb-4">Profissional</h4>
-          <h2 class="text-3xl font-bold text-[#748389] mb-4">
-            R$ <span>27,90</span>/mês
-          </h2>
-          <p class="text-[#8a999f] mb-6">
-            Para quem precisa de funcionalidades mais avançadas para controlar
-            suas finanças.
-          </p>
-          <a
-            href="#"
-            class="bg-[#748389] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#5e6d72] transition-colors"
+        <div class="flex items-center mb-4">
+          <h3 class="text-2xl font-bold text-[#013E4C]">Profissional</h3>
+          <span
+            class="ml-auto bg-[#D8EAE5] text-[#1C6956] text-xs font-semibold px-3 py-0.5 rounded-full"
           >
-            Assine agora
-          </a>
+            Melhor custo-benefício
+          </span>
         </div>
+        <p class="text-[#5e6d72] mb-6 text-sm">
+          Para quem quer controle total das finanças com todos os recursos.
+        </p>
+        <div class="mb-8">
+          <span class="text-4xl font-bold text-[#013E4C]">R$27,90</span>
+          <span class="text-[#748389]">/mês</span>
+        </div>
+        <a
+          href="#"
+          class="block w-full py-3 px-6 text-center bg-[#1C6956] text-white rounded-full font-medium hover:bg-[#013E4C] transition-colors"
+        >
+          Assinar agora
+        </a>
+      </div>
+
+      <!-- Empresarial -->
+      <div
+        class="bg-white rounded-3xl shadow-md hover:shadow-xl p-8 transition-transform duration-300 hover:-translate-y-1"
+      >
+        <h3 class="text-2xl font-bold text-[#013E4C] mb-4">Empresarial</h3>
+        <p class="text-[#5e6d72] mb-6 text-sm">
+          Solução completa para seu negócio.
+        </p>
+        <div class="mb-8">
+          <span class="text-4xl font-bold text-[#013E4C]">R$59,90</span>
+          <span class="text-[#748389]">/mês</span>
+        </div>
+        <a
+          href="#"
+          class="block w-full py-3 px-6 text-center border border-[#E0E5E7] rounded-full font-medium text-[#1C6956] hover:bg-[#F8F7F5] transition-colors"
+        >
+          Falar com vendas
+        </a>
       </div>
     </div>
 
     <!-- Call to Action - Experimente grátis -->
-    <div class="bg-white rounded-xl shadow-2xl p-8 text-center animate-fade-in">
-      <div class="max-w-2xl mx-auto">
-        <h3 class="text-2xl md:text-3xl font-bold text-[#5e6d72] mb-4">
-          Utilize todos os recursos do sistema gratuitamente por 7 dias
+    <div
+      class="bg-[#1C6956] rounded-3xl shadow-xl p-10 text-center text-white animate-fade-in"
+    >
+      <div class="max-w-3xl mx-auto">
+        <h3 class="text-3xl md:text-4xl font-bold mb-4">
+          Teste grátis o plano Profissional por 7 dias
         </h3>
-        <p class="text-[#8a999f] mb-6">Sem cadastrar dados de pagamento.</p>
-        <a
-          href="#"
-          class="bg-[#5e6d72] text-white px-8 py-4 rounded-lg font-semibold hover:bg-[#748389] transition-colors"
-        >
-          Experimente grátis
-        </a>
+        <p class="text-md md:text-lg mb-6 text-[#E0E5E7]">
+          Sem compromisso, sem cartão de crédito. Acesse todas as
+          funcionalidades.
+        </p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+          <a
+            href="#"
+            class="py-3 px-8 bg-white text-[#1C6956] font-semibold rounded-full hover:bg-[#F8F7F5] transition-transform transform hover:scale-105 shadow-md"
+          >
+            Começar teste grátis
+          </a>
+          <a
+            href="#"
+            class="py-3 px-8 bg-[#F8F7F5] text-[#013E4C] font-semibold rounded-full border border-white hover:bg-white transition-transform transform hover:scale-105"
+          >
+            Ver demonstração
+          </a>
+        </div>
       </div>
     </div>
   </div>

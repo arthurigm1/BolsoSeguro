@@ -1,6 +1,9 @@
-<div class="flex min-h-screen items-center justify-center p-6">
+<div
+  [@routeAnimations]
+  class="flex min-h-screen items-center justify-center p-6"
+>
   <div
-    class="bg-white shadow-2xl flex flex-col md:flex-row w-full overflow-hidden transform transition duration-500 h-auto md:h-[90vh]"
+    class="bg-white shadow-2xl flex flex-col md:flex-row w-full overflow-hidden transform transition duration-500 h-auto md:h-[90vh] rounded-lg"
   >
     <!-- Image Section -->
     <div class="w-full md:w-1/2 min-h-full flex">
@@ -85,23 +88,33 @@
         </div>
 
         <!-- Password Input -->
+        <!-- Password Input -->
         <div class="relative">
           <label class="block text-base text-gray-600 mb-2 font-medium"
             >Senha</label
           >
           <div class="relative">
             <input
-              type="password"
+              [type]="showPassword ? 'text' : 'password'"
               formControlName="senha"
-              class="w-full pl-12 pr-5 py-4 text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e6d72] focus:border-transparent transition duration-300"
+              class="w-full pl-12 pr-12 py-4 text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e6d72] focus:border-transparent transition duration-300"
               placeholder="Digite sua senha"
             />
             <i
               class="fas fa-lock absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500"
             ></i>
+
+            <!-- Botão de mostrar/esconder senha -->
+            <button
+              type="button"
+              (click)="togglePasswordVisibility()"
+              class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-[#5e6d72] transition"
+              aria-label="Mostrar senha"
+            >
+              <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+            </button>
           </div>
         </div>
-
         <!-- Forgot Password Link -->
         <div class="text-right">
           <a

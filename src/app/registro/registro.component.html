@@ -1,6 +1,6 @@
 <div class="flex min-h-screen items-center justify-center p-6">
   <div
-    class="bg-white shadow-2xl flex flex-col md:flex-row w-full overflow-hidden transform transition duration-500 h-auto md:h-[90vh]"
+    class="bg-white shadow-2xl flex flex-col md:flex-row w-full overflow-hidden transform transition duration-500 h-auto md:h-[90vh] rounded-lg"
   >
     <!-- Image Section -->
     <div class="w-full md:w-1/2 min-h-full flex">
@@ -126,21 +126,32 @@
           <label class="block text-base text-gray-600 mb-2 font-medium"
             >Senha</label
           >
-          <input
-            type="password"
-            formControlName="senha"
-            class="w-full pl-4 pr-5 py-4 text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e6d72] focus:border-transparent transition duration-300"
-            placeholder="Crie uma senha"
-            [disabled]="isSubmitting"
-            [ngClass]="{
-              'border-red-500':
-                cadastroForm.get('senha')?.invalid &&
-                cadastroForm.get('senha')?.touched,
-              'border-green-500':
-                cadastroForm.get('senha')?.valid &&
-                cadastroForm.get('senha')?.touched
-            }"
-          />
+          <div class="relative">
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="senha"
+              class="w-full pl-4 pr-12 py-4 text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e6d72] focus:border-transparent transition duration-300"
+              placeholder="Crie uma senha"
+              [disabled]="isSubmitting"
+              [ngClass]="{
+                'border-red-500':
+                  cadastroForm.get('senha')?.invalid &&
+                  cadastroForm.get('senha')?.touched,
+                'border-green-500':
+                  cadastroForm.get('senha')?.valid &&
+                  cadastroForm.get('senha')?.touched
+              }"
+            />
+            <button
+              type="button"
+              (click)="togglePasswordVisibility()"
+              class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-[#5e6d72] transition"
+              aria-label="Mostrar senha"
+              [disabled]="isSubmitting"
+            >
+              <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+            </button>
+          </div>
           <div
             *ngIf="
               cadastroForm.get('senha')?.invalid &&
@@ -162,23 +173,38 @@
           <label class="block text-base text-gray-600 mb-2 font-medium"
             >Confirme sua Senha</label
           >
-          <input
-            type="password"
-            formControlName="confirmarSenha"
-            class="w-full pl-4 pr-5 py-4 text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e6d72] focus:border-transparent transition duration-300"
-            placeholder="Repita sua senha"
-            [disabled]="isSubmitting"
-            [ngClass]="{
-              'border-red-500':
-                (cadastroForm.get('confirmarSenha')?.invalid ||
-                  cadastroForm.hasError('senhasDiferentes')) &&
-                cadastroForm.get('confirmarSenha')?.touched,
-              'border-green-500':
-                cadastroForm.get('confirmarSenha')?.valid &&
-                !cadastroForm.hasError('senhasDiferentes') &&
-                cadastroForm.get('confirmarSenha')?.touched
-            }"
-          />
+          <div class="relative">
+            <input
+              [type]="showConfirmPassword ? 'text' : 'password'"
+              formControlName="confirmarSenha"
+              class="w-full pl-4 pr-12 py-4 text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e6d72] focus:border-transparent transition duration-300"
+              placeholder="Repita sua senha"
+              [disabled]="isSubmitting"
+              [ngClass]="{
+                'border-red-500':
+                  (cadastroForm.get('confirmarSenha')?.invalid ||
+                    cadastroForm.hasError('senhasDiferentes')) &&
+                  cadastroForm.get('confirmarSenha')?.touched,
+                'border-green-500':
+                  cadastroForm.get('confirmarSenha')?.valid &&
+                  !cadastroForm.hasError('senhasDiferentes') &&
+                  cadastroForm.get('confirmarSenha')?.touched
+              }"
+            />
+            <button
+              type="button"
+              (click)="toggleConfirmPasswordVisibility()"
+              class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-[#5e6d72] transition"
+              aria-label="Mostrar senha"
+              [disabled]="isSubmitting"
+            >
+              <i
+                [class]="
+                  showConfirmPassword ? 'fas fa-eye-slash' : 'fas fa-eye'
+                "
+              ></i>
+            </button>
+          </div>
           <div
             *ngIf="
               cadastroForm.get('confirmarSenha')?.invalid &&

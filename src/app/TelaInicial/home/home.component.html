@@ -1,50 +1,87 @@
-<main
-  class="flex flex-col min-h-screen bg-gradient-to-r from-white to-[#e0e7ec]"
->
+<main class="flex flex-col min-h-screen bg-[#F8F7F5]">
   <!-- Cabeçalho -->
-  <app-header class="w-full mb-20" />
+  <app-header class="mb-5" />
 
   <!-- Conteúdo principal com deferimento -->
   <section class="flex-grow">
-    <!-- Aqui usamos deferimento e placeholders -->
     @defer(on viewport) {
-    <section>
-      <div data-aos="fade-up">
+    <!-- Seções individuais com fundo total -->
+    <section
+      class="relative w-full bg-gradient-to-br from-[#1C6956] to-[#013E4C] overflow-hidden"
+    >
+      <!-- Plano de fundo com SVG -->
+      <div
+        class="absolute top-0 left-0 w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4yIj48cGF0aCBkPSJNMzYgMzRhMiAyIDAgMSAxIDAtNCAyIDIgMCAwIDEgMCA0em0xMiAwYTIgMiAwIDEgMSAwLTQgMiAyIDAgMCAxIDAgNHptLTI0IDBhMiAyIDAgMSAxIDAtNCAyIDIgMCAwIDEgMCA0em0xMiAwYTIgMiAwIDEgMSAwLTQgMiAyIDAgMCAxIDAgNHptLTEyIDEyYTIgMiAwIDEgMSAwLTQgMiAyIDAgMCAxIDAgNHptMTIgMGEyIDIgMCAxIDEgMC00IDIgMiAwIDAgMSAwIDR6bS0yNCAxMmEyIDIgMCAxIDEgMC00IDIgMiAwIDAgMSAwIDR6bTI0IDBhMiAyIDAgMSAxIDAtNCAyIDIgMCAwIDEgMCA0em0tMTItMTJhMiAyIDAgMSAxIDAtNCAyIDIgMCAwIDEgMCA0eiIvPjwvZz48L2c+PC9zdmc+')] bg-repeat opacity-30 pointer-events-none"
+      ></div>
+
+      <!-- Conteúdo principal -->
+      <div
+        class="relative z-10 px-4 sm:px-6 lg:px-8 max-w-screen-xl mx-auto py-16"
+        data-aos="fade-up"
+      >
         <app-sobre />
       </div>
+    </section>
 
-      <div data-aos="fade-up" data-aos-delay="100">
+    <section
+      class="bg-gradient-to-br from-[#F8F7F5] via-white to-[#F8F7F5] w-full"
+    >
+      <div
+        class="px-4 sm:px-6 lg:px-8 max-w-screen-xl mx-auto py-16"
+        data-aos="fade-up"
+        data-aos-delay="100"
+      >
         <app-planos id="planos" />
       </div>
+    </section>
 
-      <div data-aos="fade-up" data-aos-delay="200">
+    <section class="bg-[#F8F7F5] w-full">
+      <div
+        class="px-4 sm:px-6 lg:px-8 max-w-screen-xl mx-auto py-16"
+        data-aos="fade-up"
+        data-aos-delay="200"
+      >
         <app-funcionalidades />
       </div>
+    </section>
 
-      <div data-aos="fade-up" data-aos-delay="300">
+    <section class="bg-gradient-to-br from-[#1C6956] to-[#013E4C] w-full">
+      <div
+        class="px-4 sm:px-6 lg:px-8 max-w-screen-xl mx-auto py-16"
+        data-aos="fade-up"
+        data-aos-delay="300"
+      >
         <app-graficos />
       </div>
+    </section>
 
-      <div data-aos="fade-up" data-aos-delay="400">
+    <section
+      class="bg-gradient-to-br from-[#F8F7F5] via-white to-[#F8F7F5] w-full"
+    >
+      <div
+        class="px-4 sm:px-6 lg:px-8 max-w-screen-xl mx-auto py-16"
+        data-aos="fade-up"
+        data-aos-delay="400"
+      >
         <app-faq id="faq" />
       </div>
     </section>
     } @placeholder {
-    <section>
-      <div class="loading">
-        <p>Carregando...</p>
+    <section class="flex justify-center items-center py-20">
+      <div class="loading text-center">
+        <p class="text-[#5e6d72] text-lg">Carregando...</p>
       </div>
     </section>
     } @error {
-    <section>
-      <div class="error">
-        <h1>Erro</h1>
-        <p>Erro ao carregar a página.</p>
+    <section class="flex justify-center items-center py-20">
+      <div class="error text-center">
+        <h1 class="text-2xl font-bold text-red-600">Erro</h1>
+        <p class="text-[#5e6d72]">Erro ao carregar a página.</p>
       </div>
     </section>
     }
   </section>
-</main>
 
-<!-- Footer -->
-<app-footer class="mt-auto w-full" />
+  <!-- Footer -->
+  <app-footer class="mt-auto w-full" />
+</main>

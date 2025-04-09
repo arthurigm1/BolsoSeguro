@@ -15,6 +15,7 @@ export const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
+    data: { animation: 'HomePage' },
   },
   {
     path: 'registro',
@@ -23,6 +24,7 @@ export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+    data: { animation: 'LoginPage' },
   },
   {
     path: 'dashboard',

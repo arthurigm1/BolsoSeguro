@@ -1,80 +1,140 @@
-<header
-  class="bg-gradient-to-r from-white to-[#b6c6cc] shadow-lg shadow-[#5e6d72] fixed w-full z-50"
->
-  <div
-    class="max-w-[1500px] mx-auto flex items-center justify-between px-4 md:px-15 py-0.5 gap-4"
-  >
-    <!-- Logo -->
-    <div class="flex items-center mb-4 md:mb-0">
+<header [@routeAnimations] class="bg-[#F8F7F5] w-full z-50">
+  <div class="max-w-[1500px] mx-auto px-4 md:px-10 py-3">
+    <div class="w-full flex items-center justify-center gap-x-60">
+      <!-- Logo -->
       <a href="/">
-        <img src="assets/img/logo.png" alt="Logo" class="h-16 w-auto" />
+        <img
+          src="assets/img/logoteste.png"
+          alt="Logo BolsoSeguro"
+          class="h-16 md:h-20 w-auto"
+        />
       </a>
+
+      <!-- Links Centrais (Desktop) -->
+      <nav class="hidden md:flex items-center space-x-6">
+        <a
+          *ngFor="let link of navLinks"
+          [href]="link.path"
+          class="text-[#013E4C] text-xl font-semibold relative hover:text-[#1C6956] transition-all duration-300 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-[#1C6956] after:transition-all after:duration-300 hover:after:w-full"
+        >
+          {{ link.label }}
+        </a>
+      </nav>
+
+      <!-- Botões (Login / Registro) -->
+      <div class="hidden md:flex items-center space-x-4">
+        <a
+          href="/login"
+          class="text-[#013E4C] text-lg font-semibold hover:text-[#1C6956] transition-all duration-300"
+        >
+          Login
+        </a>
+        <a
+          href="/registro"
+          class="bg-[#1C6956] text-white text-lg font-semibold py-2 px-6 rounded-lg hover:bg-[#013E4C] hover:scale-105 transition-all duration-300"
+        >
+          Comece já
+        </a>
+      </div>
     </div>
 
-    <!-- Botão de Menu Mobile -->
-    <div class="md:hidden flex items-center">
+    <!-- Botão Mobile (fora do centro) -->
+    <div class="md:hidden flex justify-end px-4 mt-3">
       <button
         (click)="toggleMenu()"
-        class="text-[#5e6d72] text-3xl focus:outline-none"
-        aria-label="Abrir menu"
+        class="text-[#013E4C] text-4xl focus:outline-none"
+        aria-label="Abrir ou fechar menu"
       >
-        &#9776;
+        {{ menuOpen ? "✕" : "☰" }}
       </button>
-    </div>
-
-    <!-- Links Centrais (Desktop) -->
-    <nav class="hidden md:flex items-center space-x-8">
-      <a
-        *ngFor="let link of navLinks"
-        [href]="link.path"
-        class="text-[#5e6d72] text-2xl font-semibold relative hover:text-black transition-all duration-300 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-black after:transition-all after:duration-300 hover:after:w-full"
-      >
-        {{ link.label }}
-      </a>
-    </nav>
-
-    <!-- Links à Direita (Desktop) -->
-    <div class="hidden md:flex items-center space-x-6">
-      <a
-        href="/login"
-        class="text-[#5e6d72] text-lg font-semibold hover:text-black transition-all duration-300"
-      >
-        Login
-      </a>
-      <a
-        href="/registro"
-        class="bg-[#5e6d72] text-white text-lg font-semibold py-2 px-6 rounded-lg hover:bg-black hover:scale-105 transition-all duration-300"
-      >
-        Comece já
-      </a>
     </div>
   </div>
 
-  <!-- Menu Mobile -->
   <div
     *ngIf="menuOpen"
-    class="md:hidden bg-white fixed top-16 left-0 w-full h-full p-6 transition-all duration-300 ease-in-out"
+    class="md:hidden fixed inset-0 bg-[#F8F7F5] backdrop-blur-sm z-50 transition-all duration-300 ease-in-out"
+    (click)="menuOpen = false"
   >
-    <nav class="flex flex-col space-y-6">
-      <a
-        *ngFor="let link of navLinks"
-        [href]="link.path"
-        class="text-[#5e6d72] text-2xl font-semibold hover:text-black transition-all duration-300"
+    <!-- CONTAINER DO MENU -->
+    <div
+      class="h-full w-full max-w-sm bg-[#F8F7F5] shadow-2xl transition-transform duration-300 ease-in-out"
+      (click)="$event.stopPropagation()"
+      [class]="menuOpen ? 'translate-x-0' : 'translate-x-full'"
+    >
+      <!-- TOPO COM LOGO E FECHAR -->
+      <div
+        class="flex justify-between items-center p-5 border-b border-gray-200"
       >
-        {{ link.label }}
-      </a>
-      <a
-        href="/login"
-        class="text-[#5e6d72] text-2xl font-semibold hover:text-black transition-all duration-300"
-      >
-        Login
-      </a>
-      <a
-        href="/registro"
-        class="bg-[#5e6d72] text-white text-2xl font-semibold py-2 px-6 rounded-lg hover:bg-black hover:scale-105 transition-all duration-300"
-      >
-        Comece já
-      </a>
-    </nav>
+        <img src="assets/img/logoteste.png" alt="BolsoSeguro" class="h-10" />
+        <button
+          (click)="menuOpen = false"
+          class="text-[#013E4C] p-2 rounded-full hover:bg-gray-100 transition"
+          aria-label="Fechar menu"
+        >
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <!-- CONTEÚDO DO MENU -->
+      <div class="h-[calc(100%-72px)] overflow-y-auto py-4 px-5">
+        <nav class="flex flex-col space-y-2">
+          <!-- LINKS DINÂMICOS -->
+          <a
+            *ngFor="let link of navLinks"
+            (click)="navigateTo(link.path)"
+            class="text-[#013E4C] text-lg font-medium py-3 px-4 rounded-lg hover:bg-[#F0F4F5] transition duration-200 flex items-center"
+          >
+            <span class="flex-1">{{ link.label }}</span>
+            <svg
+              class="w-5 h-5 text-[#1C6956]"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </a>
+
+          <div class="border-t border-gray-200 my-4"></div>
+
+          <!-- AÇÕES FIXAS -->
+          <a
+            (click)="navigateTo('/login')"
+            class="text-[#013E4C] text-lg font-medium py-3 px-4 rounded-lg hover:bg-[#F0F4F5] transition duration-200"
+          >
+            Login
+          </a>
+
+          <a
+            (click)="navigateTo('/registro')"
+            class="bg-[#1C6956] text-white text-lg font-medium py-3 px-4 rounded-lg hover:bg-[#013E4C] transition duration-200 text-center mt-2 shadow-md"
+          >
+            Comece já
+          </a>
+        </nav>
+
+        <!-- RODAPÉ -->
+        <div class="pt-8 mt-auto text-center text-sm text-gray-500">
+          © 2023 BolsoSeguro
+        </div>
+      </div>
+    </div>
   </div>
 </header>

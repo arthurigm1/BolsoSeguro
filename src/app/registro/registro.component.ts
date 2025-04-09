@@ -48,7 +48,17 @@ export class RegistroComponent {
     const confirmarSenha = group.get('confirmarSenha')?.value;
     return senha === confirmarSenha ? null : { senhasDiferentes: true };
   }
+  showPassword: boolean = false;
+  showConfirmPassword: boolean = false;
 
+  // Adicione estes métodos
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+
+  toggleConfirmPasswordVisibility(): void {
+    this.showConfirmPassword = !this.showConfirmPassword;
+  }
   submit(): void {
     if (this.cadastroForm.valid) {
       const { nome, email, senha } = this.cadastroForm.value;

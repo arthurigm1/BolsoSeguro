@@ -12,6 +12,7 @@ import { LoginService } from '../Services/UserService/login.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { th } from 'date-fns/locale';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 interface LoginForm {
   email: FormControl;
@@ -23,6 +24,14 @@ interface LoginForm {
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
+  animations: [
+    trigger('routeAnimations', [
+      transition('* <=> *', [
+        style({ opacity: 0 }),
+        animate('0.5s', style({ opacity: 1 })),
+      ]),
+    ]),
+  ],
 })
 export class LoginComponent {
   loginForm!: FormGroup<LoginForm>;
@@ -83,6 +92,11 @@ export class LoginComponent {
           'Erro ao enviar e-mail de recuperação. Tente novamente.';
       },
     });
+  }
+  showPassword: boolean = false;
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
   }
   ngOnInit(): void {
     // Verifica o token assim que o componente for carregado

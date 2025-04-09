@@ -1,61 +1,127 @@
-<div class="container mx-auto p-6 mb-10">
-  <!-- Título Chamativo -->
-  <h1
-    class="text-4xl font-bold text-center mb-4 text-[#5e6d72] animate-fade-in"
-  >
-    Visualize suas Finanças de Forma Clara e Poderosa com o BolsoSeguro!
-  </h1>
-  <p
-    class="text-2xl font-semibold text-center mb-8 text-[#5e6d72] animate-fade-in delay-100"
-  >
-    Gráficos Totalmente Personalizados!
-  </p>
-
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
-    <!-- Gráfico de Barras (Pagamentos) -->
-    <div
-      class="bg-white shadow-lg rounded-lg p-6 transform transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-xl animate-slide-in-left"
-    >
-      <h2 class="text-xl font-semibold mb-4">Contagem de Pagamentos</h2>
-      <div class="chart-container" style="height: 300px">
-        <canvas id="barChart"></canvas>
-      </div>
-    </div>
-
-    <!-- Gráfico de Pizza (Distribuição de Gastos) -->
-    <div
-      class="bg-white shadow-lg rounded-lg p-6 transform transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-xl animate-slide-in-right flex flex-col items-center justify-center text-center"
-    >
-      <h2 class="text-xl font-semibold mb-4">Distribuição de Gastos</h2>
-      <div
-        class="chart-container flex justify-center items-center"
-        style="height: 300px; width: 100%"
+<div class="">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header Section -->
+    <div class="text-center max-w-4xl mx-auto mb-16">
+      <span
+        class="inline-block bg-[#D8EAE5] text-[#1C6956] text-sm font-semibold px-4 py-1 rounded-full uppercase tracking-wider mb-4"
       >
-        <canvas id="pieChart"></canvas>
-      </div>
+        Análise Financeira
+      </span>
+      <h1
+        class="text-4xl md:text-5xl font-extrabold text-white drop-shadow-sm mb-4"
+      >
+        Domine suas finanças com
+        <span class="text-[#D8EAE5]">visualizações inteligentes</span>
+      </h1>
+      <p class="text-lg md:text-xl text-[#E0E5E7] leading-relaxed">
+        Dados transformados em insights visuais para decisões financeiras mais
+        assertivas.
+      </p>
     </div>
 
-    <!-- Gráfico de Linha (Evolução de Receitas e Despesas) -->
-    <div
-      class="bg-white shadow-lg rounded-lg p-6 transform transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-xl animate-slide-in-left"
-    >
-      <h2 class="text-xl font-semibold mb-4">
-        Evolução de Receitas e Despesas
-      </h2>
-      <div class="chart-container" style="height: 300px">
-        <canvas id="lineChart"></canvas>
-      </div>
-    </div>
+    <!-- Chart Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <!-- Payment Analysis Card -->
+      <div
+        class="bg-white text-center rounded-2xl shadow hover:shadow-lg hover:scale-[1.01] transition duration-300 border-t-4 border-[#1C6956] p-6"
+      >
+        <h2 class="text-xl font-bold text-[#013E4C] mb-6">
+          Análise de Pagamentos
+        </h2>
 
-    <!-- Gráfico de Barras Horizontal (Metas de Economia) -->
-    <div
-      class="bg-white shadow-lg rounded-lg p-6 transform transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-xl animate-slide-in-right"
-    >
-      <h2 class="text-xl font-semibold mb-4">
-        Metas de Economia vs. Gastos Reais
-      </h2>
-      <div class="chart-container" style="height: 300px">
-        <canvas id="horizontalBarChart"></canvas>
+        <div class="chart-container relative h-64">
+          <canvas id="barChart"></canvas>
+        </div>
+
+        <div class="mt-6 space-y-2 text-left w-full max-w-xs mx-auto">
+          <div class="flex items-center justify-between text-sm text-[#5e6d72]">
+            <span class="flex items-center gap-2">
+              <span class="w-3 h-3 bg-[#1C6956] rounded-full"></span> Receitas
+            </span>
+            <span class="font-semibold text-[#013E4C]">R$ 5.000</span>
+          </div>
+          <div class="flex items-center justify-between text-sm text-[#5e6d72]">
+            <span class="flex items-center gap-2">
+              <span class="w-3 h-3 bg-[#748389] rounded-full"></span> Despesas
+            </span>
+            <span class="font-semibold text-[#013E4C]">R$ 3.000</span>
+          </div>
+          <div class="flex items-center justify-between text-sm text-[#5e6d72]">
+            <span class="flex items-center gap-2">
+              <span class="w-3 h-3 bg-[#013E4C] rounded-full"></span> Lucro
+            </span>
+            <span class="font-semibold text-[#013E4C]">R$ 2.000</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Expense Distribution Card -->
+      <div
+        class="bg-white rounded-2xl shadow hover:shadow-lg hover:scale-[1.01] transition duration-300 border-t-4 border-[#748389] p-6 text-center"
+      >
+        <h2 class="text-xl font-bold text-[#013E4C] mb-6">
+          Distribuição de Gastos
+        </h2>
+
+        <div class="relative w-full max-w-[280px] h-[280px] mx-auto">
+          <canvas id="pieChart"></canvas>
+        </div>
+
+        <div class="mt-6 space-y-2 text-left w-full max-w-xs mx-auto">
+          <div class="flex items-center justify-between text-sm text-[#5e6d72]">
+            <span class="flex items-center gap-2">
+              <span class="w-3 h-3 bg-[#D8EAE5] rounded-full"></span> Moradia
+            </span>
+            <span class="font-semibold text-[#013E4C]">35%</span>
+          </div>
+          <div class="flex items-center justify-between text-sm text-[#5e6d72]">
+            <span class="flex items-center gap-2">
+              <span class="w-3 h-3 bg-[#1C6956] rounded-full"></span>
+              Alimentação
+            </span>
+            <span class="font-semibold text-[#013E4C]">25%</span>
+          </div>
+          <div class="flex items-center justify-between text-sm text-[#5e6d72]">
+            <span class="flex items-center gap-2">
+              <span class="w-3 h-3 bg-[#013E4C] rounded-full"></span> Transporte
+            </span>
+            <span class="font-semibold text-[#013E4C]">20%</span>
+          </div>
+          <div class="flex items-center justify-between text-sm text-[#5e6d72]">
+            <span class="flex items-center gap-2">
+              <span class="w-3 h-3 bg-[#748389] rounded-full"></span> Lazer
+            </span>
+            <span class="font-semibold text-[#013E4C]">15%</span>
+          </div>
+          <div class="flex items-center justify-between text-sm text-[#5e6d72]">
+            <span class="flex items-center gap-2">
+              <span class="w-3 h-3 bg-[#E0E5E7] rounded-full"></span> Outros
+            </span>
+            <span class="font-semibold text-[#013E4C]">5%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Income vs Expenses Card -->
+      <div
+        class="bg-white rounded-2xl shadow hover:shadow-lg hover:scale-[1.01] transition duration-300 border-t-4 border-[#013E4C] p-6 text-center"
+      >
+        <h2 class="text-xl font-bold text-[#013E4C] mb-6">
+          Receitas vs Despesas
+        </h2>
+        <div class="chart-container relative h-64">
+          <canvas id="lineChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Savings Goals Card -->
+      <div
+        class="bg-white rounded-2xl shadow hover:shadow-lg hover:scale-[1.01] transition duration-300 border-t-4 border-[#D8EAE5] p-6 text-center"
+      >
+        <h2 class="text-xl font-bold text-[#013E4C] mb-6">Metas de Economia</h2>
+        <div class="chart-container relative h-64">
+          <canvas id="horizontalBarChart"></canvas>
+        </div>
       </div>
     </div>
   </div>
