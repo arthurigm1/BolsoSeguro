@@ -1,43 +1,59 @@
-<section id="analytics" class="py-20 bg-[#F8F7F5]">
+<section id="analytics" class="bg-[#F8F7F5]">
   <div class="container mx-auto px-4 sm:px-6 lg:px-8">
     <!-- Section Header -->
-    <div class="text-center max-w-3xl mx-auto mb-16">
+    <div class="text-center max-w-3xl mx-auto mb-10 md:mb-16">
       <span
-        class="inline-block bg-[#D8EAE5] text-[#1C6956] text-sm font-semibold px-4 py-1 rounded-full uppercase tracking-wider mb-4"
+        class="inline-block bg-[#D8EAE5] text-[#1C6956] text-xs md:text-sm font-semibold px-3 md:px-4 py-1 rounded-full uppercase tracking-wider mb-3 md:mb-4"
       >
         Visualização de Dados
       </span>
-      <h2 class="text-4xl md:text-5xl font-bold text-[#013E4C] mb-4">
+      <h2
+        class="text-3xl md:text-4xl lg:text-5xl font-bold text-[#013E4C] mb-3 md:mb-4"
+      >
         Transforme números em
         <span class="text-[#1C6956]">insights</span> acionáveis
       </h2>
-      <p class="text-xl text-[#5e6d72]">
+      <p class="text-base md:text-xl text-[#5e6d72]">
         Nossas ferramentas de visualização ajudam você a entender suas finanças
         de forma clara e intuitiva.
       </p>
     </div>
 
-    <!-- Content Grid -->
-    <div class="grid grid-cols-2 lg:grid-cols-2 gap-2 items-center">
-      <!-- Features List -->
-      <div class="space-y-6">
+    <!-- Content Grid - Changed to column layout on mobile -->
+    <div
+      class="flex flex-col lg:grid lg:grid-cols-2 gap-6 md:gap-8 items-center"
+    >
+      <!-- Image first on mobile -->
+      <div
+        class="order-1 lg:order-2 flex justify-center items-center w-full px-4 md:px-0"
+      >
+        <img
+          src="/assets/img/celular.png"
+          alt="Gráficos interativos do sistema"
+          class="w-full max-w-xs md:max-w-md lg:max-w-full h-auto object-contain"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+
+      <!-- Features List - second on mobile -->
+      <div class="order-2 lg:order-1 space-y-4 md:space-y-6 w-full">
         <!-- Feature 1 -->
         <div
-          class="flex gap-6 p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 border-l-4 border-[#1C6956]"
+          class="flex gap-4 md:gap-6 p-4 md:p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 border-l-4 border-[#1C6956]"
         >
-          <div class="flex-shrink-0 mt-1">
-            <div class="bg-[#D8EAE5] p-3 rounded-lg text-[#1C6956]">
+          <div class="flex-shrink-0">
+            <div class="bg-[#D8EAE5] p-2 md:p-3 rounded-lg text-[#1C6956]">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
+                width="20"
+                height="20"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                class="lucide lucide-pie-chart"
               >
                 <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
                 <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
@@ -45,10 +61,12 @@
             </div>
           </div>
           <div>
-            <h3 class="text-xl font-semibold text-[#013E4C] mb-2">
+            <h3
+              class="text-lg md:text-xl font-semibold text-[#013E4C] mb-1 md:mb-2"
+            >
               Análise de Gastos por Categoria
             </h3>
-            <p class="text-[#5e6d72]">
+            <p class="text-sm md:text-base text-[#5e6d72]">
               Identifique padrões de gastos com visualizações claras por
               categoria, subcategoria e período.
             </p>
@@ -57,21 +75,20 @@
 
         <!-- Feature 2 -->
         <div
-          class="flex gap-6 p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 border-l-4 border-[#1C6956]"
+          class="flex gap-4 md:gap-6 p-4 md:p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 border-l-4 border-[#1C6956]"
         >
-          <div class="flex-shrink-0 mt-1">
-            <div class="bg-[#D8EAE5] p-3 rounded-lg text-[#1C6956]">
+          <div class="flex-shrink-0">
+            <div class="bg-[#D8EAE5] p-2 md:p-3 rounded-lg text-[#1C6956]">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
+                width="20"
+                height="20"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                class="lucide lucide-trending-up"
               >
                 <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
                 <polyline points="16 7 22 7 22 13"></polyline>
@@ -79,10 +96,12 @@
             </div>
           </div>
           <div>
-            <h3 class="text-xl font-semibold text-[#013E4C] mb-2">
+            <h3
+              class="text-lg md:text-xl font-semibold text-[#013E4C] mb-1 md:mb-2"
+            >
               Evolução Patrimonial
             </h3>
-            <p class="text-[#5e6d72]">
+            <p class="text-sm md:text-base text-[#5e6d72]">
               Acompanhe seu progresso financeiro com gráficos temporais
               interativos e projeções.
             </p>
@@ -91,21 +110,20 @@
 
         <!-- Feature 3 -->
         <div
-          class="flex gap-6 p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 border-l-4 border-[#1C6956]"
+          class="flex gap-4 md:gap-6 p-4 md:p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 border-l-4 border-[#1C6956]"
         >
-          <div class="flex-shrink-0 mt-1">
-            <div class="bg-[#D8EAE5] p-3 rounded-lg text-[#1C6956]">
+          <div class="flex-shrink-0">
+            <div class="bg-[#D8EAE5] p-2 md:p-3 rounded-lg text-[#1C6956]">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
+                width="20"
+                height="20"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                class="lucide lucide-bar-chart-2"
               >
                 <line x1="18" x2="18" y1="20" y2="10"></line>
                 <line x1="12" x2="12" y1="20" y2="4"></line>
@@ -114,33 +132,34 @@
             </div>
           </div>
           <div>
-            <h3 class="text-xl font-semibold text-[#013E4C] mb-2">
+            <h3
+              class="text-lg md:text-xl font-semibold text-[#013E4C] mb-1 md:mb-2"
+            >
               Comparativo Mensal
             </h3>
-            <p class="text-[#5e6d72]">
+            <p class="text-sm md:text-base text-[#5e6d72]">
               Compare receitas e despesas entre meses para identificar
               tendências e oportunidades.
             </p>
           </div>
         </div>
 
-        <!-- Feature 4 (New) -->
+        <!-- Feature 4 -->
         <div
-          class="flex gap-6 p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 border-l-4 border-[#1C6956]"
+          class="flex gap-4 md:gap-6 p-4 md:p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 border-l-4 border-[#1C6956]"
         >
-          <div class="flex-shrink-0 mt-1">
-            <div class="bg-[#D8EAE5] p-3 rounded-lg text-[#1C6956]">
+          <div class="flex-shrink-0">
+            <div class="bg-[#D8EAE5] p-2 md:p-3 rounded-lg text-[#1C6956]">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
+                width="20"
+                height="20"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                class="lucide lucide-sparkles"
               >
                 <path
                   d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"
@@ -153,25 +172,17 @@
             </div>
           </div>
           <div>
-            <h3 class="text-xl font-semibold text-[#013E4C] mb-2">
+            <h3
+              class="text-lg md:text-xl font-semibold text-[#013E4C] mb-1 md:mb-2"
+            >
               Alertas Inteligentes
             </h3>
-            <p class="text-[#5e6d72]">
+            <p class="text-sm md:text-base text-[#5e6d72]">
               Receba notificações quando seus gastos ultrapassarem padrões ou
               metas estabelecidas.
             </p>
           </div>
         </div>
-      </div>
-
-      <div class="flex justify-center items-center md:w-full">
-        <img
-          src="/assets/img/celular.png"
-          alt="Gráficos interativos do sistema"
-          class="max-w-full h-full object-cover"
-          loading="lazy"
-          decoding="async"
-        />
       </div>
     </div>
   </div>

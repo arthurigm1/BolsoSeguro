@@ -1,11 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-funcionalidades',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './funcionalidades.component.html',
-  styleUrl: './funcionalidades.component.scss'
+  styleUrl: './funcionalidades.component.scss',
 })
-export class FuncionalidadesComponent {
-
-}
+export class FuncionalidadesComponent {}
