@@ -1,14 +1,15 @@
-<div class="min-h-screen p-4 md:p-8">
+<!-- Container principal com fundo suave e animação de entrada -->
+<div class="min-h-screen bg-[#F8F7F5] p-4 md:p-8 animate-fadeIn">
   <div class="max-w-5xl mx-auto space-y-8">
-    <!-- Botão de voltar -->
-    <div class="mb-6">
+    <!-- Botão de voltar com efeito hover aprimorado -->
+    <div class="mb-6 animate-slideDown">
       <button
         (click)="voltar()"
-        class="flex items-center text-black hover:text-gray-700 transition-colors duration-200 group cursor-pointer"
+        class="flex items-center text-[#013E4C] hover:text-[#1C6956] transition-all duration-300 group"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5 mr-2"
+          class="h-5 w-5 mr-2 transform group-hover:-translate-x-1 transition-transform duration-300"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
@@ -18,54 +19,76 @@
             clip-rule="evenodd"
           />
         </svg>
-        Voltar para Cartões
+        <span class="font-medium">Voltar para Cartões</span>
       </button>
     </div>
 
-    <!-- Container principal -->
-    <div class="space-y-6">
-      <!-- Seção do Cartão -->
+    <!-- Container principal com espaçamento e animação -->
+    <div class="space-y-6 animate-fadeIn">
+      <!-- Seção do Cartão com efeito de vidro aprimorado -->
       <div
-        class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200"
+        class="bg-white/80 backdrop-blur-md rounded-2xl shadow-lg overflow-hidden border border-[#E0E5E7] transform hover:scale-[1.01] transition-all duration-300 animate-slideUp"
       >
         <div class="p-6">
           <div
             class="flex flex-col md:flex-row md:items-center md:justify-between gap-4"
           >
+            <!-- Informações do cartão -->
             <div class="flex items-center">
-              <img
-                [src]="getCardLogo(fatura?.bandeira || 'default')"
-                [alt]="fatura?.bandeira || 'Bandeira do cartão'"
-                class="h-18 w-auto mr-4 rounded-full shadow-md"
-              />
+              <div class="relative">
+                <img
+                  [src]="getCardLogo(fatura?.bandeira || 'default')"
+                  [alt]="fatura?.bandeira || 'Bandeira do cartão'"
+                  class="h-18 w-auto mr-4 rounded-xl shadow-md transition-transform duration-300 hover:scale-105"
+                />
+                <div
+                  class="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#D8EAE5] border-2 border-white flex items-center justify-center animate-pulse"
+                >
+                  <i class="fas fa-check text-[#1C6956] text-xs"></i>
+                </div>
+              </div>
               <div>
-                <h2 class="text-xl font-semibold text-gray-900">
+                <h2 class="text-xl font-semibold text-[#013E4C]">
                   {{ fatura?.nomeCartao }}
                 </h2>
                 <div class="flex items-center mt-1">
-                  <span class="text-sm text-gray-500 mr-2">
+                  <span class="text-sm text-[#5e6d72] mr-2">
                     {{ fatura?.bandeira }}
+                  </span>
+                  <span
+                    class="text-xs px-2 py-1 rounded-full bg-[#D8EAE5] text-[#1C6956] animate-pulse"
+                  >
+                    Ativo
                   </span>
                 </div>
               </div>
             </div>
 
+            <!-- Informações financeiras -->
             <div class="grid grid-cols-2 gap-4">
-              <div class="text-right">
-                <p class="text-sm text-gray-500">Limite total</p>
-                <p class="text-lg font-medium text-gray-900">
+              <div
+                class="text-right p-4 rounded-xl bg-[#F8F7F5] transform hover:scale-105 transition-all duration-300"
+              >
+                <p class="text-sm text-[#5e6d72]">Limite total</p>
+                <p class="text-lg font-medium text-[#013E4C]">
                   {{
                     fatura?.limiteTotal | currency : "BRL" : "symbol" : "1.2-2"
                   }}
                 </p>
               </div>
-              <div class="text-right">
-                <p class="text-sm text-gray-500">Disponível</p>
+              <div
+                class="text-right p-4 rounded-xl transform hover:scale-105 transition-all duration-300"
+                [ngClass]="{
+                  'bg-red-50': (fatura?.limiteDisponivel ?? 0) < 0,
+                  'bg-[#D8EAE5]': (fatura?.limiteDisponivel ?? 0) >= 0
+                }"
+              >
+                <p class="text-sm text-[#5e6d72]">Disponível</p>
                 <p
                   class="text-lg font-medium"
                   [ngClass]="{
                     'text-red-600': (fatura?.limiteDisponivel ?? 0) < 0,
-                    'text-black': (fatura?.limiteDisponivel ?? 0) >= 0
+                    'text-[#1C6956]': (fatura?.limiteDisponivel ?? 0) >= 0
                   }"
                 >
                   {{
@@ -80,23 +103,25 @@
       </div>
 
       <!-- Seção de Período e Fatura -->
-      <!-- Seção de Período e Fatura -->
       <div class="grid grid-cols-1 lg:grid-cols-1 gap-6">
-        <div class="bg-white rounded-2xl shadow-md border border-gray-100 p-6">
+        <div
+          class="bg-white/80 backdrop-blur-md rounded-2xl shadow-lg border border-[#E0E5E7] p-6 transform hover:scale-[1.01] transition-all duration-300 animate-slideUp"
+        >
           <div class="flex flex-col items-center">
-            <h3 class="text-lg font-semibold text-gray-900 mb-6">
+            <h3 class="text-lg font-semibold text-[#013E4C] mb-6">
               Período da Fatura
             </h3>
 
+            <!-- Navegação do período -->
             <div class="flex items-center justify-center w-full max-w-md">
               <button
                 (click)="alterarMes(-1)"
-                class="p-3 rounded-xl hover:bg-gray-50 transition-all transform hover:-translate-x-0.5 cursor-pointer"
+                class="p-3 rounded-xl hover:bg-[#D8EAE5] transition-all transform hover:-translate-x-0.5 cursor-pointer group"
                 aria-label="Mês anterior"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="h-6 w-6 text-gray-500"
+                  class="h-6 w-6 text-[#5e6d72] group-hover:text-[#1C6956] transition-colors duration-300"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                 >
@@ -109,20 +134,20 @@
               </button>
 
               <div class="text-center mx-6">
-                <p class="text-3xl font-bold text-gray-800">
+                <p class="text-3xl font-bold text-[#013E4C] animate-pulse">
                   {{ getNomeMes(faturaData.mes) }}
                 </p>
-                <p class="text-xl text-gray-600 mt-1">{{ faturaData.ano }}</p>
+                <p class="text-xl text-[#5e6d72] mt-1">{{ faturaData.ano }}</p>
               </div>
 
               <button
                 (click)="alterarMes(1)"
-                class="p-3 rounded-xl hover:bg-gray-50 transition-all transform hover:translate-x-0.5 cursor-pointer"
+                class="p-3 rounded-xl hover:bg-[#D8EAE5] transition-all transform hover:translate-x-0.5 cursor-pointer group"
                 aria-label="Próximo mês"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="h-6 w-6 text-gray-500"
+                  class="h-6 w-6 text-[#5e6d72] group-hover:text-[#1C6956] transition-colors duration-300"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                 >
@@ -135,20 +160,21 @@
               </button>
             </div>
 
+            <!-- Cards de informações -->
             <div
               *ngIf="fatura && !loading"
               class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mt-8"
             >
-              <!-- Cartão de Valor Total -->
+              <!-- Valor Total -->
               <div
-                class="bg-gradient-to-br from-blue-50 to-indigo-50 p-5 rounded-xl border border-blue-100 text-center shadow-sm"
+                class="bg-gradient-to-br from-[#D8EAE5] to-white p-5 rounded-xl border border-[#E0E5E7] text-center shadow-sm hover:shadow-md transition-all duration-300 transform hover:scale-105"
               >
                 <div
-                  class="h-12 w-12 mx-auto bg-blue-100 rounded-full flex items-center justify-center mb-3"
+                  class="h-12 w-12 mx-auto bg-[#1C6956]/10 rounded-full flex items-center justify-center mb-3 animate-pulse"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="h-6 w-6 text-blue-600"
+                    class="h-6 w-6 text-[#1C6956]"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -161,22 +187,22 @@
                     />
                   </svg>
                 </div>
-                <p class="text-sm font-medium text-gray-600">Valor Total</p>
-                <p class="text-2xl font-bold text-gray-900 mt-1">
+                <p class="text-sm font-medium text-[#5e6d72]">Valor Total</p>
+                <p class="text-2xl font-bold text-[#013E4C] mt-1">
                   {{ fatura.valor | currency : "BRL" : "symbol" : "1.2-2" }}
                 </p>
               </div>
 
-              <!-- Cartão de Vencimento -->
+              <!-- Vencimento -->
               <div
-                class="bg-gradient-to-br from-purple-50 to-violet-50 p-5 rounded-xl border border-purple-100 text-center shadow-sm"
+                class="bg-gradient-to-br from-[#D8EAE5] to-white p-5 rounded-xl border border-[#E0E5E7] text-center shadow-sm hover:shadow-md transition-all duration-300 transform hover:scale-105"
               >
                 <div
-                  class="h-12 w-12 mx-auto bg-purple-100 rounded-full flex items-center justify-center mb-3"
+                  class="h-12 w-12 mx-auto bg-[#1C6956]/10 rounded-full flex items-center justify-center mb-3 animate-pulse"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="h-6 w-6 text-purple-600"
+                    class="h-6 w-6 text-[#1C6956]"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -189,39 +215,40 @@
                     />
                   </svg>
                 </div>
-                <p class="text-sm font-medium text-gray-600">Vencimento</p>
-                <p class="text-2xl font-bold text-gray-900 mt-1">
+                <p class="text-sm font-medium text-[#5e6d72]">Vencimento</p>
+                <p class="text-2xl font-bold text-[#013E4C] mt-1">
                   {{ formatarData(fatura.dataVencimento) }}
                 </p>
               </div>
 
-              <!-- Cartão de Status -->
-              <!-- Substitua o cartão de status atual por este -->
+              <!-- Status -->
               <div
-                class="p-5 rounded-xl border text-center shadow-sm"
-                [class.bg-gradient-to-br]="fatura.paga || fatura.reaberta"
-                [class.from-green-50]="fatura.paga && !fatura.reaberta"
-                [class.to-emerald-50]="fatura.paga && !fatura.reaberta"
-                [class.border-green-200]="fatura.paga && !fatura.reaberta"
-                [class.from-yellow-50]="fatura.reaberta"
-                [class.to-amber-50]="fatura.reaberta"
-                [class.border-yellow-200]="fatura.reaberta"
-                [class.from-red-50]="!fatura.paga && !fatura.reaberta"
-                [class.to-rose-50]="!fatura.paga && !fatura.reaberta"
-                [class.border-red-200]="!fatura.paga && !fatura.reaberta"
+                class="p-5 rounded-xl border text-center shadow-sm hover:shadow-md transition-all duration-300 transform hover:scale-105"
+                [ngClass]="{
+                  'bg-gradient-to-br from-[#D8EAE5] to-white border-[#E0E5E7]':
+                    fatura.paga && !fatura.reaberta,
+                  'bg-gradient-to-br from-yellow-50 to-white border-yellow-200':
+                    fatura.reaberta,
+                  'bg-gradient-to-br from-red-50 to-white border-red-200':
+                    !fatura.paga && !fatura.reaberta
+                }"
               >
                 <div
-                  class="h-12 w-12 mx-auto rounded-full flex items-center justify-center mb-3"
-                  [class.bg-green-100]="fatura.paga && !fatura.reaberta"
-                  [class.bg-yellow-100]="fatura.reaberta"
-                  [class.bg-red-100]="!fatura.paga && !fatura.reaberta"
+                  class="h-12 w-12 mx-auto rounded-full flex items-center justify-center mb-3 animate-pulse"
+                  [ngClass]="{
+                    'bg-[#1C6956]/10': fatura.paga && !fatura.reaberta,
+                    'bg-yellow-100': fatura.reaberta,
+                    'bg-red-100': !fatura.paga && !fatura.reaberta
+                  }"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="h-6 w-6"
-                    [class.text-green-600]="fatura.paga && !fatura.reaberta"
-                    [class.text-yellow-600]="fatura.reaberta"
-                    [class.text-red-600]="!fatura.paga && !fatura.reaberta"
+                    [ngClass]="{
+                      'text-[#1C6956]': fatura.paga && !fatura.reaberta,
+                      'text-yellow-600': fatura.reaberta,
+                      'text-red-600': !fatura.paga && !fatura.reaberta
+                    }"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -251,17 +278,21 @@
                 </div>
                 <p
                   class="text-sm font-medium"
-                  [class.text-green-700]="fatura.paga && !fatura.reaberta"
-                  [class.text-yellow-700]="fatura.reaberta"
-                  [class.text-red-700]="!fatura.paga && !fatura.reaberta"
+                  [ngClass]="{
+                    'text-[#1C6956]': fatura.paga && !fatura.reaberta,
+                    'text-yellow-700': fatura.reaberta,
+                    'text-red-700': !fatura.paga && !fatura.reaberta
+                  }"
                 >
                   Status
                 </p>
                 <p
                   class="text-2xl font-bold mt-1"
-                  [class.text-green-800]="fatura.paga && !fatura.reaberta"
-                  [class.text-yellow-800]="fatura.reaberta"
-                  [class.text-red-800]="!fatura.paga && !fatura.reaberta"
+                  [ngClass]="{
+                    'text-[#013E4C]': fatura.paga && !fatura.reaberta,
+                    'text-yellow-800': fatura.reaberta,
+                    'text-red-800': !fatura.paga && !fatura.reaberta
+                  }"
                 >
                   {{
                     !fatura
@@ -286,23 +317,22 @@
       </div>
 
       <!-- Seção de Transações -->
-      <!-- Seção de Transações -->
       <div
-        class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden"
+        class="bg-white/80 backdrop-blur-md rounded-2xl shadow-lg border border-[#E0E5E7] overflow-hidden transform hover:scale-[1.01] transition-all duration-300 animate-slideUp"
       >
-        <div class="p-6 border-b border-gray-100">
+        <div class="p-6 border-b border-[#E0E5E7]">
           <div
             class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4"
           >
             <div>
-              <h3 class="text-xl font-bold text-gray-900">Transações</h3>
-              <p class="text-sm text-gray-500 mt-1">
+              <h3 class="text-xl font-bold text-[#013E4C]">Transações</h3>
+              <p class="text-sm text-[#5e6d72] mt-1">
                 Todas as compras deste período
               </p>
             </div>
             <div class="flex items-center gap-3">
               <span
-                class="text-sm text-gray-500 bg-gray-100 px-3 py-1.5 rounded-full"
+                class="text-sm text-[#5e6d72] bg-[#F8F7F5] px-3 py-1.5 rounded-full animate-pulse"
               >
                 {{ despesas.length }}
                 {{ despesas.length === 1 ? "transação" : "transações" }}
@@ -311,23 +341,26 @@
           </div>
         </div>
 
+        <!-- Lista de transações -->
         <div
           *ngIf="despesas.length > 0; else semDespesas"
-          class="divide-y divide-gray-100"
+          class="divide-y divide-[#E0E5E7]"
         >
           <div
-            *ngFor="let despesa of despesas"
-            class="p-5 hover:bg-gray-50 transition-colors group"
+            *ngFor="let despesa of despesas; let i = index"
+            class="p-5 hover:bg-[#F8F7F5] transition-colors duration-300 group"
+            [ngStyle]="{ 'animation-delay': i * 0.1 + 's' }"
+            [ngClass]="'animate-slideIn'"
           >
             <div class="flex justify-between items-start">
               <div class="flex items-start gap-4">
                 <div class="mt-1">
                   <div
-                    class="h-10 w-10 rounded-lg flex items-center justify-center"
+                    class="h-10 w-10 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
                     [ngClass]="{
                       'bg-blue-100 text-blue-600':
                         despesa.categoria === 'Compras',
-                      'bg-green-100 text-green-600':
+                      'bg-[#D8EAE5] text-[#1C6956]':
                         despesa.categoria === 'Alimentação',
                       'bg-purple-100 text-purple-600':
                         despesa.categoria === 'Lazer',
@@ -353,11 +386,13 @@
                   </div>
                 </div>
                 <div>
-                  <p class="font-semibold text-gray-900">
+                  <p
+                    class="font-semibold text-[#013E4C] group-hover:text-[#1C6956] transition-colors duration-300"
+                  >
                     {{ despesa.descricao }}
                   </p>
                   <div class="flex flex-wrap items-center mt-1.5 gap-2">
-                    <span class="text-sm text-gray-500 flex items-center">
+                    <span class="text-sm text-[#5e6d72] flex items-center">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         class="h-3.5 w-3.5 mr-1"
@@ -375,11 +410,11 @@
                       {{ formatarData(despesa.data) }}
                     </span>
                     <span
-                      class="text-xs font-medium px-2 py-1 rounded"
+                      class="text-xs font-medium px-2 py-1 rounded-full"
                       [ngClass]="{
                         'bg-blue-100 text-blue-800':
                           despesa.categoria === 'Compras',
-                        'bg-green-100 text-green-800':
+                        'bg-[#D8EAE5] text-[#1C6956]':
                           despesa.categoria === 'Alimentação',
                         'bg-purple-100 text-purple-800':
                           despesa.categoria === 'Lazer',
@@ -393,7 +428,7 @@
                     </span>
                     <span
                       *ngIf="despesa.parcelamento"
-                      class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded"
+                      class="text-xs bg-[#F8F7F5] text-[#5e6d72] px-2 py-1 rounded-full"
                     >
                       {{ despesa.parcelamento }}
                     </span>
@@ -406,7 +441,7 @@
                 </p>
                 <p
                   *ngIf="despesa.parcelamento"
-                  class="text-xs text-gray-500 mt-1"
+                  class="text-xs text-[#5e6d72] mt-1"
                 >
                   {{ despesa.parcelamento }}
                 </p>
@@ -415,9 +450,10 @@
           </div>
         </div>
 
+        <!-- Estado vazio -->
         <ng-template #semDespesas>
-          <div class="text-center py-12 px-6">
-            <div class="mx-auto h-24 w-24 text-gray-300">
+          <div class="text-center py-12 px-6 animate-fadeIn">
+            <div class="mx-auto h-24 w-24 text-[#E0E5E7] animate-pulse">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -432,10 +468,10 @@
                 />
               </svg>
             </div>
-            <h4 class="mt-4 text-lg font-semibold text-gray-700">
+            <h4 class="mt-4 text-lg font-semibold text-[#013E4C]">
               Nenhuma transação encontrada
             </h4>
-            <p class="mt-2 text-gray-500 max-w-md mx-auto">
+            <p class="mt-2 text-[#5e6d72] max-w-md mx-auto">
               Não foram registradas transações para este cartão no período
               selecionado.
             </p>
@@ -444,20 +480,26 @@
       </div>
 
       <!-- Seção de Ações -->
-      <!-- Seção de Ações -->
-      <div class="bg-white rounded-2xl shadow-md border border-gray-100 p-6">
+      <div
+        class="bg-white/80 backdrop-blur-md rounded-2xl shadow-lg border border-[#E0E5E7] p-6 transform hover:scale-[1.01] transition-all duration-300 animate-slideUp"
+      >
         <div
           class="flex flex-col md:flex-row justify-between items-center gap-6"
         >
           <div class="text-center md:text-left">
-            <h4 class="text-lg font-semibold text-gray-900">Total da Fatura</h4>
-            <p class="text-3xl font-bold text-gray-900 mt-1">
+            <h4 class="text-lg font-semibold text-[#013E4C]">
+              Total da Fatura
+            </h4>
+            <p class="text-3xl font-bold text-[#013E4C] mt-1 animate-pulse">
               {{ fatura?.valor | currency : "BRL" : "symbol" : "1.2-2" }}
             </p>
-            <p *ngIf="fatura?.reaberta" class="text-sm text-yellow-600 mt-1">
+            <p
+              *ngIf="fatura?.reaberta"
+              class="text-sm text-yellow-600 mt-1 flex items-center"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4 inline mr-1"
+                class="h-4 w-4 mr-1"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -474,14 +516,15 @@
           </div>
 
           <div class="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
+            <!-- Botão de Download -->
             <button
               (click)="downloadReport()"
               [disabled]="loading || !fatura"
-              class="flex-1 px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-medium flex items-center justify-center gap-2 transition-colors cursor-pointer"
+              class="flex-1 px-6 py-3 border border-[#E0E5E7] rounded-xl text-[#5e6d72] hover:bg-[#F8F7F5] font-medium flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed group"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5"
+                class="h-5 w-5 text-[#1C6956] group-hover:scale-110 transition-transform duration-300"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -493,20 +536,21 @@
                   d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
                 />
               </svg>
-              <span *ngIf="!loading">Baixar Relatorio</span>
+              <span *ngIf="!loading">Baixar Relatório</span>
               <span *ngIf="loading">Gerando PDF...</span>
             </button>
 
+            <!-- Botão de Pagar -->
             <button
               *ngIf="!fatura?.paga"
               (click)="pagarFatura()"
               [disabled]="loading"
-              class="flex-1 px-6 py-3 bg-gradient-to-r from-[#b6c6cc] to-[#5e6d72] rounded-lg text-white font-medium shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 disabled:opacity-70 cursor-pointer"
+              class="flex-1 px-6 py-3 bg-gradient-to-r from-[#1C6956] to-[#013E4C] rounded-xl text-white font-medium shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-70 cursor-pointer group transform hover:scale-105"
             >
               <svg
                 *ngIf="!loading"
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5"
+                class="h-5 w-5 group-hover:scale-110 transition-transform duration-300"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -542,9 +586,10 @@
               {{ loading ? "Processando..." : "Pagar Fatura" }}
             </button>
 
+            <!-- Indicador de Fatura Paga -->
             <div
               *ngIf="fatura?.paga"
-              class="flex-1 px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg text-white font-medium flex items-center justify-center gap-2"
+              class="flex-1 px-6 py-3 bg-gradient-to-r from-[#1C6956] to-[#013E4C] rounded-xl text-white font-medium flex items-center justify-center gap-2 animate-pulse"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -568,3 +613,64 @@
     </div>
   </div>
 </div>
+
+<!-- Estilos de animação -->
+<style>
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideDown {
+    from {
+      transform: translateY(-20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideIn {
+    from {
+      transform: translateX(-20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  .animate-fadeIn {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+
+  .animate-slideUp {
+    animation: slideUp 0.5s ease-out forwards;
+  }
+
+  .animate-slideDown {
+    animation: slideDown 0.5s ease-out forwards;
+  }
+
+  .animate-slideIn {
+    animation: slideIn 0.3s ease-out forwards;
+  }
+</style>
