@@ -1,9 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, HostListener, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  Output,
+  OnInit,
+} from '@angular/core';
 import { LoginService } from '../../Services/UserService/login.service';
 import { ToastrService } from 'ngx-toastr';
 import { ExchangeRateService } from '../../Services/exchange-rate.service';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-divtop',
@@ -11,11 +19,43 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, FormsModule],
   templateUrl: './divtop.component.html',
   styleUrls: ['./divtop.component.scss'],
+  animations: [
+    trigger('fadeInOut', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'scale(0.95)' }),
+        animate('200ms ease-out', style({ opacity: 1, transform: 'scale(1)' })),
+      ]),
+      transition(':leave', [
+        animate(
+          '150ms ease-in',
+          style({ opacity: 0, transform: 'scale(0.95)' })
+        ),
+      ]),
+    ]),
+  ],
 })
-export class DivtopComponent {
+export class DivtopComponent implements OnInit {
   isMobileMenuOpen = false;
   isSettingsDropdownOpen = false;
   isAccountDropdownOpen = false;
+  isModalOpen = false;
+  isLoading = false;
+  error: string | null = null;
+  amount: number = 0;
+  fromCurrency: string = 'USD';
+  toCurrency: string = 'BRL';
+  currencies: string[] = [
+    'USD',
+    'EUR',
+    'GBP',
+    'BRL',
+    'JPY',
+    'CAD',
+    'AUD',
+    'CHF',
+  ];
+  exchangeRates: { [key: string]: number } = {};
+  convertedAmount: number | null = null;
 
   @Output() activeComponentChange = new EventEmitter<string>();
   @Output() viewChange = new EventEmitter<string>();
@@ -23,8 +63,13 @@ export class DivtopComponent {
   constructor(
     private loginService: LoginService,
     private toastService: ToastrService,
-    private exchangeRateService: ExchangeRateService
+    private exchangeRateService: ExchangeRateService,
+    private router: Router
   ) {}
+
+  ngOnInit(): void {
+    this.loadExchangeRates();
+  }
 
   toggleMobileMenu() {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
@@ -75,7 +120,6 @@ export class DivtopComponent {
     }
   }
 
-  // Outros métodos permanecem iguais
   alterarComponente(componente: string) {
     this.viewChange.emit(componente);
     this.closeMobileMenu();
@@ -90,93 +134,90 @@ export class DivtopComponent {
   logout() {
     this.loginService.logout();
     this.toastService.info('Logout efetuado com sucesso');
-    location.reload();
+    this.router.navigate(['/login']);
   }
-  isModalOpen: boolean = false;
 
-  // Dados da conversão
-  fromCurrency: string = 'USD';
-  toCurrency: string = 'BRL';
-  amount: number = 1;
-  convertedAmount: number | null = null;
-
-  // Lista de moedas (pode ser expandida)
-  currencies: string[] = ['USD', 'EUR', 'BRL', 'GBP', 'JPY', 'CAD', 'AUD'];
-
-  // Taxas de câmbio
-  exchangeRates: any = {};
-
-  // Estados adicionais
-  isLoading: boolean = false;
-  error: string | null = null;
-
-  // Abre o modal e carrega as taxas
   abrirModal() {
     this.isModalOpen = true;
-    this.getRates();
+    this.loadExchangeRates();
   }
 
-  // Fecha o modal
   fecharModal() {
     this.isModalOpen = false;
-    this.resetConversion();
+    this.error = null;
+    this.convertedAmount = null;
   }
 
-  // Carrega as taxas de câmbio
-  getRates() {
+  async loadExchangeRates(): Promise<void> {
     this.isLoading = true;
     this.error = null;
 
-    this.exchangeRateService.getExchangeRates().subscribe({
-      next: (data) => {
-        this.exchangeRates = data.conversion_rates;
-        this.isLoading = false;
-        // Converte automaticamente ao carregar as taxas
-        this.convert();
-      },
-      error: (err) => {
-        this.error = 'Erro ao carregar as taxas. Tente novamente.';
-        this.isLoading = false;
-        console.error('Erro:', err);
-      },
-    });
+    try {
+      // Aqui você implementaria a chamada real à API de câmbio
+      // Por enquanto, vamos simular com dados mockados
+      this.exchangeRates = {
+        USD: 1,
+        EUR: 0.85,
+        GBP: 0.73,
+        BRL: 5.2,
+        JPY: 110.5,
+        CAD: 1.25,
+        AUD: 1.35,
+        CHF: 0.92,
+      };
+      this.convert();
+    } catch (err) {
+      this.error =
+        'Erro ao carregar taxas de câmbio. Tente novamente mais tarde.';
+    } finally {
+      this.isLoading = false;
+    }
   }
 
-  // Realiza a conversão
   convert() {
-    if (!this.amount || isNaN(this.amount)) {
-      this.error = 'Insira um valor válido';
-      this.convertedAmount = null;
-      return;
-    }
-
     if (
+      !this.amount ||
       !this.exchangeRates[this.fromCurrency] ||
       !this.exchangeRates[this.toCurrency]
     ) {
-      this.error = 'Taxas de câmbio não disponíveis';
       this.convertedAmount = null;
       return;
     }
 
-    this.error = null;
-
-    // Calcula a taxa correta (considerando que a API retorna taxas baseadas em USD)
     const rate =
       this.exchangeRates[this.toCurrency] /
       this.exchangeRates[this.fromCurrency];
     this.convertedAmount = this.amount * rate;
   }
 
-  // Inverte as moedas selecionadas
   inverterMoedas() {
-    [this.fromCurrency, this.toCurrency] = [this.toCurrency, this.fromCurrency];
+    const temp = this.fromCurrency;
+    this.fromCurrency = this.toCurrency;
+    this.toCurrency = temp;
     this.convert();
   }
 
-  // Reseta os valores da conversão
-  resetConversion() {
-    this.convertedAmount = null;
-    this.error = null;
+  getInitials(): string {
+    const nome = this.getNome();
+    return nome
+      .split(' ')
+      .map((n) => n[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
+  }
+
+  getNome(): string {
+    // Implementar lógica para obter o nome do usuário do serviço de login
+    return 'Usuário Teste';
+  }
+
+  getEmail(): string {
+    // Implementar lógica para obter o email do usuário do serviço de login
+    return 'usuario@teste.com';
+  }
+
+  getCurrentDate(): Date {
+    return new Date();
   }
 }

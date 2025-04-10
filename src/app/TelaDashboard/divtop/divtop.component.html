@@ -1,223 +1,358 @@
 <header
-  class="bg-gradient-to-r from-[#F8F7F5] to-[#D8EAE5] text-[#013E4C] shadow-lg sticky top-0 z-20 transition-all duration-300"
+  class="bg-[#F8F7F5] text-[#013E4C] shadow-lg sticky top-0 z-20 transition-all duration-300"
 >
-  <div class="container mx-auto px-4 py-3 relative">
+  <div class="container mx-auto px-4 py-4 relative">
     <!-- Barra superior com logo e navegação principal -->
     <div class="flex items-center justify-between">
-      <!-- Logo com animação -->
+      <!-- Logo com animação e efeito de vidro -->
       <div class="flex items-center">
         <a href="/dashboard" class="flex items-center group">
-          <div
-            class="relative overflow-hidden rounded-lg bg-white p-2 shadow-md transition-all duration-300 group-hover:shadow-lg"
-          >
-            <img
-              src="assets/img/logo.png"
-              alt="Logo"
-              class="h-12 w-auto transform transition-transform duration-500 group-hover:scale-110"
-            />
-            <div
-              class="absolute inset-0 bg-gradient-to-r from-[#1C6956]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            ></div>
-          </div>
-          <span class="ml-3 text-xl font-bold text-[#013E4C] hidden sm:block"
-            >BolsoSeguro</span
-          >
+          <img
+            src="assets/img/logoteste.png"
+            alt="Logo"
+            class="h-16 md:h-20 w-auto object-contain transition-all duration-300 hover:scale-105"
+            loading="eager"
+          />
         </a>
       </div>
 
-      <!-- Navegação principal (desktop) -->
-      <nav class="hidden md:flex items-center space-x-1">
+      <!-- Navegação principal (desktop) com efeitos modernos -->
+      <nav class="hidden md:flex items-center space-x-2">
         <a
           (click)="alterarComponente('dashboard')"
-          class="px-4 py-2 rounded-lg text-[#5e6d72] hover:text-[#013E4C] hover:bg-white/50 transition-all duration-300 relative group cursor-pointer"
+          class="px-5 py-2.5 rounded-xl text-[#5e6d72] hover:text-[#013E4C] hover:bg-white/80 transition-all duration-300 relative group cursor-pointer backdrop-blur-sm"
         >
           <span class="relative z-10 flex items-center">
             <i
-              class="fas fa-chart-pie mr-2 text-[#1C6956] group-hover:text-[#013E4C] transition-colors"
+              class="fas fa-chart-pie mr-2.5 text-[#1C6956] group-hover:text-[#013E4C] transition-colors duration-300"
             ></i>
-            <span>Visão Geral</span>
+            <span class="font-medium">Visão Geral</span>
           </span>
           <span
-            class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#1C6956] to-[#013E4C] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"
+            class="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-[#1C6956] to-[#013E4C] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"
           ></span>
         </a>
 
         <a
           (click)="alterarComponente('lancamentos')"
-          class="px-4 py-2 rounded-lg text-[#5e6d72] hover:text-[#013E4C] hover:bg-white/50 transition-all duration-300 relative group cursor-pointer"
+          class="px-5 py-2.5 rounded-xl text-[#5e6d72] hover:text-[#013E4C] hover:bg-white/80 transition-all duration-300 relative group cursor-pointer backdrop-blur-sm"
         >
           <span class="relative z-10 flex items-center">
             <i
-              class="fas fa-exchange-alt mr-2 text-[#1C6956] group-hover:text-[#013E4C] transition-colors"
+              class="fas fa-exchange-alt mr-2.5 text-[#1C6956] group-hover:text-[#013E4C] transition-colors duration-300"
             ></i>
-            <span>Transações</span>
+            <span class="font-medium">Transações</span>
           </span>
           <span
-            class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#1C6956] to-[#013E4C] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"
+            class="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-[#1C6956] to-[#013E4C] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"
           ></span>
         </a>
 
         <a
           (click)="alterarComponente('graficos')"
-          class="px-4 py-2 rounded-lg text-[#5e6d72] hover:text-[#013E4C] hover:bg-white/50 transition-all duration-300 relative group cursor-pointer"
+          class="px-5 py-2.5 rounded-xl text-[#5e6d72] hover:text-[#013E4C] hover:bg-white/80 transition-all duration-300 relative group cursor-pointer backdrop-blur-sm"
         >
           <span class="relative z-10 flex items-center">
             <i
-              class="fas fa-chart-line mr-2 text-[#1C6956] group-hover:text-[#013E4C] transition-colors"
+              class="fas fa-chart-line mr-2.5 text-[#1C6956] group-hover:text-[#013E4C] transition-colors duration-300"
             ></i>
-            <span>Gráficos</span>
+            <span class="font-medium">Gráficos</span>
           </span>
           <span
-            class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#1C6956] to-[#013E4C] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"
+            class="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-[#1C6956] to-[#013E4C] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"
           ></span>
         </a>
 
         <a
           (click)="abrirModal()"
-          class="ml-2 px-4 py-2 rounded-lg bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center cursor-pointer"
+          class="ml-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center cursor-pointer group"
         >
-          <i class="fas fa-exchange-alt mr-2"></i>
-          <span>Conversor</span>
+          <i
+            class="fas fa-exchange-alt mr-2.5 group-hover:rotate-180 transition-transform duration-500"
+          ></i>
+          <span class="font-medium">Conversor</span>
         </a>
       </nav>
 
-      <!-- Botões de ação (desktop) -->
-      <div class="hidden md:flex items-center space-x-3">
-        <!-- Configurações -->
+      <!-- Botões de ação desktop - Versão melhorada -->
+      <div class="hidden md:flex items-center space-x-4">
+        <!-- Configurações com melhor feedback visual -->
         <div class="relative">
+          <!-- Botão moderno de configurações com efeito de vidro e UX aprimorado -->
           <button
+            id="settings-button"
             (click)="toggleSettingsDropdown($event)"
-            class="p-2 rounded-full bg-white/80 hover:bg-white transition-all duration-300 focus:outline-none group"
+            aria-label="Abrir menu de configurações"
+            aria-haspopup="true"
+            [attr.aria-expanded]="isSettingsDropdownOpen"
+            class="group flex items-center gap-2 px-4 py-2.5 rounded-2xl backdrop-blur-md bg-white/80 hover:bg-white focus:outline-none focus:ring-2 focus:ring-[#1C6956]/80 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out"
             [class.ring-2]="isSettingsDropdownOpen"
             [class.ring-[#1C6956]]="isSettingsDropdownOpen"
+            [class.bg-white]="isSettingsDropdownOpen"
           >
-            <i
-              class="fas fa-gear text-[#5e6d72] group-hover:text-[#1C6956] transition-colors"
-            ></i>
+            <span
+              class="text-sm font-medium text-[#5e6d72] group-hover:text-[#013E4C] transition-colors duration-200"
+            >
+              Configurações
+            </span>
+            <div
+              class="relative flex items-center justify-center w-8 h-8 rounded-xl bg-[#D8EAE5] group-hover:bg-[#1C6956]/10 transition-colors duration-300"
+            >
+              <i
+                class="fas fa-gear text-[#1C6956] transition-all duration-500 ease-in-out group-hover:text-[#013E4C]"
+                [class.text-[#013E4C]]="isSettingsDropdownOpen"
+                [class.rotate-[225deg]]="isSettingsDropdownOpen"
+              ></i>
+
+              <!-- Círculo de destaque animado ao abrir -->
+              <span
+                *ngIf="isSettingsDropdownOpen"
+                class="absolute inset-0 rounded-xl border-2 border-[#1C6956] animate-pulse"
+              ></span>
+            </div>
           </button>
 
-          <!-- Dropdown Configurações -->
+          <!-- Dropdown Configurações - Melhor hierarquia visual -->
           <div
             *ngIf="isSettingsDropdownOpen"
             @fadeInOut
-            class="absolute top-full right-0 mt-2 w-64 bg-white rounded-xl shadow-xl z-50 overflow-hidden border border-[#E0E5E7] transform origin-top-right transition-all duration-300"
+            class="absolute top-full right-0 mt-2 w-72 bg-white/95 backdrop-blur-md rounded-xl shadow-lg z-50 overflow-hidden border border-[#E0E5E7] transform origin-top-right transition-all duration-200 ease-out"
           >
             <div
-              class="p-3 bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white"
+              class="p-4 bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white"
             >
-              <h3 class="font-medium">Configurações</h3>
+              <h3 class="font-semibold text-lg tracking-tight">
+                Configurações
+              </h3>
+              <p class="text-xs opacity-90 mt-0.5">
+                Gerencie suas preferências
+              </p>
             </div>
-            <ul class="py-1">
+            <ul class="py-1.5">
               <li>
                 <a
                   (click)="mudarPagina('configuracoes', 'categorias')"
-                  class="flex items-center px-4 py-3 text-[#5e6d72] hover:bg-[#D8EAE5] hover:text-[#013E4C] transition-colors duration-200 cursor-pointer"
+                  role="button"
+                  class="flex items-center px-5 py-3 text-[#5e6d72] hover:bg-[#D8EAE5]/80 hover:text-[#013E4C] transition-colors duration-150 cursor-pointer group"
+                  tabindex="0"
                 >
-                  <i class="fas fa-tags mr-3 text-[#1C6956]"></i>
-                  <span>Categorias</span>
+                  <div
+                    class="w-8 h-8 rounded-lg bg-[#D8EAE5] flex items-center justify-center mr-3 group-hover:bg-[#1C6956] transition-colors duration-200"
+                  >
+                    <i
+                      class="fas fa-tags text-[#1C6956] group-hover:text-white text-sm"
+                    ></i>
+                  </div>
+                  <div>
+                    <span class="font-medium block">Categorias</span>
+                    <span class="text-xs text-[#748389]"
+                      >Organize seus gastos</span
+                    >
+                  </div>
                 </a>
               </li>
-              <li class="border-t border-[#E0E5E7]"></li>
+
+              <li class="border-t border-[#E0E5E7]/50 mx-3"></li>
+
               <li>
                 <a
                   (click)="mudarPagina('configuracoes', 'contas')"
-                  class="flex items-center px-4 py-3 text-[#5e6d72] hover:bg-[#D8EAE5] hover:text-[#013E4C] transition-colors duration-200 cursor-pointer"
+                  role="button"
+                  class="flex items-center px-5 py-3 text-[#5e6d72] hover:bg-[#D8EAE5]/80 hover:text-[#013E4C] transition-colors duration-150 cursor-pointer group"
+                  tabindex="0"
                 >
-                  <i class="fas fa-wallet mr-3 text-[#1C6956]"></i>
-                  <span>Contas</span>
+                  <div
+                    class="w-8 h-8 rounded-lg bg-[#D8EAE5] flex items-center justify-center mr-3 group-hover:bg-[#1C6956] transition-colors duration-200"
+                  >
+                    <i
+                      class="fas fa-wallet text-[#1C6956] group-hover:text-white text-sm"
+                    ></i>
+                  </div>
+                  <div>
+                    <span class="font-medium block">Contas</span>
+                    <span class="text-xs text-[#748389]"
+                      >Gerencie suas contas</span
+                    >
+                  </div>
                 </a>
               </li>
-              <li class="border-t border-[#E0E5E7]"></li>
+
+              <li class="border-t border-[#E0E5E7]/50 mx-3"></li>
+
               <li>
                 <a
                   (click)="mudarPagina('configuracoes', 'cartoes')"
-                  class="flex items-center px-4 py-3 text-[#5e6d72] hover:bg-[#D8EAE5] hover:text-[#013E4C] transition-colors duration-200 cursor-pointer"
+                  role="button"
+                  class="flex items-center px-5 py-3 text-[#5e6d72] hover:bg-[#D8EAE5]/80 hover:text-[#013E4C] transition-colors duration-150 cursor-pointer group"
+                  tabindex="0"
                 >
-                  <i class="fas fa-credit-card mr-3 text-[#1C6956]"></i>
-                  <span>Cartões de Crédito</span>
+                  <div
+                    class="w-8 h-8 rounded-lg bg-[#D8EAE5] flex items-center justify-center mr-3 group-hover:bg-[#1C6956] transition-colors duration-200"
+                  >
+                    <i
+                      class="fas fa-credit-card text-[#1C6956] group-hover:text-white text-sm"
+                    ></i>
+                  </div>
+                  <div>
+                    <span class="font-medium block">Cartões</span>
+                    <span class="text-xs text-[#748389]"
+                      >Controle seus cartões</span
+                    >
+                  </div>
                 </a>
               </li>
-              <li class="border-t border-[#E0E5E7]"></li>
+
+              <li class="border-t border-[#E0E5E7]/50 mx-3"></li>
+
               <li>
                 <a
                   (click)="mudarPagina('configuracoes', 'metas')"
-                  class="flex items-center px-4 py-3 text-[#5e6d72] hover:bg-[#D8EAE5] hover:text-[#013E4C] transition-colors duration-200 cursor-pointer"
+                  role="button"
+                  class="flex items-center px-5 py-3 text-[#5e6d72] hover:bg-[#D8EAE5]/80 hover:text-[#013E4C] transition-colors duration-150 cursor-pointer group"
+                  tabindex="0"
                 >
-                  <i class="fas fa-bullseye mr-3 text-[#1C6956]"></i>
-                  <span>Metas Financeiras</span>
+                  <div
+                    class="w-8 h-8 rounded-lg bg-[#D8EAE5] flex items-center justify-center mr-3 group-hover:bg-[#1C6956] transition-colors duration-200"
+                  >
+                    <i
+                      class="fas fa-bullseye text-[#1C6956] group-hover:text-white text-sm"
+                    ></i>
+                  </div>
+                  <div>
+                    <span class="font-medium block">Metas</span>
+                    <span class="text-xs text-[#748389]"
+                      >Defina seus objetivos</span
+                    >
+                  </div>
                 </a>
               </li>
             </ul>
           </div>
         </div>
 
-        <!-- Perfil do usuário -->
+        <!-- Perfil do usuário - Mais informações e melhor hierarquia -->
         <div class="relative">
+          <!-- Botão moderno de perfil do usuário com UI/UX elegante -->
           <button
+            id="account-button"
             (click)="toggleAccountDropdown($event)"
-            class="flex items-center p-1 rounded-full transition-all duration-300 focus:outline-none group cursor-pointer"
+            aria-label="Abrir menu da conta do usuário"
+            aria-haspopup="true"
+            [attr.aria-expanded]="isAccountDropdownOpen"
+            class="flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-white/80 hover:bg-white backdrop-blur-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#1C6956]/80 shadow-md hover:shadow-lg group"
+            [class.ring-2]="isAccountDropdownOpen"
+            [class.ring-[#1C6956]]="isAccountDropdownOpen"
+            [class.bg-white]="isAccountDropdownOpen"
           >
+            <div class="flex flex-col items-end">
+              <span
+                class="text-sm font-medium text-[#5e6d72] group-hover:text-[#013E4C] transition-colors duration-200"
+              >
+                {{ getNome() }}
+              </span>
+              <span
+                class="text-xs text-[#748389] group-hover:text-[#5e6d72] transition-colors duration-200"
+              >
+                {{ getEmail() }}
+              </span>
+            </div>
+
             <div class="relative">
               <div
-                class="w-10 h-10 rounded-full overflow-hidden border-2 border-transparent group-hover:border-[#1C6956] transition-all duration-300 shadow-md"
+                class="w-10 h-10 rounded-xl overflow-hidden border-2 border-transparent group-hover:border-[#1C6956] transition-all duration-300 shadow-sm"
+                [class.border-[#1C6956]]="isAccountDropdownOpen"
               >
                 <img
                   src="https://utils.organizze.com.br/avatar/avatar-missing.png"
-                  alt="Avatar"
-                  class="w-full h-full object-cover"
+                  alt="Foto do perfil"
+                  class="w-full h-full object-cover transition-transform duration-500"
+                  [class.scale-110]="isAccountDropdownOpen"
                 />
               </div>
               <div
-                class="absolute -bottom-1 -right-1 w-4 h-4 bg-[#1C6956] rounded-full border-2 border-white flex items-center justify-center"
+                class="absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full border-2 border-white bg-gradient-to-r from-[#1C6956] to-[#013E4C] flex items-center justify-center shadow"
               >
-                <i class="fas fa-check text-white text-xs"></i>
+                <i class="fas fa-check text-white text-[8px]"></i>
               </div>
             </div>
           </button>
 
-          <!-- Dropdown Conta -->
+          <!-- Dropdown Conta - Mais organizado e informativo -->
           <div
             *ngIf="isAccountDropdownOpen"
             @fadeInOut
-            class="absolute top-full right-0 mt-2 w-64 bg-white rounded-xl shadow-xl z-50 overflow-hidden border border-[#E0E5E7] transform origin-top-right transition-all duration-300"
+            class="absolute top-full right-0 mt-2 w-80 bg-white/95 backdrop-blur-md rounded-xl shadow-lg z-50 overflow-hidden border border-[#E0E5E7] transform origin-top-right transition-all duration-200 ease-out"
           >
             <div
-              class="p-4 bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white"
+              class="p-5 bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white"
             >
               <div class="flex items-center">
                 <div
-                  class="w-10 h-10 rounded-full overflow-hidden border-2 border-white"
+                  class="w-12 h-12 rounded-xl overflow-hidden border-2 border-white shadow-md"
                 >
                   <img
                     src="https://utils.organizze.com.br/avatar/avatar-missing.png"
-                    alt="Avatar"
+                    alt="Foto do perfil"
                     class="w-full h-full object-cover"
                   />
                 </div>
-                <div class="ml-3">
-                  <p class="font-medium">Bem vindo!</p>
-                  <p class="text-sm text-white/80">Gerencie suas finanças</p>
+                <div class="ml-4">
+                  <p class="font-semibold text-lg tracking-tight">
+                    Bem-vindo de volta!
+                  </p>
+                  <p class="text-xs text-white/90 mt-0.5">
+                    Gerencie sua conta e preferências
+                  </p>
                 </div>
               </div>
             </div>
-            <ul class="py-1">
+            <ul class="py-1.5">
               <li>
                 <a
                   (click)="mudarPagina('configuracoes', 'minhaconta')"
-                  class="flex items-center px-4 py-3 text-[#5e6d72] hover:bg-[#D8EAE5] hover:text-[#013E4C] transition-colors duration-200 cursor-pointer"
+                  role="button"
+                  class="flex items-center px-5 py-3 text-[#5e6d72] hover:bg-[#D8EAE5]/80 hover:text-[#013E4C] transition-colors duration-150 cursor-pointer group"
+                  tabindex="0"
                 >
-                  <i class="fas fa-user-circle mr-3 text-[#1C6956]"></i>
-                  <span>Minha Conta</span>
+                  <div
+                    class="w-8 h-8 rounded-lg bg-[#D8EAE5] flex items-center justify-center mr-3 group-hover:bg-[#1C6956] transition-colors duration-200"
+                  >
+                    <i
+                      class="fas fa-user-circle text-[#1C6956] group-hover:text-white text-sm"
+                    ></i>
+                  </div>
+                  <div>
+                    <span class="font-medium block">Minha Conta</span>
+                    <span class="text-xs text-[#748389]"
+                      >Configurações pessoais</span
+                    >
+                  </div>
                 </a>
               </li>
-              <li class="border-t border-[#E0E5E7]"></li>
+
+              <li class="border-t border-[#E0E5E7]/50 mx-3"></li>
+
               <li>
                 <a
                   (click)="logout()"
-                  class="flex items-center px-4 py-3 text-[#5e6d72] hover:bg-red-50 hover:text-red-600 transition-colors duration-200 cursor-pointer"
+                  role="button"
+                  class="flex items-center px-5 py-3 text-[#5e6d72] hover:bg-red-50/80 hover:text-red-600 transition-colors duration-150 cursor-pointer group"
+                  tabindex="0"
                 >
-                  <i class="fas fa-sign-out-alt mr-3 text-red-500"></i>
-                  <span>Sair</span>
+                  <div
+                    class="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center mr-3 group-hover:bg-red-600 transition-colors duration-200"
+                  >
+                    <i
+                      class="fas fa-sign-out-alt text-red-500 group-hover:text-white text-sm"
+                    ></i>
+                  </div>
+                  <div>
+                    <span class="font-medium block">Sair</span>
+                    <span
+                      class="text-xs text-[#748389] group-hover:text-red-500"
+                      >Finalizar sessão</span
+                    >
+                  </div>
                 </a>
               </li>
             </ul>
@@ -225,10 +360,10 @@
         </div>
       </div>
 
-      <!-- Botão de Menu Mobile -->
+      <!-- Botão de Menu Mobile com design moderno -->
       <button
         id="mobile-menu-button"
-        class="md:hidden p-2 rounded-lg bg-white/80 hover:bg-white transition-all duration-300 focus:outline-none"
+        class="md:hidden p-2.5 rounded-xl bg-white/80 hover:bg-white transition-all duration-300 focus:outline-none shadow-md hover:shadow-lg backdrop-blur-sm"
         (click)="toggleMobileMenu()"
         aria-label="Menu"
       >
@@ -248,7 +383,7 @@
       </button>
     </div>
 
-    <!-- Menu Mobile -->
+    <!-- Menu Mobile com design moderno -->
     <div
       id="main-nav"
       class="md:hidden fixed inset-0 bg-[#F8F7F5] z-40 flex flex-col transition-all duration-500 ease-in-out transform"
@@ -256,136 +391,147 @@
       [class.translate-x-full]="!isMobileMenuOpen"
     >
       <div
-        class="p-4 bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white flex justify-between items-center"
+        class="p-5 bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white flex justify-between items-center"
       >
         <div class="flex items-center">
-          <img src="assets/img/logo.png" alt="Logo" class="h-10 w-auto" />
-          <span class="ml-3 text-xl font-bold">BolsoSeguro</span>
+          <img
+            src="assets/img/logotestesemf.png"
+            alt="Logo"
+            class="h-12 w-auto"
+          />
         </div>
         <button
           (click)="closeMobileMenu()"
-          class="p-2 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-300"
+          class="p-2.5 rounded-xl bg-white/20 hover:bg-white/30 transition-all duration-300"
         >
           <i class="fas fa-times"></i>
         </button>
       </div>
 
-      <div class="flex-1 overflow-y-auto p-4">
-        <nav class="space-y-2">
+      <div class="flex-1 overflow-y-auto p-5">
+        <nav class="space-y-3">
           <a
             (click)="alterarComponente('dashboard'); closeMobileMenu()"
-            class="flex items-center p-3 rounded-xl bg-white shadow-sm hover:shadow-md transition-all duration-300"
+            class="flex items-center p-4 rounded-xl bg-white shadow-md hover:shadow-lg transition-all duration-300 group"
           >
             <div
-              class="w-10 h-10 rounded-lg bg-[#D8EAE5] flex items-center justify-center mr-3"
+              class="w-12 h-12 rounded-xl bg-[#D8EAE5] flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300"
             >
-              <i class="fas fa-chart-pie text-[#1C6956]"></i>
+              <i class="fas fa-chart-pie text-[#1C6956] text-xl"></i>
             </div>
-            <span class="font-medium text-[#013E4C]">Visão Geral</span>
+            <span class="font-medium text-[#013E4C] text-lg">Visão Geral</span>
           </a>
 
           <a
             (click)="alterarComponente('lancamentos'); closeMobileMenu()"
-            class="flex items-center p-3 rounded-xl bg-white shadow-sm hover:shadow-md transition-all duration-300"
+            class="flex items-center p-4 rounded-xl bg-white shadow-md hover:shadow-lg transition-all duration-300 group"
           >
             <div
-              class="w-10 h-10 rounded-lg bg-[#D8EAE5] flex items-center justify-center mr-3"
+              class="w-12 h-12 rounded-xl bg-[#D8EAE5] flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300"
             >
-              <i class="fas fa-exchange-alt text-[#1C6956]"></i>
+              <i class="fas fa-exchange-alt text-[#1C6956] text-xl"></i>
             </div>
-            <span class="font-medium text-[#013E4C]">Transações</span>
+            <span class="font-medium text-[#013E4C] text-lg">Transações</span>
           </a>
 
           <a
             (click)="alterarComponente('graficos'); closeMobileMenu()"
-            class="flex items-center p-3 rounded-xl bg-white shadow-sm hover:shadow-md transition-all duration-300"
+            class="flex items-center p-4 rounded-xl bg-white shadow-md hover:shadow-lg transition-all duration-300 group"
           >
             <div
-              class="w-10 h-10 rounded-lg bg-[#D8EAE5] flex items-center justify-center mr-3"
+              class="w-12 h-12 rounded-xl bg-[#D8EAE5] flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300"
             >
-              <i class="fas fa-chart-line text-[#1C6956]"></i>
+              <i class="fas fa-chart-line text-[#1C6956] text-xl"></i>
             </div>
-            <span class="font-medium text-[#013E4C]">Gráficos</span>
+            <span class="font-medium text-[#013E4C] text-lg">Gráficos</span>
           </a>
 
           <a
             (click)="abrirModal(); closeMobileMenu()"
-            class="flex items-center p-3 rounded-xl bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white shadow-md hover:shadow-lg transition-all duration-300"
+            class="flex items-center p-4 rounded-xl bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white shadow-lg hover:shadow-xl transition-all duration-300 group"
           >
             <div
-              class="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center mr-3"
+              class="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300"
             >
-              <i class="fas fa-exchange-alt"></i>
+              <i class="fas fa-exchange-alt text-xl"></i>
             </div>
-            <span class="font-medium">Conversor de Moedas</span>
+            <span class="font-medium text-lg">Conversor de Moedas</span>
           </a>
         </nav>
 
         <div class="mt-8">
-          <h3 class="text-[#5e6d72] font-medium px-3 mb-2">Configurações</h3>
-          <nav class="space-y-2">
+          <h3 class="text-[#5e6d72] font-medium px-4 mb-3 text-lg">
+            Configurações
+          </h3>
+          <nav class="space-y-3">
             <a
               (click)="
                 mudarPagina('configuracoes', 'categorias'); closeMobileMenu()
               "
-              class="flex items-center p-3 rounded-xl bg-white shadow-sm hover:shadow-md transition-all duration-300"
+              class="flex items-center p-4 rounded-xl bg-white shadow-md hover:shadow-lg transition-all duration-300 group"
             >
               <div
-                class="w-10 h-10 rounded-lg bg-[#D8EAE5] flex items-center justify-center mr-3"
+                class="w-12 h-12 rounded-xl bg-[#D8EAE5] flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300"
               >
-                <i class="fas fa-tags text-[#1C6956]"></i>
+                <i class="fas fa-tags text-[#1C6956] text-xl"></i>
               </div>
-              <span class="font-medium text-[#013E4C]">Categorias</span>
+              <span class="font-medium text-[#013E4C] text-lg">Categorias</span>
             </a>
 
             <a
               (click)="
                 mudarPagina('configuracoes', 'contas'); closeMobileMenu()
               "
-              class="flex items-center p-3 rounded-xl bg-white shadow-sm hover:shadow-md transition-all duration-300"
+              class="flex items-center p-4 rounded-xl bg-white shadow-md hover:shadow-lg transition-all duration-300 group"
             >
               <div
-                class="w-10 h-10 rounded-lg bg-[#D8EAE5] flex items-center justify-center mr-3"
+                class="w-12 h-12 rounded-xl bg-[#D8EAE5] flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300"
               >
-                <i class="fas fa-wallet text-[#1C6956]"></i>
+                <i class="fas fa-wallet text-[#1C6956] text-xl"></i>
               </div>
-              <span class="font-medium text-[#013E4C]">Contas</span>
+              <span class="font-medium text-[#013E4C] text-lg">Contas</span>
             </a>
 
             <a
               (click)="
                 mudarPagina('configuracoes', 'cartoes'); closeMobileMenu()
               "
-              class="flex items-center p-3 rounded-xl bg-white shadow-sm hover:shadow-md transition-all duration-300"
+              class="flex items-center p-4 rounded-xl bg-white shadow-md hover:shadow-lg transition-all duration-300 group"
             >
               <div
-                class="w-10 h-10 rounded-lg bg-[#D8EAE5] flex items-center justify-center mr-3"
+                class="w-12 h-12 rounded-xl bg-[#D8EAE5] flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300"
               >
-                <i class="fas fa-credit-card text-[#1C6956]"></i>
+                <i class="fas fa-credit-card text-[#1C6956] text-xl"></i>
               </div>
-              <span class="font-medium text-[#013E4C]">Cartões de Crédito</span>
+              <span class="font-medium text-[#013E4C] text-lg"
+                >Cartões de Crédito</span
+              >
             </a>
 
             <a
               (click)="mudarPagina('configuracoes', 'metas'); closeMobileMenu()"
-              class="flex items-center p-3 rounded-xl bg-white shadow-sm hover:shadow-md transition-all duration-300"
+              class="flex items-center p-4 rounded-xl bg-white shadow-md hover:shadow-lg transition-all duration-300 group"
             >
               <div
-                class="w-10 h-10 rounded-lg bg-[#D8EAE5] flex items-center justify-center mr-3"
+                class="w-12 h-12 rounded-xl bg-[#D8EAE5] flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300"
               >
-                <i class="fas fa-bullseye text-[#1C6956]"></i>
+                <i class="fas fa-bullseye text-[#1C6956] text-xl"></i>
               </div>
-              <span class="font-medium text-[#013E4C]">Metas Financeiras</span>
+              <span class="font-medium text-[#013E4C] text-lg"
+                >Metas Financeiras</span
+              >
             </a>
           </nav>
         </div>
 
         <div class="mt-8">
-          <h3 class="text-[#5e6d72] font-medium px-3 mb-2">Minha Conta</h3>
-          <div class="bg-white rounded-xl shadow-sm p-4">
+          <h3 class="text-[#5e6d72] font-medium px-4 mb-3 text-lg">
+            Minha Conta
+          </h3>
+          <div class="bg-white rounded-xl shadow-md p-5">
             <div class="flex items-center">
               <div
-                class="w-12 h-12 rounded-full overflow-hidden border-2 border-[#E0E5E7]"
+                class="w-14 h-14 rounded-xl overflow-hidden border-2 border-[#E0E5E7] shadow-md"
               >
                 <img
                   src="https://utils.organizze.com.br/avatar/avatar-missing.png"
@@ -393,27 +539,31 @@
                   class="w-full h-full object-cover"
                 />
               </div>
-              <div class="ml-3">
-                <p class="font-medium text-[#013E4C]">Bem vindo!</p>
-                <p class="text-sm text-[#5e6d72]">Gerencie suas finanças</p>
+              <div class="ml-4">
+                <p class="font-medium text-[#013E4C] text-lg">Bem vindo!</p>
+                <p class="text-[#5e6d72]">Gerencie suas finanças</p>
               </div>
             </div>
-            <div class="mt-4 space-y-2">
+            <div class="mt-5 space-y-3">
               <a
                 (click)="
                   mudarPagina('configuracoes', 'minhaconta'); closeMobileMenu()
                 "
-                class="flex items-center p-2 rounded-lg hover:bg-[#D8EAE5] transition-colors duration-200"
+                class="flex items-center p-3 rounded-xl hover:bg-[#D8EAE5] transition-colors duration-200 group"
               >
-                <i class="fas fa-user-circle mr-3 text-[#1C6956]"></i>
-                <span class="text-[#5e6d72]">Minha Conta</span>
+                <i
+                  class="fas fa-user-circle mr-3.5 text-[#1C6956] text-xl group-hover:scale-110 transition-transform duration-300"
+                ></i>
+                <span class="text-[#5e6d72] font-medium">Minha Conta</span>
               </a>
               <a
                 (click)="logout(); closeMobileMenu()"
-                class="flex items-center p-2 rounded-lg hover:bg-red-50 transition-colors duration-200"
+                class="flex items-center p-3 rounded-xl hover:bg-red-50 transition-colors duration-200 group"
               >
-                <i class="fas fa-sign-out-alt mr-3 text-red-500"></i>
-                <span class="text-[#5e6d72]">Sair</span>
+                <i
+                  class="fas fa-sign-out-alt mr-3.5 text-red-500 text-xl group-hover:scale-110 transition-transform duration-300"
+                ></i>
+                <span class="text-[#5e6d72] font-medium">Sair</span>
               </a>
             </div>
           </div>
@@ -421,7 +571,7 @@
       </div>
     </div>
 
-    <!-- Overlay para mobile -->
+    <!-- Overlay para mobile com efeito de blur -->
     <div
       *ngIf="isMobileMenuOpen"
       class="fixed inset-0 bg-black/50 backdrop-blur-sm z-30 md:hidden"
@@ -430,7 +580,7 @@
   </div>
 </header>
 
-<!-- Modal do Conversor -->
+<!-- Modal do Conversor com design moderno -->
 <div
   *ngIf="isModalOpen"
   class="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50 p-4"
@@ -440,15 +590,15 @@
   >
     <!-- Cabeçalho do Modal -->
     <div
-      class="flex justify-between items-center p-5 bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white"
+      class="flex justify-between items-center p-6 bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white"
     >
       <h3 class="text-xl font-semibold flex items-center">
-        <i class="fas fa-exchange-alt mr-2"></i>
+        <i class="fas fa-exchange-alt mr-3 text-2xl"></i>
         Conversor de Moedas
       </h3>
       <button
         (click)="fecharModal()"
-        class="text-white hover:bg-white/20 p-2 rounded-full transition duration-200"
+        class="text-white hover:bg-white/20 p-2.5 rounded-xl transition duration-200"
       >
         <i class="fas fa-times"></i>
       </button>
@@ -458,27 +608,27 @@
       <!-- Mensagens de erro/loading -->
       <div
         *ngIf="error"
-        class="mb-4 p-3 bg-red-50 text-red-600 rounded-xl text-sm flex items-center"
+        class="mb-4 p-4 bg-red-50 text-red-600 rounded-xl text-sm flex items-center"
       >
-        <i class="fas fa-exclamation-circle mr-2"></i>
+        <i class="fas fa-exclamation-circle mr-3 text-lg"></i>
         {{ error }}
       </div>
 
-      <div *ngIf="isLoading" class="mb-4 text-center py-6">
+      <div *ngIf="isLoading" class="mb-4 text-center py-8">
         <div
-          class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-[#1C6956] border-t-transparent"
+          class="inline-block animate-spin rounded-full h-10 w-10 border-4 border-[#1C6956] border-t-transparent"
         ></div>
-        <p class="mt-3 text-[#5e6d72]">Carregando taxas de câmbio...</p>
+        <p class="mt-4 text-[#5e6d72]">Carregando taxas de câmbio...</p>
       </div>
 
       <!-- Campos do formulário -->
-      <div class="mb-5">
-        <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+      <div class="mb-6">
+        <label class="block text-sm font-medium text-[#5e6d72] mb-2"
           >Valor</label
         >
         <div class="relative">
           <span
-            class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389]"
+            class="absolute inset-y-0 left-0 pl-4 flex items-center text-[#748389]"
           >
             <i class="fas fa-dollar-sign"></i>
           </span>
@@ -486,34 +636,34 @@
             type="number"
             [(ngModel)]="amount"
             (input)="convert()"
-            class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
+            class="w-full pl-12 pr-4 py-3.5 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
             placeholder="Digite o valor"
           />
         </div>
       </div>
 
-      <div class="grid grid-cols-2 gap-4 mb-5">
+      <div class="grid grid-cols-2 gap-4 mb-6">
         <div>
-          <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+          <label class="block text-sm font-medium text-[#5e6d72] mb-2"
             >De</label
           >
           <div class="relative">
             <span
-              class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389]"
+              class="absolute inset-y-0 left-0 pl-4 flex items-center text-[#748389]"
             >
               <i class="fas fa-globe"></i>
             </span>
             <select
               [(ngModel)]="fromCurrency"
               (change)="convert()"
-              class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] appearance-none"
+              class="w-full pl-12 pr-4 py-3.5 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] appearance-none"
             >
               <option *ngFor="let currency of currencies" [value]="currency">
                 {{ currency }}
               </option>
             </select>
             <span
-              class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-[#748389]"
+              class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-[#748389]"
             >
               <i class="fas fa-chevron-down"></i>
             </span>
@@ -523,7 +673,7 @@
         <div class="flex items-end justify-center">
           <button
             (click)="inverterMoedas()"
-            class="mb-1 p-2 rounded-full bg-[#D8EAE5] text-[#1C6956] hover:bg-[#1C6956] hover:text-white transition-all duration-300"
+            class="mb-1 p-3 rounded-xl bg-[#D8EAE5] text-[#1C6956] hover:bg-[#1C6956] hover:text-white transition-all duration-300 transform hover:rotate-180"
             title="Inverter moedas"
           >
             <i class="fas fa-exchange-alt"></i>
@@ -531,26 +681,26 @@
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+          <label class="block text-sm font-medium text-[#5e6d72] mb-2"
             >Para</label
           >
           <div class="relative">
             <span
-              class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389]"
+              class="absolute inset-y-0 left-0 pl-4 flex items-center text-[#748389]"
             >
               <i class="fas fa-globe"></i>
             </span>
             <select
               [(ngModel)]="toCurrency"
               (change)="convert()"
-              class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] appearance-none"
+              class="w-full pl-12 pr-4 py-3.5 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] appearance-none"
             >
               <option *ngFor="let currency of currencies" [value]="currency">
                 {{ currency }}
               </option>
             </select>
             <span
-              class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-[#748389]"
+              class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-[#748389]"
             >
               <i class="fas fa-chevron-down"></i>
             </span>
@@ -561,14 +711,14 @@
       <!-- Resultado -->
       <div
         *ngIf="convertedAmount !== null"
-        class="mt-6 p-5 bg-[#D8EAE5] rounded-xl border border-[#1C6956]/20"
+        class="mt-6 p-6 bg-[#D8EAE5] rounded-xl border border-[#1C6956]/20"
       >
-        <h4 class="text-sm font-medium text-[#5e6d72] mb-2">Resultado</h4>
-        <p class="text-2xl font-bold text-[#013E4C]">
+        <h4 class="text-sm font-medium text-[#5e6d72] mb-3">Resultado</h4>
+        <p class="text-3xl font-bold text-[#013E4C]">
           {{ amount | number }} {{ fromCurrency }} =
           {{ convertedAmount | number : "1.2-2" }} {{ toCurrency }}
         </p>
-        <p class="text-sm text-[#5e6d72] mt-2">
+        <p class="text-sm text-[#5e6d72] mt-3">
           1 {{ fromCurrency }} =
           {{
             exchangeRates[toCurrency] / exchangeRates[fromCurrency]

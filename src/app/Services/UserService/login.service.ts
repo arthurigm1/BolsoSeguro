@@ -80,30 +80,7 @@ export class LoginService {
   }
 
   /** Faz logout e redireciona */
-  logout(): void {
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('id');
-    this.isLoggedInSubject.next(false);
-
-    // Remove query params e fragmentos da URL
-    const pathname = new URL(window.location.href).pathname;
-
-    const publicRoutes = [
-      '/login',
-      '/registro',
-      '/reset-password',
-      '/verificar-conta',
-      '/verify',
-    ];
-
-    const isPublicRoute = publicRoutes.some((route) =>
-      pathname.startsWith(route)
-    );
-
-    if (!isPublicRoute) {
-      this.router.navigate(['/login']);
-    }
-  }
+  logout(): void {}
 
   /** Obtém informações do usuário autenticado */
   getUsuarioInfo(): Observable<UsuarioInfoResponse> {
