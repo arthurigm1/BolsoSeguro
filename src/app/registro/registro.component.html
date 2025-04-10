@@ -1,29 +1,158 @@
-<div class="flex min-h-screen items-center justify-center p-6">
-  <div
-    class="bg-white shadow-2xl flex flex-col md:flex-row w-full overflow-hidden transform transition duration-500 h-auto md:h-[90vh] rounded-lg"
-  >
-    <!-- Image Section -->
-    <div class="w-full md:w-1/2 min-h-full flex">
+<!-- Seção de Registro Modernizada -->
+<div
+  class="min-h-screen flex flex-col md:flex-row bg-[#F8F7F5]"
+  [@pageAnimation]
+>
+  <!-- Coluna da Imagem - Lado Esquerdo -->
+  <div class="w-full md:w-1/2 relative overflow-hidden">
+    <!-- Imagem de fundo com overlay e animação sutil -->
+    <div class="absolute inset-0 overflow-hidden">
       <img
-        src="assets/img/login.png"
-        alt="Register Image"
-        class="h-full w-full object-left"
+        src="assets/img/login1.png"
+        alt="Mulher acessando aplicativo financeiro"
+        class="w-full h-full object-cover object-center transition-all duration-500 hover:scale-105"
       />
+      <!-- Gradiente com overlay moderno -->
+      <div
+        class="absolute inset-0 bg-gradient-to-br from-[#013E4C]/90 via-[#013E4C]/70 to-[#1C6956]/90"
+      ></div>
     </div>
 
-    <!-- Form Section -->
+    <!-- Conteúdo sobreposto com animação -->
     <div
-      class="w-full md:w-1/2 h-auto p-8 flex flex-col justify-center relative"
+      class="relative z-10 h-full flex flex-col justify-center px-8 py-12 md:px-12 lg:px-16 text-white"
     >
-      <!-- Back Button -->
+      <!-- Logo/Marca com destaque -->
+      <div class="mb-8">
+        <div
+          class="flex items-center justify-center md:justify-start space-x-2"
+        >
+          <svg
+            class="w-10 h-10 text-[#D8EAE5]"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+          <span class="text-3xl font-bold text-[#D8EAE5]">BolsoSeguro</span>
+        </div>
+      </div>
+
+      <!-- Texto principal -->
+      <div class="max-w-md mx-auto md:mx-0">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4 leading-tight">
+          Comece a controlar suas finanças com
+          <span class="text-[#D8EAE5]">segurança</span>
+        </h1>
+        <p class="text-lg text-[#E0E5E7] mb-8">
+          Crie sua conta e comece a gerenciar suas finanças de forma simples e
+          segura.
+        </p>
+
+        <!-- Lista de benefícios -->
+        <ul class="space-y-3 mb-10">
+          <li class="flex items-center">
+            <svg
+              class="w-5 h-5 mr-3 text-[#D8EAE5]"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              ></path>
+            </svg>
+            <span class="text-[#E0E5E7]">Controle de gastos intuitivo</span>
+          </li>
+          <li class="flex items-center">
+            <svg
+              class="w-5 h-5 mr-3 text-[#D8EAE5]"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              ></path>
+            </svg>
+            <span class="text-[#E0E5E7]">Relatórios personalizados</span>
+          </li>
+          <li class="flex items-center">
+            <svg
+              class="w-5 h-5 mr-3 text-[#D8EAE5]"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              ></path>
+            </svg>
+            <span class="text-[#E0E5E7]">Criptografia de ponta a ponta</span>
+          </li>
+        </ul>
+
+        <!-- Botão CTA -->
+        <a
+          href="/login"
+          class="inline-flex items-center px-8 py-3 bg-[#1C6956] hover:bg-[#013E4C] text-white font-medium rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1"
+        >
+          Já tenho uma conta
+          <svg
+            class="w-5 h-5 ml-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M14 5l7 7m0 0l-7 7m7-7H3"
+            ></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Coluna do Formulário -->
+  <div
+    class="w-full md:w-1/2 flex items-center justify-center bg-white p-6 sm:p-10 lg:p-16 shadow-xl rounded-xl relative overflow-hidden"
+    [@formAnimation]
+  >
+    <!-- Glow / Background Detail -->
+    <div
+      class="absolute -top-10 -right-10 w-40 h-40 bg-[#D8EAE5] opacity-40 rounded-full blur-3xl"
+    ></div>
+
+    <div class="w-full max-w-md z-10">
+      <!-- Botão Voltar -->
       <a
         href="#"
-        class="absolute top-4 left-6 text-gray-600 hover:text-gray-800 transition duration-300"
-        [class.pointer-events-none]="isSubmitting"
+        class="absolute top-4 left-4 text-[#5e6d72] hover:text-[#013E4C] transition-colors duration-300 flex items-center"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-8 w-8"
+          class="h-6 w-6 mr-1"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -35,121 +164,147 @@
             d="M10 19l-7-7m0 0l7-7m-7 7h18"
           />
         </svg>
+        Voltar
       </a>
 
-      <h2
-        class="text-4xl md:text-4xl font-bold text-gray-800 mb-8 text-center font-serif mb-12 md:mb-20"
-      >
-        Crie sua conta no <span class="text-[#5e6d72]">BolsoSeguro</span>
-      </h2>
+      <!-- Header -->
+      <div class="text-center mb-8">
+        <div
+          class="w-16 h-16 mx-auto bg-gradient-to-br from-[#1C6956] to-[#013E4C] rounded-full flex items-center justify-center shadow-lg"
+        >
+          <i class="fas fa-user-plus text-white text-2xl"></i>
+        </div>
+        <h1 class="text-3xl font-bold text-[#013E4C] font-serif mt-4">
+          Crie sua conta no <span class="text-[#1C6956]">BolsoSeguro</span>
+        </h1>
+        <p class="text-[#748389] mt-2 text-sm">
+          Preencha os dados abaixo para criar sua conta
+        </p>
+      </div>
 
-      <form
-        [formGroup]="cadastroForm"
-        (ngSubmit)="submit()"
-        class="space-y-3 w-full max-w-md mx-auto"
-      >
+      <!-- Formulário -->
+      <form [formGroup]="cadastroForm" (ngSubmit)="submit()" class="space-y-5">
         <!-- Nome Completo -->
         <div class="relative">
-          <label class="block text-base text-gray-600 mb-2 font-medium"
+          <label
+            for="nome"
+            class="block text-sm font-medium text-[#5e6d72] mb-1"
             >Nome Completo</label
           >
-          <input
-            type="text"
-            formControlName="nome"
-            class="w-full pl-4 pr-5 py-4 text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e6d72] focus:border-transparent transition duration-300"
-            placeholder="Digite seu nome completo"
-            [disabled]="isSubmitting"
-            [ngClass]="{
-              'border-red-500':
-                cadastroForm.controls['nome'].invalid &&
-                cadastroForm.controls['nome'].touched,
-              'border-green-500':
-                cadastroForm.controls['nome'].valid &&
-                cadastroForm.controls['nome'].touched
-            }"
-          />
+          <div class="relative">
+            <span
+              class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389]"
+            >
+              <i class="fas fa-user"></i>
+            </span>
+            <input
+              id="nome"
+              formControlName="nome"
+              type="text"
+              placeholder="Digite seu nome completo"
+              class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
+              [ngClass]="{
+                'border-red-500':
+                  cadastroForm.get('nome')?.invalid &&
+                  cadastroForm.get('nome')?.touched
+              }"
+            />
+          </div>
           <div
             *ngIf="
-              cadastroForm.controls['nome'].invalid &&
-              cadastroForm.controls['nome'].touched
+              cadastroForm.get('nome')?.invalid &&
+              cadastroForm.get('nome')?.touched
             "
-            class="text-red-500 text-sm"
+            class="text-red-500 text-xs mt-1 h-5"
           >
-            <p *ngIf="cadastroForm.controls['nome'].hasError('required')">
-              Nome é obrigatório.
-            </p>
-            <p *ngIf="cadastroForm.controls['nome'].hasError('minlength')">
-              Nome deve ter pelo menos 3 caracteres.
-            </p>
+            <span *ngIf="cadastroForm.get('nome')?.errors?.['required']"
+              >Nome é obrigatório</span
+            >
+            <span *ngIf="cadastroForm.get('nome')?.errors?.['minlength']"
+              >Nome deve ter pelo menos 3 caracteres</span
+            >
           </div>
         </div>
 
-        <!-- Email Input -->
+        <!-- E-mail -->
         <div class="relative">
-          <label class="block text-base text-gray-600 mb-2 font-medium"
+          <label
+            for="email"
+            class="block text-sm font-medium text-[#5e6d72] mb-1"
             >E-mail</label
           >
-          <input
-            type="email"
-            formControlName="email"
-            class="w-full pl-4 pr-5 py-4 text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e6d72] focus:border-transparent transition duration-300"
-            placeholder="Digite seu e-mail"
-            [disabled]="isSubmitting"
-            [ngClass]="{
-              'border-red-500':
-                cadastroForm.get('email')?.invalid &&
-                cadastroForm.get('email')?.touched,
-              'border-green-500':
-                cadastroForm.get('email')?.valid &&
-                cadastroForm.get('email')?.touched
-            }"
-          />
+          <div class="relative">
+            <span
+              class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389]"
+            >
+              <i class="fas fa-envelope"></i>
+            </span>
+            <input
+              id="email"
+              formControlName="email"
+              type="email"
+              placeholder="exemplo@email.com"
+              class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
+              [ngClass]="{
+                'border-red-500':
+                  cadastroForm.get('email')?.invalid &&
+                  cadastroForm.get('email')?.touched
+              }"
+            />
+          </div>
           <div
             *ngIf="
               cadastroForm.get('email')?.invalid &&
               cadastroForm.get('email')?.touched
             "
-            class="text-red-500 text-sm"
+            class="text-red-500 text-xs mt-1 h-5"
           >
-            <p *ngIf="cadastroForm.get('email')?.hasError('required')">
-              Email é obrigatório.
-            </p>
-            <p *ngIf="cadastroForm.get('email')?.hasError('email')">
-              Por favor, insira um email válido.
-            </p>
+            <span *ngIf="cadastroForm.get('email')?.errors?.['required']"
+              >E-mail é obrigatório</span
+            >
+            <span *ngIf="cadastroForm.get('email')?.errors?.['email']"
+              >E-mail inválido</span
+            >
           </div>
         </div>
 
-        <!-- Password Input -->
         <!-- Senha -->
         <div class="relative">
-          <label class="block text-base text-gray-600 mb-2 font-medium"
+          <label
+            for="senha"
+            class="block text-sm font-medium text-[#5e6d72] mb-1"
             >Senha</label
           >
           <div class="relative">
+            <span
+              class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389]"
+            >
+              <i class="fas fa-lock"></i>
+            </span>
             <input
-              [type]="showPassword ? 'text' : 'password'"
+              id="senha"
               formControlName="senha"
-              class="w-full pl-4 pr-12 py-4 text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e6d72] focus:border-transparent transition duration-300"
-              placeholder="Crie uma senha"
-              [disabled]="isSubmitting"
+              [type]="showPassword ? 'text' : 'password'"
+              placeholder="••••••••"
+              class="w-full pl-10 pr-12 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
               [ngClass]="{
                 'border-red-500':
                   cadastroForm.get('senha')?.invalid &&
-                  cadastroForm.get('senha')?.touched,
-                'border-green-500':
-                  cadastroForm.get('senha')?.valid &&
                   cadastroForm.get('senha')?.touched
               }"
             />
+
+            <!-- Ícone de olho dentro do campo -->
             <button
               type="button"
               (click)="togglePasswordVisibility()"
-              class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-[#5e6d72] transition"
-              aria-label="Mostrar senha"
-              [disabled]="isSubmitting"
+              class="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#748389] hover:text-[#1C6956] transition"
             >
-              <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+              <i
+                class="fas"
+                [class.fa-eye]="!showPassword"
+                [class.fa-eye-slash]="showPassword"
+              ></i>
             </button>
           </div>
           <div
@@ -157,97 +312,85 @@
               cadastroForm.get('senha')?.invalid &&
               cadastroForm.get('senha')?.touched
             "
-            class="text-red-500 text-sm"
+            class="text-red-500 text-xs mt-1 h-5"
           >
-            <p *ngIf="cadastroForm.get('senha')?.hasError('required')">
-              A senha é obrigatória.
-            </p>
-            <p *ngIf="cadastroForm.get('senha')?.hasError('minlength')">
-              A senha deve ter pelo menos 6 caracteres.
-            </p>
+            <span *ngIf="cadastroForm.get('senha')?.errors?.['required']"
+              >Senha é obrigatória</span
+            >
+            <span *ngIf="cadastroForm.get('senha')?.errors?.['minlength']"
+              >Senha deve ter pelo menos 6 caracteres</span
+            >
           </div>
         </div>
 
         <!-- Confirmar Senha -->
         <div class="relative">
-          <label class="block text-base text-gray-600 mb-2 font-medium"
-            >Confirme sua Senha</label
+          <label
+            for="confirmarSenha"
+            class="block text-sm font-medium text-[#5e6d72] mb-1"
+            >Confirmar Senha</label
           >
           <div class="relative">
+            <span
+              class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389]"
+            >
+              <i class="fas fa-lock"></i>
+            </span>
             <input
-              [type]="showConfirmPassword ? 'text' : 'password'"
+              id="confirmarSenha"
               formControlName="confirmarSenha"
-              class="w-full pl-4 pr-12 py-4 text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e6d72] focus:border-transparent transition duration-300"
-              placeholder="Repita sua senha"
-              [disabled]="isSubmitting"
+              [type]="showConfirmPassword ? 'text' : 'password'"
+              placeholder="••••••••"
+              class="w-full pl-10 pr-12 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
               [ngClass]="{
                 'border-red-500':
                   (cadastroForm.get('confirmarSenha')?.invalid ||
                     cadastroForm.hasError('senhasDiferentes')) &&
-                  cadastroForm.get('confirmarSenha')?.touched,
-                'border-green-500':
-                  cadastroForm.get('confirmarSenha')?.valid &&
-                  !cadastroForm.hasError('senhasDiferentes') &&
                   cadastroForm.get('confirmarSenha')?.touched
               }"
             />
+
+            <!-- Ícone de olho dentro do campo -->
             <button
               type="button"
               (click)="toggleConfirmPasswordVisibility()"
-              class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-[#5e6d72] transition"
-              aria-label="Mostrar senha"
-              [disabled]="isSubmitting"
+              class="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#748389] hover:text-[#1C6956] transition"
             >
               <i
-                [class]="
-                  showConfirmPassword ? 'fas fa-eye-slash' : 'fas fa-eye'
-                "
+                class="fas"
+                [class.fa-eye]="!showConfirmPassword"
+                [class.fa-eye-slash]="showConfirmPassword"
               ></i>
             </button>
           </div>
           <div
             *ngIf="
-              cadastroForm.get('confirmarSenha')?.invalid &&
+              (cadastroForm.get('confirmarSenha')?.invalid ||
+                cadastroForm.hasError('senhasDiferentes')) &&
               cadastroForm.get('confirmarSenha')?.touched
             "
-            class="text-red-500 text-sm"
+            class="text-red-500 text-xs mt-1 h-5"
           >
-            <p *ngIf="cadastroForm.get('confirmarSenha')?.hasError('required')">
-              Confirme sua senha.
-            </p>
-            <p *ngIf="cadastroForm.hasError('senhasDiferentes')">
-              As senhas não coincidem.
-            </p>
+            <span
+              *ngIf="cadastroForm.get('confirmarSenha')?.errors?.['required']"
+              >Confirmação de senha é obrigatória</span
+            >
+            <span *ngIf="cadastroForm.hasError('senhasDiferentes')"
+              >As senhas não coincidem</span
+            >
           </div>
         </div>
 
-        <!-- Feedback Messages -->
-        <div *ngIf="errorMessage" class="animate-fadeIn">
-          <div
-            class="bg-red-50 border border-red-200 rounded-xl p-4 text-center"
-          >
-            <p class="text-red-600 text-sm">{{ errorMessage }}</p>
-          </div>
-        </div>
-
-        <div *ngIf="successMessage" class="animate-fadeIn">
-          <div
-            class="bg-green-50 border border-green-200 rounded-xl p-4 text-center"
-          >
-            <p class="text-green-600 text-sm">{{ successMessage }}</p>
-          </div>
-        </div>
-
-        <!-- Register Button -->
+        <!-- Botão -->
         <button
           type="submit"
           [disabled]="cadastroForm.invalid || isSubmitting"
-          class="w-full bg-gradient-to-r from-[#5e6d72] to-[#b6c6cc] text-white py-4 rounded-xl font-semibold text-base shadow-lg hover:opacity-90 transition transform hover:scale-105 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          class="w-full bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white font-medium py-3 rounded-lg hover:opacity-90 hover:shadow-lg transition-all transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <span *ngIf="!isSubmitting">Criar Conta</span>
-          <span *ngIf="isSubmitting" class="flex items-center gap-2">
+          <span *ngIf="isSubmitting" class="flex items-center justify-center">
             <svg
-              class="animate-spin h-5 w-5 text-white"
+              class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -271,16 +414,62 @@
         </button>
       </form>
 
-      <!-- Login Link -->
-      <p class="text-lg text-gray-600 text-center mt-8">
+      <!-- Link para login -->
+      <p class="text-md text-center text-[#5e6d72] mt-6">
         Já tem uma conta?
-        <a
-          href="/login"
-          class="text-[#5e6d72] font-bold hover:underline transition"
-          [class.pointer-events-none]="isSubmitting"
-          >Faça login</a
-        >
+        <a href="/login" class="text-[#1C6956] hover:underline font-medium">
+          Faça login
+        </a>
       </p>
     </div>
+  </div>
+</div>
+
+<!-- Mensagens de feedback -->
+<div
+  *ngIf="errorMessage"
+  class="fixed bottom-4 right-4 bg-red-50 border border-red-200 rounded-lg p-4 text-sm text-red-700 shadow-lg"
+  [@messageAnimation]
+>
+  <div class="flex items-center">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-5 w-5 mr-2"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+      />
+    </svg>
+    {{ errorMessage }}
+  </div>
+</div>
+
+<div
+  *ngIf="successMessage"
+  class="fixed bottom-4 right-4 bg-green-50 border border-green-200 rounded-lg p-4 text-sm text-green-700 shadow-lg"
+  [@messageAnimation]
+>
+  <div class="flex items-center">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-5 w-5 mr-2"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M5 13l4 4L19 7"
+      />
+    </svg>
+    {{ successMessage }}
   </div>
 </div>

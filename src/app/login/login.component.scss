@@ -21,3 +21,59 @@ button[type="button"] {
     padding: 0;
     outline: none;
 }
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.animate-fadeIn {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Transições suaves para elementos */
+.transition-all {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+}
+
+.animate-fadeIn {
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Garante que o modal fique no topo da pilha de z-index */
+.modal-overlay {
+    z-index: 9999;
+}
+
+/* Efeito de parallax para a imagem de fundo */
+.parallax-bg {
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+@media (max-width: 768px) {
+    .parallax-bg {
+        background-attachment: scroll;
+    }
+}

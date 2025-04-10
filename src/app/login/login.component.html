@@ -1,31 +1,158 @@
+<!-- Seção de Login Modernizada -->
 <div
-  [@routeAnimations]
-  class="flex min-h-screen items-center justify-center p-6"
+  class="min-h-screen flex flex-col md:flex-row bg-[#F8F7F5]"
+  [@pageAnimation]
 >
-  <div
-    class="bg-white shadow-2xl flex flex-col md:flex-row w-full overflow-hidden transform transition duration-500 h-auto md:h-[90vh] rounded-lg"
-  >
-    <!-- Image Section -->
-    <div class="w-full md:w-1/2 min-h-full flex">
+  <!-- Coluna da Imagem - Lado Esquerdo -->
+  <div class="w-full md:w-1/2 relative overflow-hidden">
+    <!-- Imagem de fundo com overlay e animação sutil -->
+    <div class="absolute inset-0 overflow-hidden">
       <img
-        src="assets/img/login.png"
-        alt="Login Image"
-        class="h-full w-full object-left"
+        src="assets/img/login1.png"
+        alt="Mulher acessando aplicativo financeiro"
+        class="w-full h-full object-cover object-center transition-all duration-500 hover:scale-105"
       />
+      <!-- Gradiente com overlay moderno -->
+      <div
+        class="absolute inset-0 bg-gradient-to-br from-[#013E4C]/90 via-[#013E4C]/70 to-[#1C6956]/90"
+      ></div>
     </div>
 
-    <!-- Form Section -->
+    <!-- Conteúdo sobreposto com animação -->
     <div
-      class="w-full md:w-1/2 h-auto p-8 flex flex-col justify-center relative"
+      class="relative z-10 h-full flex flex-col justify-center px-8 py-12 md:px-12 lg:px-16 text-white"
     >
-      <!-- Back Button -->
+      <!-- Logo/Marca com destaque -->
+      <div class="mb-8">
+        <div
+          class="flex items-center justify-center md:justify-start space-x-2"
+        >
+          <svg
+            class="w-10 h-10 text-[#D8EAE5]"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+          <span class="text-3xl font-bold text-[#D8EAE5]">BolsoSeguro</span>
+        </div>
+      </div>
+
+      <!-- Texto principal -->
+      <div class="max-w-md mx-auto md:mx-0">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4 leading-tight">
+          Controle suas finanças com
+          <span class="text-[#D8EAE5]">segurança</span>
+        </h1>
+        <p class="text-lg text-[#E0E5E7] mb-8">
+          A plataforma que simplifica sua vida financeira com tecnologia e
+          proteção de dados.
+        </p>
+
+        <!-- Lista de benefícios -->
+        <ul class="space-y-3 mb-10">
+          <li class="flex items-center">
+            <svg
+              class="w-5 h-5 mr-3 text-[#D8EAE5]"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              ></path>
+            </svg>
+            <span class="text-[#E0E5E7]">Controle de gastos intuitivo</span>
+          </li>
+          <li class="flex items-center">
+            <svg
+              class="w-5 h-5 mr-3 text-[#D8EAE5]"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              ></path>
+            </svg>
+            <span class="text-[#E0E5E7]">Relatórios personalizados</span>
+          </li>
+          <li class="flex items-center">
+            <svg
+              class="w-5 h-5 mr-3 text-[#D8EAE5]"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              ></path>
+            </svg>
+            <span class="text-[#E0E5E7]">Criptografia de ponta a ponta</span>
+          </li>
+        </ul>
+
+        <!-- Botão CTA -->
+        <a
+          routerLink="/registro"
+          class="inline-flex items-center px-8 py-3 bg-[#1C6956] hover:bg-[#013E4C] text-white font-medium rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1"
+        >
+          Comece agora
+          <svg
+            class="w-5 h-5 ml-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M14 5l7 7m0 0l-7 7m7-7H3"
+            ></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Coluna do Formulário -->
+  <div
+    class="w-full md:w-1/2 flex items-center justify-center bg-white p-6 sm:p-10 lg:p-16 shadow-xl rounded-xl relative overflow-hidden"
+    [@formAnimation]
+  >
+    <!-- Glow / Background Detail -->
+    <div
+      class="absolute -top-10 -right-10 w-40 h-40 bg-[#D8EAE5] opacity-40 rounded-full blur-3xl"
+    ></div>
+
+    <div class="w-full max-w-md z-10">
+      <!-- Botão Voltar -->
       <a
         href="#"
-        class="absolute top-6 left-6 text-gray-600 hover:text-gray-800 transition duration-300"
+        class="absolute top-4 left-4 text-[#5e6d72] hover:text-[#013E4C] transition-colors duration-300 flex items-center"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-8 w-8"
+          class="h-6 w-6 mr-1"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -37,15 +164,198 @@
             d="M10 19l-7-7m0 0l7-7m-7 7h18"
           />
         </svg>
+        Voltar
       </a>
 
-      <div class="text-center mb-10">
+      <!-- Header -->
+      <div class="text-center mb-8">
         <div
-          class="w-16 h-16 bg-[#5e6d72] rounded-full flex items-center justify-center mx-auto mb-4"
+          class="w-16 h-16 mx-auto bg-gradient-to-br from-[#1C6956] to-[#013E4C] rounded-full flex items-center justify-center shadow-lg"
+        >
+          <i class="fas fa-wallet text-white text-2xl"></i>
+        </div>
+        <h1 class="text-3xl font-bold text-[#013E4C] font-serif mt-4">
+          Bem-vindo ao <span class="text-[#1C6956]">BolsoSeguro</span>
+        </h1>
+        <p class="text-[#748389] mt-2 text-sm">
+          Gerencie suas finanças com segurança e praticidade
+        </p>
+      </div>
+
+      <!-- Formulário -->
+      <form [formGroup]="loginForm" (ngSubmit)="submit()" class="space-y-5">
+        <!-- E-mail -->
+        <div class="relative">
+          <label
+            for="email"
+            class="block text-sm font-medium text-[#5e6d72] mb-1"
+            >E-mail</label
+          >
+          <div class="relative">
+            <span
+              class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389]"
+            >
+              <i class="fas fa-envelope"></i>
+            </span>
+            <input
+              id="email"
+              formControlName="email"
+              type="email"
+              placeholder="exemplo@email.com"
+              class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
+              [ngClass]="{
+                'border-red-500':
+                  loginForm.get('email')?.invalid &&
+                  loginForm.get('email')?.touched
+              }"
+            />
+          </div>
+          <div
+            *ngIf="
+              loginForm.get('email')?.invalid && loginForm.get('email')?.touched
+            "
+            class="text-red-500 text-xs mt-1 h-5"
+          >
+            <span *ngIf="loginForm.get('email')?.errors?.['required']"
+              >E-mail é obrigatório</span
+            >
+            <span *ngIf="loginForm.get('email')?.errors?.['email']"
+              >E-mail inválido</span
+            >
+          </div>
+        </div>
+
+        <!-- Senha -->
+        <div class="relative">
+          <label
+            for="senha"
+            class="block text-sm font-medium text-[#5e6d72] mb-1"
+            >Senha</label
+          >
+          <div class="relative">
+            <span
+              class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389]"
+            >
+              <i class="fas fa-lock"></i>
+            </span>
+            <input
+              id="senha"
+              formControlName="senha"
+              [type]="showPassword ? 'text' : 'password'"
+              placeholder="••••••••"
+              class="w-full pl-10 pr-12 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
+              [ngClass]="{
+                'border-red-500':
+                  loginForm.get('senha')?.invalid &&
+                  loginForm.get('senha')?.touched
+              }"
+            />
+
+            <!-- Ícone de olho dentro do campo -->
+            <button
+              type="button"
+              (click)="toggleShowPassword()"
+              class="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#748389] hover:text-[#1C6956] transition"
+            >
+              <i
+                class="fas"
+                [class.fa-eye]="!showPassword"
+                [class.fa-eye-slash]="showPassword"
+              ></i>
+            </button>
+          </div>
+          <div
+            *ngIf="
+              loginForm.get('senha')?.invalid && loginForm.get('senha')?.touched
+            "
+            class="text-red-500 text-xs mt-1 h-5"
+          >
+            <span *ngIf="loginForm.get('senha')?.errors?.['required']"
+              >Senha é obrigatória</span
+            >
+            <span *ngIf="loginForm.get('senha')?.errors?.['minlength']"
+              >Senha deve ter pelo menos 6 caracteres</span
+            >
+          </div>
+        </div>
+
+        <!-- Lembrar e link -->
+        <div class="flex justify-between items-center text-sm">
+          <label class="flex items-center text-[#5e6d72]">
+            <input type="checkbox" class="h-4 w-4 text-[#1C6956] mr-2" />
+            Lembrar-me
+          </label>
+          <a
+            (click)="openForgotPasswordModal($event)"
+            class="text-[#1C6956] hover:underline cursor-pointer"
+            >Esqueceu a senha?</a
+          >
+        </div>
+
+        <!-- Botão -->
+        <button
+          type="submit"
+          [disabled]="loginForm.invalid || isLoading"
+          class="w-full bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white font-medium py-3 rounded-lg hover:opacity-90 hover:shadow-lg transition-all transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <span *ngIf="!isLoading">Entrar</span>
+          <span *ngIf="isLoading" class="flex items-center justify-center">
+            <svg
+              class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+            Processando...
+          </span>
+        </button>
+      </form>
+
+      <!-- Link para registro -->
+      <p class="text-md text-center text-[#5e6d72] mt-6">
+        Ainda não tem uma conta?
+        <a href="/registro" class="text-[#1C6956] hover:underline font-medium">
+          Cadastre-se
+        </a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Recuperação de Senha -->
+<div
+  *ngIf="showForgotPasswordModal"
+  class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-opacity-50 backdrop-blur-sm"
+  [@fadeInOut]
+  (click)="closeModal($event)"
+>
+  <div
+    class="bg-white rounded-2xl shadow-xl w-full max-w-md transform transition-all"
+    (click)="$event.stopPropagation()"
+  >
+    <div class="p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-xl font-bold text-[#013E4C]">Recuperar senha</h3>
+        <button
+          (click)="closeForgotPasswordModal()"
+          class="text-gray-400 hover:text-gray-500 transition-colors duration-300"
         >
           <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-8 w-8 text-white"
+            class="h-6 w-6"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -54,193 +364,128 @@
               stroke-linecap="round"
               stroke-linejoin="round"
               stroke-width="2"
-              d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              d="M6 18L18 6M6 6l12 12"
             />
           </svg>
-        </div>
-        <h1 class="text-3xl font-bold text-gray-800 font-serif">
-          Bem-vindo ao <span class="text-[#5e6d72]">BolsoSeguro</span>
-        </h1>
-        <p class="text-gray-500 mt-2">Faça login para acessar sua conta</p>
+        </button>
       </div>
 
+      <p class="text-[#5e6d72] mb-6">
+        Digite seu e-mail para receber as instruções de recuperação de senha.
+      </p>
+
       <form
-        [formGroup]="loginForm"
-        (ngSubmit)="submit()"
-        class="space-y-6 w-full max-w-md mx-auto"
+        [formGroup]="forgotPasswordForm"
+        (ngSubmit)="submitForgotPassword()"
+        class="space-y-4"
       >
-        <!-- Email Input -->
-        <div class="relative">
-          <label class="block text-base text-gray-600 mb-2 font-medium"
+        <div>
+          <label class="block text-sm font-medium text-[#5e6d72] mb-1"
             >E-mail</label
           >
-          <div class="relative">
-            <input
-              type="email"
-              formControlName="email"
-              class="w-full pl-12 pr-5 py-4 text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e6d72] focus:border-transparent transition duration-300"
-              placeholder="Digite seu e-mail"
-            />
-            <i
-              class="fas fa-user absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500"
-            ></i>
-          </div>
-        </div>
-
-        <!-- Password Input -->
-        <!-- Password Input -->
-        <div class="relative">
-          <label class="block text-base text-gray-600 mb-2 font-medium"
-            >Senha</label
+          <input
+            type="email"
+            formControlName="email"
+            placeholder="seu@email.com"
+            class="block w-full px-4 py-3 border border-[#E0E5E7] rounded-lg placeholder-[#748389] focus:outline-none focus:ring-2 focus:ring-[#1C6956] focus:border-transparent transition-all"
+            [ngClass]="{
+              'border-red-500':
+                forgotPasswordForm.get('email')?.invalid &&
+                forgotPasswordForm.get('email')?.touched
+            }"
+          />
+          <div
+            *ngIf="
+              forgotPasswordForm.get('email')?.invalid &&
+              forgotPasswordForm.get('email')?.touched
+            "
+            class="text-red-500 text-xs mt-1 h-5"
           >
-          <div class="relative">
-            <input
-              [type]="showPassword ? 'text' : 'password'"
-              formControlName="senha"
-              class="w-full pl-12 pr-12 py-4 text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5e6d72] focus:border-transparent transition duration-300"
-              placeholder="Digite sua senha"
-            />
-            <i
-              class="fas fa-lock absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500"
-            ></i>
-
-            <!-- Botão de mostrar/esconder senha -->
-            <button
-              type="button"
-              (click)="togglePasswordVisibility()"
-              class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-[#5e6d72] transition"
-              aria-label="Mostrar senha"
+            <span *ngIf="forgotPasswordForm.get('email')?.errors?.['required']"
+              >E-mail é obrigatório</span
             >
-              <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
-            </button>
+            <span *ngIf="forgotPasswordForm.get('email')?.errors?.['email']"
+              >E-mail inválido</span
+            >
           </div>
         </div>
-        <!-- Forgot Password Link -->
-        <div class="text-right">
-          <a
-            (click)="openForgotPasswordModal($event)"
-            class="text-base text-[#5e6d72] hover:underline transition cursor-pointer"
-          >
-            Esqueci minha senha
-          </a>
-        </div>
 
-        <!-- Login Button -->
         <button
           type="submit"
-          class="w-full bg-gradient-to-r from-[#5e6d72] to-[#b6c6cc] text-white py-4 rounded-xl font-semibold text-base shadow-lg hover:opacity-90 transition transform hover:scale-105 cursor-pointer"
+          [disabled]="forgotPasswordForm.invalid || isSendingEmail"
+          class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-[#1C6956] to-[#013E4C] hover:from-[#1C6956]/90 hover:to-[#013E4C]/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1C6956] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Entrar
+          <span *ngIf="!isSendingEmail">Enviar instruções</span>
+          <span *ngIf="isSendingEmail" class="flex items-center justify-center">
+            <svg
+              class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+            Enviando...
+          </span>
         </button>
       </form>
 
-      <!-- Register Link -->
-      <p class="text-lg text-gray-600 text-center mt-8">
-        Não tem uma conta?
-        <a
-          href="/registro"
-          class="text-[#5e6d72] font-bold hover:underline transition"
-          >Registre-se</a
-        >
-      </p>
-    </div>
-  </div>
-</div>
-
-<!-- Modal: Esqueci minha senha -->
-<div
-  *ngIf="showForgotPasswordModal"
-  class="fixed inset-0 z-50 backdrop-blur-lg flex items-center justify-center"
->
-  <div
-    class="bg-white p-6 rounded-xl w-[90%] max-w-md shadow-xl relative animate-fadeIn"
-  >
-    <button
-      (click)="closeForgotPasswordModal()"
-      class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 transition cursor-pointer"
-      [disabled]="isSendingEmail"
-    >
-      <svg
-        class="w-6 h-6"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
+      <div
+        *ngIf="forgotPasswordSuccess"
+        class="mt-4 p-4 bg-[#D8EAE5] border border-[#1C6956] rounded-lg text-sm text-[#013E4C]"
       >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M6 18L18 6M6 6l12 12"
-        />
-      </svg>
-    </button>
-
-    <h2 class="text-xl font-bold text-[#5e6d72] mb-4 text-center">
-      Recuperar Senha
-    </h2>
-
-    <form
-      (ngSubmit)="submitForgotPassword()"
-      [formGroup]="forgotPasswordForm"
-      class="space-y-4"
-    >
-      <div>
-        <label class="block text-sm font-medium text-gray-600 mb-1"
-          >E-mail</label
-        >
-        <input
-          formControlName="email"
-          type="email"
-          placeholder="Digite seu e-mail"
-          class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#5e6d72]"
-          [disabled]="isSendingEmail"
-        />
-      </div>
-
-      <button
-        type="submit"
-        [disabled]="forgotPasswordForm.invalid || isSendingEmail"
-        class="w-full bg-[#5e6d72] text-white py-3 rounded-lg hover:opacity-90 transition cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-      >
-        <span *ngIf="!isSendingEmail">Enviar</span>
-        <span *ngIf="isSendingEmail" class="flex items-center gap-2">
+        <div class="flex items-center">
           <svg
-            class="animate-spin h-5 w-5 text-white"
             xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 mr-2"
             fill="none"
             viewBox="0 0 24 24"
+            stroke="currentColor"
           >
-            <circle
-              class="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              stroke-width="4"
-            ></circle>
             <path
-              class="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-            ></path>
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5 13l4 4L19 7"
+            />
           </svg>
-          Enviando...
-        </span>
-      </button>
-    </form>
-
-    <!-- Mensagens de feedback -->
-    <div *ngIf="forgotPasswordMessage" class="mt-4 animate-fadeIn">
-      <div
-        class="bg-green-50 border border-green-200 rounded-lg p-4 text-center"
-      >
-        <p class="text-green-600 text-sm">{{ forgotPasswordMessage }}</p>
+          E-mail de recuperação enviado com sucesso!
+        </div>
       </div>
-    </div>
 
-    <div *ngIf="forgotPasswordError" class="mt-4 animate-fadeIn">
-      <div class="bg-red-50 border border-red-200 rounded-lg p-4 text-center">
-        <p class="text-red-600 text-sm">{{ forgotPasswordError }}</p>
+      <div
+        *ngIf="forgotPasswordError"
+        class="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700"
+      >
+        <div class="flex items-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 mr-2"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          {{ forgotPasswordError }}
+        </div>
       </div>
     </div>
   </div>

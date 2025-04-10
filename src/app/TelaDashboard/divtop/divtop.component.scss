@@ -1,25 +1,94 @@
 /* divtop.component.scss */
-#mobile-menu {
-    transition: transform 0.3s ease-in-out;
-
-    &.-translate-y-full {
-        transform: translateY(-100%);
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
     }
 
-    &.translate-y-0 {
+    to {
+        opacity: 1;
         transform: translateY(0);
     }
 }
 
-/* Estilos para os dropdowns mobile */
-#mobile-menu .relative {
-    width: 100%;
-    max-width: 300px;
-    margin: 0 auto;
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
 }
 
-/* Overlay */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Estilos para os dropdowns */
+.dropdown-menu {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Estilos para o menu mobile */
+#main-nav {
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &.translate-x-0 {
+        animation: slideIn 0.5s forwards;
+    }
+}
+
+/* Efeito de hover nos botões */
+button,
+a {
+    transition: all 0.3s ease;
+
+    &:hover {
+        transform: translateY(-2px);
+    }
+}
+
+/* Efeito de hover nos cards */
+.card-hover {
+    transition: all 0.3s ease;
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+}
+
+/* Animação para o logo */
+.logo-animation {
+    &:hover {
+        animation: pulse 1s infinite;
+    }
+}
+
+/* Estilos para os inputs */
+input,
+select {
+    transition: all 0.3s ease;
+
+    &:focus {
+        box-shadow: 0 0 0 3px rgba(28, 105, 86, 0.2);
+    }
+}
+
+/* Estilos para o overlay */
 .overlay {
+    backdrop-filter: blur(4px);
     transition: opacity 0.3s ease;
 }
 
@@ -37,5 +106,25 @@ body.menu-open {
     #main-nav,
     #right-nav {
         display: flex !important;
+    }
+}
+
+/* Efeito de gradiente animado */
+.gradient-animate {
+    background-size: 200% 200%;
+    animation: gradient 5s ease infinite;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
     }
 }

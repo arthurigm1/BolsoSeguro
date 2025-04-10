@@ -1,52 +1,53 @@
 @if (isLoading) {
 <div
-  class="min-h-screen flex items-center justify-center bg-gradient-to-r from-white to-[#b6c6cc] p-8"
+  class="min-h-screen flex items-center justify-center bg-gradient-to-r from-[#F8F7F5] to-[#D8EAE5] p-8"
 >
   <div class="text-center">
-    <svg
-      class="animate-spin h-10 w-10 sm:h-12 sm:w-12 text-[#5e6d72] mx-auto"
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-    >
-      <circle
-        class="opacity-25"
-        cx="12"
-        cy="12"
-        r="10"
-        stroke="currentColor"
-        stroke-width="4"
-      />
-      <path
-        class="opacity-75"
-        fill="currentColor"
-        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-      ></path>
-    </svg>
-    <p class="mt-4 text-base font-medium text-gray-600">
+    <div class="relative w-24 h-24 mx-auto mb-6">
+      <div
+        class="absolute inset-0 rounded-full border-4 border-[#1C6956] border-t-transparent animate-spin"
+      ></div>
+      <div class="absolute inset-0 flex items-center justify-center">
+        <i class="fas fa-wallet text-[#1C6956] text-3xl"></i>
+      </div>
+    </div>
+    <p class="mt-4 text-lg font-medium text-[#5e6d72]">
       Carregando seu dashboard...
     </p>
   </div>
 </div>
 } @else {
-<div class="min-h-screen bg-gradient-to-r from-white to-[#b6c6cc] p-8">
+<div
+  class="min-h-screen bg-gradient-to-r from-[#F8F7F5] to-[#D8EAE5] p-4 md:p-8"
+>
   <!-- Cabeçalho -->
   <header
-    class="bg-gray-100 rounded-xl shadow-md p-6 mb-8 flex flex-col md:flex-row justify-between items-center gap-6"
+    class="bg-white rounded-2xl shadow-lg p-6 mb-8 flex flex-col md:flex-row justify-between items-center gap-6 relative overflow-hidden"
   >
+    <!-- Elemento decorativo -->
+    <div
+      class="absolute top-0 right-0 w-64 h-64 bg-[#D8EAE5] opacity-30 rounded-full -mr-32 -mt-32"
+    ></div>
+
     <!-- Texto de boas-vindas -->
-    <div>
-      <h1 class="text-3xl font-bold text-gray-900">Olá, {{ nome }}!</h1>
-      <p class="text-sm text-gray-600 mt-1">
+    <div class="relative z-10">
+      <h1 class="text-3xl md:text-4xl font-bold text-[#013E4C]">
+        Olá, {{ nome }}!
+      </h1>
+      <p class="text-[#5e6d72] mt-2 flex items-center">
+        <i class="fas fa-chart-line mr-2 text-[#1C6956]"></i>
         Gerencie suas finanças de forma inteligente.
       </p>
     </div>
 
     <!-- Acesso Rápido -->
-    <div class="bg-white p-5 rounded-lg shadow-md w-full md:w-auto">
+    <div
+      class="bg-white p-5 rounded-xl shadow-md w-full md:w-auto border border-[#E0E5E7] relative z-10"
+    >
       <h2
-        class="text-lg font-semibold text-gray-800 mb-3 text-center md:text-left"
+        class="text-lg font-semibold text-[#013E4C] mb-4 text-center md:text-left flex items-center"
       >
+        <i class="fas fa-bolt mr-2 text-[#1C6956]"></i>
         Acesso Rápido
       </h2>
       <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -54,9 +55,9 @@
         <li>
           <a
             (click)="openModal('Despesa')"
-            class="flex items-center justify-center space-x-2 text-red-500 hover:text-red-600 transition-all cursor-pointer p-2 rounded-lg hover:bg-red-100"
+            class="flex items-center justify-center space-x-2 text-[#013E4C] hover:text-white transition-all cursor-pointer p-3 rounded-xl hover:bg-[#013E4C] group"
           >
-            <i class="fas fa-minus-circle text-xl"></i>
+            <i class="fas fa-minus-circle text-xl group-hover:text-white"></i>
             <span class="font-medium">DESPESA</span>
           </a>
         </li>
@@ -64,9 +65,9 @@
         <li>
           <a
             (click)="openModal('Receita')"
-            class="flex items-center justify-center space-x-2 text-green-600 hover:text-green-700 transition-all cursor-pointer p-2 rounded-lg hover:bg-green-100"
+            class="flex items-center justify-center space-x-2 text-[#1C6956] hover:text-white transition-all cursor-pointer p-3 rounded-xl hover:bg-[#1C6956] group"
           >
-            <i class="fas fa-plus-circle text-xl"></i>
+            <i class="fas fa-plus-circle text-xl group-hover:text-white"></i>
             <span class="font-medium">RECEITA</span>
           </a>
         </li>
@@ -77,17 +78,19 @@
   <!-- Modal -->
   <div
     *ngIf="isModalOpen"
-    class="fixed inset-0 bg-opacity-50 backdrop-blur-md flex items-center justify-center p-4 z-50"
+    class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center p-4 z-50"
   >
-    <div class="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden">
+    <div
+      class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden transform transition-all"
+    >
       <!-- Cabeçalho do Modal -->
       <div
-        class="flex justify-between items-center p-6 bg-gradient-to-r from-gray-200 to-[#b6c6cc]"
+        class="flex justify-between items-center p-6 bg-gradient-to-r from-[#1C6956] to-[#013E4C]"
       >
-        <h3 class="text-xl font-semibold text-black">{{ modalTitle }}</h3>
+        <h3 class="text-xl font-semibold text-white">{{ modalTitle }}</h3>
         <button
           (click)="closeModal()"
-          class="text-red-500 cursor-pointer rounded-full hover:bg-red-100 p-2 transition duration-200"
+          class="text-white cursor-pointer rounded-full hover:bg-white/20 p-2 transition duration-200"
         >
           <i class="fas fa-times"></i>
         </button>
@@ -104,103 +107,145 @@
         >
           <!-- Campo Valor -->
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1"
+            <label class="block text-sm font-medium text-[#5e6d72] mb-1"
               >Valor</label
             >
-            <input
-              type="number"
-              [(ngModel)]="despesa.valor"
-              name="valor"
-              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-black focus:ring-2 focus:ring-blue-200 transition-colors"
-              required
-            />
+            <div class="relative">
+              <span
+                class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389]"
+              >
+                <i class="fas fa-dollar-sign"></i>
+              </span>
+              <input
+                type="number"
+                [(ngModel)]="despesa.valor"
+                name="valor"
+                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
+                required
+              />
+            </div>
           </div>
 
           <!-- Campo Data -->
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1"
+            <label class="block text-sm font-medium text-[#5e6d72] mb-1"
               >Data</label
             >
-            <input
-              type="date"
-              [(ngModel)]="despesa.data"
-              name="data"
-              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-black focus:ring-2 focus:ring-blue-200 transition-colors"
-              required
-            />
+            <div class="relative">
+              <span
+                class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389]"
+              >
+                <i class="fas fa-calendar"></i>
+              </span>
+              <input
+                type="date"
+                [(ngModel)]="despesa.data"
+                name="data"
+                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
+                required
+              />
+            </div>
           </div>
 
           <!-- Campo Categoria -->
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1"
+            <label class="block text-sm font-medium text-[#5e6d72] mb-1"
               >Categoria</label
             >
-            <select
-              [(ngModel)]="despesa.categoria"
-              name="categoria"
-              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-black focus:ring-2 focus:ring-blue-200 transition-colors"
-              required
-            >
-              <option
-                *ngFor="let categoria of categoriasDespesas"
-                [value]="categoria.id"
+            <div class="relative">
+              <span
+                class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389]"
               >
-                {{ categoria.nome }}
-              </option>
-            </select>
+                <i class="fas fa-tag"></i>
+              </span>
+              <select
+                [(ngModel)]="despesa.categoria"
+                name="categoria"
+                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all appearance-none"
+                required
+              >
+                <option
+                  *ngFor="let categoria of categoriasDespesas"
+                  [value]="categoria.id"
+                >
+                  {{ categoria.nome }}
+                </option>
+              </select>
+              <span
+                class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-[#748389]"
+              >
+                <i class="fas fa-chevron-down"></i>
+              </span>
+            </div>
           </div>
 
           <!-- Campo Conta/Cartão -->
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1"
+            <label class="block text-sm font-medium text-[#5e6d72] mb-1"
               >Conta/Cartão</label
             >
-            <select
-              [(ngModel)]="despesa.contaId"
-              name="contaId"
-              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-black focus:ring-2 focus:ring-blue-200 transition-colors"
-              required
-            >
-              <optgroup label="Contas">
-                <option *ngFor="let conta of contas" [value]="conta.id">
-                  {{ conta.nome }}
-                </option>
-              </optgroup>
-
-              <optgroup label="Cartões">
-                <option *ngFor="let cartao of cartoes" [value]="cartao.id">
-                  {{ cartao.nome }}
-                </option>
-              </optgroup>
-            </select>
+            <div class="relative">
+              <span
+                class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389]"
+              >
+                <i class="fas fa-wallet"></i>
+              </span>
+              <select
+                [(ngModel)]="despesa.contaId"
+                name="contaId"
+                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all appearance-none"
+                required
+              >
+                <optgroup label="Contas">
+                  <option *ngFor="let conta of contas" [value]="conta.id">
+                    {{ conta.nome }}
+                  </option>
+                </optgroup>
+                <optgroup label="Cartões">
+                  <option *ngFor="let cartao of cartoes" [value]="cartao.id">
+                    {{ cartao.nome }}
+                  </option>
+                </optgroup>
+              </select>
+              <span
+                class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-[#748389]"
+              >
+                <i class="fas fa-chevron-down"></i>
+              </span>
+            </div>
           </div>
 
           <!-- Campo Descrição -->
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1"
+            <label class="block text-sm font-medium text-[#5e6d72] mb-1"
               >Descrição</label
             >
-            <textarea
-              [(ngModel)]="despesa.descricao"
-              name="descricao"
-              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-black focus:ring-2 focus:ring-blue-200 transition-colors"
-              rows="3"
-            ></textarea>
+            <div class="relative">
+              <span
+                class="absolute top-3 left-0 pl-3 flex items-start text-[#748389]"
+              >
+                <i class="fas fa-align-left"></i>
+              </span>
+              <textarea
+                [(ngModel)]="despesa.descricao"
+                name="descricao"
+                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
+                rows="3"
+              ></textarea>
+            </div>
           </div>
 
-          <div
-            class="border-t border-gray-200/50 p-6 flex justify-end space-x-4"
-          >
+          <div class="border-t border-[#E0E5E7] p-6 flex justify-end space-x-4">
             <button
               type="button"
               (click)="closeModal()"
-              class="cursor-pointer px-5 py-2.5 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+              class="cursor-pointer px-5 py-2.5 text-[#5e6d72] bg-white border border-[#E0E5E7] rounded-lg shadow-sm hover:bg-[#F8F7F5] focus:ring-2 focus:ring-[#1C6956] focus:border-[#1C6956] transition-all duration-200"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              class="text-bold flex items-center bg-gradient-to-r from-[#b6c6cc] to-[#5e6d72] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
+              class="text-bold flex items-center bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
             >
               @if (isSaving) {
               <svg
@@ -235,89 +280,132 @@
           class="space-y-5"
         >
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1"
+            <label class="block text-sm font-medium text-[#5e6d72] mb-1"
               >Valor</label
             >
-            <input
-              type="number"
-              [(ngModel)]="receita.valor"
-              name="valor"
-              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-black focus:ring-2 focus:ring-blue-200 transition-colors"
-              required
-            />
+            <div class="relative">
+              <span
+                class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389]"
+              >
+                <i class="fas fa-dollar-sign"></i>
+              </span>
+              <input
+                type="number"
+                [(ngModel)]="receita.valor"
+                name="valor"
+                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
+                required
+              />
+            </div>
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1"
+            <label class="block text-sm font-medium text-[#5e6d72] mb-1"
               >Data</label
             >
-            <input
-              type="date"
-              [(ngModel)]="receita.data"
-              name="data"
-              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-black focus:ring-2 focus:ring-blue-200 transition-colors"
-              required
-            />
+            <div class="relative">
+              <span
+                class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389]"
+              >
+                <i class="fas fa-calendar"></i>
+              </span>
+              <input
+                type="date"
+                [(ngModel)]="receita.data"
+                name="data"
+                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
+                required
+              />
+            </div>
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1"
+            <label class="block text-sm font-medium text-[#5e6d72] mb-1"
               >Categoria</label
             >
-            <select
-              [(ngModel)]="receita.categoria"
-              name="categoria"
-              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-black focus:ring-2 focus:ring-blue-200 transition-colors"
-              required
-            >
-              <option
-                *ngFor="let categoria of categoriasReceitas"
-                [value]="categoria.id"
+            <div class="relative">
+              <span
+                class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389]"
               >
-                {{ categoria.nome }}
-              </option>
-            </select>
+                <i class="fas fa-tag"></i>
+              </span>
+              <select
+                [(ngModel)]="receita.categoria"
+                name="categoria"
+                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all appearance-none"
+                required
+              >
+                <option
+                  *ngFor="let categoria of categoriasReceitas"
+                  [value]="categoria.id"
+                >
+                  {{ categoria.nome }}
+                </option>
+              </select>
+              <span
+                class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-[#748389]"
+              >
+                <i class="fas fa-chevron-down"></i>
+              </span>
+            </div>
           </div>
 
           <!-- Campo Conta -->
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1"
+            <label class="block text-sm font-medium text-[#5e6d72] mb-1"
               >Conta</label
             >
-            <select
-              [(ngModel)]="receita.contaId"
-              name="contaId"
-              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-black focus:ring-2 focus:ring-blue-200 transition-colors"
-              required
-            >
-              <option *ngFor="let conta of contas" [value]="conta.id">
-                {{ conta.nome }}
-              </option>
-            </select>
+            <div class="relative">
+              <span
+                class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389]"
+              >
+                <i class="fas fa-wallet"></i>
+              </span>
+              <select
+                [(ngModel)]="receita.contaId"
+                name="contaId"
+                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all appearance-none"
+                required
+              >
+                <option *ngFor="let conta of contas" [value]="conta.id">
+                  {{ conta.nome }}
+                </option>
+              </select>
+              <span
+                class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-[#748389]"
+              >
+                <i class="fas fa-chevron-down"></i>
+              </span>
+            </div>
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1"
+            <label class="block text-sm font-medium text-[#5e6d72] mb-1"
               >Descrição</label
             >
-            <textarea
-              [(ngModel)]="receita.descricao"
-              name="descricao"
-              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-black focus:ring-2 focus:ring-blue-200 transition-colors"
-              rows="3"
-            ></textarea>
+            <div class="relative">
+              <span
+                class="absolute top-3 left-0 pl-3 flex items-start text-[#748389]"
+              >
+                <i class="fas fa-align-left"></i>
+              </span>
+              <textarea
+                [(ngModel)]="receita.descricao"
+                name="descricao"
+                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
+                rows="3"
+              ></textarea>
+            </div>
           </div>
-          <div
-            class="border-t border-gray-200/50 p-6 flex justify-end space-x-4"
-          >
+          <div class="border-t border-[#E0E5E7] p-6 flex justify-end space-x-4">
             <button
               type="button"
               (click)="closeModal()"
-              class="cursor-pointer px-5 py-2.5 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+              class="cursor-pointer px-5 py-2.5 text-[#5e6d72] bg-white border border-[#E0E5E7] rounded-lg shadow-sm hover:bg-[#F8F7F5] focus:ring-2 focus:ring-[#1C6956] focus:border-[#1C6956] transition-all duration-200"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              class="text-bold flex items-center bg-gradient-to-r from-[#b6c6cc] to-[#5e6d72] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
+              class="text-bold flex items-center bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
             >
               @if (isSaving) {
               <svg
@@ -347,135 +435,168 @@
       </div>
     </div>
   </div>
+
   <!-- Resumo Financeiro -->
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
     <!-- Saldo Atual -->
     <div
-      class="bg-gray-100 rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow"
+      class="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 relative overflow-hidden"
     >
-      <div class="flex items-center justify-between">
+      <div
+        class="absolute top-0 right-0 w-32 h-32 bg-[#D8EAE5] opacity-30 rounded-full -mr-16 -mt-16"
+      ></div>
+      <div class="flex items-center justify-between relative z-10">
         <div>
-          <h2 class="text-lg font-semibold text-gray-700">Saldo Atual</h2>
-          <p class="text-2xl font-bold text-gray-900 mt-2">
+          <h2 class="text-lg font-semibold text-[#5e6d72]">Saldo Atual</h2>
+          <p class="text-3xl font-bold text-[#013E4C] mt-2">
             R$ {{ saldo | number : "1.2-2" }}
           </p>
         </div>
-
         <div
-          class="w-14 h-14 rounded-lg bg-gray-300 flex items-center justify-center"
+          class="w-14 h-14 rounded-xl bg-gradient-to-br from-[#1C6956] to-[#013E4C] flex items-center justify-center shadow-md"
         >
-          <i
-            class="fas fa-money-bill-wave text-black text-2xl"
-            aria-hidden="true"
-          ></i>
+          <i class="fas fa-money-bill-wave text-white text-2xl"></i>
         </div>
       </div>
     </div>
+
     <!-- Receita Mensal -->
     <div
-      class="bg-gradient-to-br from-green-50 to-green-100 p-5 rounded-xl border border-green-100 shadow-sm hover:shadow-md transition-shadow"
+      class="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 relative overflow-hidden"
     >
-      <div class="flex items-center justify-between">
+      <div
+        class="absolute top-0 right-0 w-32 h-32 bg-green-100 opacity-30 rounded-full -mr-16 -mt-16"
+      ></div>
+      <div class="flex items-center justify-between relative z-10">
         <div>
-          <h2 class="text-lg font-semibold text-gray-700">Receita Mensal</h2>
-          <p class="text-2xl font-bold text-[#4caf50] mt-2">
+          <h2 class="text-lg font-semibold text-[#5e6d72]">Receita Mensal</h2>
+          <p class="text-3xl font-bold text-[#1C6956] mt-2">
             R$ {{ totalReceitas | number : "1.2-2" }}
           </p>
         </div>
         <div
-          class="w-12 h-12 rounded-lg bg-gradient-to-r from-green-400 to-green-600 flex items-center justify-center shadow-md"
+          class="w-14 h-14 rounded-xl bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center shadow-md"
         >
-          <i class="fas fa-arrow-up text-white text-xl"></i>
+          <i class="fas fa-arrow-up text-white text-2xl"></i>
         </div>
       </div>
     </div>
+
     <!-- Despesa Mensal -->
     <div
-      class="bg-gradient-to-br from-red-50 to-red-100 p-5 rounded-xl border border-red-100 shadow-sm"
+      class="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 relative overflow-hidden"
     >
-      <div class="flex items-center justify-between">
+      <div
+        class="absolute top-0 right-0 w-32 h-32 bg-red-100 opacity-30 rounded-full -mr-16 -mt-16"
+      ></div>
+      <div class="flex items-center justify-between relative z-10">
         <div>
-          <h2 class="text-lg font-semibold text-gray-700">Despesa Mensal</h2>
-          <p class="text-2xl font-bold text-[#ff6b6b] mt-2">
+          <h2 class="text-lg font-semibold text-[#5e6d72]">Despesa Mensal</h2>
+          <p class="text-3xl font-bold text-red-500 mt-2">
             R$ {{ totalDespesas | number : "1.2-2" }}
           </p>
         </div>
         <div
-          class="w-12 h-12 rounded-lg bg-gradient-to-r from-red-400 to-red-600 flex items-center justify-center shadow-md"
+          class="w-14 h-14 rounded-xl bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center shadow-md"
         >
-          <i class="fas fa-arrow-down text-white text-xl"></i>
+          <i class="fas fa-arrow-down text-white text-2xl"></i>
         </div>
       </div>
     </div>
 
+    <!-- Investimentos -->
     <div
-      class="bg-gray-100 rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow"
+      class="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 relative overflow-hidden"
     >
-      <div class="flex items-center justify-between">
+      <div
+        class="absolute top-0 right-0 w-32 h-32 bg-purple-100 opacity-30 rounded-full -mr-16 -mt-16"
+      ></div>
+      <div class="flex items-center justify-between relative z-10">
         <div>
-          <h2 class="text-lg font-semibold text-gray-700">Investimentos</h2>
-          <p class="text-2xl font-bold text-[#9c27b0] mt-2">
+          <h2 class="text-lg font-semibold text-[#5e6d72]">Investimentos</h2>
+          <p class="text-3xl font-bold text-purple-600 mt-2">
             R$ {{ totalInvestimento | number : "1.2-2" }}
           </p>
         </div>
-
         <div
-          class="w-12 h-12 rounded-lg bg-gradient-to-r from-purple-400 to-purple-500 flex items-center justify-center shadow-md"
+          class="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center shadow-md"
         >
-          <i class="fas fa-chart-line text-purple-900 text-2xl"></i>
+          <i class="fas fa-chart-line text-white text-2xl"></i>
         </div>
       </div>
     </div>
+  </div>
 
+  <!-- Grid de Cards -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+    <!-- Minhas Contas -->
     <div
-      class="bg-gray-100 rounded-xl shadow-sm p-6 flex flex-col justify-between h-full"
+      class="bg-white rounded-2xl shadow-lg p-6 flex flex-col justify-between h-full"
     >
-      <h2 class="text-lg sm:text-xl font-semibold text-gray-900 mb-4 sm:mb-6">
-        Minhas Contas
-      </h2>
-      <ul class="flex-1 space-y-3 sm:space-y-4">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-bold text-[#013E4C] flex items-center">
+          <i class="fas fa-wallet mr-2 text-[#1C6956]"></i>
+          Minhas Contas
+        </h2>
+        <button
+          (click)="mudarPagina('configuracoes', 'contas')"
+          class="text-[#1C6956] hover:text-[#013E4C] transition-colors"
+        >
+          <i class="fas fa-cog"></i>
+        </button>
+      </div>
+
+      <ul class="flex-1 space-y-4">
         <li
           *ngFor="let account of accounts"
-          class="flex items-center justify-between p-3 sm:p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow"
+          class="flex items-center justify-between p-4 bg-[#F8F7F5] rounded-xl shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1"
         >
           <div class="flex items-center min-w-0">
-            <!-- Ícone ajustado para mobile -->
-            <i
-              class="fas fa-wallet text-xl sm:text-2xl text-black mr-3 sm:mr-4"
-            ></i>
+            <div
+              class="w-10 h-10 rounded-lg bg-gradient-to-br from-[#1C6956] to-[#013E4C] flex items-center justify-center mr-4 shadow-md"
+            >
+              <i class="fas fa-wallet text-white"></i>
+            </div>
             <div class="min-w-0">
-              <p
-                class="text-base sm:text-lg font-semibold text-gray-900 truncate"
-              >
+              <p class="text-lg font-semibold text-[#013E4C] truncate">
                 {{ account.nome }}
               </p>
             </div>
           </div>
           <div class="text-right ml-2 min-w-0">
-            <p
-              class="text-base sm:text-lg font-semibold text-gray-900 truncate"
-            >
+            <p class="text-lg font-semibold text-[#013E4C] truncate">
               {{ account.saldo | currency : "BRL" : "symbol" : "1.2-2" }}
             </p>
-            <p class="text-xs sm:text-sm text-gray-500">Saldo disponível</p>
+            <p class="text-sm text-[#748389]">Saldo disponível</p>
           </div>
         </li>
       </ul>
-      <!-- Botão ajustado para mobile -->
+
       <button
         (click)="mudarPagina('configuracoes', 'contas')"
-        class="mt-4 sm:mt-6 w-full bg-[#5e6d72] text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg hover:bg-[#8a999f] transition-colors duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 cursor-pointer text-sm sm:text-base"
+        class="mt-6 w-full bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#1C6956] focus:ring-offset-2 cursor-pointer flex items-center justify-center"
       >
+        <i class="fas fa-plus mr-2"></i>
         Gerenciar Contas
       </button>
     </div>
+
     <!-- Metas Financeiras -->
     <div
-      class="bg-gray-100 rounded-xl shadow-sm p-6 flex flex-col justify-between h-full"
+      class="bg-white rounded-2xl shadow-lg p-6 flex flex-col justify-between h-full"
     >
-      <h2 class="text-xl font-semibold text-gray-900 mb-6">
-        Metas Financeiras
-      </h2>
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-bold text-[#013E4C] flex items-center">
+          <i class="fas fa-bullseye mr-2 text-[#1C6956]"></i>
+          Metas Financeiras
+        </h2>
+        <button
+          (click)="mudarPagina('configuracoes', 'metas')"
+          class="text-[#1C6956] hover:text-[#013E4C] transition-colors"
+        >
+          <i class="fas fa-cog"></i>
+        </button>
+      </div>
 
       <div class="space-y-4 flex-grow">
         <!-- Mensagem quando não há metas -->
@@ -483,29 +604,40 @@
           *ngIf="metas.length === 0"
           class="flex items-center justify-center h-full"
         >
-          <p class="text-gray-500">Nenhuma Meta Financeira cadastrada.</p>
+          <div class="text-center p-6">
+            <div
+              class="w-16 h-16 rounded-full bg-[#D8EAE5] flex items-center justify-center mx-auto mb-4"
+            >
+              <i class="fas fa-bullseye text-[#1C6956] text-2xl"></i>
+            </div>
+            <p class="text-[#5e6d72]">Nenhuma Meta Financeira cadastrada.</p>
+            <button
+              (click)="mudarPagina('configuracoes', 'metas')"
+              class="mt-4 text-[#1C6956] hover:text-[#013E4C] transition-colors"
+            >
+              Criar sua primeira meta
+            </button>
+          </div>
         </div>
 
-        <!-- Lista de metas (mostra no máximo 2) -->
+        <!-- Lista de metas -->
         <div
           *ngFor="let meta of metas"
-          class="flex items-center justify-between"
+          class="bg-[#F8F7F5] p-4 rounded-xl shadow-sm hover:shadow-md transition-all duration-300"
         >
-          <div>
-            <h3 class="text-lg font-medium text-gray-800">{{ meta.nome }}</h3>
-            <p class="text-sm text-gray-500">
-              {{ meta.valorAtual || 0 | currency : "BRL" : "symbol" : "1.2-2" }}
-              /
-              {{ meta.valorMeta | currency : "BRL" : "symbol" : "1.2-2" }}
-            </p>
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-lg font-medium text-[#013E4C]">{{ meta.nome }}</h3>
+            <span class="text-sm font-medium text-[#1C6956]"
+              >{{ calcularProgresso(meta) }}%</span
+            >
           </div>
-          <div class="w-1/2 bg-gray-200 rounded-full h-2.5">
+          <p class="text-sm text-[#5e6d72] mb-3">
+            {{ meta.valorAtual || 0 | currency : "BRL" : "symbol" : "1.2-2" }} /
+            {{ meta.valorMeta | currency : "BRL" : "symbol" : "1.2-2" }}
+          </p>
+          <div class="w-full bg-[#E0E5E7] rounded-full h-2.5">
             <div
-              class="h-2.5 rounded-full"
-              [ngClass]="{
-                'bg-blue-500': calcularProgresso(meta) < 100,
-                'bg-green-500': calcularProgresso(meta) >= 100
-              }"
+              class="h-2.5 rounded-full bg-gradient-to-r from-[#1C6956] to-[#013E4C]"
               [style.width.%]="calcularProgresso(meta)"
             ></div>
           </div>
@@ -514,109 +646,146 @@
 
       <button
         (click)="mudarPagina('configuracoes', 'metas')"
-        class="mt-6 w-full bg-[#5e6d72] text-white px-4 py-2 rounded-lg hover:bg-[#8a999f] transition-colors duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 cursor-pointer"
+        class="mt-6 w-full bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#1C6956] focus:ring-offset-2 cursor-pointer flex items-center justify-center"
       >
+        <i class="fas fa-plus mr-2"></i>
         {{ metas.length > 0 ? "Gerenciar Metas" : "Criar Primeira Meta" }}
       </button>
     </div>
+  </div>
 
+  <!-- Segunda Linha de Grid -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
     <!-- Últimas Transações -->
     <div
-      class="bg-gray-100 rounded-xl shadow-sm p-6 flex flex-col justify-between h-full"
+      class="bg-white rounded-2xl shadow-lg p-6 flex flex-col justify-between h-full"
     >
-      <h2 class="text-lg sm:text-xl font-semibold text-gray-900 mb-4 sm:mb-6">
-        Últimas Transações
-      </h2>
-      <div *ngIf="transacoes.length === 0" class="text-center text-gray-500">
-        Não há transações realizadas.
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-bold text-[#013E4C] flex items-center">
+          <i class="fas fa-exchange-alt mr-2 text-[#1C6956]"></i>
+          Últimas Transações
+        </h2>
+        <button
+          (click)="alterarComponente('lancamentos')"
+          class="text-[#1C6956] hover:text-[#013E4C] transition-colors"
+        >
+          <i class="fas fa-external-link-alt"></i>
+        </button>
       </div>
-      <div *ngIf="transacoes.length > 0">
-        <div class="space-y-4">
+
+      <div
+        *ngIf="transacoes.length === 0"
+        class="flex items-center justify-center h-full"
+      >
+        <div class="text-center p-6">
           <div
-            *ngFor="let transacao of transacoes"
-            class="flex items-center justify-between"
+            class="w-16 h-16 rounded-full bg-[#D8EAE5] flex items-center justify-center mx-auto mb-4"
           >
-            <div class="flex items-center">
-              <div
-                class="p-2.5 rounded-full mr-3"
-                [ngClass]="
-                  transacao.tipoTransacao === 'RECEITA'
-                    ? 'bg-green-100'
-                    : 'bg-red-100'
-                "
-              >
-                <i
-                  class="fas"
-                  [ngClass]="
-                    transacao.tipoTransacao === 'RECEITA'
-                      ? 'fa-money-bill-wave text-green-600'
-                      : 'fa-shopping-cart text-red-600'
-                  "
-                >
-                </i>
-              </div>
-              <div>
-                <h3 class="text-lg font-medium text-gray-800">
-                  {{ transacao.nomeConta }}
-                </h3>
-                <p class="text-sm text-gray-500">
-                  {{ transacao.dataTransacao | date : "dd/MM/yyyy" }}
-                </p>
-              </div>
-            </div>
-            <strong
-              [ngClass]="
-                transacao.tipoTransacao === 'RECEITA'
-                  ? 'text-green-600'
-                  : 'text-red-600'
-              "
-            >
-              {{ transacao.tipoTransacao === "RECEITA" ? "+" : "-" }} R$
-              {{ transacao.valor | number : "1.2-2" }}
-            </strong>
+            <i class="fas fa-exchange-alt text-[#1C6956] text-2xl"></i>
           </div>
+          <p class="text-[#5e6d72]">Não há transações realizadas.</p>
         </div>
       </div>
+
+      <div *ngIf="transacoes.length > 0" class="space-y-4 flex-grow">
+        <div
+          *ngFor="let transacao of transacoes"
+          class="flex items-center justify-between p-4 bg-[#F8F7F5] rounded-xl shadow-sm hover:shadow-md transition-all duration-300"
+        >
+          <div class="flex items-center">
+            <div
+              class="p-3 rounded-xl mr-4"
+              [ngClass]="
+                transacao.tipoTransacao === 'RECEITA'
+                  ? 'bg-green-100'
+                  : 'bg-red-100'
+              "
+            >
+              <i
+                class="fas"
+                [ngClass]="
+                  transacao.tipoTransacao === 'RECEITA'
+                    ? 'fa-arrow-up text-green-600'
+                    : 'fa-arrow-down text-red-600'
+                "
+              ></i>
+            </div>
+            <div>
+              <h3 class="text-lg font-medium text-[#013E4C]">
+                {{ transacao.nomeConta }}
+              </h3>
+              <p class="text-sm text-[#748389]">
+                {{ transacao.dataTransacao | date : "dd/MM/yyyy" }}
+              </p>
+            </div>
+          </div>
+          <strong
+            [ngClass]="
+              transacao.tipoTransacao === 'RECEITA'
+                ? 'text-green-600'
+                : 'text-red-600'
+            "
+            class="text-lg"
+          >
+            {{ transacao.tipoTransacao === "RECEITA" ? "+" : "-" }} R$
+            {{ transacao.valor | number : "1.2-2" }}
+          </strong>
+        </div>
+      </div>
+
       <button
         (click)="alterarComponente('lancamentos')"
-        class="mt-6 w-full bg-[#5e6d72] text-white px-4 py-2 rounded-lg hover:bg-[#8a999f] transition-colors duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 cursor-pointer"
+        class="mt-6 w-full bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#1C6956] focus:ring-offset-2 cursor-pointer flex items-center justify-center"
       >
+        <i class="fas fa-list mr-2"></i>
         Ver todas Transações
       </button>
     </div>
 
-    <div class="bg-gray-100 rounded-xl shadow-sm p-6 flex flex-col h-full">
-      <h2 class="text-lg sm:text-xl font-semibold text-gray-900 mb-4">
-        Meus Cartões
-      </h2>
+    <!-- Meus Cartões -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col h-full">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-bold text-[#013E4C] flex items-center">
+          <i class="fas fa-credit-card mr-2 text-[#1C6956]"></i>
+          Meus Cartões
+        </h2>
+        <button
+          (click)="mudarPagina('configuracoes', 'cartoes')"
+          class="text-[#1C6956] hover:text-[#013E4C] transition-colors"
+        >
+          <i class="fas fa-cog"></i>
+        </button>
+      </div>
 
       <!-- Área de rolagem dos cartões -->
       <div class="flex-1 overflow-auto">
         <div
           *ngIf="cartoes.length > 0; else noCards"
-          class="flex flex-col gap-3"
+          class="flex flex-col gap-4"
         >
           <div
             *ngFor="let card of cartoes"
-            class="flex items-center justify-between p-3 sm:p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow"
+            class="flex items-center justify-between p-4 bg-[#F8F7F5] rounded-xl shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1"
           >
             <div class="flex items-center min-w-0">
               <div class="flex items-center">
                 <div
-                  class="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 mr-4"
+                  class="w-12 h-12 rounded-xl flex items-center justify-center bg-white shadow-md mr-4"
                 >
                   <!-- Exibir logo do cartão -->
                   <img
                     [src]="getCardLogo(card.bandeira)"
                     alt="{{ card.nome }}"
-                    class="w-6 h-6"
+                    class="w-8 h-8"
                   />
                 </div>
                 <div>
-                  <strong class="block text-gray-900">{{ card.nome }}</strong>
-                  <small class="block text-gray-500">{{ card.bandeira }}</small>
-                  <small class="block text-gray-500">
-                    Limite disponível:
+                  <strong class="block text-[#013E4C]">{{ card.nome }}</strong>
+                  <small class="block text-[#748389]">{{
+                    card.bandeira
+                  }}</small>
+                  <small class="block text-[#1C6956] font-medium">
+                    Limite:
                     {{
                       card.limiteDisponivel
                         | currency : "BRL" : "symbol" : "1.2-2"
@@ -630,18 +799,26 @@
 
         <!-- Template caso não haja cartões -->
         <ng-template #noCards>
-          <p class="text-gray-500 text-center mt-4">
-            Você não tem cartões cadastrados.
-          </p>
+          <div class="flex items-center justify-center h-full">
+            <div class="text-center p-6">
+              <div
+                class="w-16 h-16 rounded-full bg-[#D8EAE5] flex items-center justify-center mx-auto mb-4"
+              >
+                <i class="fas fa-credit-card text-[#1C6956] text-2xl"></i>
+              </div>
+              <p class="text-[#5e6d72]">Você não tem cartões cadastrados.</p>
+            </div>
+          </div>
         </ng-template>
       </div>
 
       <!-- Botão fixado na parte inferior da div -->
-      <div class="mt-4">
+      <div class="mt-6">
         <button
           (click)="mudarPagina('configuracoes', 'cartoes')"
-          class="w-full bg-[#5e6d72] text-white px-4 py-2 rounded-lg hover:bg-[#8a999f] transition-colors duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 cursor-pointer"
+          class="w-full bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#1C6956] focus:ring-offset-2 cursor-pointer flex items-center justify-center"
         >
+          <i class="fas fa-plus mr-2"></i>
           Gerenciar Cartões
         </button>
       </div>

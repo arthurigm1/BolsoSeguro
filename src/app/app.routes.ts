@@ -20,6 +20,7 @@ export const routes: Routes = [
   {
     path: 'registro',
     component: RegistroComponent,
+    data: { animation: 'RegistroPage' },
   },
   {
     path: 'login',
@@ -29,16 +30,18 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     component: HomedashboardComponent,
-    canActivate: [AuthGuard],
+
+    data: { animation: 'DashboardPage' },
   },
   {
     path: 'reset-password',
     component: ResetPasswordComponent,
+    data: { animation: 'ResetPasswordPage' },
   },
   {
     path: 'verify',
     component: VerifyComponent,
+    data: { animation: 'VerifyPage' },
   },
-
   { path: '', redirectTo: '/login', pathMatch: 'full' },
 ];
