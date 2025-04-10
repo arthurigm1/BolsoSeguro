@@ -1,29 +1,35 @@
-<div class="py-8 px-4 sm:px-6">
+<div
+  class="min-h-screen bg-[#F8F7F5] py-8 px-4 sm:px-6 transition-all duration-500"
+>
   <div class="mx-auto max-w-7xl">
-    <!-- Header Section -->
-    <div class="px-6 py-5 sm:px-8 sm:py-6 mb-4">
+    <!-- Header com Efeito Glassmorphism e Animação -->
+    <div
+      class="px-6 py-5 sm:px-8 sm:py-6 mb-6 rounded-2xl bg-white/80 backdrop-blur-lg border border-white/20 shadow-lg transform hover:scale-[1.01] transition-all duration-300 animate-fade-in"
+    >
       <div
         class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
       >
-        <div>
-          <h1 class="text-2xl sm:text-3xl font-bold text-[#013E4C]">
+        <div class="space-y-2">
+          <h1
+            class="text-4xl sm:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#1C6956] via-[#013E4C] to-[#1C6956] animate-gradient-x"
+          >
             Relatório Financeiro
           </h1>
-          <p class="text-[#5e6d72] mt-2">
-            Visão detalhada das suas transações mensais
+          <p class="text-[#5e6d72] text-sm sm:text-base flex items-center">
+            <i class="fas fa-chart-line mr-2 text-[#1C6956]"></i>
+            Visualização inteligente do seu fluxo financeiro mensal
           </p>
         </div>
 
-        <!-- Month Navigation -->
+        <!-- Navegação de Mês com UI Aprimorada -->
         <div class="flex items-center flex-wrap gap-3">
           <button
             (click)="prevMonth()"
-            class="p-2 rounded-xl bg-white hover:bg-[#D8EAE5] transition-all text-[#5e6d72] hover:text-[#1C6956] shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[#1C6956] focus:ring-opacity-50"
-            aria-label="Mês anterior"
+            class="p-2.5 rounded-xl bg-white hover:bg-[#D8EAE5] transition-all text-[#5e6d72] hover:text-[#1C6956] shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[#1C6956]/50 focus:ring-opacity-50 transform hover:-translate-x-0.5 active:translate-x-0 group"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
+              class="h-5 w-5 group-hover:scale-110 transition-transform"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -38,19 +44,19 @@
           </button>
 
           <span
-            class="px-4 py-2 bg-white text-[#013E4C] rounded-xl font-medium text-sm sm:text-base shadow-sm"
+            class="px-5 py-2.5 bg-white text-[#013E4C] rounded-xl font-semibold text-sm sm:text-base shadow-sm border border-[#E0E5E7] flex items-center"
           >
+            <i class="far fa-calendar-alt mr-2 text-[#1C6956]"></i>
             {{ getMonthYear() | titlecase }}
           </span>
 
           <button
             (click)="nextMonth()"
-            class="p-2 rounded-xl bg-white hover:bg-[#D8EAE5] transition-all text-[#5e6d72] hover:text-[#1C6956] shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[#1C6956] focus:ring-opacity-50"
-            aria-label="Próximo mês"
+            class="p-2.5 rounded-xl bg-white hover:bg-[#D8EAE5] transition-all text-[#5e6d72] hover:text-[#1C6956] shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[#1C6956]/50 focus:ring-opacity-50 transform hover:translate-x-0.5 active:-translate-x-0 group"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
+              class="h-5 w-5 group-hover:scale-110 transition-transform"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -66,19 +72,20 @@
 
           <button
             (click)="goToCurrentMonth()"
-            class="px-4 py-2 text-sm bg-white hover:bg-[#D8EAE5] text-[#5e6d72] hover:text-[#1C6956] rounded-xl font-medium shadow-sm hover:shadow-md transition-all focus:outline-none focus:ring-2 focus:ring-[#1C6956] focus:ring-opacity-50"
+            class="px-4 py-2.5 text-sm bg-white hover:bg-[#D8EAE5] text-[#5e6d72] hover:text-[#1C6956] rounded-xl font-medium shadow-sm hover:shadow-md transition-all focus:outline-none focus:ring-2 focus:ring-[#1C6956]/50 focus:ring-opacity-50 transform hover:scale-[1.02] active:scale-95 flex items-center"
           >
+            <i class="fas fa-calendar-day mr-2"></i>
             Mês Atual
           </button>
 
           <button
             (click)="downloadReport()"
             [disabled]="isExporting"
-            class="flex items-center px-4 py-2 text-sm bg-white hover:bg-[#D8EAE5] text-[#5e6d72] hover:text-[#1C6956] rounded-xl font-medium shadow-sm hover:shadow-md transition-all focus:outline-none focus:ring-2 focus:ring-[#1C6956] focus:ring-opacity-50 disabled:opacity-60 disabled:cursor-not-allowed"
+            class="flex items-center px-4 py-2.5 text-sm bg-gradient-to-r from-[#1C6956] to-[#013E4C] hover:from-[#1C6956]/90 hover:to-[#013E4C]/90 text-white rounded-xl font-medium shadow-sm hover:shadow-md transition-all focus:outline-none focus:ring-2 focus:ring-[#1C6956]/50 focus:ring-opacity-50 transform hover:scale-[1.02] active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
           >
             @if (isExporting) {
             <svg
-              class="animate-spin h-4 w-4 mr-2 text-[#1C6956]"
+              class="animate-spin h-4 w-4 mr-2 text-white"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -113,215 +120,405 @@
                 d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
               />
             </svg>
-            <span>Exportar</span>
+            <span>Exportar PDF</span>
             }
           </button>
         </div>
       </div>
     </div>
 
-    <!-- Main Content Container -->
+    <!-- Container Principal com Efeito de Profundidade -->
     <div
-      class="bg-white rounded-2xl shadow-lg overflow-hidden border border-[#E0E5E7]"
+      class="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden border border-white/20 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
     >
-      <!-- Content Area -->
+      <!-- Área de Conteúdo -->
       <div class="p-6 sm:p-8">
-        <!-- Loading State -->
-        @if (loading) {
-        <div class="flex flex-col items-center justify-center py-16">
-          <div
-            class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#1C6956] mb-4"
-          ></div>
-          <p class="text-lg text-[#5e6d72]">Carregando transações...</p>
-        </div>
-        }
-
-        <!-- Error State -->
+        <!-- Estado de Erro com Animação -->
         @if (error) {
         <div
-          class="bg-red-50 border-l-4 border-red-400 p-4 mb-6 rounded-lg flex items-start"
+          class="bg-red-50 border-l-4 border-red-400 p-4 mb-6 rounded-lg flex items-start animate-fade-in"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5 text-red-500 mt-0.5 mr-2"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-              clip-rule="evenodd"
-            />
-          </svg>
-          <p class="text-red-700">{{ error }}</p>
+          <div class="flex-shrink-0">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 text-red-500"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </div>
+          <div class="ml-3">
+            <p class="text-sm text-red-700">{{ error }}</p>
+          </div>
         </div>
         }
 
-        <!-- Transactions Content -->
-        @if (!loading && transacoes.length > 0) {
-        <!-- Summary Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <!-- Income Card -->
+        <!-- Conteúdo das Transações -->
+        <div class="relative">
+          <!-- Loading State -->
+          @if (loading) {
           <div
-            class="bg-gradient-to-br from-[#D8EAE5] to-white p-5 rounded-xl border border-[#E0E5E7] shadow-sm hover:shadow-md transition-shadow"
+            class="absolute inset-0 bg-white/80 backdrop-blur-sm rounded-xl flex items-center justify-center z-10"
           >
-            <div class="flex items-center justify-between">
-              <div>
-                <p class="text-sm font-medium text-[#5e6d72]">Receitas</p>
-                <p class="text-2xl font-bold text-[#013E4C] mt-1">
-                  {{ formatCurrency(getTotalReceitas()) }}
-                </p>
-              </div>
-              <div
-                class="w-10 h-10 rounded-lg bg-[#1C6956] flex items-center justify-center shadow-md"
-              >
-                <i class="fas fa-arrow-up text-white text-xl"></i>
-              </div>
-            </div>
-          </div>
-
-          <!-- Expenses Card -->
-          <div
-            class="bg-gradient-to-br from-[#F8F7F5] to-white p-5 rounded-xl border border-[#E0E5E7] shadow-sm hover:shadow-md transition-shadow"
-          >
-            <div class="flex items-center justify-between">
-              <div>
-                <p class="text-sm font-medium text-[#5e6d72]">Despesas</p>
-                <p class="text-2xl font-bold text-[#013E4C] mt-1">
-                  {{ formatCurrency(getTotalDespesas()) }}
-                </p>
-              </div>
-              <div
-                class="w-10 h-10 rounded-lg bg-[#748389] flex items-center justify-center shadow-md"
-              >
-                <i class="fas fa-arrow-down text-white text-xl"></i>
-              </div>
-            </div>
-          </div>
-
-          <!-- Balance Card -->
-          <div
-            class="bg-gradient-to-br from-[#F8F7F5] to-white p-5 rounded-xl border border-[#E0E5E7] shadow-sm hover:shadow-md transition-shadow"
-          >
-            <div class="flex items-center justify-between">
-              <div>
-                <p class="text-sm font-medium text-[#5e6d72]">Saldo</p>
-                <p
-                  class="text-2xl font-bold mt-1"
-                  [ngClass]="{
-                    'text-[#1C6956]': getSaldo() > 0,
-                    'text-[#748389]': getSaldo() <= 0
-                  }"
-                >
-                  {{ formatCurrency(getSaldo()) }}
-                </p>
-              </div>
-              <div
-                class="w-10 h-10 rounded-lg bg-[#013E4C] flex items-center justify-center shadow-md"
-              >
-                <i class="fas fa-wallet text-white text-xl"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Transactions List -->
-        <div class="space-y-4">
-          @for (transacao of transacoes; track $index) {
-          <div
-            class="bg-white p-5 rounded-xl border border-[#E0E5E7] hover:border-[#1C6956]/30 transition-all shadow-sm hover:shadow-md group"
-          >
-            <div class="flex items-center justify-between gap-4">
-              <!-- Icon and Info -->
-              <div class="flex items-center gap-4 flex-1 min-w-0">
-                <!-- Transaction Type Icon -->
+            <div class="text-center p-6">
+              <div class="relative inline-block mb-4">
                 <div
-                  [ngClass]="{
-                    'bg-[#D8EAE5] text-[#1C6956]': transacao.tipo === 'RECEITA',
-                    'bg-[#F8F7F5] text-[#748389]': transacao.tipo === 'DESPESA'
-                  }"
-                  class="flex-shrink-0 p-3 rounded-xl"
+                  class="w-16 h-16 rounded-full bg-[#D8EAE5] opacity-30 absolute inset-0 animate-ping"
+                ></div>
+                <div
+                  class="relative w-16 h-16 rounded-full bg-gradient-to-br from-[#1C6956] to-[#013E4C] flex items-center justify-center shadow-lg"
                 >
-                  @if (transacao.tipo === 'RECEITA') {
-                  <i class="fas fa-arrow-up text-lg"></i>
-                  } @else {
-                  <i class="fas fa-arrow-down text-lg"></i>
-                  }
+                  <i class="fas fa-coins text-white text-xl"></i>
                 </div>
+              </div>
+              <p class="text-[#748389] text-sm">Carregando transações...</p>
+            </div>
+          </div>
+          }
 
-                <!-- Transaction Details -->
-                <div class="min-w-0">
-                  <h3 class="text-base font-semibold text-[#013E4C] truncate">
-                    {{ transacao.descricao }}
-                  </h3>
-                  <div
-                    class="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1.5"
+          <!-- Conteúdo Principal -->
+          @if (!loading && transacoes.length > 0) {
+          <!-- Cards de Resumo com Efeitos de Hover -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            <!-- Card de Receitas -->
+            <div
+              class="bg-white p-6 rounded-xl border border-[#E0E5E7] shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:border-[#1C6956]/30 group"
+            >
+              <div class="flex items-center justify-between">
+                <div>
+                  <p
+                    class="text-sm font-medium text-[#5e6d72] flex items-center"
                   >
-                    <span class="text-sm text-[#748389] flex items-center">
-                      <i class="far fa-calendar mr-1.5 text-xs"></i>
-                      {{ formatDate(transacao.data) }}
-                    </span>
-                    <span class="text-sm text-[#748389] flex items-center">
-                      <i class="far fa-credit-card mr-1.5 text-xs"></i>
-                      {{ transacao.banco }}
-                    </span>
-                    <span
-                      class="text-xs px-2.5 py-1 rounded-full bg-[#F8F7F5] text-[#5e6d72]"
+                    <i class="fas fa-arrow-up mr-2 text-[#1C6956]"></i>
+                    Receitas
+                  </p>
+                  <p
+                    class="text-3xl font-bold text-[#1C6956] mt-2 animate-count-up"
+                  >
+                    {{ formatCurrency(getTotalReceitas()) }}
+                  </p>
+                  <div class="mt-4 flex items-center">
+                    <span class="text-xs font-medium text-[#5e6d72]"
+                      >vs último mês</span
                     >
-                      {{ transacao.categoria }}
+                    <span
+                      class="ml-2 px-2 py-1 rounded-full bg-[#D8EAE5] text-[#1C6956] text-xs font-medium flex items-center"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-3 w-3 mr-1"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                      +12%
                     </span>
                   </div>
                 </div>
-              </div>
-
-              <!-- Transaction Amount -->
-              <div class="flex-shrink-0">
-                <span
-                  class="text-base font-medium"
-                  [ngClass]="{
-                    'text-[#1C6956]': transacao.tipo === 'RECEITA',
-                    'text-[#748389]': transacao.tipo === 'DESPESA'
-                  }"
+                <div
+                  class="w-12 h-12 rounded-xl bg-gradient-to-br from-[#1C6956] to-[#013E4C] flex items-center justify-center shadow-md group-hover:rotate-12 transition-transform duration-300"
                 >
-                  {{ formatCurrency(transacao.valor) }}
-                </span>
+                  <i class="fas fa-arrow-up text-white text-xl"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card de Despesas -->
+            <div
+              class="bg-white p-6 rounded-xl border border-[#E0E5E7] shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:border-[#748389]/30 group"
+            >
+              <div class="flex items-center justify-between">
+                <div>
+                  <p
+                    class="text-sm font-medium text-[#5e6d72] flex items-center"
+                  >
+                    <i class="fas fa-arrow-down mr-2 text-[#748389]"></i>
+                    Despesas
+                  </p>
+                  <p
+                    class="text-3xl font-bold text-[#748389] mt-2 animate-count-up"
+                  >
+                    {{ formatCurrency(getTotalDespesas()) }}
+                  </p>
+                  <div class="mt-4 flex items-center">
+                    <span class="text-xs font-medium text-[#5e6d72]"
+                      >vs último mês</span
+                    >
+                    <span
+                      class="ml-2 px-2 py-1 rounded-full bg-[#F8F7F5] text-[#748389] text-xs font-medium flex items-center"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-3 w-3 mr-1"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M12 13a1 1 0 100 2h5a1 1 0 001-1v-5a1 1 0 10-2 0v2.586l-4.293-4.293a1 1 0 00-1.414 0L8 9.586l-4.293-4.293a1 1 0 00-1.414 1.414l5 5a1 1 0 001.414 0L11 9.414 14.586 13H12z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                      -5%
+                    </span>
+                  </div>
+                </div>
+                <div
+                  class="w-12 h-12 rounded-xl bg-gradient-to-br from-[#748389] to-[#5e6d72] flex items-center justify-center shadow-md group-hover:-rotate-12 transition-transform duration-300"
+                >
+                  <i class="fas fa-arrow-down text-white text-xl"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card de Saldo -->
+            <div
+              class="bg-white p-6 rounded-xl border border-[#E0E5E7] shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:border-[#013E4C]/30 group"
+            >
+              <div class="flex items-center justify-between">
+                <div>
+                  <p
+                    class="text-sm font-medium text-[#5e6d72] flex items-center"
+                  >
+                    <i class="fas fa-wallet mr-2 text-[#013E4C]"></i>
+                    Saldo Mensal
+                  </p>
+                  <p
+                    class="text-3xl font-bold mt-2 animate-count-up"
+                    [ngClass]="{
+                      'text-[#1C6956]': getSaldo() > 0,
+                      'text-[#748389]': getSaldo() <= 0
+                    }"
+                  >
+                    {{ formatCurrency(getSaldo()) }}
+                  </p>
+                  <div class="mt-4 flex items-center">
+                    <span class="text-xs font-medium text-[#5e6d72]"
+                      >meta mensal</span
+                    >
+                    <span
+                      class="ml-2 px-2 py-1 rounded-full bg-[#F8F7F5] text-[#013E4C] text-xs font-medium"
+                    >
+                      {{ (getSaldo() / 5000) * 100 | number : "1.0-0" }}%
+                    </span>
+                  </div>
+                </div>
+                <div
+                  class="w-12 h-12 rounded-xl bg-gradient-to-br from-[#013E4C] to-[#1C6956] flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-300"
+                >
+                  <i class="fas fa-wallet text-white text-xl"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visualização de Gráfico com Animação -->
+          <div
+            class="mb-10 bg-[#F8F7F5] p-5 rounded-xl border border-[#E0E5E7] animate-fade-in"
+          >
+            <div class="flex justify-between items-center mb-4">
+              <h3
+                class="text-lg font-semibold text-[#013E4C] flex items-center"
+              >
+                <i class="fas fa-chart-bar mr-2 text-[#1C6956]"></i>
+                Distribuição de Gastos
+              </h3>
+              <div class="flex space-x-2">
+                <button
+                  class="px-3 py-1 text-xs bg-white rounded-lg text-[#5e6d72] hover:bg-[#D8EAE5] hover:text-[#1C6956] transition-colors duration-300"
+                >
+                  Mensal
+                </button>
+                <button
+                  class="px-3 py-1 text-xs bg-[#D8EAE5] rounded-lg text-[#1C6956]"
+                >
+                  Categorias
+                </button>
+              </div>
+            </div>
+            <div class="h-64 flex items-end space-x-2">
+              <!-- Substituir por um componente de gráfico real -->
+              <div
+                *ngFor="
+                  let day of [
+                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
+                    18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31
+                  ]
+                "
+                class="flex-1 bg-gradient-to-t from-[#1C6956] to-[#D8EAE5] rounded-t-sm hover:from-[#013E4C] hover:to-[#1C6956] transition-all duration-300"
+                [style.height.%]="getRandomHeight()"
+                [ngClass]="{
+                  'bg-gradient-to-t from-[#748389] to-[#E0E5E7] hover:from-[#5e6d72] hover:to-[#748389]':
+                    randomBoolean()
+                }"
+              ></div>
+            </div>
+            <div class="flex justify-between mt-2 text-xs text-[#5e6d72]">
+              <span>1</span>
+              <span>7</span>
+              <span>14</span>
+              <span>21</span>
+              <span>28</span>
+              <span>31</span>
+            </div>
+          </div>
+
+          <!-- Lista de Transações com UI Aprimorada -->
+          <div class="space-y-4 animate-fade-in-up">
+            <div class="flex justify-between items-center mb-4">
+              <h3
+                class="text-lg font-semibold text-[#013E4C] flex items-center"
+              >
+                <i class="fas fa-history mr-2 text-[#1C6956]"></i>
+                Histórico de Transações
+              </h3>
+              <div class="relative">
+                <select
+                  class="appearance-none bg-white pl-3 pr-8 py-2 text-sm rounded-lg border border-[#E0E5E7] text-[#5e6d72] focus:outline-none focus:ring-2 focus:ring-[#1C6956]/50"
+                >
+                  <option>Todas as categorias</option>
+                  <option>Alimentação</option>
+                  <option>Transporte</option>
+                  <option>Lazer</option>
+                </select>
+                <div
+                  class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-[#5e6d72]"
+                >
+                  <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            @for (transacao of transacoes; track $index) {
+            <div
+              class="bg-white p-5 rounded-xl border border-[#E0E5E7] hover:border-[#1C6956]/30 transition-all shadow-sm hover:shadow-md group transform hover:scale-[1.005]"
+              [@fadeInOut]="'in'"
+            >
+              <div class="flex items-center justify-between gap-4">
+                <!-- Ícone e Informações -->
+                <div class="flex items-center gap-4 flex-1 min-w-0">
+                  <!-- Ícone do Tipo de Transação -->
+                  <div
+                    [ngClass]="{
+                      'bg-[#D8EAE5] text-[#1C6956] group-hover:bg-[#1C6956] group-hover:text-white':
+                        transacao.tipo === 'RECEITA',
+                      'bg-[#F8F7F5] text-[#748389] group-hover:bg-[#748389] group-hover:text-white':
+                        transacao.tipo === 'DESPESA'
+                    }"
+                    class="flex-shrink-0 p-3 rounded-xl transition-all duration-300"
+                  >
+                    @if (transacao.tipo === 'RECEITA') {
+                    <i class="fas fa-arrow-up text-lg"></i>
+                    } @else {
+                    <i class="fas fa-arrow-down text-lg"></i>
+                    }
+                  </div>
+
+                  <!-- Detalhes da Transação -->
+                  <div class="min-w-0">
+                    <h3
+                      class="text-base font-semibold text-[#013E4C] group-hover:text-[#1C6956] truncate transition-colors duration-300"
+                    >
+                      {{ transacao.descricao }}
+                    </h3>
+                    <div
+                      class="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1.5"
+                    >
+                      <span class="text-sm text-[#748389] flex items-center">
+                        <i class="far fa-calendar mr-1.5 text-xs"></i>
+                        {{ formatDate(transacao.data) }}
+                      </span>
+                      <span class="text-sm text-[#748389] flex items-center">
+                        <i class="far fa-credit-card mr-1.5 text-xs"></i>
+                        {{ transacao.banco }}
+                      </span>
+                      <span
+                        class="text-xs px-2.5 py-1 rounded-full bg-[#F8F7F5] text-[#5e6d72] group-hover:bg-[#D8EAE5] group-hover:text-[#1C6956] transition-colors duration-300"
+                      >
+                        {{ transacao.categoria }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Valor da Transação -->
+                <div class="flex-shrink-0 flex items-center">
+                  <span
+                    class="text-base font-medium"
+                    [ngClass]="{
+                      'text-[#1C6956]': transacao.tipo === 'RECEITA',
+                      'text-[#748389]': transacao.tipo === 'DESPESA'
+                    }"
+                  >
+                    {{ transacao.tipo === "RECEITA" ? "+" : "-"
+                    }}{{ formatCurrency(transacao.valor) }}
+                  </span>
+                  <button
+                    class="ml-3 text-[#748389] hover:text-[#1C6956] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  >
+                    <i class="fas fa-ellipsis-v"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            }
+          </div>
+          } @else if (!loading) {
+          <!-- Estado Vazio Melhorado -->
+          <div class="text-center py-12 animate-fade-in">
+            <div class="bg-[#F8F7F5] rounded-2xl p-8 max-w-lg mx-auto">
+              <div class="w-24 h-24 mx-auto mb-6 relative">
+                <div
+                  class="absolute inset-0 bg-[#D8EAE5] rounded-full opacity-20 animate-pulse"
+                ></div>
+                <div
+                  class="relative w-full h-full rounded-full bg-gradient-to-br from-[#1C6956] to-[#013E4C] flex items-center justify-center"
+                >
+                  <i class="fas fa-file-invoice-dollar text-white text-3xl"></i>
+                </div>
+              </div>
+              <h3 class="text-2xl font-bold text-[#013E4C] mb-3">
+                Nenhuma transação encontrada
+              </h3>
+              <p class="text-[#748389] mb-6">
+                Não há movimentações financeiras registradas para
+                {{ getMonthYear() | titlecase }}.
+              </p>
+              <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                <button
+                  class="px-6 py-3 bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white rounded-xl font-medium shadow-md hover:shadow-lg transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#1C6956]/50"
+                >
+                  <i class="fas fa-plus mr-2"></i> Adicionar Transação
+                </button>
+                <button
+                  class="px-6 py-3 bg-white text-[#1C6956] rounded-xl font-medium shadow-md hover:shadow-lg transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#1C6956]/50 border border-[#E0E5E7]"
+                >
+                  <i class="fas fa-sync-alt mr-2"></i> Atualizar
+                </button>
               </div>
             </div>
           </div>
           }
         </div>
-        } @else if (!loading) {
-        <!-- Empty State -->
-        <div class="text-center py-16">
-          <div
-            class="mx-auto w-24 h-24 bg-[#F8F7F5] rounded-full flex items-center justify-center mb-5"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-12 w-12 text-[#1C6956]"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1.5"
-                d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-              />
-            </svg>
-          </div>
-          <h3 class="text-xl font-bold text-[#013E4C] mb-2">
-            Nenhuma transação em {{ getMonthYear() | titlecase }}
-          </h3>
-          <p class="text-[#748389] max-w-md mx-auto">
-            Não encontramos registros financeiros para este período.
-          </p>
-        </div>
-        }
       </div>
 
-      <!-- Footer -->
+      <!-- Rodapé com UI Aprimorada -->
       <div class="bg-[#F8F7F5] px-6 py-4 border-t border-[#E0E5E7]">
         <div
           class="flex flex-col sm:flex-row justify-between items-center text-sm text-[#748389] gap-2"
@@ -330,14 +527,21 @@
             <i class="far fa-clock mr-1.5 text-xs"></i>
             Atualizado em {{ currentDate | date : "dd/MM/yyyy 'às' HH:mm" }}
           </div>
-          <div class="flex items-center">
-            <span class="hidden sm:inline mr-2">Total:</span>
-            <span class="font-medium text-[#013E4C]">{{
-              transacoes.length
-            }}</span>
-            <span class="ml-1"
-              >transação{{ transacoes.length !== 1 ? "es" : "" }}</span
+          <div class="flex items-center space-x-4">
+            <div class="flex items-center">
+              <span class="hidden sm:inline mr-2">Total:</span>
+              <span class="font-medium text-[#013E4C]">{{
+                transacoes.length
+              }}</span>
+              <span class="ml-1"
+                >transação{{ transacoes.length !== 1 ? "es" : "" }}</span
+              >
+            </div>
+            <button
+              class="text-[#1C6956] hover:text-[#013E4C] flex items-center text-sm"
             >
+              <i class="fas fa-question-circle mr-1"></i> Ajuda
+            </button>
           </div>
         </div>
       </div>
@@ -345,21 +549,83 @@
   </div>
 </div>
 
-<!-- Loading Overlay -->
-@if (loading) {
-<div
-  class="fixed inset-0 bg-black/10 backdrop-blur-sm flex items-center justify-center z-50"
->
-  <div
-    class="bg-white rounded-2xl p-8 max-w-md text-center shadow-xl border border-[#E0E5E7]"
-  >
-    <div
-      class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#1C6956] mb-4 mx-auto"
-    ></div>
-    <h3 class="text-xl font-semibold text-[#013E4C] mb-2">Processando dados</h3>
-    <p class="text-[#748389]">
-      Estamos analisando suas transações financeiras...
-    </p>
-  </div>
-</div>
-}
+<!-- Animações CSS -->
+<style>
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes countUp {
+    from {
+      opacity: 0;
+      transform: translateY(5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes bounceSlow {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes progress {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
+  }
+
+  @keyframes gradient-x {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+
+  .animate-fade-in-up {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+
+  .animate-count-up {
+    animation: countUp 0.8s ease-out forwards;
+  }
+
+  .animate-bounce-slow {
+    animation: bounceSlow 3s infinite ease-in-out;
+  }
+
+  .animate-progress {
+    animation: progress 2s ease-in-out infinite alternate;
+  }
+
+  .animate-gradient-x {
+    background-size: 200% 200%;
+    animation: gradient-x 15s ease infinite;
+  }
+</style>

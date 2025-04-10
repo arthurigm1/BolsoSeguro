@@ -1,6 +1,6 @@
 @if (isLoading) {
 <div
-  class="min-h-screen flex items-center justify-center bg-gradient-to-r from-[#F8F7F5] to-[#D8EAE5] p-8"
+  class="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F8F7F5] via-[#D8EAE5] to-[#F8F7F5] p-8"
 >
   <div class="text-center animate-fadeIn">
     <div class="relative w-24 h-24 mx-auto mb-6">
@@ -18,11 +18,8 @@
 </div>
 } @else {
 <div
-  class="min-h-screen bg-gradient-to-br from-[#1C6956] to-[#013E4C] p-4 md:p-8 transition-all duration-500 animate-fadeIn"
+  class="min-h-screen bg-[#F8F7F5] p-4 md:p-8 transition-all duration-500 animate-fadeIn"
 >
-  <div
-    class="absolute top-0 left-0 w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4yIj48cGF0aCBkPSJNMzYgMzRhMiAyIDAgMSAxIDAtNCAyIDIgMCAwIDEgMCA0em0xMiAwYTIgMiAwIDEgMSAwLTQgMiAyIDAgMCAxIDAgNHptLTI0IDBhMiAyIDAgMSAxIDAtNCAyIDIgMCAwIDEgMCA0em0xMiAwYTIgMiAwIDEgMSAwLTQgMiAyIDAgMCAxIDAgNHptLTEyIDEyYTIgMiAwIDEgMSAwLTQgMiAyIDAgMCAxIDAgNHptMTIgMGEyIDIgMCAxIDEgMC00IDIgMiAwIDAgMSAwIDR6bS0yNCAxMmEyIDIgMCAxIDEgMC00IDIgMiAwIDAgMSAwIDR6bTI0IDBhMiAyIDAgMSAxIDAtNCAyIDIgMCAwIDEgMCA0em0tMTItMTJhMiAyIDAgMSAxIDAtNCAyIDIgMCAwIDEgMCA0eiIvPjwvZz48L2c+PC9zdmc+')] bg-repeat opacity-30 pointer-events-none"
-  ></div>
   <!-- Cabeçalho com efeito de vidro -->
   <header
     class="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl p-6 mb-8 flex flex-col md:flex-row justify-between items-center gap-6 relative overflow-hidden border border-white/20 animate-slideDown"
@@ -90,382 +87,6 @@
       </ul>
     </div>
   </header>
-
-  <!-- Modal com efeito de vidro -->
-  <div
-    *ngIf="isModalOpen"
-    class="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-fadeIn"
-  >
-    <div
-      class="bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl w-full max-w-md overflow-hidden transform transition-all animate-scaleIn"
-    >
-      <!-- Cabeçalho do Modal -->
-      <div
-        class="flex justify-between items-center p-6 bg-gradient-to-r from-[#1C6956] to-[#013E4C]"
-      >
-        <h3 class="text-xl font-semibold text-white flex items-center">
-          <i
-            class="fas"
-            [ngClass]="
-              modalType === 'Despesa' ? 'fa-minus-circle' : 'fa-plus-circle'
-            "
-            class="mr-2 animate-pulse"
-          ></i>
-          {{ modalTitle }}
-        </h3>
-        <button
-          (click)="closeModal()"
-          class="text-white cursor-pointer rounded-full hover:bg-white/20 p-2 transition duration-200 hover:rotate-90"
-        >
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-
-      <!-- Corpo do Modal -->
-      <div class="p-6">
-        <!-- Formulário de Despesa -->
-        <form
-          *ngIf="modalType === 'Despesa'"
-          #despesaForm="ngForm"
-          (ngSubmit)="submitDespesa()"
-          class="space-y-5"
-        >
-          <!-- Campo Valor -->
-          <div class="animate-slideUp" style="animation-delay: 0.1s">
-            <label class="block text-sm font-medium text-[#5e6d72] mb-1"
-              >Valor</label
-            >
-            <div class="relative group">
-              <span
-                class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389] group-focus-within:text-[#1C6956] transition-colors"
-              >
-                <i class="fas fa-dollar-sign"></i>
-              </span>
-              <input
-                type="number"
-                [(ngModel)]="despesa.valor"
-                name="valor"
-                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
-                required
-              />
-            </div>
-          </div>
-
-          <!-- Campo Data -->
-          <div class="animate-slideUp" style="animation-delay: 0.2s">
-            <label class="block text-sm font-medium text-[#5e6d72] mb-1"
-              >Data</label
-            >
-            <div class="relative group">
-              <span
-                class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389] group-focus-within:text-[#1C6956] transition-colors"
-              >
-                <i class="fas fa-calendar"></i>
-              </span>
-              <input
-                type="date"
-                [(ngModel)]="despesa.data"
-                name="data"
-                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
-                required
-              />
-            </div>
-          </div>
-
-          <!-- Campo Categoria -->
-          <div class="animate-slideUp" style="animation-delay: 0.3s">
-            <label class="block text-sm font-medium text-[#5e6d72] mb-1"
-              >Categoria</label
-            >
-            <div class="relative group">
-              <span
-                class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389] group-focus-within:text-[#1C6956] transition-colors"
-              >
-                <i class="fas fa-tag"></i>
-              </span>
-              <select
-                [(ngModel)]="despesa.categoria"
-                name="categoria"
-                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all appearance-none"
-                required
-              >
-                <option
-                  *ngFor="let categoria of categoriasDespesas"
-                  [value]="categoria.id"
-                >
-                  {{ categoria.nome }}
-                </option>
-              </select>
-              <span
-                class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-[#748389]"
-              >
-                <i class="fas fa-chevron-down"></i>
-              </span>
-            </div>
-          </div>
-
-          <!-- Campo Conta/Cartão -->
-          <div class="animate-slideUp" style="animation-delay: 0.4s">
-            <label class="block text-sm font-medium text-[#5e6d72] mb-1"
-              >Conta/Cartão</label
-            >
-            <div class="relative group">
-              <span
-                class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389] group-focus-within:text-[#1C6956] transition-colors"
-              >
-                <i class="fas fa-wallet"></i>
-              </span>
-              <select
-                [(ngModel)]="despesa.contaId"
-                name="contaId"
-                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all appearance-none"
-                required
-              >
-                <optgroup label="Contas">
-                  <option *ngFor="let conta of contas" [value]="conta.id">
-                    {{ conta.nome }}
-                  </option>
-                </optgroup>
-                <optgroup label="Cartões">
-                  <option *ngFor="let cartao of cartoes" [value]="cartao.id">
-                    {{ cartao.nome }}
-                  </option>
-                </optgroup>
-              </select>
-              <span
-                class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-[#748389]"
-              >
-                <i class="fas fa-chevron-down"></i>
-              </span>
-            </div>
-          </div>
-
-          <!-- Campo Descrição -->
-          <div class="animate-slideUp" style="animation-delay: 0.5s">
-            <label class="block text-sm font-medium text-[#5e6d72] mb-1"
-              >Descrição</label
-            >
-            <div class="relative group">
-              <span
-                class="absolute top-3 left-0 pl-3 flex items-start text-[#748389] group-focus-within:text-[#1C6956] transition-colors"
-              >
-                <i class="fas fa-align-left"></i>
-              </span>
-              <textarea
-                [(ngModel)]="despesa.descricao"
-                name="descricao"
-                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
-                rows="3"
-              ></textarea>
-            </div>
-          </div>
-
-          <div
-            class="border-t border-[#E0E5E7] p-6 flex justify-end space-x-4 animate-slideUp"
-            style="animation-delay: 0.6s"
-          >
-            <button
-              type="button"
-              (click)="closeModal()"
-              class="cursor-pointer px-5 py-2.5 text-[#5e6d72] bg-white border border-[#E0E5E7] rounded-xl shadow-sm hover:bg-[#F8F7F5] focus:ring-2 focus:ring-[#1C6956] focus:border-[#1C6956] transition-all duration-200 hover:scale-105"
-            >
-              Cancelar
-            </button>
-            <button
-              type="submit"
-              class="text-bold flex items-center bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer hover:scale-105"
-            >
-              @if (isSaving) {
-              <svg
-                class="animate-spin h-5 w-5 mr-2 text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  class="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  stroke-width="4"
-                ></circle>
-                <path
-                  class="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                ></path>
-              </svg>
-              Salvando... } @else { Salvar Despesa }
-            </button>
-          </div>
-        </form>
-
-        <!-- Formulário de Receita -->
-        <form
-          *ngIf="modalType === 'Receita'"
-          (ngSubmit)="submitReceita()"
-          class="space-y-5"
-        >
-          <div class="animate-slideUp" style="animation-delay: 0.1s">
-            <label class="block text-sm font-medium text-[#5e6d72] mb-1"
-              >Valor</label
-            >
-            <div class="relative group">
-              <span
-                class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389] group-focus-within:text-[#1C6956] transition-colors"
-              >
-                <i class="fas fa-dollar-sign"></i>
-              </span>
-              <input
-                type="number"
-                [(ngModel)]="receita.valor"
-                name="valor"
-                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
-                required
-              />
-            </div>
-          </div>
-          <div class="animate-slideUp" style="animation-delay: 0.2s">
-            <label class="block text-sm font-medium text-[#5e6d72] mb-1"
-              >Data</label
-            >
-            <div class="relative group">
-              <span
-                class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389] group-focus-within:text-[#1C6956] transition-colors"
-              >
-                <i class="fas fa-calendar"></i>
-              </span>
-              <input
-                type="date"
-                [(ngModel)]="receita.data"
-                name="data"
-                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
-                required
-              />
-            </div>
-          </div>
-
-          <div class="animate-slideUp" style="animation-delay: 0.3s">
-            <label class="block text-sm font-medium text-[#5e6d72] mb-1"
-              >Categoria</label
-            >
-            <div class="relative group">
-              <span
-                class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389] group-focus-within:text-[#1C6956] transition-colors"
-              >
-                <i class="fas fa-tag"></i>
-              </span>
-              <select
-                [(ngModel)]="receita.categoria"
-                name="categoria"
-                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all appearance-none"
-                required
-              >
-                <option
-                  *ngFor="let categoria of categoriasReceitas"
-                  [value]="categoria.id"
-                >
-                  {{ categoria.nome }}
-                </option>
-              </select>
-              <span
-                class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-[#748389]"
-              >
-                <i class="fas fa-chevron-down"></i>
-              </span>
-            </div>
-          </div>
-
-          <!-- Campo Conta -->
-          <div class="animate-slideUp" style="animation-delay: 0.4s">
-            <label class="block text-sm font-medium text-[#5e6d72] mb-1"
-              >Conta</label
-            >
-            <div class="relative group">
-              <span
-                class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389] group-focus-within:text-[#1C6956] transition-colors"
-              >
-                <i class="fas fa-wallet"></i>
-              </span>
-              <select
-                [(ngModel)]="receita.contaId"
-                name="contaId"
-                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all appearance-none"
-                required
-              >
-                <option *ngFor="let conta of contas" [value]="conta.id">
-                  {{ conta.nome }}
-                </option>
-              </select>
-              <span
-                class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-[#748389]"
-              >
-                <i class="fas fa-chevron-down"></i>
-              </span>
-            </div>
-          </div>
-          <div class="animate-slideUp" style="animation-delay: 0.5s">
-            <label class="block text-sm font-medium text-[#5e6d72] mb-1"
-              >Descrição</label
-            >
-            <div class="relative group">
-              <span
-                class="absolute top-3 left-0 pl-3 flex items-start text-[#748389] group-focus-within:text-[#1C6956] transition-colors"
-              >
-                <i class="fas fa-align-left"></i>
-              </span>
-              <textarea
-                [(ngModel)]="receita.descricao"
-                name="descricao"
-                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
-                rows="3"
-              ></textarea>
-            </div>
-          </div>
-          <div
-            class="border-t border-[#E0E5E7] p-6 flex justify-end space-x-4 animate-slideUp"
-            style="animation-delay: 0.6s"
-          >
-            <button
-              type="button"
-              (click)="closeModal()"
-              class="cursor-pointer px-5 py-2.5 text-[#5e6d72] bg-white border border-[#E0E5E7] rounded-xl shadow-sm hover:bg-[#F8F7F5] focus:ring-2 focus:ring-[#1C6956] focus:border-[#1C6956] transition-all duration-200 hover:scale-105"
-            >
-              Cancelar
-            </button>
-            <button
-              type="submit"
-              class="text-bold flex items-center bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer hover:scale-105"
-            >
-              @if (isSaving) {
-              <svg
-                class="animate-spin h-5 w-5 mr-2 text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  class="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  stroke-width="4"
-                ></circle>
-                <path
-                  class="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                ></path>
-              </svg>
-              Salvando... } @else { Salvar Receita }
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
 
   <!-- Resumo Financeiro com cards modernos -->
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -831,13 +452,13 @@
                   <small class="block text-[#748389]">{{
                     card.bandeira
                   }}</small>
-                  <small class="block text-[#1C6956] font-medium">
-                    Limite:
+                  <small class="block text-[#1C6956] font-medium"
+                    >Limite:
                     {{
                       card.limiteDisponivel
                         | currency : "BRL" : "symbol" : "1.2-2"
-                    }}
-                  </small>
+                    }}</small
+                  >
                 </div>
               </div>
             </div>
@@ -869,6 +490,382 @@
           Gerenciar Cartões
         </button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal com efeito de vidro -->
+<div
+  *ngIf="isModalOpen"
+  class="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-fadeIn"
+>
+  <div
+    class="bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl w-full max-w-md overflow-hidden transform transition-all animate-scaleIn"
+  >
+    <!-- Cabeçalho do Modal -->
+    <div
+      class="flex justify-between items-center p-6 bg-gradient-to-r from-[#1C6956] to-[#013E4C]"
+    >
+      <h3 class="text-xl font-semibold text-white flex items-center">
+        <i
+          class="fas"
+          [ngClass]="
+            modalType === 'Despesa' ? 'fa-minus-circle' : 'fa-plus-circle'
+          "
+          class="mr-2 animate-pulse"
+        ></i>
+        {{ modalTitle }}
+      </h3>
+      <button
+        (click)="closeModal()"
+        class="text-white cursor-pointer rounded-full hover:bg-white/20 p-2 transition duration-200 hover:rotate-90"
+      >
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <!-- Corpo do Modal -->
+    <div class="p-6">
+      <!-- Formulário de Despesa -->
+      <form
+        *ngIf="modalType === 'Despesa'"
+        #despesaForm="ngForm"
+        (ngSubmit)="submitDespesa()"
+        class="space-y-5"
+      >
+        <!-- Campo Valor -->
+        <div class="animate-slideUp" style="animation-delay: 0.1s">
+          <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+            >Valor</label
+          >
+          <div class="relative group">
+            <span
+              class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389] group-focus-within:text-[#1C6956] transition-colors"
+            >
+              <i class="fas fa-dollar-sign"></i>
+            </span>
+            <input
+              type="number"
+              [(ngModel)]="despesa.valor"
+              name="valor"
+              class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
+              required
+            />
+          </div>
+        </div>
+
+        <!-- Campo Data -->
+        <div class="animate-slideUp" style="animation-delay: 0.2s">
+          <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+            >Data</label
+          >
+          <div class="relative group">
+            <span
+              class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389] group-focus-within:text-[#1C6956] transition-colors"
+            >
+              <i class="fas fa-calendar"></i>
+            </span>
+            <input
+              type="date"
+              [(ngModel)]="despesa.data"
+              name="data"
+              class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
+              required
+            />
+          </div>
+        </div>
+
+        <!-- Campo Categoria -->
+        <div class="animate-slideUp" style="animation-delay: 0.3s">
+          <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+            >Categoria</label
+          >
+          <div class="relative group">
+            <span
+              class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389] group-focus-within:text-[#1C6956] transition-colors"
+            >
+              <i class="fas fa-tag"></i>
+            </span>
+            <select
+              [(ngModel)]="despesa.categoria"
+              name="categoria"
+              class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all appearance-none"
+              required
+            >
+              <option
+                *ngFor="let categoria of categoriasDespesas"
+                [value]="categoria.id"
+              >
+                {{ categoria.nome }}
+              </option>
+            </select>
+            <span
+              class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-[#748389]"
+            >
+              <i class="fas fa-chevron-down"></i>
+            </span>
+          </div>
+        </div>
+
+        <!-- Campo Conta/Cartão -->
+        <div class="animate-slideUp" style="animation-delay: 0.4s">
+          <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+            >Conta/Cartão</label
+          >
+          <div class="relative group">
+            <span
+              class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389] group-focus-within:text-[#1C6956] transition-colors"
+            >
+              <i class="fas fa-wallet"></i>
+            </span>
+            <select
+              [(ngModel)]="despesa.contaId"
+              name="contaId"
+              class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all appearance-none"
+              required
+            >
+              <optgroup label="Contas">
+                <option *ngFor="let conta of contas" [value]="conta.id">
+                  {{ conta.nome }}
+                </option>
+              </optgroup>
+              <optgroup label="Cartões">
+                <option *ngFor="let cartao of cartoes" [value]="cartao.id">
+                  {{ cartao.nome }}
+                </option>
+              </optgroup>
+            </select>
+            <span
+              class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-[#748389]"
+            >
+              <i class="fas fa-chevron-down"></i>
+            </span>
+          </div>
+        </div>
+
+        <!-- Campo Descrição -->
+        <div class="animate-slideUp" style="animation-delay: 0.5s">
+          <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+            >Descrição</label
+          >
+          <div class="relative group">
+            <span
+              class="absolute top-3 left-0 pl-3 flex items-start text-[#748389] group-focus-within:text-[#1C6956] transition-colors"
+            >
+              <i class="fas fa-align-left"></i>
+            </span>
+            <textarea
+              [(ngModel)]="despesa.descricao"
+              name="descricao"
+              class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
+              rows="3"
+            ></textarea>
+          </div>
+        </div>
+
+        <div
+          class="border-t border-[#E0E5E7] p-6 flex justify-end space-x-4 animate-slideUp"
+          style="animation-delay: 0.6s"
+        >
+          <button
+            type="button"
+            (click)="closeModal()"
+            class="cursor-pointer px-5 py-2.5 text-[#5e6d72] bg-white border border-[#E0E5E7] rounded-xl shadow-sm hover:bg-[#F8F7F5] focus:ring-2 focus:ring-[#1C6956] focus:border-[#1C6956] transition-all duration-200 hover:scale-105"
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            class="text-bold flex items-center bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer hover:scale-105"
+          >
+            @if (isSaving) {
+            <svg
+              class="animate-spin h-5 w-5 mr-2 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+            Salvando... } @else { Salvar Despesa }
+          </button>
+        </div>
+      </form>
+
+      <!-- Formulário de Receita -->
+      <form
+        *ngIf="modalType === 'Receita'"
+        (ngSubmit)="submitReceita()"
+        class="space-y-5"
+      >
+        <div class="animate-slideUp" style="animation-delay: 0.1s">
+          <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+            >Valor</label
+          >
+          <div class="relative group">
+            <span
+              class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389] group-focus-within:text-[#1C6956] transition-colors"
+            >
+              <i class="fas fa-dollar-sign"></i>
+            </span>
+            <input
+              type="number"
+              [(ngModel)]="receita.valor"
+              name="valor"
+              class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
+              required
+            />
+          </div>
+        </div>
+        <div class="animate-slideUp" style="animation-delay: 0.2s">
+          <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+            >Data</label
+          >
+          <div class="relative group">
+            <span
+              class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389] group-focus-within:text-[#1C6956] transition-colors"
+            >
+              <i class="fas fa-calendar"></i>
+            </span>
+            <input
+              type="date"
+              [(ngModel)]="receita.data"
+              name="data"
+              class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="animate-slideUp" style="animation-delay: 0.3s">
+          <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+            >Categoria</label
+          >
+          <div class="relative group">
+            <span
+              class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389] group-focus-within:text-[#1C6956] transition-colors"
+            >
+              <i class="fas fa-tag"></i>
+            </span>
+            <select
+              [(ngModel)]="receita.categoria"
+              name="categoria"
+              class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all appearance-none"
+              required
+            >
+              <option
+                *ngFor="let categoria of categoriasReceitas"
+                [value]="categoria.id"
+              >
+                {{ categoria.nome }}
+              </option>
+            </select>
+            <span
+              class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-[#748389]"
+            >
+              <i class="fas fa-chevron-down"></i>
+            </span>
+          </div>
+        </div>
+
+        <!-- Campo Conta -->
+        <div class="animate-slideUp" style="animation-delay: 0.4s">
+          <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+            >Conta</label
+          >
+          <div class="relative group">
+            <span
+              class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389] group-focus-within:text-[#1C6956] transition-colors"
+            >
+              <i class="fas fa-wallet"></i>
+            </span>
+            <select
+              [(ngModel)]="receita.contaId"
+              name="contaId"
+              class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all appearance-none"
+              required
+            >
+              <option *ngFor="let conta of contas" [value]="conta.id">
+                {{ conta.nome }}
+              </option>
+            </select>
+            <span
+              class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-[#748389]"
+            >
+              <i class="fas fa-chevron-down"></i>
+            </span>
+          </div>
+        </div>
+        <div class="animate-slideUp" style="animation-delay: 0.5s">
+          <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+            >Descrição</label
+          >
+          <div class="relative group">
+            <span
+              class="absolute top-3 left-0 pl-3 flex items-start text-[#748389] group-focus-within:text-[#1C6956] transition-colors"
+            >
+              <i class="fas fa-align-left"></i>
+            </span>
+            <textarea
+              [(ngModel)]="receita.descricao"
+              name="descricao"
+              class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
+              rows="3"
+            ></textarea>
+          </div>
+        </div>
+        <div
+          class="border-t border-[#E0E5E7] p-6 flex justify-end space-x-4 animate-slideUp"
+          style="animation-delay: 0.6s"
+        >
+          <button
+            type="button"
+            (click)="closeModal()"
+            class="cursor-pointer px-5 py-2.5 text-[#5e6d72] bg-white border border-[#E0E5E7] rounded-xl shadow-sm hover:bg-[#F8F7F5] focus:ring-2 focus:ring-[#1C6956] focus:border-[#1C6956] transition-all duration-200 hover:scale-105"
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            class="text-bold flex items-center bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer hover:scale-105"
+          >
+            @if (isSaving) {
+            <svg
+              class="animate-spin h-5 w-5 mr-2 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+            Salvando... } @else { Salvar Receita }
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

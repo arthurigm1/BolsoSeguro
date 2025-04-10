@@ -37,6 +37,7 @@ export class GraficosgeraisComponent implements OnInit, OnDestroy {
   categorias: string[] = [];
   bancos: string[] = [];
   tipos = ['RECEITA', 'DESPESA'];
+  currentDate = new Date();
 
   // Filter properties
   filtro = {
@@ -248,7 +249,6 @@ export class GraficosgeraisComponent implements OnInit, OnDestroy {
   }
 
   private gerarCorAleatoria(semente: string): string {
-   
     let hash = 0;
     for (let i = 0; i < semente.length; i++) {
       hash = semente.charCodeAt(i) + ((hash << 5) - hash);

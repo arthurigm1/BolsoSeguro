@@ -106,6 +106,12 @@ export class LancamentosComponent implements OnInit {
   getSaldo(): number {
     return this.getTotalReceitas() - this.getTotalDespesas();
   }
+  getRandomHeight(): number {
+    return Math.random() * 80 + 10;
+  }
+  randomBoolean(): boolean {
+    return Math.random() > 0.5;
+  }
   downloadReport() {
     this.isExporting = true;
     const mes = this.selectedDate.getMonth() + 1; // JavaScript months are 0-based

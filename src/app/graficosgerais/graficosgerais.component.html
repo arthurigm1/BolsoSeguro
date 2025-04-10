@@ -1,390 +1,603 @@
-<div class="min-h-screen bg-gradient-to-r from-white to-[#e0e7ec] p-8">
-  <!-- Cabeçalho -->
-  <div
-    class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6"
-  >
-    <div>
-      <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900">
-        <i class="fas fa-chart-pie text-black mr-3"></i> Dashboard Financeiro
-      </h1>
-      <p class="text-gray-600 mt-3 text-lg">
-        Obtenha insights detalhados sobre suas transações financeiras
-      </p>
-    </div>
-
-    <div class="flex items-center gap-6">
-      <div class="relative">
-        <label
-          class="absolute -top-3 left-4 rounded-md bg-white px-2 text-sm text-gray-600"
-          >Período</label
-        >
-        <input
-          type="month"
-          [(ngModel)]="selectedDate"
-          (change)="carregarTransacoes()"
-          class="border bg-white border-gray-300 rounded-lg px-5 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
-        />
-      </div>
-      <button
-        (click)="limparFiltros()"
-        class="flex items-center bg-gradient-to-r from-[#b6c6cc] to-[#5e6d72] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 font-semibold cursor-pointer"
+<div
+  class="min-h-screen bg-[#F8F7F5] py-8 px-4 sm:px-6 transition-all duration-500"
+>
+  <div class="mx-auto max-w-7xl">
+    <!-- Header com Efeito Glassmorphism e Animação -->
+    <div
+      class="px-6 py-5 sm:px-8 sm:py-6 mb-6 rounded-2xl bg-white/80 backdrop-blur-lg border border-white/20 shadow-lg transform hover:scale-[1.01] transition-all duration-300 animate-fade-in"
+    >
+      <div
+        class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
       >
-        <i class="fas fa-sync-alt font-bold"> Resetar </i>
-      </button>
-    </div>
-  </div>
-
-  <!-- Cards Resumo -->
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-    <!-- Card Receitas -->
-    <div
-      class="bg-gradient-to-br from-green-50 to-green-100 p-5 rounded-xl border border-green-100 shadow-sm"
-    >
-      <div class="flex justify-between items-center">
-        <div>
-          <p
-            class="text-gray-500 text-xs font-semibold uppercase tracking-wide"
+        <div class="space-y-2">
+          <h1
+            class="text-4xl sm:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#1C6956] via-[#013E4C] to-[#1C6956] animate-gradient-x"
           >
-            Receitas
+            Dashboard Financeiro
+          </h1>
+          <p class="text-[#5e6d72] text-sm sm:text-base flex items-center">
+            <i class="fas fa-chart-line mr-2 text-[#1C6956]"></i>
+            Análise detalhada do seu fluxo financeiro
           </p>
-          <h3 class="text-2xl font-bold text-black mt-1">
-            {{ totalReceitas | currency : "BRL" : "symbol" : "1.2-2" }}
-          </h3>
         </div>
-        <div
-          class="w-12 h-12 rounded-lg bg-gradient-to-r from-green-400 to-green-600 flex items-center justify-center shadow-md"
-        >
-          <i class="fas fa-arrow-up text-white text-xl"></i>
-        </div>
-      </div>
-    </div>
 
-    <!-- Card Despesas -->
-    <div
-      class="bg-gradient-to-br from-red-50 to-red-100 p-5 rounded-xl border border-red-100 shadow-sm"
-    >
-      <div class="flex justify-between items-center">
-        <div>
-          <p
-            class="text-gray-500 text-xs font-semibold uppercase tracking-wide"
-          >
-            Despesas
-          </p>
-          <h3 class="text-2xl font-bold text-black mt-1">
-            {{ totalDespesas | currency : "BRL" : "symbol" : "1.2-2" }}
-          </h3>
-        </div>
-        <div
-          class="w-12 h-12 rounded-lg bg-gradient-to-r from-red-400 to-red-600 flex items-center justify-center shadow-md"
-        >
-          <i class="fas fa-arrow-down text-white text-xl"></i>
-        </div>
-      </div>
-    </div>
-
-    <!-- Card Saldo -->
-    <div
-      class="bg-white rounded-xl shadow-md p-4 border border-gray-200 hover:shadow-lg transition-all"
-    >
-      <div class="flex justify-between items-center">
-        <div>
-          <p
-            class="text-gray-500 text-xs font-semibold uppercase tracking-wide"
-          >
-            Saldo
-          </p>
-          <h3
-            class="text-2xl font-bold mt-1"
-            [ngClass]="saldo >= 0 ? 'text-green-700' : 'text-red-600'"
-          >
-            {{ saldo | currency : "BRL" : "symbol" : "1.2-2" }}
-          </h3>
-        </div>
-        <div
-          class="w-14 h-14 rounded-lg bg-gray-100 flex items-center justify-center"
-        >
-          <i class="fas fa-wallet text-2xl text-gray-700"></i>
-        </div>
-      </div>
-      <div class="mt-3 pt-2 border-t border-gray-100">
-        <div
-          class="flex items-center text-sm font-medium"
-          [ngClass]="saldo >= 0 ? 'text-green-600' : 'text-red-600'"
-        >
-          <i
-            class="fas mr-2"
-            [class.fa-check-circle]="saldo >= 0"
-            [class.fa-times-circle]="saldo < 0"
-          ></i>
-          <span
-            >{{ saldo >= 0 ? "Saldo positivo" : "Saldo negativo" }} no
-            período</span
-          >
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Filtros Avançados -->
-  <div class="bg-white rounded-xl shadow-md p-5 border border-gray-200 mb-8">
-    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-      <i class="fas fa-filter text-gray-700 mr-2"></i> Filtros Avançados
-    </h3>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      <!-- Filtro por Data -->
-      <div>
-        <label
-          class="block text-sm font-medium text-gray-700 mb-1 cursor-pointer"
-          >Período</label
-        >
-        <div class="grid grid-cols-2 gap-2">
+        <!-- Controles de Período -->
+        <div class="flex items-center flex-wrap gap-3">
           <div class="relative">
+            <label
+              class="absolute -top-2 left-3 bg-white px-2 text-xs text-[#5e6d72]"
+              >Período</label
+            >
             <input
-              type="date"
-              [(ngModel)]="filtro.dataInicio"
-              (change)="aplicarFiltros()"
-              class="w-full border border-gray-300 rounded-md py-2 px-3 text-sm focus:ring-2 focus:ring-gray-500 focus:border-gray-500"
+              type="month"
+              [(ngModel)]="selectedDate"
+              (change)="carregarTransacoes()"
+              class="px-4 py-2.5 bg-white text-[#013E4C] rounded-xl font-medium shadow-sm border border-[#E0E5E7] focus:outline-none focus:ring-2 focus:ring-[#1C6956]/50"
             />
-            <i
-              class="fas fa-calendar-day absolute right-3 top-2.5 text-gray-400 text-sm cursor-pointer"
-            ></i>
           </div>
-          <div class="relative">
-            <input
-              type="date"
-              [(ngModel)]="filtro.dataFim"
-              (change)="aplicarFiltros()"
-              class="w-full border border-gray-300 rounded-md py-2 px-3 text-sm focus:ring-2 focus:ring-gray-500 focus:border-gray-500"
-            />
-            <i
-              class="fas fa-calendar-day absolute right-3 top-2.5 text-gray-400 text-sm"
-            ></i>
+          <button
+            (click)="limparFiltros()"
+            class="px-4 py-2.5 text-sm bg-white hover:bg-[#D8EAE5] text-[#5e6d72] hover:text-[#1C6956] rounded-xl font-medium shadow-sm hover:shadow-md transition-all focus:outline-none focus:ring-2 focus:ring-[#1C6956]/50 focus:ring-opacity-50 transform hover:scale-[1.02] active:scale-95 flex items-center"
+          >
+            <i class="fas fa-sync-alt mr-2"></i>
+            Resetar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Container Principal com Efeito de Profundidade -->
+    <div
+      class="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden border border-white/20 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
+    >
+      <!-- Área de Conteúdo -->
+      <div class="p-6 sm:p-8">
+        <!-- Estado de Erro com Animação -->
+        @if (error) {
+        <div
+          class="bg-red-50 border-l-4 border-red-400 p-4 mb-6 rounded-lg flex items-start animate-fade-in"
+        >
+          <div class="flex-shrink-0">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 text-red-500"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </div>
+          <div class="ml-3">
+            <p class="text-sm text-red-700">{{ error }}</p>
           </div>
         </div>
-      </div>
+        }
 
-      <!-- Filtro por Categoria -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1"
-          >Categoria</label
-        >
+        <!-- Conteúdo Principal -->
         <div class="relative">
-          <select
-            [(ngModel)]="filtro.categoria"
-            (change)="aplicarFiltros()"
-            class="w-full border border-gray-300 rounded-md py-2 px-3 text-sm focus:ring-2 focus:ring-gray-500 focus:border-gray-500 appearance-none"
+          <!-- Loading State -->
+          @if (loading) {
+          <div
+            class="absolute inset-0 bg-white/80 backdrop-blur-sm rounded-xl flex items-center justify-center z-10"
           >
-            <option value="">Todas categorias</option>
-            <option *ngFor="let cat of categorias" [value]="cat">
-              {{ cat }}
-            </option>
-          </select>
-          <i
-            class="fas fa-chevron-down absolute right-3 top-3 text-gray-400 text-xs"
-          ></i>
-        </div>
-      </div>
+            <div class="text-center p-6">
+              <div class="relative inline-block mb-4">
+                <div
+                  class="w-16 h-16 rounded-full bg-[#D8EAE5] opacity-30 absolute inset-0 animate-ping"
+                ></div>
+                <div
+                  class="relative w-16 h-16 rounded-full bg-gradient-to-br from-[#1C6956] to-[#013E4C] flex items-center justify-center shadow-lg"
+                >
+                  <i class="fas fa-chart-line text-white text-xl"></i>
+                </div>
+              </div>
+              <p class="text-[#748389] text-sm">
+                Processando dados financeiros...
+              </p>
+            </div>
+          </div>
+          }
 
-      <!-- Filtro por Banco -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1"
-          >Banco</label
-        >
-        <div class="relative">
-          <select
-            [(ngModel)]="filtro.banco"
-            (change)="aplicarFiltros()"
-            class="w-full border border-gray-300 rounded-md py-2 px-3 text-sm focus:ring-2 focus:ring-gray-500 focus:border-gray-500 appearance-none"
+          <!-- Cards de Resumo -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <!-- Card de Receitas -->
+            <div
+              class="bg-white p-6 rounded-xl border border-[#E0E5E7] shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:border-[#1C6956]/30 group"
+            >
+              <div class="flex items-center justify-between">
+                <div>
+                  <p
+                    class="text-sm font-medium text-[#5e6d72] flex items-center"
+                  >
+                    <i class="fas fa-arrow-up mr-2 text-[#1C6956]"></i>
+                    Receitas
+                  </p>
+                  <p
+                    class="text-3xl font-bold text-[#1C6956] mt-2 animate-count-up"
+                  >
+                    {{ totalReceitas | currency : "BRL" : "symbol" : "1.2-2" }}
+                  </p>
+                  <div class="mt-4 flex items-center">
+                    <span class="text-xs font-medium text-[#5e6d72]"
+                      >vs último mês</span
+                    >
+                    <span
+                      class="ml-2 px-2 py-1 rounded-full bg-[#D8EAE5] text-[#1C6956] text-xs font-medium flex items-center"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-3 w-3 mr-1"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                      +{{ (variacaoReceitas * 100).toFixed(1) }}%
+                    </span>
+                  </div>
+                </div>
+                <div
+                  class="w-12 h-12 rounded-xl bg-gradient-to-br from-[#1C6956] to-[#013E4C] flex items-center justify-center shadow-md group-hover:rotate-12 transition-transform duration-300"
+                >
+                  <i class="fas fa-arrow-up text-white text-xl"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card de Despesas -->
+            <div
+              class="bg-white p-6 rounded-xl border border-[#E0E5E7] shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:border-[#748389]/30 group"
+            >
+              <div class="flex items-center justify-between">
+                <div>
+                  <p
+                    class="text-sm font-medium text-[#5e6d72] flex items-center"
+                  >
+                    <i class="fas fa-arrow-down mr-2 text-[#748389]"></i>
+                    Despesas
+                  </p>
+                  <p
+                    class="text-3xl font-bold text-[#748389] mt-2 animate-count-up"
+                  >
+                    {{ totalDespesas | currency : "BRL" : "symbol" : "1.2-2" }}
+                  </p>
+                  <div class="mt-4 flex items-center">
+                    <span class="text-xs font-medium text-[#5e6d72]"
+                      >vs último mês</span
+                    >
+                    <span
+                      class="ml-2 px-2 py-1 rounded-full bg-[#F8F7F5] text-[#748389] text-xs font-medium flex items-center"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-3 w-3 mr-1"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M12 13a1 1 0 100 2h5a1 1 0 001-1v-5a1 1 0 10-2 0v2.586l-4.293-4.293a1 1 0 00-1.414 0L8 9.586l-4.293-4.293a1 1 0 00-1.414 1.414l5 5a1 1 0 001.414 0L11 9.414 14.586 13H12z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                      {{ (variacaoDespesas * 100).toFixed(1) }}%
+                    </span>
+                  </div>
+                </div>
+                <div
+                  class="w-12 h-12 rounded-xl bg-gradient-to-br from-[#748389] to-[#5e6d72] flex items-center justify-center shadow-md group-hover:-rotate-12 transition-transform duration-300"
+                >
+                  <i class="fas fa-arrow-down text-white text-xl"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card de Saldo -->
+            <div
+              class="bg-white p-6 rounded-xl border border-[#E0E5E7] shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:border-[#013E4C]/30 group"
+            >
+              <div class="flex items-center justify-between">
+                <div>
+                  <p
+                    class="text-sm font-medium text-[#5e6d72] flex items-center"
+                  >
+                    <i class="fas fa-wallet mr-2 text-[#013E4C]"></i>
+                    Saldo
+                  </p>
+                  <p
+                    class="text-3xl font-bold mt-2 animate-count-up"
+                    [ngClass]="{
+                      'text-[#1C6956]': saldo >= 0,
+                      'text-[#748389]': saldo < 0
+                    }"
+                  >
+                    {{ saldo | currency : "BRL" : "symbol" : "1.2-2" }}
+                  </p>
+                  <div class="mt-4 flex items-center">
+                    <span class="text-xs font-medium text-[#5e6d72]"
+                      >variação</span
+                    >
+                    <span
+                      class="ml-2 px-2 py-1 rounded-full bg-[#F8F7F5] text-[#013E4C] text-xs font-medium"
+                    >
+                      {{ (variacaoSaldo * 100).toFixed(1) }}%
+                    </span>
+                  </div>
+                </div>
+                <div
+                  class="w-12 h-12 rounded-xl bg-gradient-to-br from-[#013E4C] to-[#1C6956] flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-300"
+                >
+                  <i class="fas fa-wallet text-white text-xl"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filtros Avançados -->
+          <div class="bg-[#F8F7F5] rounded-xl p-6 mb-8 border border-[#E0E5E7]">
+            <h3
+              class="text-lg font-semibold text-[#013E4C] mb-4 flex items-center"
+            >
+              <i class="fas fa-filter mr-2 text-[#1C6956]"></i>
+              Filtros Avançados
+            </h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <!-- Filtro por Data -->
+              <div>
+                <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+                  >Período</label
+                >
+                <div class="grid grid-cols-2 gap-2">
+                  <div class="relative">
+                    <input
+                      type="date"
+                      [(ngModel)]="filtro.dataInicio"
+                      (change)="aplicarFiltros()"
+                      class="w-full border border-[#E0E5E7] rounded-lg py-2 px-3 text-sm focus:ring-2 focus:ring-[#1C6956]/50 focus:border-[#1C6956] bg-white"
+                    />
+                    <i
+                      class="fas fa-calendar-day absolute right-3 top-2.5 text-[#748389] text-sm"
+                    ></i>
+                  </div>
+                  <div class="relative">
+                    <input
+                      type="date"
+                      [(ngModel)]="filtro.dataFim"
+                      (change)="aplicarFiltros()"
+                      class="w-full border border-[#E0E5E7] rounded-lg py-2 px-3 text-sm focus:ring-2 focus:ring-[#1C6956]/50 focus:border-[#1C6956] bg-white"
+                    />
+                    <i
+                      class="fas fa-calendar-day absolute right-3 top-2.5 text-[#748389] text-sm"
+                    ></i>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Filtro por Categoria -->
+              <div>
+                <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+                  >Categoria</label
+                >
+                <div class="relative">
+                  <select
+                    [(ngModel)]="filtro.categoria"
+                    (change)="aplicarFiltros()"
+                    class="w-full border border-[#E0E5E7] rounded-lg py-2 px-3 text-sm focus:ring-2 focus:ring-[#1C6956]/50 focus:border-[#1C6956] bg-white appearance-none"
+                  >
+                    <option value="">Todas categorias</option>
+                    <option *ngFor="let cat of categorias" [value]="cat">
+                      {{ cat }}
+                    </option>
+                  </select>
+                  <i
+                    class="fas fa-chevron-down absolute right-3 top-3 text-[#748389] text-xs"
+                  ></i>
+                </div>
+              </div>
+
+              <!-- Filtro por Banco -->
+              <div>
+                <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+                  >Banco</label
+                >
+                <div class="relative">
+                  <select
+                    [(ngModel)]="filtro.banco"
+                    (change)="aplicarFiltros()"
+                    class="w-full border border-[#E0E5E7] rounded-lg py-2 px-3 text-sm focus:ring-2 focus:ring-[#1C6956]/50 focus:border-[#1C6956] bg-white appearance-none"
+                  >
+                    <option value="">Todos bancos</option>
+                    <option *ngFor="let banco of bancos" [value]="banco">
+                      {{ banco }}
+                    </option>
+                  </select>
+                  <i
+                    class="fas fa-chevron-down absolute right-3 top-3 text-[#748389] text-xs"
+                  ></i>
+                </div>
+              </div>
+
+              <!-- Filtro por Tipo -->
+              <div>
+                <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+                  >Tipo</label
+                >
+                <div class="relative">
+                  <select
+                    [(ngModel)]="filtro.tipo"
+                    (change)="aplicarFiltros()"
+                    class="w-full border border-[#E0E5E7] rounded-lg py-2 px-3 text-sm focus:ring-2 focus:ring-[#1C6956]/50 focus:border-[#1C6956] bg-white appearance-none"
+                  >
+                    <option value="">Todos tipos</option>
+                    <option *ngFor="let tipo of tipos" [value]="tipo">
+                      {{ tipo }}
+                    </option>
+                  </select>
+                  <i
+                    class="fas fa-chevron-down absolute right-3 top-3 text-[#748389] text-xs"
+                  ></i>
+                </div>
+              </div>
+
+              <!-- Filtro por Descrição -->
+              <div class="md:col-span-2 lg:col-span-1">
+                <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+                  >Busca</label
+                >
+                <div class="relative">
+                  <input
+                    type="text"
+                    [(ngModel)]="filtro.descricao"
+                    (input)="aplicarFiltros()"
+                    placeholder="Pesquisar descrição..."
+                    class="w-full border border-[#E0E5E7] rounded-lg py-2 px-3 pl-10 text-sm focus:ring-2 focus:ring-[#1C6956]/50 focus:border-[#1C6956] bg-white"
+                  />
+                  <i
+                    class="fas fa-search absolute left-3 top-2.5 text-[#748389] text-sm"
+                  ></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Seletor de Visualização -->
+          <div
+            class="bg-white rounded-xl p-4 border border-[#E0E5E7] mb-6 shadow-sm"
           >
-            <option value="">Todos bancos</option>
-            <option *ngFor="let banco of bancos" [value]="banco">
-              {{ banco }}
-            </option>
-          </select>
-          <i
-            class="fas fa-chevron-down absolute right-3 top-3 text-gray-400 text-xs"
-          ></i>
+            <div class="flex flex-wrap items-center gap-3">
+              <button
+                *ngFor="let view of views"
+                (click)="mudarVisualizacao(view.id)"
+                class="px-4 py-2 rounded-lg flex items-center gap-2 transition-all duration-300"
+                [ngClass]="{
+                  'bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white shadow-md':
+                    activeView === view.id,
+                  'bg-[#F8F7F5] text-[#5e6d72] hover:bg-[#D8EAE5] hover:text-[#1C6956]':
+                    activeView !== view.id
+                }"
+              >
+                <i [class]="view.icon"></i>
+                <span>{{ view.label }}</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Gráficos -->
+          <div class="space-y-6">
+            <!-- Visão Geral -->
+            <div
+              *ngIf="activeView === 'overview'"
+              class="grid grid-cols-1 lg:grid-cols-2 gap-6"
+            >
+              <!-- Gráfico de Pizza -->
+              <div
+                class="bg-white rounded-xl p-5 border border-[#E0E5E7] shadow-sm hover:shadow-md transition-all duration-300"
+              >
+                <div class="flex justify-between items-center mb-4">
+                  <h3
+                    class="text-lg font-semibold text-[#013E4C] flex items-center"
+                  >
+                    <i class="fas fa-chart-pie mr-2 text-[#1C6956]"></i>
+                    Distribuição de Gastos
+                  </h3>
+                </div>
+                <div class="h-80">
+                  <canvas id="pieChart"></canvas>
+                </div>
+              </div>
+
+              <!-- Gráfico de Barras -->
+              <div
+                class="bg-white rounded-xl p-5 border border-[#E0E5E7] shadow-sm hover:shadow-md transition-all duration-300"
+              >
+                <div class="flex justify-between items-center mb-4">
+                  <h3
+                    class="text-lg font-semibold text-[#013E4C] flex items-center"
+                  >
+                    <i class="fas fa-chart-bar mr-2 text-[#1C6956]"></i>
+                    Receitas vs Despesas
+                  </h3>
+                </div>
+                <div class="h-80">
+                  <canvas id="barChart"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <!-- Linha do Tempo -->
+            <div
+              *ngIf="activeView === 'timeline'"
+              class="bg-white rounded-xl p-5 border border-[#E0E5E7] shadow-sm hover:shadow-md transition-all duration-300"
+            >
+              <div class="flex justify-between items-center mb-4">
+                <h3
+                  class="text-lg font-semibold text-[#013E4C] flex items-center"
+                >
+                  <i class="fas fa-chart-line mr-2 text-[#1C6956]"></i>
+                  Evolução Financeira
+                </h3>
+              </div>
+              <div class="h-96">
+                <canvas id="lineChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Por Banco -->
+            <div
+              *ngIf="activeView === 'banks'"
+              class="bg-white rounded-xl p-5 border border-[#E0E5E7] shadow-sm hover:shadow-md transition-all duration-300"
+            >
+              <div class="flex justify-between items-center mb-4">
+                <h3
+                  class="text-lg font-semibold text-[#013E4C] flex items-center"
+                >
+                  <i class="fas fa-university mr-2 text-[#1C6956]"></i>
+                  Análise por Banco
+                </h3>
+              </div>
+              <div class="h-96">
+                <canvas id="bankChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Por Categoria -->
+            <div
+              *ngIf="activeView === 'categories'"
+              class="bg-white rounded-xl p-5 border border-[#E0E5E7] shadow-sm hover:shadow-md transition-all duration-300"
+            >
+              <div class="flex justify-between items-center mb-4">
+                <h3
+                  class="text-lg font-semibold text-[#013E4C] flex items-center"
+                >
+                  <i class="fas fa-tags mr-2 text-[#1C6956]"></i>
+                  Detalhamento por Categoria
+                </h3>
+              </div>
+              <div class="h-96">
+                <canvas id="categoryChart"></canvas>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Filtro por Tipo -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Tipo</label>
-        <div class="relative">
-          <select
-            [(ngModel)]="filtro.tipo"
-            (change)="aplicarFiltros()"
-            class="w-full border border-gray-300 rounded-md py-2 px-3 text-sm focus:ring-2 focus:ring-gray-500 focus:border-gray-500 appearance-none"
-          >
-            <option value="">Todos tipos</option>
-            <option *ngFor="let tipo of tipos" [value]="tipo">
-              {{ tipo }}
-            </option>
-          </select>
-          <i
-            class="fas fa-chevron-down absolute right-3 top-3 text-gray-400 text-xs"
-          ></i>
-        </div>
-      </div>
-
-      <!-- Filtro por Descrição -->
-      <div class="md:col-span-2 lg:col-span-1">
-        <label class="block text-sm font-medium text-gray-700 mb-1"
-          >Busca</label
+      <!-- Rodapé com UI Aprimorada -->
+      <div class="bg-[#F8F7F5] px-6 py-4 border-t border-[#E0E5E7]">
+        <div
+          class="flex flex-col sm:flex-row justify-between items-center text-sm text-[#748389] gap-2"
         >
-        <div class="relative">
-          <input
-            type="text"
-            [(ngModel)]="filtro.descricao"
-            (input)="aplicarFiltros()"
-            placeholder="Pesquisar descrição..."
-            class="w-full border border-gray-300 rounded-md py-2 px-3 pl-10 text-sm focus:ring-2 focus:ring-gray-500 focus:border-gray-500"
-          />
-          <i
-            class="fas fa-search absolute left-3 top-2.5 text-gray-400 text-sm"
-          ></i>
+          <div class="flex items-center">
+            <i class="far fa-clock mr-1.5 text-xs"></i>
+            Atualizado em {{ currentDate | date : "dd/MM/yyyy 'às' HH:mm" }}
+          </div>
+          <div class="flex items-center space-x-4">
+            <div class="flex items-center">
+              <span class="hidden sm:inline mr-2">Total:</span>
+              <span class="font-medium text-[#013E4C]">{{
+                transacoes.length
+              }}</span>
+              <span class="ml-1"
+                >transação{{ transacoes.length !== 1 ? "es" : "" }}</span
+              >
+            </div>
+            <button
+              class="text-[#1C6956] hover:text-[#013E4C] flex items-center text-sm"
+            >
+              <i class="fas fa-question-circle mr-1"></i> Ajuda
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-
-  <!-- Seletor de Visualização -->
-  <div class="bg-white rounded-xl shadow-md p-4 border border-gray-200 mb-6">
-    <div class="flex flex-wrap items-center gap-3">
-      <button
-        *ngFor="let view of views"
-        (click)="mudarVisualizacao(view.id)"
-        class="px-4 py-2 rounded-lg flex items-center gap-2 transition-colors cursor-pointer"
-        [ngClass]="{
-          'bg-gray-800 text-white': activeView === view.id,
-          'bg-gray-100 text-gray-700 hover:bg-gray-200': activeView !== view.id
-        }"
-      >
-        <i [class]="view.icon"></i>
-        <span>{{ view.label }}</span>
-      </button>
-    </div>
-  </div>
-
-  <!-- Gráficos -->
-  <div class="space-y-6">
-    <!-- Visão Geral -->
-    <div
-      *ngIf="activeView === 'overview'"
-      class="grid grid-cols-1 lg:grid-cols-2 gap-6"
-    >
-      <!-- Gráfico de Pizza -->
-      <div class="bg-white rounded-xl shadow-md p-5 border border-gray-200">
-        <div class="flex justify-between items-center mb-4">
-          <h3 class="text-lg font-semibold text-gray-800">
-            <i class="fas fa-chart-pie text-gray-700 mr-2"></i> Distribuição de
-            Gastos
-          </h3>
-          <div class="flex items-center gap-2"></div>
-        </div>
-        <div class="h-80">
-          <canvas id="pieChart"></canvas>
-        </div>
-      </div>
-
-      <!-- Gráfico de Barras -->
-      <div class="bg-white rounded-xl shadow-md p-5 border border-gray-200">
-        <div class="flex justify-between items-center mb-4">
-          <h3 class="text-lg font-semibold text-gray-800">
-            <i class="fas fa-chart-bar text-gray-700 mr-2"></i> Receitas vs
-            Despesas
-          </h3>
-          <div class="flex items-center gap-2"></div>
-        </div>
-        <div class="h-80">
-          <canvas id="barChart"></canvas>
-        </div>
-      </div>
-    </div>
-
-    <!-- Linha do Tempo -->
-    <div
-      *ngIf="activeView === 'timeline'"
-      class="bg-white rounded-xl shadow-md p-5 border border-gray-200"
-    >
-      <div class="flex justify-between items-center mb-4">
-        <h3 class="text-lg font-semibold text-gray-800">
-          <i class="fas fa-chart-line text-gray-700 mr-2"></i> Evolução
-          Financeira
-        </h3>
-        <div class="flex items-center gap-2"></div>
-      </div>
-      <div class="h-96">
-        <canvas id="lineChart"></canvas>
-      </div>
-    </div>
-
-    <!-- Por Banco -->
-    <div
-      *ngIf="activeView === 'banks'"
-      class="bg-white rounded-xl shadow-md p-5 border border-gray-200"
-    >
-      <div class="flex justify-between items-center mb-4">
-        <h3 class="text-lg font-semibold text-gray-800">
-          <i class="fas fa-university text-gray-700 mr-2"></i> Análise por Banco
-        </h3>
-        <div class="flex items-center gap-2"></div>
-      </div>
-      <div class="h-96">
-        <canvas id="bankChart"></canvas>
-      </div>
-    </div>
-
-    <!-- Por Categoria -->
-    <div
-      *ngIf="activeView === 'categories'"
-      class="bg-white rounded-xl shadow-md p-5 border border-gray-200"
-    >
-      <div class="flex justify-between items-center mb-4">
-        <h3 class="text-lg font-semibold text-gray-800">
-          <i class="fas fa-tags text-gray-700 mr-2"></i> Detalhamento por
-          Categoria
-        </h3>
-        <div class="flex items-center gap-2"></div>
-      </div>
-      <div class="h-96">
-        <canvas id="categoryChart"></canvas>
-      </div>
-    </div>
-  </div>
-
-  <!-- Loading State -->
-  <div
-    *ngIf="loading"
-    class="fixed inset-0 bg-opacity-50 backdrop-blur-md flex items-center justify-center z-50"
-  >
-    <div class="bg-white rounded-xl p-8 max-w-md text-center">
-      <i class="fas fa-spinner fa-spin text-4xl text-gray-700 mb-4"></i>
-      <h3 class="text-xl font-semibold text-gray-800 mb-2">
-        Processando dados
-      </h3>
-      <p class="text-gray-600">
-        Estamos analisando suas transações financeiras...
-      </p>
-    </div>
-  </div>
-
-  <!-- Error State -->
-  <div
-    *ngIf="error"
-    class="fixed inset-0 bg-opacity-50 backdrop-blur-md flex items-center justify-center z-50"
-  >
-    <div class="bg-white rounded-xl p-8 max-w-md text-center">
-      <i class="fas fa-exclamation-triangle text-4xl text-gray-700 mb-4"></i>
-      <h3 class="text-xl font-semibold text-gray-800 mb-2">Ocorreu um erro</h3>
-      <p class="text-gray-600 mb-4">{{ error }}</p>
-      <button
-        (click)="error = ''; carregarTransacoes()"
-        class="px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700 transition-colors"
-      >
-        <i class="fas fa-sync-alt mr-2"></i> Tentar novamente
-      </button>
     </div>
   </div>
 </div>
+
+<!-- Animações CSS -->
+<style>
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes countUp {
+    from {
+      opacity: 0;
+      transform: translateY(5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes bounceSlow {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes progress {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
+  }
+
+  @keyframes gradient-x {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+
+  .animate-fade-in-up {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+
+  .animate-count-up {
+    animation: countUp 0.8s ease-out forwards;
+  }
+
+  .animate-bounce-slow {
+    animation: bounceSlow 3s infinite ease-in-out;
+  }
+
+  .animate-progress {
+    animation: progress 2s ease-in-out infinite alternate;
+  }
+
+  .animate-gradient-x {
+    background-size: 200% 200%;
+    animation: gradient-x 15s ease infinite;
+  }
+</style>
