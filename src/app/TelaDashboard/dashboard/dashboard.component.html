@@ -2,13 +2,13 @@
 <div
   class="min-h-screen flex items-center justify-center bg-gradient-to-r from-[#F8F7F5] to-[#D8EAE5] p-8"
 >
-  <div class="text-center">
+  <div class="text-center animate-fadeIn">
     <div class="relative w-24 h-24 mx-auto mb-6">
       <div
         class="absolute inset-0 rounded-full border-4 border-[#1C6956] border-t-transparent animate-spin"
       ></div>
       <div class="absolute inset-0 flex items-center justify-center">
-        <i class="fas fa-wallet text-[#1C6956] text-3xl"></i>
+        <i class="fas fa-wallet text-[#1C6956] text-3xl animate-pulse"></i>
       </div>
     </div>
     <p class="mt-4 text-lg font-medium text-[#5e6d72]">
@@ -18,36 +18,45 @@
 </div>
 } @else {
 <div
-  class="min-h-screen bg-gradient-to-r from-[#F8F7F5] to-[#D8EAE5] p-4 md:p-8"
+  class="min-h-screen bg-gradient-to-br from-[#F8F7F5] via-[#F8F7F5] to-[#D8EAE5] p-4 md:p-8 transition-all duration-500 animate-fadeIn"
 >
-  <!-- Cabeçalho -->
+  <!-- Cabeçalho com efeito de vidro -->
   <header
-    class="bg-white rounded-2xl shadow-lg p-6 mb-8 flex flex-col md:flex-row justify-between items-center gap-6 relative overflow-hidden"
+    class="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl p-6 mb-8 flex flex-col md:flex-row justify-between items-center gap-6 relative overflow-hidden border border-white/20 animate-slideDown"
   >
-    <!-- Elemento decorativo -->
+    <!-- Elementos decorativos -->
     <div
-      class="absolute top-0 right-0 w-64 h-64 bg-[#D8EAE5] opacity-30 rounded-full -mr-32 -mt-32"
+      class="absolute top-0 right-0 w-64 h-64 bg-[#D8EAE5] opacity-30 rounded-full -mr-32 -mt-32 animate-pulse"
+    ></div>
+    <div
+      class="absolute bottom-0 left-0 w-48 h-48 bg-[#1C6956] opacity-10 rounded-full -ml-24 -mb-24 animate-pulse"
     ></div>
 
-    <!-- Texto de boas-vindas -->
-    <div class="relative z-10">
-      <h1 class="text-3xl md:text-4xl font-bold text-[#013E4C]">
-        Olá, {{ nome }}!
+    <!-- Texto de boas-vindas com animação -->
+    <div class="relative z-10 animate-fadeIn">
+      <h1
+        class="text-3xl md:text-4xl font-bold text-[#013E4C] flex items-center"
+      >
+        <span
+          class="bg-gradient-to-r from-[#1C6956] to-[#013E4C] bg-clip-text text-transparent"
+          >Olá, {{ nome }}!</span
+        >
+        <span class="ml-2 text-2xl animate-wave">👋</span>
       </h1>
       <p class="text-[#5e6d72] mt-2 flex items-center">
-        <i class="fas fa-chart-line mr-2 text-[#1C6956]"></i>
+        <i class="fas fa-chart-line mr-2 text-[#1C6956] animate-bounce"></i>
         Gerencie suas finanças de forma inteligente.
       </p>
     </div>
 
-    <!-- Acesso Rápido -->
+    <!-- Acesso Rápido com efeito de vidro -->
     <div
-      class="bg-white p-5 rounded-xl shadow-md w-full md:w-auto border border-[#E0E5E7] relative z-10"
+      class="bg-white/70 backdrop-blur-sm p-5 rounded-2xl shadow-lg w-full md:w-auto border border-white/30 relative z-10 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
     >
       <h2
         class="text-lg font-semibold text-[#013E4C] mb-4 text-center md:text-left flex items-center"
       >
-        <i class="fas fa-bolt mr-2 text-[#1C6956]"></i>
+        <i class="fas fa-bolt mr-2 text-[#1C6956] animate-pulse"></i>
         Acesso Rápido
       </h2>
       <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -55,9 +64,11 @@
         <li>
           <a
             (click)="openModal('Despesa')"
-            class="flex items-center justify-center space-x-2 text-[#013E4C] hover:text-white transition-all cursor-pointer p-3 rounded-xl hover:bg-[#013E4C] group"
+            class="flex items-center justify-center space-x-2 text-[#013E4C] hover:text-white transition-all cursor-pointer p-3 rounded-xl hover:bg-gradient-to-r hover:from-[#013E4C] hover:to-[#1C6956] group transform hover:scale-105 duration-300"
           >
-            <i class="fas fa-minus-circle text-xl group-hover:text-white"></i>
+            <i
+              class="fas fa-minus-circle text-xl group-hover:text-white group-hover:animate-bounce"
+            ></i>
             <span class="font-medium">DESPESA</span>
           </a>
         </li>
@@ -65,9 +76,11 @@
         <li>
           <a
             (click)="openModal('Receita')"
-            class="flex items-center justify-center space-x-2 text-[#1C6956] hover:text-white transition-all cursor-pointer p-3 rounded-xl hover:bg-[#1C6956] group"
+            class="flex items-center justify-center space-x-2 text-[#1C6956] hover:text-white transition-all cursor-pointer p-3 rounded-xl hover:bg-gradient-to-r hover:from-[#1C6956] hover:to-[#013E4C] group transform hover:scale-105 duration-300"
           >
-            <i class="fas fa-plus-circle text-xl group-hover:text-white"></i>
+            <i
+              class="fas fa-plus-circle text-xl group-hover:text-white group-hover:animate-bounce"
+            ></i>
             <span class="font-medium">RECEITA</span>
           </a>
         </li>
@@ -75,22 +88,31 @@
     </div>
   </header>
 
-  <!-- Modal -->
+  <!-- Modal com efeito de vidro -->
   <div
     *ngIf="isModalOpen"
-    class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center p-4 z-50"
+    class="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-fadeIn"
   >
     <div
-      class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden transform transition-all"
+      class="bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl w-full max-w-md overflow-hidden transform transition-all animate-scaleIn"
     >
       <!-- Cabeçalho do Modal -->
       <div
         class="flex justify-between items-center p-6 bg-gradient-to-r from-[#1C6956] to-[#013E4C]"
       >
-        <h3 class="text-xl font-semibold text-white">{{ modalTitle }}</h3>
+        <h3 class="text-xl font-semibold text-white flex items-center">
+          <i
+            class="fas"
+            [ngClass]="
+              modalType === 'Despesa' ? 'fa-minus-circle' : 'fa-plus-circle'
+            "
+            class="mr-2 animate-pulse"
+          ></i>
+          {{ modalTitle }}
+        </h3>
         <button
           (click)="closeModal()"
-          class="text-white cursor-pointer rounded-full hover:bg-white/20 p-2 transition duration-200"
+          class="text-white cursor-pointer rounded-full hover:bg-white/20 p-2 transition duration-200 hover:rotate-90"
         >
           <i class="fas fa-times"></i>
         </button>
@@ -106,13 +128,13 @@
           class="space-y-5"
         >
           <!-- Campo Valor -->
-          <div>
+          <div class="animate-slideUp" style="animation-delay: 0.1s">
             <label class="block text-sm font-medium text-[#5e6d72] mb-1"
               >Valor</label
             >
-            <div class="relative">
+            <div class="relative group">
               <span
-                class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389]"
+                class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389] group-focus-within:text-[#1C6956] transition-colors"
               >
                 <i class="fas fa-dollar-sign"></i>
               </span>
@@ -120,20 +142,20 @@
                 type="number"
                 [(ngModel)]="despesa.valor"
                 name="valor"
-                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
+                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
                 required
               />
             </div>
           </div>
 
           <!-- Campo Data -->
-          <div>
+          <div class="animate-slideUp" style="animation-delay: 0.2s">
             <label class="block text-sm font-medium text-[#5e6d72] mb-1"
               >Data</label
             >
-            <div class="relative">
+            <div class="relative group">
               <span
-                class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389]"
+                class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389] group-focus-within:text-[#1C6956] transition-colors"
               >
                 <i class="fas fa-calendar"></i>
               </span>
@@ -141,27 +163,27 @@
                 type="date"
                 [(ngModel)]="despesa.data"
                 name="data"
-                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
+                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
                 required
               />
             </div>
           </div>
 
           <!-- Campo Categoria -->
-          <div>
+          <div class="animate-slideUp" style="animation-delay: 0.3s">
             <label class="block text-sm font-medium text-[#5e6d72] mb-1"
               >Categoria</label
             >
-            <div class="relative">
+            <div class="relative group">
               <span
-                class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389]"
+                class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389] group-focus-within:text-[#1C6956] transition-colors"
               >
                 <i class="fas fa-tag"></i>
               </span>
               <select
                 [(ngModel)]="despesa.categoria"
                 name="categoria"
-                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all appearance-none"
+                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all appearance-none"
                 required
               >
                 <option
@@ -180,20 +202,20 @@
           </div>
 
           <!-- Campo Conta/Cartão -->
-          <div>
+          <div class="animate-slideUp" style="animation-delay: 0.4s">
             <label class="block text-sm font-medium text-[#5e6d72] mb-1"
               >Conta/Cartão</label
             >
-            <div class="relative">
+            <div class="relative group">
               <span
-                class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389]"
+                class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389] group-focus-within:text-[#1C6956] transition-colors"
               >
                 <i class="fas fa-wallet"></i>
               </span>
               <select
                 [(ngModel)]="despesa.contaId"
                 name="contaId"
-                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all appearance-none"
+                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all appearance-none"
                 required
               >
                 <optgroup label="Contas">
@@ -216,36 +238,39 @@
           </div>
 
           <!-- Campo Descrição -->
-          <div>
+          <div class="animate-slideUp" style="animation-delay: 0.5s">
             <label class="block text-sm font-medium text-[#5e6d72] mb-1"
               >Descrição</label
             >
-            <div class="relative">
+            <div class="relative group">
               <span
-                class="absolute top-3 left-0 pl-3 flex items-start text-[#748389]"
+                class="absolute top-3 left-0 pl-3 flex items-start text-[#748389] group-focus-within:text-[#1C6956] transition-colors"
               >
                 <i class="fas fa-align-left"></i>
               </span>
               <textarea
                 [(ngModel)]="despesa.descricao"
                 name="descricao"
-                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
+                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
                 rows="3"
               ></textarea>
             </div>
           </div>
 
-          <div class="border-t border-[#E0E5E7] p-6 flex justify-end space-x-4">
+          <div
+            class="border-t border-[#E0E5E7] p-6 flex justify-end space-x-4 animate-slideUp"
+            style="animation-delay: 0.6s"
+          >
             <button
               type="button"
               (click)="closeModal()"
-              class="cursor-pointer px-5 py-2.5 text-[#5e6d72] bg-white border border-[#E0E5E7] rounded-lg shadow-sm hover:bg-[#F8F7F5] focus:ring-2 focus:ring-[#1C6956] focus:border-[#1C6956] transition-all duration-200"
+              class="cursor-pointer px-5 py-2.5 text-[#5e6d72] bg-white border border-[#E0E5E7] rounded-xl shadow-sm hover:bg-[#F8F7F5] focus:ring-2 focus:ring-[#1C6956] focus:border-[#1C6956] transition-all duration-200 hover:scale-105"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              class="text-bold flex items-center bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
+              class="text-bold flex items-center bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer hover:scale-105"
             >
               @if (isSaving) {
               <svg
@@ -279,13 +304,13 @@
           (ngSubmit)="submitReceita()"
           class="space-y-5"
         >
-          <div>
+          <div class="animate-slideUp" style="animation-delay: 0.1s">
             <label class="block text-sm font-medium text-[#5e6d72] mb-1"
               >Valor</label
             >
-            <div class="relative">
+            <div class="relative group">
               <span
-                class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389]"
+                class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389] group-focus-within:text-[#1C6956] transition-colors"
               >
                 <i class="fas fa-dollar-sign"></i>
               </span>
@@ -293,18 +318,18 @@
                 type="number"
                 [(ngModel)]="receita.valor"
                 name="valor"
-                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
+                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
                 required
               />
             </div>
           </div>
-          <div>
+          <div class="animate-slideUp" style="animation-delay: 0.2s">
             <label class="block text-sm font-medium text-[#5e6d72] mb-1"
               >Data</label
             >
-            <div class="relative">
+            <div class="relative group">
               <span
-                class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389]"
+                class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389] group-focus-within:text-[#1C6956] transition-colors"
               >
                 <i class="fas fa-calendar"></i>
               </span>
@@ -312,26 +337,26 @@
                 type="date"
                 [(ngModel)]="receita.data"
                 name="data"
-                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
+                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
                 required
               />
             </div>
           </div>
 
-          <div>
+          <div class="animate-slideUp" style="animation-delay: 0.3s">
             <label class="block text-sm font-medium text-[#5e6d72] mb-1"
               >Categoria</label
             >
-            <div class="relative">
+            <div class="relative group">
               <span
-                class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389]"
+                class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389] group-focus-within:text-[#1C6956] transition-colors"
               >
                 <i class="fas fa-tag"></i>
               </span>
               <select
                 [(ngModel)]="receita.categoria"
                 name="categoria"
-                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all appearance-none"
+                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all appearance-none"
                 required
               >
                 <option
@@ -350,20 +375,20 @@
           </div>
 
           <!-- Campo Conta -->
-          <div>
+          <div class="animate-slideUp" style="animation-delay: 0.4s">
             <label class="block text-sm font-medium text-[#5e6d72] mb-1"
               >Conta</label
             >
-            <div class="relative">
+            <div class="relative group">
               <span
-                class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389]"
+                class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389] group-focus-within:text-[#1C6956] transition-colors"
               >
                 <i class="fas fa-wallet"></i>
               </span>
               <select
                 [(ngModel)]="receita.contaId"
                 name="contaId"
-                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all appearance-none"
+                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all appearance-none"
                 required
               >
                 <option *ngFor="let conta of contas" [value]="conta.id">
@@ -377,35 +402,38 @@
               </span>
             </div>
           </div>
-          <div>
+          <div class="animate-slideUp" style="animation-delay: 0.5s">
             <label class="block text-sm font-medium text-[#5e6d72] mb-1"
               >Descrição</label
             >
-            <div class="relative">
+            <div class="relative group">
               <span
-                class="absolute top-3 left-0 pl-3 flex items-start text-[#748389]"
+                class="absolute top-3 left-0 pl-3 flex items-start text-[#748389] group-focus-within:text-[#1C6956] transition-colors"
               >
                 <i class="fas fa-align-left"></i>
               </span>
               <textarea
                 [(ngModel)]="receita.descricao"
                 name="descricao"
-                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
+                class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
                 rows="3"
               ></textarea>
             </div>
           </div>
-          <div class="border-t border-[#E0E5E7] p-6 flex justify-end space-x-4">
+          <div
+            class="border-t border-[#E0E5E7] p-6 flex justify-end space-x-4 animate-slideUp"
+            style="animation-delay: 0.6s"
+          >
             <button
               type="button"
               (click)="closeModal()"
-              class="cursor-pointer px-5 py-2.5 text-[#5e6d72] bg-white border border-[#E0E5E7] rounded-lg shadow-sm hover:bg-[#F8F7F5] focus:ring-2 focus:ring-[#1C6956] focus:border-[#1C6956] transition-all duration-200"
+              class="cursor-pointer px-5 py-2.5 text-[#5e6d72] bg-white border border-[#E0E5E7] rounded-xl shadow-sm hover:bg-[#F8F7F5] focus:ring-2 focus:ring-[#1C6956] focus:border-[#1C6956] transition-all duration-200 hover:scale-105"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              class="text-bold flex items-center bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
+              class="text-bold flex items-center bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer hover:scale-105"
             >
               @if (isSaving) {
               <svg
@@ -436,24 +464,27 @@
     </div>
   </div>
 
-  <!-- Resumo Financeiro -->
+  <!-- Resumo Financeiro com cards modernos -->
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
     <!-- Saldo Atual -->
     <div
-      class="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 relative overflow-hidden"
+      class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 relative overflow-hidden animate-slideUp"
+      style="animation-delay: 0.1s"
     >
       <div
-        class="absolute top-0 right-0 w-32 h-32 bg-[#D8EAE5] opacity-30 rounded-full -mr-16 -mt-16"
+        class="absolute top-0 right-0 w-32 h-32 bg-[#D8EAE5] opacity-30 rounded-full -mr-16 -mt-16 animate-pulse"
       ></div>
       <div class="flex items-center justify-between relative z-10">
         <div>
           <h2 class="text-lg font-semibold text-[#5e6d72]">Saldo Atual</h2>
-          <p class="text-3xl font-bold text-[#013E4C] mt-2">
+          <p
+            class="text-3xl font-bold bg-gradient-to-r from-[#1C6956] to-[#013E4C] bg-clip-text text-transparent mt-2"
+          >
             R$ {{ saldo | number : "1.2-2" }}
           </p>
         </div>
         <div
-          class="w-14 h-14 rounded-xl bg-gradient-to-br from-[#1C6956] to-[#013E4C] flex items-center justify-center shadow-md"
+          class="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#1C6956] to-[#013E4C] flex items-center justify-center shadow-md transform hover:rotate-12 transition-transform duration-300"
         >
           <i class="fas fa-money-bill-wave text-white text-2xl"></i>
         </div>
@@ -462,10 +493,11 @@
 
     <!-- Receita Mensal -->
     <div
-      class="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 relative overflow-hidden"
+      class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 relative overflow-hidden animate-slideUp"
+      style="animation-delay: 0.2s"
     >
       <div
-        class="absolute top-0 right-0 w-32 h-32 bg-green-100 opacity-30 rounded-full -mr-16 -mt-16"
+        class="absolute top-0 right-0 w-32 h-32 bg-green-100 opacity-30 rounded-full -mr-16 -mt-16 animate-pulse"
       ></div>
       <div class="flex items-center justify-between relative z-10">
         <div>
@@ -475,7 +507,7 @@
           </p>
         </div>
         <div
-          class="w-14 h-14 rounded-xl bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center shadow-md"
+          class="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center shadow-md transform hover:rotate-12 transition-transform duration-300"
         >
           <i class="fas fa-arrow-up text-white text-2xl"></i>
         </div>
@@ -484,10 +516,11 @@
 
     <!-- Despesa Mensal -->
     <div
-      class="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 relative overflow-hidden"
+      class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 relative overflow-hidden animate-slideUp"
+      style="animation-delay: 0.3s"
     >
       <div
-        class="absolute top-0 right-0 w-32 h-32 bg-red-100 opacity-30 rounded-full -mr-16 -mt-16"
+        class="absolute top-0 right-0 w-32 h-32 bg-red-100 opacity-30 rounded-full -mr-16 -mt-16 animate-pulse"
       ></div>
       <div class="flex items-center justify-between relative z-10">
         <div>
@@ -497,7 +530,7 @@
           </p>
         </div>
         <div
-          class="w-14 h-14 rounded-xl bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center shadow-md"
+          class="w-14 h-14 rounded-2xl bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center shadow-md transform hover:rotate-12 transition-transform duration-300"
         >
           <i class="fas fa-arrow-down text-white text-2xl"></i>
         </div>
@@ -506,10 +539,11 @@
 
     <!-- Investimentos -->
     <div
-      class="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 relative overflow-hidden"
+      class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 relative overflow-hidden animate-slideUp"
+      style="animation-delay: 0.4s"
     >
       <div
-        class="absolute top-0 right-0 w-32 h-32 bg-purple-100 opacity-30 rounded-full -mr-16 -mt-16"
+        class="absolute top-0 right-0 w-32 h-32 bg-purple-100 opacity-30 rounded-full -mr-16 -mt-16 animate-pulse"
       ></div>
       <div class="flex items-center justify-between relative z-10">
         <div>
@@ -519,7 +553,7 @@
           </p>
         </div>
         <div
-          class="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center shadow-md"
+          class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center shadow-md transform hover:rotate-12 transition-transform duration-300"
         >
           <i class="fas fa-chart-line text-white text-2xl"></i>
         </div>
@@ -531,16 +565,17 @@
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
     <!-- Minhas Contas -->
     <div
-      class="bg-white rounded-2xl shadow-lg p-6 flex flex-col justify-between h-full"
+      class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg p-6 flex flex-col justify-between h-full animate-slideUp"
+      style="animation-delay: 0.5s"
     >
       <div class="flex items-center justify-between mb-6">
         <h2 class="text-xl font-bold text-[#013E4C] flex items-center">
-          <i class="fas fa-wallet mr-2 text-[#1C6956]"></i>
+          <i class="fas fa-wallet mr-2 text-[#1C6956] animate-pulse"></i>
           Minhas Contas
         </h2>
         <button
           (click)="mudarPagina('configuracoes', 'contas')"
-          class="text-[#1C6956] hover:text-[#013E4C] transition-colors"
+          class="text-[#1C6956] hover:text-[#013E4C] transition-colors hover:rotate-12"
         >
           <i class="fas fa-cog"></i>
         </button>
@@ -548,12 +583,13 @@
 
       <ul class="flex-1 space-y-4">
         <li
-          *ngFor="let account of accounts"
-          class="flex items-center justify-between p-4 bg-[#F8F7F5] rounded-xl shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1"
+          *ngFor="let account of accounts; let i = index"
+          class="flex items-center justify-between p-4 bg-[#F8F7F5] rounded-xl shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 animate-slideUp"
+          [style.animation-delay]="0.1 * i + 's'"
         >
           <div class="flex items-center min-w-0">
             <div
-              class="w-10 h-10 rounded-lg bg-gradient-to-br from-[#1C6956] to-[#013E4C] flex items-center justify-center mr-4 shadow-md"
+              class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#1C6956] to-[#013E4C] flex items-center justify-center mr-4 shadow-md transform hover:rotate-12 transition-transform duration-300"
             >
               <i class="fas fa-wallet text-white"></i>
             </div>
@@ -574,7 +610,7 @@
 
       <button
         (click)="mudarPagina('configuracoes', 'contas')"
-        class="mt-6 w-full bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#1C6956] focus:ring-offset-2 cursor-pointer flex items-center justify-center"
+        class="mt-6 w-full bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#1C6956] focus:ring-offset-2 cursor-pointer flex items-center justify-center hover:scale-105"
       >
         <i class="fas fa-plus mr-2"></i>
         Gerenciar Contas
@@ -583,16 +619,17 @@
 
     <!-- Metas Financeiras -->
     <div
-      class="bg-white rounded-2xl shadow-lg p-6 flex flex-col justify-between h-full"
+      class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg p-6 flex flex-col justify-between h-full animate-slideUp"
+      style="animation-delay: 0.6s"
     >
       <div class="flex items-center justify-between mb-6">
         <h2 class="text-xl font-bold text-[#013E4C] flex items-center">
-          <i class="fas fa-bullseye mr-2 text-[#1C6956]"></i>
+          <i class="fas fa-bullseye mr-2 text-[#1C6956] animate-pulse"></i>
           Metas Financeiras
         </h2>
         <button
           (click)="mudarPagina('configuracoes', 'metas')"
-          class="text-[#1C6956] hover:text-[#013E4C] transition-colors"
+          class="text-[#1C6956] hover:text-[#013E4C] transition-colors hover:rotate-12"
         >
           <i class="fas fa-cog"></i>
         </button>
@@ -602,18 +639,18 @@
         <!-- Mensagem quando não há metas -->
         <div
           *ngIf="metas.length === 0"
-          class="flex items-center justify-center h-full"
+          class="flex items-center justify-center h-full animate-fadeIn"
         >
           <div class="text-center p-6">
             <div
-              class="w-16 h-16 rounded-full bg-[#D8EAE5] flex items-center justify-center mx-auto mb-4"
+              class="w-16 h-16 rounded-full bg-[#D8EAE5] flex items-center justify-center mx-auto mb-4 animate-pulse"
             >
               <i class="fas fa-bullseye text-[#1C6956] text-2xl"></i>
             </div>
             <p class="text-[#5e6d72]">Nenhuma Meta Financeira cadastrada.</p>
             <button
               (click)="mudarPagina('configuracoes', 'metas')"
-              class="mt-4 text-[#1C6956] hover:text-[#013E4C] transition-colors"
+              class="mt-4 text-[#1C6956] hover:text-[#013E4C] transition-colors hover:scale-105"
             >
               Criar sua primeira meta
             </button>
@@ -622,8 +659,9 @@
 
         <!-- Lista de metas -->
         <div
-          *ngFor="let meta of metas"
-          class="bg-[#F8F7F5] p-4 rounded-xl shadow-sm hover:shadow-md transition-all duration-300"
+          *ngFor="let meta of metas; let i = index"
+          class="bg-[#F8F7F5] p-4 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 animate-slideUp"
+          [style.animation-delay]="0.1 * i + 's'"
         >
           <div class="flex items-center justify-between mb-2">
             <h3 class="text-lg font-medium text-[#013E4C]">{{ meta.nome }}</h3>
@@ -635,9 +673,9 @@
             {{ meta.valorAtual || 0 | currency : "BRL" : "symbol" : "1.2-2" }} /
             {{ meta.valorMeta | currency : "BRL" : "symbol" : "1.2-2" }}
           </p>
-          <div class="w-full bg-[#E0E5E7] rounded-full h-2.5">
+          <div class="w-full bg-[#E0E5E7] rounded-full h-2.5 overflow-hidden">
             <div
-              class="h-2.5 rounded-full bg-gradient-to-r from-[#1C6956] to-[#013E4C]"
+              class="h-2.5 rounded-full bg-gradient-to-r from-[#1C6956] to-[#013E4C] transition-all duration-1000"
               [style.width.%]="calcularProgresso(meta)"
             ></div>
           </div>
@@ -646,7 +684,7 @@
 
       <button
         (click)="mudarPagina('configuracoes', 'metas')"
-        class="mt-6 w-full bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#1C6956] focus:ring-offset-2 cursor-pointer flex items-center justify-center"
+        class="mt-6 w-full bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#1C6956] focus:ring-offset-2 cursor-pointer flex items-center justify-center hover:scale-105"
       >
         <i class="fas fa-plus mr-2"></i>
         {{ metas.length > 0 ? "Gerenciar Metas" : "Criar Primeira Meta" }}
@@ -658,16 +696,17 @@
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
     <!-- Últimas Transações -->
     <div
-      class="bg-white rounded-2xl shadow-lg p-6 flex flex-col justify-between h-full"
+      class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg p-6 flex flex-col justify-between h-full animate-slideUp"
+      style="animation-delay: 0.7s"
     >
       <div class="flex items-center justify-between mb-6">
         <h2 class="text-xl font-bold text-[#013E4C] flex items-center">
-          <i class="fas fa-exchange-alt mr-2 text-[#1C6956]"></i>
+          <i class="fas fa-exchange-alt mr-2 text-[#1C6956] animate-pulse"></i>
           Últimas Transações
         </h2>
         <button
           (click)="alterarComponente('lancamentos')"
-          class="text-[#1C6956] hover:text-[#013E4C] transition-colors"
+          class="text-[#1C6956] hover:text-[#013E4C] transition-colors hover:rotate-12"
         >
           <i class="fas fa-external-link-alt"></i>
         </button>
@@ -675,11 +714,11 @@
 
       <div
         *ngIf="transacoes.length === 0"
-        class="flex items-center justify-center h-full"
+        class="flex items-center justify-center h-full animate-fadeIn"
       >
         <div class="text-center p-6">
           <div
-            class="w-16 h-16 rounded-full bg-[#D8EAE5] flex items-center justify-center mx-auto mb-4"
+            class="w-16 h-16 rounded-full bg-[#D8EAE5] flex items-center justify-center mx-auto mb-4 animate-pulse"
           >
             <i class="fas fa-exchange-alt text-[#1C6956] text-2xl"></i>
           </div>
@@ -689,8 +728,9 @@
 
       <div *ngIf="transacoes.length > 0" class="space-y-4 flex-grow">
         <div
-          *ngFor="let transacao of transacoes"
-          class="flex items-center justify-between p-4 bg-[#F8F7F5] rounded-xl shadow-sm hover:shadow-md transition-all duration-300"
+          *ngFor="let transacao of transacoes; let i = index"
+          class="flex items-center justify-between p-4 bg-[#F8F7F5] rounded-xl shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 animate-slideUp"
+          [style.animation-delay]="0.1 * i + 's'"
         >
           <div class="flex items-center">
             <div
@@ -735,7 +775,7 @@
 
       <button
         (click)="alterarComponente('lancamentos')"
-        class="mt-6 w-full bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#1C6956] focus:ring-offset-2 cursor-pointer flex items-center justify-center"
+        class="mt-6 w-full bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#1C6956] focus:ring-offset-2 cursor-pointer flex items-center justify-center hover:scale-105"
       >
         <i class="fas fa-list mr-2"></i>
         Ver todas Transações
@@ -743,15 +783,18 @@
     </div>
 
     <!-- Meus Cartões -->
-    <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col h-full">
+    <div
+      class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg p-6 flex flex-col h-full animate-slideUp"
+      style="animation-delay: 0.8s"
+    >
       <div class="flex items-center justify-between mb-6">
         <h2 class="text-xl font-bold text-[#013E4C] flex items-center">
-          <i class="fas fa-credit-card mr-2 text-[#1C6956]"></i>
+          <i class="fas fa-credit-card mr-2 text-[#1C6956] animate-pulse"></i>
           Meus Cartões
         </h2>
         <button
           (click)="mudarPagina('configuracoes', 'cartoes')"
-          class="text-[#1C6956] hover:text-[#013E4C] transition-colors"
+          class="text-[#1C6956] hover:text-[#013E4C] transition-colors hover:rotate-12"
         >
           <i class="fas fa-cog"></i>
         </button>
@@ -764,13 +807,14 @@
           class="flex flex-col gap-4"
         >
           <div
-            *ngFor="let card of cartoes"
-            class="flex items-center justify-between p-4 bg-[#F8F7F5] rounded-xl shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1"
+            *ngFor="let card of cartoes; let i = index"
+            class="flex items-center justify-between p-4 bg-[#F8F7F5] rounded-xl shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 animate-slideUp"
+            [style.animation-delay]="0.1 * i + 's'"
           >
             <div class="flex items-center min-w-0">
               <div class="flex items-center">
                 <div
-                  class="w-12 h-12 rounded-xl flex items-center justify-center bg-white shadow-md mr-4"
+                  class="w-12 h-12 rounded-xl flex items-center justify-center bg-white shadow-md mr-4 transform hover:rotate-12 transition-transform duration-300"
                 >
                   <!-- Exibir logo do cartão -->
                   <img
@@ -799,10 +843,10 @@
 
         <!-- Template caso não haja cartões -->
         <ng-template #noCards>
-          <div class="flex items-center justify-center h-full">
+          <div class="flex items-center justify-center h-full animate-fadeIn">
             <div class="text-center p-6">
               <div
-                class="w-16 h-16 rounded-full bg-[#D8EAE5] flex items-center justify-center mx-auto mb-4"
+                class="w-16 h-16 rounded-full bg-[#D8EAE5] flex items-center justify-center mx-auto mb-4 animate-pulse"
               >
                 <i class="fas fa-credit-card text-[#1C6956] text-2xl"></i>
               </div>
@@ -816,7 +860,7 @@
       <div class="mt-6">
         <button
           (click)="mudarPagina('configuracoes', 'cartoes')"
-          class="w-full bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#1C6956] focus:ring-offset-2 cursor-pointer flex items-center justify-center"
+          class="w-full bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#1C6956] focus:ring-offset-2 cursor-pointer flex items-center justify-center hover:scale-105"
         >
           <i class="fas fa-plus mr-2"></i>
           Gerenciar Cartões
