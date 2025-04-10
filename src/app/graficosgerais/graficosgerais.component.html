@@ -1,5 +1,5 @@
 <div
-  class="min-h-screen bg-[#F8F7F5] py-8 px-4 sm:px-6 transition-all duration-500"
+  class="min-h-screen bg-gradient-to-br from-[#F8F7F5] via-white to-[#D8EAE5] py-8 px-4 sm:px-6 transition-all duration-500"
 >
   <div class="mx-auto max-w-7xl">
     <!-- Header com Efeito Glassmorphism e Animação -->
@@ -497,7 +497,6 @@
         >
           <div class="flex items-center">
             <i class="far fa-clock mr-1.5 text-xs"></i>
-            Atualizado em {{ currentDate | date : "dd/MM/yyyy 'às' HH:mm" }}
           </div>
           <div class="flex items-center space-x-4">
             <div class="flex items-center">
@@ -520,84 +519,3 @@
     </div>
   </div>
 </div>
-
-<!-- Animações CSS -->
-<style>
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes countUp {
-    from {
-      opacity: 0;
-      transform: translateY(5px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes bounceSlow {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
-  }
-
-  @keyframes progress {
-    from {
-      width: 0;
-    }
-    to {
-      width: 100%;
-    }
-  }
-
-  @keyframes gradient-x {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
-
-  .animate-fade-in {
-    animation: fadeIn 0.5s ease-out forwards;
-  }
-
-  .animate-fade-in-up {
-    animation: fadeIn 0.6s ease-out forwards;
-  }
-
-  .animate-count-up {
-    animation: countUp 0.8s ease-out forwards;
-  }
-
-  .animate-bounce-slow {
-    animation: bounceSlow 3s infinite ease-in-out;
-  }
-
-  .animate-progress {
-    animation: progress 2s ease-in-out infinite alternate;
-  }
-
-  .animate-gradient-x {
-    background-size: 200% 200%;
-    animation: gradient-x 15s ease infinite;
-  }
-</style>

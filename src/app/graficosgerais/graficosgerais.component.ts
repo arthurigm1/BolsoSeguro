@@ -37,7 +37,6 @@ export class GraficosgeraisComponent implements OnInit, OnDestroy {
   categorias: string[] = [];
   bancos: string[] = [];
   tipos = ['RECEITA', 'DESPESA'];
-  currentDate = new Date();
 
   // Filter properties
   filtro = {

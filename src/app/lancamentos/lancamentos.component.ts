@@ -18,6 +18,14 @@ interface TransacaoDetalhadaDTO {
   data: string;
   descricao: string;
 }
+
+interface GraficoDiaDTO {
+  dia: number;
+  saldo: number;
+  saldoPercentual: number;
+  positivo: boolean;
+}
+
 @Component({
   selector: 'app-lancamentos',
   imports: [CommonModule],
@@ -29,6 +37,7 @@ export class LancamentosComponent implements OnInit {
   currentDate: Date = new Date();
   selectedDate: Date = new Date();
   transacoes: TransacaoDetalhadaDTO[] = [];
+  graficoDias: GraficoDiaDTO[] = [];
   loading = false;
   error = '';
 
@@ -42,12 +51,13 @@ export class LancamentosComponent implements OnInit {
     this.loading = true;
     this.error = '';
 
-    const mes = this.selectedDate.getMonth() + 1; // JavaScript months are 0-based
+    const mes = this.selectedDate.getMonth() + 1;
     const ano = this.selectedDate.getFullYear();
 
     this.transacaoService.obterTransacoesPorMes(mes, ano).subscribe({
       next: (data) => {
         this.transacoes = data;
+        this.processarGrafico();
         this.loading = false;
       },
       error: (err) => {
@@ -55,6 +65,39 @@ export class LancamentosComponent implements OnInit {
         this.loading = false;
         console.error(err);
       },
+    });
+  }
+
+  processarGrafico(): void {
+    const diasNoMes = new Date(
+      this.selectedDate.getFullYear(),
+      this.selectedDate.getMonth() + 1,
+      0
+    ).getDate();
+    const agrupado: { [dia: number]: number } = {};
+
+    for (const t of this.transacoes) {
+      const dataTransacao = new Date(t.data);
+      const dia = dataTransacao.getDate();
+      const valor = t.tipo === 'DESPESA' ? -t.valor : t.valor;
+      agrupado[dia] = (agrupado[dia] || 0) + valor;
+    }
+
+    const maxAbsoluto =
+      Math.max(...Object.values(agrupado).map((v) => Math.abs(v))) || 1;
+
+    this.graficoDias = Array.from({ length: diasNoMes }, (_, i) => {
+      const dia = i + 1;
+      const saldo = agrupado[dia] || 0;
+      return {
+        dia,
+        saldo,
+        saldoPercentual: Math.min(
+          100,
+          Math.round((Math.abs(saldo) / maxAbsoluto) * 100)
+        ),
+        positivo: saldo >= 0,
+      };
     });
   }
 
@@ -87,7 +130,6 @@ export class LancamentosComponent implements OnInit {
   formatDate(dateString: string): string {
     const [year, month, day] = dateString.split('-');
     const date = new Date(Number(year), Number(month) - 1, Number(day));
-
     return format(date, 'dd/MM/yyyy', { locale: ptBR });
   }
 
@@ -106,27 +148,20 @@ export class LancamentosComponent implements OnInit {
   getSaldo(): number {
     return this.getTotalReceitas() - this.getTotalDespesas();
   }
-  getRandomHeight(): number {
-    return Math.random() * 80 + 10;
-  }
-  randomBoolean(): boolean {
-    return Math.random() > 0.5;
-  }
+
   downloadReport() {
     this.isExporting = true;
-    const mes = this.selectedDate.getMonth() + 1; // JavaScript months are 0-based
+    const mes = this.selectedDate.getMonth() + 1;
     const ano = this.selectedDate.getFullYear();
 
     this.transacaoService.gerarRelatorio(mes, ano).subscribe(
       (response: Blob) => {
-        // Criando um link para o arquivo Blob
         const url = window.URL.createObjectURL(response);
         const a = document.createElement('a');
         a.href = url;
         a.download = `relatorio_${mes}_${ano}.pdf`;
-        a.click(); // Simula o clique para iniciar o download
+        a.click();
         this.isExporting = false;
-        // Liberar o objeto URL após o download
         window.URL.revokeObjectURL(url);
       },
       (error) => {
@@ -134,5 +169,36 @@ export class LancamentosComponent implements OnInit {
         console.error('Erro ao gerar o relatório:', error);
       }
     );
+  }
+  showAllCategories = false;
+
+  // Métodos auxiliares para o template
+  getLastDayOfMonth(): number {
+    return new Date(
+      this.selectedDate.getFullYear(),
+      this.selectedDate.getMonth() + 1,
+      0
+    ).getDate();
+  }
+
+  toggleShowAllCategories(): void {
+    this.showAllCategories = !this.showAllCategories;
+  }
+
+  getCategorias(): string[] {
+    return [...new Set(this.transacoes.map((t) => t.categoria))].sort();
+  }
+
+  getTotalPorCategoria(categoria: string): number {
+    return this.transacoes
+      .filter((t) => t.categoria === categoria)
+      .reduce((sum, t) => sum + t.valor, 0);
+  }
+
+  getMaxCategoria(): number {
+    const valores = this.getCategorias().map((c) =>
+      this.getTotalPorCategoria(c)
+    );
+    return Math.max(...valores, 1); // Evita divisão por zero
   }
 }
