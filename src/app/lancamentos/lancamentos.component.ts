@@ -68,37 +68,67 @@ export class LancamentosComponent implements OnInit {
     });
   }
 
+  // Garanta que o método processarGrafico() está correto:
   processarGrafico(): void {
+    if (!this.transacoes || this.transacoes.length === 0) {
+      this.graficoDias = [];
+      return;
+    }
+
     const diasNoMes = new Date(
       this.selectedDate.getFullYear(),
       this.selectedDate.getMonth() + 1,
       0
     ).getDate();
-    const agrupado: { [dia: number]: number } = {};
 
-    for (const t of this.transacoes) {
-      const dataTransacao = new Date(t.data);
-      const dia = dataTransacao.getDate();
-      const valor = t.tipo === 'DESPESA' ? -t.valor : t.valor;
-      agrupado[dia] = (agrupado[dia] || 0) + valor;
-    }
-
-    const maxAbsoluto =
-      Math.max(...Object.values(agrupado).map((v) => Math.abs(v))) || 1;
-
+    // Inicializa um array para todos os dias do mês
     this.graficoDias = Array.from({ length: diasNoMes }, (_, i) => {
-      const dia = i + 1;
-      const saldo = agrupado[dia] || 0;
       return {
-        dia,
-        saldo,
-        saldoPercentual: Math.min(
-          100,
-          Math.round((Math.abs(saldo) / maxAbsoluto) * 100)
-        ),
-        positivo: saldo >= 0,
+        dia: i + 1,
+        saldo: 0,
+        saldoPercentual: 0,
+        positivo: true,
       };
     });
+
+    // Calcula totais por dia
+    this.transacoes.forEach((transacao) => {
+      try {
+        const data = new Date(transacao.data);
+        const dia = data.getDate();
+        const valor =
+          transacao.tipo === 'RECEITA' ? transacao.valor : -transacao.valor;
+
+        if (dia >= 1 && dia <= diasNoMes) {
+          this.graficoDias[dia - 1].saldo += valor;
+        }
+      } catch (e) {
+        console.error('Erro ao processar transação:', transacao, e);
+      }
+    });
+
+    // Calcula percentuais
+    const maxSaldo = Math.max(
+      ...this.graficoDias.map((d) => Math.abs(d.saldo)),
+      1
+    );
+    this.graficoDias.forEach((dia) => {
+      dia.positivo = dia.saldo >= 0;
+      dia.saldoPercentual = Math.min(
+        100,
+        (Math.abs(dia.saldo) / maxSaldo) * 100
+      );
+    });
+  }
+
+  // Método auxiliar para obter o último dia do mês
+  getLastDayOfMonth(): number {
+    if (!this.selectedDate) return 31;
+    return new Date(
+      this.selectedDate.getFullYear(),
+      this.selectedDate.getMonth() + 1,
+      0
+    ).getDate();
   }
 
   nextMonth(): void {
@@ -171,15 +201,6 @@ export class LancamentosComponent implements OnInit {
     );
   }
   showAllCategories = false;
-
-  // Métodos auxiliares para o template
-  getLastDayOfMonth(): number {
-    return new Date(
-      this.selectedDate.getFullYear(),
-      this.selectedDate.getMonth() + 1,
-      0
-    ).getDate();
-  }
 
   toggleShowAllCategories(): void {
     this.showAllCategories = !this.showAllCategories;

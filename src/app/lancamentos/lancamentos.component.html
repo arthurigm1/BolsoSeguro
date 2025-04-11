@@ -1,115 +1,203 @@
 <div class="min-h-screen bg-[#F8F7F5]">
   <!-- Header Minimalista -->
   <header class="bg-white shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-      <div
-        class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
-      >
-        <div>
-          <h1 class="text-2xl font-bold text-gray-900">Relatório Financeiro</h1>
-          <p class="text-sm text-gray-500 mt-1 flex items-center">
-            <svg
-              class="h-4 w-4 text-emerald-500 mr-2"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2h-1V9z"
-                clip-rule="evenodd"
-              />
-            </svg>
-            Análise detalhada do seu fluxo financeiro
-          </p>
-        </div>
+    <div
+      class="min-h-[180px] bg-gradient-to-r from-[#013E4C] to-[#1C6956] p-6 mb-8 transition-all duration-500 animate-fade-in"
+    >
+      <div class="max-w-7xl mx-auto">
+        <!-- Container Principal -->
+        <div
+          class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6"
+        >
+          <!-- Título e Subtítulo -->
+          <div class="space-y-3">
+            <div class="flex items-center space-x-4">
+              <div
+                class="p-3 bg-white/20 backdrop-blur-sm rounded-xl border border-white/10"
+              >
+                <svg
+                  class="h-8 w-8 text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </div>
+              <h1
+                class="text-3xl md:text-4xl font-bold text-white drop-shadow-md"
+              >
+                Relatório Financeiro
+                <span class="inline-block ml-2 text-emerald-300 animate-pulse"
+                  >•</span
+                >
+              </h1>
+            </div>
 
-        <div class="flex flex-wrap gap-3">
-          <div
-            class="flex items-center bg-white rounded-lg border border-gray-200"
-          >
-            <button
-              (click)="prevMonth()"
-              class="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-50 rounded-l-lg"
-            >
+            <p class="text-[#D8EAE5] text-sm md:text-base flex items-center">
               <svg
-                class="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+                class="h-5 w-5 mr-2 text-emerald-300"
+                fill="currentColor"
+                viewBox="0 0 20 20"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M15 19l-7-7 7-7"
+                  fill-rule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2h-1V9z"
+                  clip-rule="evenodd"
                 />
               </svg>
-            </button>
-            <span
-              class="px-4 py-2 text-sm font-medium text-gray-700 border-x border-gray-200"
-            >
-              {{ getMonthYear() | titlecase }}
-            </span>
-            <button
-              (click)="nextMonth()"
-              class="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-50 rounded-r-lg"
-            >
-              <svg
-                class="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </button>
+              Análise inteligente do seu fluxo financeiro
+            </p>
           </div>
 
-          <button
-            (click)="goToCurrentMonth()"
-            class="px-4 py-2 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-lg border border-gray-200 flex items-center"
-          >
-            <svg
-              class="h-4 w-4 mr-2 text-gray-500"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+          <!-- Controles -->
+          <div class="flex flex-wrap items-center gap-3">
+            <!-- Navegação por Mês -->
+            <div
+              class="flex items-center bg-white/10 backdrop-blur-md rounded-xl border border-white/20 overflow-hidden"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-              />
-            </svg>
-            Hoje
-          </button>
+              <button
+                (click)="prevMonth()"
+                class="p-2 text-white hover:bg-white/20 transition-all duration-300 group"
+                aria-label="Mês anterior"
+              >
+                <svg
+                  class="h-5 w-5 group-hover:scale-110 transition-transform"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 19l-7-7 7-7"
+                  />
+                </svg>
+              </button>
 
-          <button
-            (click)="downloadReport()"
-            [disabled]="isExporting"
-            class="px-4 py-2 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg shadow-sm flex items-center"
-          >
-            <svg
-              class="h-4 w-4 mr-2"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+              <span
+                class="px-4 py-2 text-white font-medium text-sm md:text-base border-x border-white/20 flex items-center"
+              >
+                <svg
+                  class="h-5 w-5 mr-2 text-emerald-300"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  />
+                </svg>
+                {{ getMonthYear() | titlecase }}
+              </span>
+
+              <button
+                (click)="nextMonth()"
+                class="p-2 text-white hover:bg-white/20 transition-all duration-300 group"
+                aria-label="Próximo mês"
+              >
+                <svg
+                  class="h-5 w-5 group-hover:scale-110 transition-transform"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </button>
+            </div>
+
+            <!-- Botão Hoje -->
+            <button
+              (click)="goToCurrentMonth()"
+              class="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-xl font-medium backdrop-blur-md border border-white/20 shadow-sm hover:shadow-md transition-all duration-300 transform hover:scale-[1.02] flex items-center"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-              />
-            </svg>
-            Exportar
-          </button>
+              <svg
+                class="h-5 w-5 mr-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              Hoje
+            </button>
+
+            <!-- Botão Exportar -->
+            <button
+              (click)="downloadReport()"
+              [disabled]="isExporting"
+              class="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl font-medium shadow-lg hover:shadow-emerald-500/30 transition-all duration-300 transform hover:scale-[1.02] flex items-center relative overflow-hidden"
+            >
+              <span class="relative z-10 flex items-center">
+                @if (isExporting) {
+                <svg
+                  class="animate-spin h-5 w-5 mr-2 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                  ></circle>
+                  <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+                Exportando... } @else {
+                <svg
+                  class="h-5 w-5 mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                  />
+                </svg>
+                Exportar }
+              </span>
+              <span
+                class="absolute inset-0 bg-white/10 hover:bg-white/20 transition-opacity duration-300 opacity-0 hover:opacity-100"
+              ></span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Barra de Progresso Sutil -->
+        <div class="mt-6 h-1 bg-white/10 rounded-full overflow-hidden">
+          <div
+            class="h-full bg-emerald-300 rounded-full animate-progress"
+          ></div>
         </div>
       </div>
     </div>
@@ -119,86 +207,37 @@
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
     <!-- Cartões de Resumo -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-      <!-- Receitas -->
-      <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-        <div class="flex justify-between">
+      <!-- Card de Receitas -->
+      <div
+        class="bg-white p-6 rounded-2xl shadow-lg border border-white/20 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 group"
+      >
+        <div class="flex justify-between items-start">
           <div>
-            <p class="text-sm font-medium text-gray-500">Receitas</p>
-            <p class="text-2xl font-semibold text-emerald-600 mt-1">
+            <p class="text-[#5e6d72] text-sm font-medium flex items-center">
+              <svg
+                class="h-5 w-5 mr-2 text-[#1C6956]"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                />
+              </svg>
+              Receitas
+            </p>
+            <p class="text-3xl font-bold text-[#1C6956] mt-2 animate-count-up">
               {{ formatCurrency(getTotalReceitas()) }}
             </p>
-            <div class="mt-3 flex items-center"></div>
           </div>
           <div
-            class="h-12 w-12 bg-emerald-100 rounded-lg flex items-center justify-center"
+            class="w-12 h-12 rounded-xl bg-gradient-to-br from-[#1C6956] to-[#013E4C] flex items-center justify-center shadow-md group-hover:rotate-6 transition-transform"
           >
             <svg
-              class="h-6 w-6 text-emerald-600"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-              />
-            </svg>
-          </div>
-        </div>
-      </div>
-
-      <!-- Despesas -->
-      <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-        <div class="flex justify-between">
-          <div>
-            <p class="text-sm font-medium text-gray-500">Despesas</p>
-            <p class="text-2xl font-semibold text-rose-600 mt-1">
-              {{ formatCurrency(getTotalDespesas()) }}
-            </p>
-            <div class="mt-3 flex items-center"></div>
-          </div>
-          <div
-            class="h-12 w-12 bg-rose-100 rounded-lg flex items-center justify-center"
-          >
-            <svg
-              class="h-6 w-6 text-rose-600"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"
-              />
-            </svg>
-          </div>
-        </div>
-      </div>
-
-      <!-- Saldo -->
-      <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-        <div class="flex justify-between">
-          <div>
-            <p class="text-sm font-medium text-gray-500">Saldo Mensal</p>
-            <p
-              class="text-2xl font-semibold mt-1"
-              [ngClass]="{
-                'text-emerald-600': getSaldo() > 0,
-                'text-rose-600': getSaldo() <= 0
-              }"
-            >
-              {{ formatCurrency(getSaldo()) }}
-            </p>
-          </div>
-          <div
-            class="h-12 w-12 bg-blue-100 rounded-lg flex items-center justify-center"
-          >
-            <svg
-              class="h-6 w-6 text-blue-600"
+              class="h-6 w-6 text-white"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -212,251 +251,24 @@
             </svg>
           </div>
         </div>
-      </div>
-    </div>
-
-    <!-- Gráficos e Visualizações -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-      <!-- Gráfico de Barras -->
-      <div
-        class="lg:col-span-2 bg-white p-6 rounded-xl shadow-sm border border-gray-100"
-      >
-        <div class="flex justify-between items-center mb-4">
-          <h3 class="text-lg font-semibold text-gray-900">
-            Fluxo Financeiro Diário
-          </h3>
-          <div class="flex space-x-2">
-            <button
-              class="px-3 py-1 text-xs bg-emerald-50 text-emerald-700 rounded-lg font-medium"
-            >
-              Mensal
-            </button>
-          </div>
-        </div>
-
-        <div class="h-64">
-          @if (graficoDias.length > 0) {
-          <div class="h-full flex items-end space-x-1">
+        <div class="mt-4 pt-4 border-t border-[#E0E5E7]">
+          <div class="h-2 bg-[#F8F7F5] rounded-full overflow-hidden">
             <div
-              *ngFor="let dia of graficoDias"
-              class="flex-1 rounded-t-sm"
-              [style.height.%]="dia.saldoPercentual"
-              [ngClass]="{
-                'bg-gradient-to-t from-emerald-500 to-emerald-100':
-                  dia.positivo,
-                'bg-gradient-to-t from-rose-500 to-rose-100': !dia.positivo
-              }"
+              class="h-full bg-[#1C6956] rounded-full animate-progress"
             ></div>
           </div>
-          } @else {
-          <div class="h-full flex items-center justify-center text-gray-500">
-            @if (loading) {
-            <span>Carregando dados...</span>
-            } @else {
-            <span>Nenhum dado disponível para o período selecionado</span>
-            }
-          </div>
-          }
-        </div>
-
-        <div class="flex justify-between mt-2 text-xs text-gray-500">
-          <span>1</span>
-          <span>7</span>
-          <span>14</span>
-          <span>21</span>
-          <span>28</span>
-          <span>{{ getLastDayOfMonth() }}</span>
         </div>
       </div>
 
-      <!-- Distribuição por Categoria -->
-      <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-        <div class="flex justify-between items-center mb-4">
-          <h3 class="text-lg font-semibold text-gray-900">
-            Distribuição por Categoria
-          </h3>
-          <button
-            class="text-sm text-emerald-600 hover:text-emerald-700 font-medium"
-            (click)="toggleShowAllCategories()"
-          >
-            {{ showAllCategories ? "Ver menos" : "Ver todas" }}
-          </button>
-        </div>
-        <div class="space-y-4">
-          @if (getCategorias().length > 0) { @for (categoria of
-          (showAllCategories ? getCategorias() : getCategorias().slice(0,5));
-          track categoria) {
-          <div class="flex items-center">
-            <div
-              class="w-8 h-8 rounded-md bg-emerald-100 flex items-center justify-center mr-3"
-            >
-              <svg
-                class="h-4 w-4 text-emerald-600"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-            </div>
-            <div class="flex-1">
-              <div class="flex justify-between text-sm mb-1">
-                <span class="font-medium text-gray-700">{{ categoria }}</span>
-                <span class="text-gray-500">{{
-                  getTotalPorCategoria(categoria)
-                }}</span>
-              </div>
-              <div class="w-full bg-gray-200 rounded-full h-1.5">
-                <div
-                  class="bg-emerald-600 h-1.5 rounded-full"
-                  [style.width.%]="
-                    (getTotalPorCategoria(categoria) / getMaxCategoria()) * 100
-                  "
-                ></div>
-              </div>
-            </div>
-          </div>
-          } } @else {
-          <div class="text-center py-4 text-gray-500">
-            @if (loading) {
-            <span>Carregando categorias...</span>
-            } @else {
-            <span>Nenhuma categoria encontrada</span>
-            }
-          </div>
-          }
-        </div>
-      </div>
-    </div>
-    <!-- Lista de Transações -->
-    <div
-      class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden"
-    >
-      <div class="px-6 py-4 border-b border-gray-100">
-        <div
-          class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
-        >
-          <h3 class="text-lg font-semibold text-gray-900">
-            Histórico de Transações
-          </h3>
-          <div class="flex space-x-3">
-            <div class="relative">
-              <select
-                class="appearance-none bg-white pl-3 pr-8 py-2 text-sm rounded-lg border border-gray-200 text-gray-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-              >
-                <option>Todas as categorias</option>
-                <option>Receitas</option>
-                <option>Despesas</option>
-              </select>
-              <div
-                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
-              >
-                <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                  <path
-                    fill-rule="evenodd"
-                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-              </div>
-            </div>
-            <button
-              class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium rounded-lg shadow-sm flex items-center"
-            >
-              <svg
-                class="h-4 w-4 mr-2"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                />
-              </svg>
-              Nova transação
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Cabeçalho da Tabela -->
+      <!-- Card de Despesas -->
       <div
-        class="hidden sm:grid grid-cols-12 gap-4 px-6 py-3 bg-gray-50 text-xs font-medium text-gray-500 uppercase tracking-wider"
+        class="bg-white p-6 rounded-2xl shadow-lg border border-white/20 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 group"
       >
-        <div class="col-span-5">Descrição</div>
-        <div class="col-span-2">Categoria</div>
-        <div class="col-span-2">Data</div>
-        <div class="col-span-2 text-right">Valor</div>
-        <div class="col-span-1"></div>
-      </div>
-
-      <!-- Lista de Transações -->
-      <div class="divide-y divide-gray-100">
-        @if (loading) {
-        <div class="p-8 text-center">
-          <div
-            class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700"
-          >
-            <svg
-              class="animate-spin -ml-1 mr-3 h-5 w-5 text-emerald-500"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                class="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                stroke-width="4"
-              ></circle>
-              <path
-                class="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              ></path>
-            </svg>
-            Carregando transações...
-          </div>
-        </div>
-        } @if (!loading && transacoes.length > 0) { @for (transacao of
-        transacoes; track $index) {
-        <div
-          class="grid grid-cols-1 sm:grid-cols-12 gap-4 px-6 py-4 hover:bg-gray-50 transition-colors"
-        >
-          <!-- Descrição -->
-          <div class="col-span-5 flex items-center">
-            <div
-              [ngClass]="{
-                'bg-emerald-100 text-emerald-600': transacao.tipo === 'RECEITA',
-                'bg-rose-100 text-rose-600': transacao.tipo === 'DESPESA'
-              }"
-              class="flex-shrink-0 p-2 rounded-lg mr-3"
-            >
-              @if (transacao.tipo === 'RECEITA') {
+        <div class="flex justify-between items-start">
+          <div>
+            <p class="text-[#5e6d72] text-sm font-medium flex items-center">
               <svg
-                class="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                />
-              </svg>
-              } @else {
-              <svg
-                class="h-5 w-5"
+                class="h-5 w-5 mr-2 text-[#748389]"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -468,47 +280,48 @@
                   d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"
                 />
               </svg>
-              }
-            </div>
-            <div>
-              <p class="font-medium text-gray-900">{{ transacao.descricao }}</p>
-              <p class="text-sm text-gray-500">{{ transacao.banco }}</p>
-            </div>
+              Despesas
+            </p>
+            <p class="text-3xl font-bold text-[#748389] mt-2 animate-count-up">
+              {{ formatCurrency(getTotalDespesas()) }}
+            </p>
           </div>
-
-          <!-- Categoria -->
-          <div class="col-span-2 flex items-center">
-            <span
-              class="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-full"
+          <div
+            class="w-12 h-12 rounded-xl bg-gradient-to-br from-[#748389] to-[#5e6d72] flex items-center justify-center shadow-md group-hover:-rotate-6 transition-transform"
+          >
+            <svg
+              class="h-6 w-6 text-white"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
             >
-              {{ transacao.categoria }}
-            </span>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
           </div>
-
-          <!-- Data -->
-          <div class="col-span-2 flex items-center text-sm text-gray-500">
-            {{ formatDate(transacao.data) }}
+        </div>
+        <div class="mt-4 pt-4 border-t border-[#E0E5E7]">
+          <div class="h-2 bg-[#F8F7F5] rounded-full overflow-hidden">
+            <div
+              class="h-full bg-[#748389] rounded-full animate-progress"
+            ></div>
           </div>
+        </div>
+      </div>
 
-          <!-- Valor -->
-          <div class="col-span-2 flex items-center justify-end">
-            <span
-              [ngClass]="{
-                'text-emerald-600': transacao.tipo === 'RECEITA',
-                'text-rose-600': transacao.tipo === 'DESPESA'
-              }"
-              class="font-medium"
-            >
-              {{ transacao.tipo === "RECEITA" ? "+" : "-"
-              }}{{ formatCurrency(transacao.valor) }}
-            </span>
-          </div>
-
-          <!-- Ações -->
-          <div class="col-span-1 flex items-center justify-end">
-            <button class="text-gray-400 hover:text-gray-500">
+      <!-- Card de Saldo -->
+      <div
+        class="bg-white p-6 rounded-2xl shadow-lg border border-white/20 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 group"
+      >
+        <div class="flex justify-between items-start">
+          <div>
+            <p class="text-[#5e6d72] text-sm font-medium flex items-center">
               <svg
-                class="h-5 w-5"
+                class="h-5 w-5 mr-2 text-[#013E4C]"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -517,40 +330,343 @@
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
-                  d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"
+                  d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
+              Saldo Mensal
+            </p>
+            <p
+              class="text-3xl font-bold mt-2 animate-count-up"
+              [ngClass]="{
+                'text-[#1C6956]': getSaldo() > 0,
+                'text-[#748389]': getSaldo() <= 0
+              }"
+            >
+              {{ formatCurrency(getSaldo()) }}
+            </p>
+          </div>
+          <div
+            class="w-12 h-12 rounded-xl bg-gradient-to-br from-[#013E4C] to-[#1C6956] flex items-center justify-center shadow-md group-hover:scale-110 transition-transform"
+          >
+            <svg
+              class="h-6 w-6 text-white"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </div>
+        </div>
+        <div class="mt-4 pt-4 border-t border-[#E0E5E7]">
+          <div class="h-2 bg-[#F8F7F5] rounded-full overflow-hidden">
+            <div
+              class="h-full bg-gradient-to-r from-[#013E4C] to-[#1C6956] rounded-full animate-progress"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gráficos e Visualizações -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8 animate-fade-in">
+      <!-- Gráfico de Fluxo Diário Aprimorado -->
+      <div
+        class="lg:col-span-2 bg-white p-6 rounded-2xl shadow-xl border border-white/20 hover:shadow-2xl transition-all duration-500"
+      >
+        <div class="flex justify-between items-center mb-6">
+          <div>
+            <h3 class="text-xl font-bold text-[#013E4C] flex items-center">
+              <svg
+                class="h-6 w-6 mr-2 text-[#1C6956]"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                />
+              </svg>
+              Fluxo Financeiro Diário
+            </h3>
+            <p class="text-sm text-[#5e6d72] mt-1">
+              Variação diária de receitas e despesas
+            </p>
+          </div>
+          <div class="relative">
+            <button
+              class="px-4 py-2 bg-[#D8EAE5] text-[#1C6956] rounded-xl font-medium text-sm flex items-center group"
+            >
+              Mensal
             </button>
           </div>
         </div>
-        } } @if (!loading && transacoes.length === 0) {
-        <div class="p-12 text-center">
-          <svg
-            class="mx-auto h-12 w-12 text-gray-400"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1.5"
-              d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-            />
-          </svg>
-          <h3 class="mt-2 text-lg font-medium text-gray-900">
-            Nenhuma transação encontrada
-          </h3>
-          <p class="mt-1 text-sm text-gray-500">
-            Não há movimentações financeiras registradas para
-            {{ getMonthYear() | titlecase }}.
-          </p>
-          <div class="mt-6">
+
+        <!-- Container do Gráfico -->
+        <div class="h-72 relative">
+          @if (graficoDias && graficoDias.length > 0) {
+          <!-- Gráfico Interativo -->
+          <div class="h-full flex items-end gap-2">
+            @for (dia of graficoDias; track dia.dia) {
+            <div
+              class="flex-1 flex flex-col items-center group relative"
+              [ngClass]="{ 'hover:z-10': dia.saldo !== 0 }"
+            >
+              <!-- Barra do gráfico com efeito hover -->
+              <div
+                class="w-full rounded-t-lg transition-all duration-300 ease-out"
+                [style.height.%]="dia.saldoPercentual"
+                [ngClass]="{
+                  'bg-gradient-to-t from-[#1C6956] to-[#D8EAE5] hover:from-[#1C6956] hover:to-[#1C6956]/90':
+                    dia.positivo,
+                  'bg-gradient-to-t from-[#EF4444] to-[#FECACA] hover:from-[#DC2626] hover:to-[#DC2626]/90':
+                    !dia.positivo,
+                  'opacity-50': dia.saldo === 0
+                }"
+              ></div>
+
+              <!-- Tooltip informativo -->
+              <div
+                class="absolute bottom-full mb-2 hidden group-hover:block bg-white p-2 rounded-lg shadow-lg border border-[#E0E5E7] text-xs min-w-[120px] text-center"
+              >
+                <p class="font-semibold">Dia {{ dia.dia }}</p>
+                <p
+                  [ngClass]="{
+                    'text-[#1C6956]': dia.positivo,
+                    'text-[#EF4444]': !dia.positivo
+                  }"
+                >
+                  {{ dia.positivo ? "+" : "" }}{{ formatCurrency(dia.saldo) }}
+                </p>
+              </div>
+
+              <!-- Rótulo do dia -->
+              <span class="text-xs text-[#5e6d72] mt-1">{{ dia.dia }}</span>
+            </div>
+            }
+          </div>
+
+          <!-- Linha de referência -->
+          <div class="absolute left-0 right-0 h-px bg-[#E0E5E7] top-1/2"></div>
+          } @else {
+          <!-- Estado vazio/loading -->
+          <div class="h-full flex flex-col items-center justify-center">
+            @if (loading) {
+            <div class="text-center animate-pulse">
+              <div
+                class="w-16 h-16 bg-[#D8EAE5] rounded-full flex items-center justify-center mx-auto mb-4"
+              >
+                <svg
+                  class="h-8 w-8 text-[#1C6956] animate-spin"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                  />
+                </svg>
+              </div>
+              <p class="text-[#5e6d72]">Processando dados financeiros...</p>
+            </div>
+            } @else {
+            <div class="text-center">
+              <svg
+                class="h-16 w-16 text-[#E0E5E7] mx-auto mb-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1"
+                  d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                />
+              </svg>
+              <p class="text-[#5e6d72]">Nenhuma transação neste período</p>
+              <button
+                class="mt-4 px-4 py-2 bg-[#1C6956] text-white rounded-lg text-sm font-medium hover:bg-[#013E4C] transition-colors"
+              >
+                Adicionar Transação
+              </button>
+            </div>
+            }
+          </div>
+          }
+        </div>
+
+        <!-- Legenda do Gráfico -->
+        <div class="flex justify-between mt-4 text-xs text-[#5e6d72]">
+          <span>Início</span>
+          <span>Metade</span>
+          <span>Fim</span>
+        </div>
+      </div>
+
+      <!-- Distribuição por Categoria Modernizada -->
+      <div
+        class="bg-white p-6 rounded-2xl shadow-xl border border-white/20 hover:shadow-2xl transition-all duration-500"
+      >
+        <div class="flex justify-between items-center mb-6">
+          <div>
+            <h3 class="text-xl font-bold text-[#013E4C] flex items-center">
+              <svg
+                class="h-6 w-6 mr-2 text-[#1C6956]"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
+                />
+              </svg>
+              Gastos por Categoria
+            </h3>
+            <p class="text-sm text-[#5e6d72] mt-1">
+              Distribuição das suas despesas
+            </p>
+          </div>
+        </div>
+
+        <div class="space-y-5">
+          @if (getCategorias().length > 0) { @for (categoria of
+          (showAllCategories ? getCategorias() : getCategorias().slice(0,5));
+          track categoria) {
+          <div class="group">
+            <div class="flex justify-between text-sm mb-1">
+              <span class="font-medium text-[#013E4C]">{{ categoria }}</span>
+              <span class="text-[#5e6d72]">{{
+                formatCurrency(getTotalPorCategoria(categoria))
+              }}</span>
+            </div>
+
+            <div class="w-full bg-[#F8F7F5] rounded-full h-2 overflow-hidden">
+              <div
+                class="h-full rounded-full bg-gradient-to-r from-[#1C6956] to-[#013E4C] transition-all duration-700 ease-out"
+                [style.width.%]="
+                  (getTotalPorCategoria(categoria) / getMaxCategoria()) * 100
+                "
+              ></div>
+            </div>
+
+            <div class="mt-1 flex justify-between text-xs text-[#5e6d72]">
+              <span
+                >{{
+                  (getTotalPorCategoria(categoria) / getTotalDespesas()) * 100
+                    | number : "1.0-0"
+                }}% do total</span
+              >
+            </div>
+          </div>
+          } } @else {
+          <div class="text-center py-8">
+            @if (loading) {
+            <div class="flex items-center justify-center text-[#5e6d72]">
+              <svg
+                class="animate-spin h-5 w-5 mr-2 text-[#1C6956]"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+              Carregando categorias...
+            </div>
+            } @else {
+            <svg
+              class="h-16 w-16 text-[#E0E5E7] mx-auto mb-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1"
+                d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
+              />
+            </svg>
+            <p class="text-[#5e6d72] mb-4">Nenhuma despesa categorizada</p>
             <button
-              class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+              class="px-4 py-2 bg-[#1C6956] text-white rounded-lg text-sm font-medium hover:bg-[#013E4C] transition-colors"
+            >
+              Adicionar Categorias
+            </button>
+            }
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Lista de Transações -->
+    <div
+      class="bg-[#F8F7F5] rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl"
+    >
+      <!-- Cabeçalho -->
+      <div class="px-6 py-5 bg-[#013E4C] text-white">
+        <div
+          class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
+        >
+          <div class="flex items-center space-x-3">
+            <div class="p-2 bg-[#1C6956] rounded-lg">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold">Histórico Financeiro</h3>
+              <p class="text-sm text-[#E0E5E7]">
+                Visualize e gerencie suas transações
+              </p>
+            </div>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+            <button
+              class="px-4 py-2 bg-[#1C6956] hover:bg-[#1a5e4d] text-white text-sm font-medium rounded-lg shadow-sm flex items-center justify-center space-x-2 transition-all duration-200 transform hover:scale-[1.02] active:scale-95"
             >
               <svg
-                class="-ml-1 mr-2 h-5 w-5"
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -562,36 +678,339 @@
                   d="M12 6v6m0 0v6m0-6h6m-6 0H6"
                 />
               </svg>
-              Adicionar transação
+              <span>Nova transação</span>
             </button>
           </div>
         </div>
-        }
       </div>
 
-      <!-- Rodapé da Tabela -->
-      <div
-        class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex flex-col sm:flex-row justify-between items-center"
-      >
-        <div class="text-sm text-gray-500 mb-2 sm:mb-0">
-          Mostrando <span class="font-medium">1</span> a
-          <span class="font-medium">{{ transacoes.length }}</span> de
-          <span class="font-medium">{{ transacoes.length }}</span> resultados
+      <!-- Gráfico Resumo (Novo elemento) -->
+      <div class="px-6 py-4 bg-white border-b border-[#E0E5E7]">
+        <div class="flex flex-wrap items-center justify-between mb-3">
+          <h4 class="text-sm font-semibold text-[#5e6d72]">RESUMO DO MÊS</h4>
         </div>
-        <div class="flex space-x-2">
-          <button
-            class="px-3 py-1 rounded-md border border-gray-300 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+
+        <!-- Barra de progresso animada -->
+        <div class="mt-4 h-2 bg-[#E0E5E7] rounded-full overflow-hidden">
+          <div
+            class="h-full bg-gradient-to-r from-[#1C6956] to-[#013E4C] rounded-full animate-[progressBar_2s_ease-in-out]"
+          ></div>
+        </div>
+      </div>
+
+      <!-- Cabeçalho da Tabela -->
+      <div
+        class="hidden sm:grid grid-cols-12 gap-4 px-6 py-3 bg-white text-xs font-medium text-[#5e6d72] uppercase tracking-wider border-b border-[#E0E5E7]"
+      >
+        <div class="col-span-5 flex items-center">
+          <span>Descrição</span>
+          <button class="ml-1 text-[#748389] hover:text-[#013E4C]">
+            <svg
+              class="h-3 w-3"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"
+              />
+            </svg>
+          </button>
+        </div>
+        <div class="col-span-2">Categoria</div>
+        <div class="col-span-2">Data</div>
+        <div class="col-span-2 text-right">Valor</div>
+        <div class="col-span-1"></div>
+      </div>
+
+      <!-- Lista de Transações -->
+      <div class="divide-y divide-[#E0E5E7]">
+        <!-- Estado de Carregamento -->
+        <div *ngIf="loading" class="p-8 text-center">
+          <div class="inline-flex flex-col items-center">
+            <div class="animate-bounce mb-4">
+              <svg
+                class="h-12 w-12 text-[#1C6956]"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+            </div>
+            <p class="text-[#5e6d72] animate-pulse">
+              Carregando suas transações...
+            </p>
+          </div>
+        </div>
+
+        <!-- Transações -->
+        <div *ngIf="!loading && transacoes.length > 0">
+          <div
+            *ngFor="let transacao of transacoes"
+            class="grid grid-cols-1 sm:grid-cols-12 gap-4 px-6 py-4 bg-white hover:bg-[#F8F7F5] transition-all duration-200 ease-in-out transform hover:translate-x-1"
           >
+            <!-- Descrição -->
+            <div class="col-span-5 flex items-center">
+              <div
+                [ngClass]="{
+                  'bg-[#D8EAE5] text-[#1C6956]': transacao.tipo === 'RECEITA',
+                  'bg-[#F5E8E8] text-[#A83E3E]': transacao.tipo === 'DESPESA'
+                }"
+                class="flex-shrink-0 p-2 rounded-xl mr-3 transition-all duration-200 hover:scale-110"
+              >
+                <svg
+                  *ngIf="transacao.tipo === 'RECEITA'"
+                  class="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                  />
+                </svg>
+                <svg
+                  *ngIf="transacao.tipo === 'DESPESA'"
+                  class="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"
+                  />
+                </svg>
+              </div>
+              <div>
+                <p class="font-medium text-[#013E4C]">
+                  {{ transacao.descricao }}
+                </p>
+                <p class="text-sm text-[#748389]">{{ transacao.banco }}</p>
+              </div>
+            </div>
+
+            <!-- Categoria -->
+            <div class="col-span-2 flex items-center">
+              <span
+                class="px-3 py-1 text-xs font-medium bg-[#E0E5E7] text-[#5e6d72] rounded-full transition-colors hover:bg-[#D8EAE5]"
+              >
+                {{ transacao.categoria }}
+              </span>
+            </div>
+
+            <!-- Data -->
+            <div class="col-span-2 flex items-center text-sm text-[#5e6d72]">
+              <span class="inline-flex items-center">
+                <svg
+                  class="h-4 w-4 mr-1 text-[#748389]"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  />
+                </svg>
+                {{ formatDate(transacao.data) }}
+              </span>
+            </div>
+
+            <!-- Valor -->
+            <div class="col-span-2 flex items-center justify-end">
+              <span
+                [ngClass]="{
+                  'text-[#1C6956]': transacao.tipo === 'RECEITA',
+                  'text-[#A83E3E]': transacao.tipo === 'DESPESA'
+                }"
+                class="font-medium text-lg"
+              >
+                {{ transacao.tipo === "RECEITA" ? "+" : "-"
+                }}{{ formatCurrency(transacao.valor) }}
+              </span>
+            </div>
+
+            <!-- Ações -->
+            <div class="col-span-1 flex items-center justify-end">
+              <button
+                class="text-[#748389] hover:text-[#013E4C] transition-colors group relative"
+              >
+                <svg
+                  class="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"
+                  />
+                </svg>
+                <div
+                  class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 py-1 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                >
+                  <a
+                    href="#"
+                    class="block px-4 py-2 text-sm text-[#5e6d72] hover:bg-[#F8F7F5]"
+                    >Editar</a
+                  >
+                  <a
+                    href="#"
+                    class="block px-4 py-2 text-sm text-[#5e6d72] hover:bg-[#F8F7F5]"
+                    >Duplicar</a
+                  >
+                  <a
+                    href="#"
+                    class="block px-4 py-2 text-sm text-red-500 hover:bg-[#F8F7F5]"
+                    >Excluir</a
+                  >
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estado Vazio -->
+        <div
+          *ngIf="!loading && transacoes.length === 0"
+          class="p-12 text-center animate-fade-in"
+        >
+          <div class="max-w-md mx-auto">
+            <div class="relative w-40 h-40 mx-auto mb-6">
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/4076/4076478.png"
+                alt="Nenhuma transação"
+                class="w-full h-full object-contain opacity-90"
+              />
+              <div
+                class="absolute -inset-4 bg-[#D8EAE5] rounded-full -z-10 animate-pulse"
+              ></div>
+            </div>
+            <h3 class="mt-4 text-lg font-medium text-[#013E4C]">
+              Nenhuma transação encontrada
+            </h3>
+            <p class="mt-2 text-sm text-[#5e6d72]">
+              Parece que você ainda não tem movimentações registradas para
+              {{ getMonthYear() | titlecase }}.
+            </p>
+            <div class="mt-6">
+              <button
+                class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-lg text-white bg-[#1C6956] hover:bg-[#1a5e4d] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1C6956] transition-all duration-200 transform hover:scale-105 active:scale-95"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="-ml-1 mr-2 h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                  />
+                </svg>
+                Adicionar primeira transação
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rodapé -->
+      <div
+        class="px-6 py-4 bg-white border-t border-[#E0E5E7] flex flex-col sm:flex-row justify-between items-center"
+      >
+        <div class="text-sm text-[#5e6d72] mb-3 sm:mb-0">
+          Mostrando <span class="font-medium text-[#013E4C]">1</span> a
+          <span class="font-medium text-[#013E4C]">{{
+            transacoes.length
+          }}</span>
+          de
+          <span class="font-medium text-[#013E4C]">{{
+            transacoes.length
+          }}</span>
+          transações
+        </div>
+
+        <div class="flex items-center space-x-3">
+          <button
+            (click)="prevMonth()"
+            class="px-3 py-1 rounded-lg border border-[#E0E5E7] text-sm font-medium text-[#5e6d72] bg-white hover:bg-[#F8F7F5] flex items-center transition-all duration-200 hover:border-[#1C6956] hover:text-[#1C6956]"
+          >
+            <svg
+              class="h-4 w-4 mr-1"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
             Anterior
           </button>
+
+          <div
+            class="px-3 py-1 rounded-lg bg-[#F8F7F5] text-sm font-medium text-[#013E4C]"
+          >
+            {{ getMonthYear() | titlecase }}
+          </div>
+
           <button
-            class="px-3 py-1 rounded-md border border-gray-300 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+            (click)="nextMonth()"
+            class="px-3 py-1 rounded-lg border border-[#E0E5E7] text-sm font-medium text-[#5e6d72] bg-white hover:bg-[#F8F7F5] flex items-center transition-all duration-200 hover:border-[#1C6956] hover:text-[#1C6956]"
           >
             Próximo
+            <svg
+              class="h-4 w-4 ml-1"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
           </button>
         </div>
       </div>
     </div>
+
+    <!-- Adicione isso no seu CSS global ou no estilo do componente -->
   </main>
 
   <!-- Rodapé Global -->
