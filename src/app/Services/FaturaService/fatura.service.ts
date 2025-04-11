@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
@@ -22,11 +22,17 @@ export class FaturaService {
     mes: number,
     ano: number
   ): Observable<CartaoDetalhesDTO[]> {
-    return this.http.get<CartaoDetalhesDTO[]>(
-      `${this.apiUrl}/${cartaoId}/${mes}/${ano}`,
-      { headers: this.getAuthHeaders() }
-    );
+    const params = new HttpParams()
+      .set('cartaoId', cartaoId)
+      .set('mes', mes.toString())
+      .set('ano', ano.toString());
+
+    return this.http.get<CartaoDetalhesDTO[]>(`${this.apiUrl}`, {
+      headers: this.getAuthHeaders(),
+      params: params,
+    });
   }
+
   pagarFatura(request: PagamentoFaturaRequest): Observable<any> {
     return this.http.put(`${this.apiUrl}/pagar`, request, {
       headers: this.getAuthHeaders(),
