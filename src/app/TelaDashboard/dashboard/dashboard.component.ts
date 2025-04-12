@@ -20,6 +20,8 @@ import { MetaFinanceiraResponseDTO } from '../../Interface/MetaFinanceiraRespons
 import { MetaService } from '../../Services/MetaService/meta.service';
 import { CartaoService } from '../../Services/CartaoService/cartao.service';
 import { CartaoResponseDTO } from '../../Interface/CartaoDTO.interface';
+import { MatDialog } from '@angular/material/dialog';
+import { NovaTransacaoDialogComponent } from '../../Dialog/nova-transacao-dialog/nova-transacao-dialog.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -36,7 +38,8 @@ export class DashboardComponent {
     private receitaService: ReceitaService,
     private contaService: ContaService,
     private metaService: MetaService,
-    private cartaoService: CartaoService
+    private cartaoService: CartaoService,
+    private dialog: MatDialog
   ) {}
   isLoading = true;
   @Output() activeComponentChange = new EventEmitter<string>();
@@ -115,23 +118,16 @@ export class DashboardComponent {
   }
   currentDate: Date = new Date();
   openModal(type: string) {
-    this.modalType = type;
-    this.modalTitle = `Adicionar ${type}`;
+    const dialogRef = this.dialog.open(NovaTransacaoDialogComponent, {
+      width: '500px',
+      data: { tipo: type === 'Despesa' ? 'DESPESA' : 'RECEITA' },
+    });
 
-    this.carregarContas()
-      .then(() => {
-        if (type === 'Despesa') {
-          return this.getCategoriasDespesas();
-        }
-        return this.getCategoriasReceitas();
-      })
-      .then(() => {
-        this.cdr.detectChanges(); // Força a atualização do Angular
-        this.isModalOpen = true; // Abre o modal após carregar os dados
-      })
-      .catch((error) => {
-        this.toastService.error('Erro ao carregar dados');
-      });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.carregarDados(); // Recarrega os dados do dashboard se uma transação foi adicionada
+      }
+    });
   }
   carregarContas(): Promise<void> {
     return new Promise((resolve, reject) => {
