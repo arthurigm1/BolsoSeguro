@@ -7,6 +7,7 @@ import {
   subMonths,
   startOfMonth,
   endOfMonth,
+  parseISO,
 } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { ToastrService } from 'ngx-toastr';
@@ -107,8 +108,8 @@ export class LancamentosComponent implements OnInit {
     // 4. Processar transações e acumular por dia
     this.transacoes.forEach((transacao) => {
       try {
-        const transDate = new Date(transacao.data);
-        // Verificar se a transação pertence ao mês/ano selecionado
+        const transDate = parseISO(transacao.data);
+        // Verificar se a transação pertence a  o mês/ano selecionado
         if (
           transDate.getFullYear() === year &&
           transDate.getMonth() === month

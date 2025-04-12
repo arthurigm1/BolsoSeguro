@@ -170,39 +170,6 @@
         </div>
       </div>
 
-      @if (tipoTransacao === 'DESPESA') {
-      <!-- Tipo de Pagamento -->
-      <div>
-        <label class="block text-sm font-medium text-[#5e6d72] mb-1"
-          >Tipo de Pagamento *</label
-        >
-        <select
-          formControlName="tipoPagamento"
-          class="w-full px-4 py-2 border border-[#E0E5E7] rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:border-transparent"
-        >
-          <option value="CONTA">Conta</option>
-          <option value="CARTAO">Cartão</option>
-        </select>
-      </div>
-
-      <!-- Cartão (apenas para despesas) -->
-      @if (form.get('tipoPagamento')?.value === 'CARTAO') {
-      <div>
-        <label class="block text-sm font-medium text-[#5e6d72] mb-1"
-          >Cartão *</label
-        >
-        <select
-          formControlName="cartaoId"
-          class="w-full px-4 py-2 border border-[#E0E5E7] rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:border-transparent"
-        >
-          <option value="">Selecione um cartão</option>
-          @for (cartao of cartoes; track cartao.id) {
-          <option [value]="cartao.id">{{ cartao.nome }}</option>
-          }
-        </select>
-      </div>
-      } }
-
       <!-- Botões -->
       <div class="flex justify-end space-x-3 mt-6">
         <button
