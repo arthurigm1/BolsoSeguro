@@ -23,3 +23,15 @@
   .animate-fade-in {
       animation: fadeIn 0.5s ease-out forwards;
   }
+
+  /* Garantir que o container do gráfico tenha altura fixa */
+  .h-72 {
+      height: 18rem;
+      /* 288px */
+  }
+
+
+  /* Tooltip */
+  .group:hover .group-hover\:block {
+      display: block;
+  }

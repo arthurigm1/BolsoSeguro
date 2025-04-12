@@ -44,6 +44,7 @@ export class DashboardComponent {
   accounts: ContaSaldoDTO[] = [];
   saldo: number = 0;
   cartoes: CartaoResponseDTO[] = [];
+
   metas: MetaFinanceiraResponseDTO[] = [];
   totalReceitas: number = 0;
   totalDespesas: number = 0;

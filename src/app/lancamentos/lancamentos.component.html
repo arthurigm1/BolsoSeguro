@@ -375,7 +375,7 @@
 
     <!-- Gráficos e Visualizações -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8 animate-fade-in">
-      <!-- Gráfico de Fluxo Diário Aprimorado -->
+      <!-- Container principal do card (mantido sempre visível) -->
       <div
         class="lg:col-span-2 bg-white p-6 rounded-2xl shadow-xl border border-white/20 hover:shadow-2xl transition-all duration-500"
       >
@@ -410,54 +410,49 @@
           </div>
         </div>
 
-        <!-- Container do Gráfico -->
+        <!-- Container do Gráfico (sempre visível) -->
         <div class="h-72 relative">
           @if (graficoDias && graficoDias.length > 0) {
           <!-- Gráfico Interativo -->
-          <div class="h-full flex items-end gap-2">
+          <div class="h-full flex items-end gap-1">
             @for (dia of graficoDias; track dia.dia) {
             <div
-              class="flex-1 flex flex-col items-center group relative"
-              [ngClass]="{ 'hover:z-10': dia.saldo !== 0 }"
+              class="flex-1 flex flex-col items-center group relative h-full"
             >
-              <!-- Barra do gráfico com efeito hover -->
+              <!-- Barra do gráfico -->
               <div
-                class="w-full rounded-t-lg transition-all duration-300 ease-out"
+                class="w-full rounded-t-lg transition-all duration-300 ease-out min-h-[1px]"
                 [style.height.%]="dia.saldoPercentual"
                 [ngClass]="{
-                  'bg-gradient-to-t from-[#1C6956] to-[#D8EAE5] hover:from-[#1C6956] hover:to-[#1C6956]/90':
-                    dia.positivo,
-                  'bg-gradient-to-t from-[#EF4444] to-[#FECACA] hover:from-[#DC2626] hover:to-[#DC2626]/90':
-                    !dia.positivo,
+                  'bg-[#1C6956] hover:bg-[#0E5543]': dia.positivo,
+                  'bg-[#EF4444] hover:bg-[#DC2626]': !dia.positivo,
                   'opacity-50': dia.saldo === 0
                 }"
               ></div>
 
-              <!-- Tooltip informativo -->
+              <!-- Tooltip -->
               <div
-                class="absolute bottom-full mb-2 hidden group-hover:block bg-white p-2 rounded-lg shadow-lg border border-[#E0E5E7] text-xs min-w-[120px] text-center"
+                class="absolute bottom-full mb-2 hidden group-hover:block bg-white p-2 rounded shadow text-xs"
               >
-                <p class="font-semibold">Dia {{ dia.dia }}</p>
+                <p class="font-bold">Dia {{ dia.dia }}</p>
                 <p
-                  [ngClass]="{
-                    'text-[#1C6956]': dia.positivo,
-                    'text-[#EF4444]': !dia.positivo
-                  }"
+                  [class.text-green-600]="dia.positivo"
+                  [class.text-red-600]="!dia.positivo"
                 >
                   {{ dia.positivo ? "+" : "" }}{{ formatCurrency(dia.saldo) }}
                 </p>
               </div>
 
               <!-- Rótulo do dia -->
-              <span class="text-xs text-[#5e6d72] mt-1">{{ dia.dia }}</span>
+              <span class="text-xs text-gray-500 mt-1">{{ dia.dia }}</span>
             </div>
             }
           </div>
 
           <!-- Linha de referência -->
-          <div class="absolute left-0 right-0 h-px bg-[#E0E5E7] top-1/2"></div>
+          <div class="absolute left-0 right-0 h-px bg-gray-200 top-1/2"></div>
           } @else {
-          <!-- Estado vazio/loading -->
+          <!-- Estado vazio (dentro do card) -->
           <div class="h-full flex flex-col items-center justify-center">
             @if (loading) {
             <div class="text-center animate-pulse">
@@ -496,25 +491,19 @@
                 />
               </svg>
               <p class="text-[#5e6d72]">Nenhuma transação neste período</p>
-              <button
-                class="mt-4 px-4 py-2 bg-[#1C6956] text-white rounded-lg text-sm font-medium hover:bg-[#013E4C] transition-colors"
-              >
-                Adicionar Transação
-              </button>
             </div>
             }
           </div>
           }
         </div>
 
-        <!-- Legenda do Gráfico -->
+        <!-- Legenda do Gráfico (sempre visível) -->
         <div class="flex justify-between mt-4 text-xs text-[#5e6d72]">
           <span>Início</span>
           <span>Metade</span>
           <span>Fim</span>
         </div>
       </div>
-
       <!-- Distribuição por Categoria Modernizada -->
       <div
         class="bg-white p-6 rounded-2xl shadow-xl border border-white/20 hover:shadow-2xl transition-all duration-500"
@@ -662,6 +651,7 @@
 
           <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
             <button
+              (click)="openNovaTransacaoDialog()"
               class="px-4 py-2 bg-[#1C6956] hover:bg-[#1a5e4d] text-white text-sm font-medium rounded-lg shadow-sm flex items-center justify-center space-x-2 transition-all duration-200 transform hover:scale-[1.02] active:scale-95"
             >
               <svg

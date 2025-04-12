@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { TransacoesService } from '../Services/TransacaoService/transacoes.service';
 import {
   format,
@@ -9,6 +9,10 @@ import {
   endOfMonth,
 } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { ToastrService } from 'ngx-toastr';
+import { MatDialog } from '@angular/material/dialog';
+import { NovaTransacaoDialogComponent } from '../Dialog/nova-transacao-dialog/nova-transacao-dialog.component';
+import { SelecionarTipoTransacaoDialogComponent } from '../Dialog/selecionar-tipo-transacao-dialog/selecionar-tipo-transacao-dialog.component';
 
 interface TransacaoDetalhadaDTO {
   banco: string;
@@ -41,7 +45,12 @@ export class LancamentosComponent implements OnInit {
   loading = false;
   error = '';
 
-  constructor(private transacaoService: TransacoesService) {}
+  constructor(
+    private transacaoService: TransacoesService,
+    private cdRef: ChangeDetectorRef,
+    private toarstService: ToastrService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.carregarTransacoes();
@@ -70,53 +79,76 @@ export class LancamentosComponent implements OnInit {
 
   // Garanta que o método processarGrafico() está correto:
   processarGrafico(): void {
-    // 1. Verifica se há transações
-    if (!this.transacoes || this.transacoes.length === 0) {
-      this.graficoDias = this.criarArrayDiasVazios();
+    // Garantir que temos um mês válido
+    if (!this.selectedDate) {
+      this.graficoDias = [];
       return;
     }
 
-    // 2. Determina quantos dias tem o mês selecionado
-    const ultimoDiaMes = new Date(
-      this.selectedDate.getFullYear(),
-      this.selectedDate.getMonth() + 1,
-      0
-    ).getDate();
+    // 1. Determinar quantos dias tem o mês
+    const year = this.selectedDate.getFullYear();
+    const month = this.selectedDate.getMonth();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-    // 3. Inicializa o array de dias com valores zerados
-    const diasDoMes: GraficoDiaDTO[] = Array.from(
-      { length: ultimoDiaMes },
-      (_, i) => ({
-        dia: i + 1,
-        saldo: 0,
-        saldoPercentual: 0,
-        positivo: true,
-      })
-    );
+    // 2. Inicializar array de dias
+    this.graficoDias = Array.from({ length: daysInMonth }, (_, i) => ({
+      dia: i + 1,
+      saldo: 0,
+      saldoPercentual: 0,
+      positivo: true,
+    }));
 
-    // 4. Processa cada transação e acumula os valores por dia
+    // 3. Se não houver transações, manter tudo zerado
+    if (!this.transacoes || this.transacoes.length === 0) {
+      console.log('Nenhuma transação para exibir');
+      return;
+    }
+
+    // 4. Processar transações e acumular por dia
     this.transacoes.forEach((transacao) => {
       try {
-        // Converte a string de data para objeto Date
-        const dataTransacao = new Date(transacao.data);
-        const dia = dataTransacao.getDate();
-
-        // Verifica se a data está dentro do mês atual
-        if (dia >= 1 && dia <= ultimoDiaMes) {
-          const valor =
+        const transDate = new Date(transacao.data);
+        // Verificar se a transação pertence ao mês/ano selecionado
+        if (
+          transDate.getFullYear() === year &&
+          transDate.getMonth() === month
+        ) {
+          const day = transDate.getDate() - 1; // índice do array
+          const value =
             transacao.tipo === 'RECEITA' ? transacao.valor : -transacao.valor;
-          diasDoMes[dia - 1].saldo += valor;
+          this.graficoDias[day].saldo += value;
         }
       } catch (e) {
         console.error('Erro ao processar transação:', transacao, e);
       }
     });
 
-    // 5. Calcula os valores percentuais para o gráfico
-    this.calcularPercentuais(diasDoMes);
+    // 5. Calcular os percentuais para o gráfico
+    this.calcularPercentuais();
+    this.cdRef.detectChanges();
+  }
 
-    // 6. Atualiza a propriedade do componente
-    this.graficoDias = diasDoMes;
+  calcularPercentuais(): void {
+    if (!this.graficoDias || this.graficoDias.length === 0) return;
+
+    // Encontrar o maior valor absoluto para normalização
+    const maxValue = Math.max(
+      ...this.graficoDias.map((d) => Math.abs(d.saldo)),
+      1 // Evitar divisão por zero
+    );
+
+    // Calcular percentuais e determinar se é positivo
+    this.graficoDias.forEach((dia) => {
+      dia.positivo = dia.saldo >= 0;
+      dia.saldoPercentual = (Math.abs(dia.saldo) / maxValue) * 100;
+
+      // Debug: Verifique os valores calculados
+      console.log(`Dia ${dia.dia}:`, {
+        saldo: dia.saldo,
+        percentual: dia.saldoPercentual,
+        positivo: dia.positivo,
+      });
+    });
   }
 
   // Método auxiliar para criar array de dias vazios
@@ -133,20 +165,6 @@ export class LancamentosComponent implements OnInit {
       saldoPercentual: 0,
       positivo: true,
     }));
-  }
-
-  // Método auxiliar para calcular percentuais
-  calcularPercentuais(dias: GraficoDiaDTO[]): void {
-    // Encontra o maior valor absoluto para normalização
-    const maiorValor = Math.max(
-      ...dias.map((d) => Math.abs(d.saldo)),
-      1 // Garante que não dividiremos por zero
-    );
-
-    dias.forEach((dia) => {
-      dia.positivo = dia.saldo >= 0;
-      dia.saldoPercentual = (Math.abs(dia.saldo) / maiorValor) * 100;
-    });
   }
 
   // Método auxiliar para obter o último dia do mês
@@ -224,7 +242,7 @@ export class LancamentosComponent implements OnInit {
       },
       (error) => {
         this.isExporting = false;
-        console.error('Erro ao gerar o relatório:', error);
+        this.toarstService.error('Erro ao gerar relatório');
       }
     );
   }
@@ -249,5 +267,32 @@ export class LancamentosComponent implements OnInit {
       this.getTotalPorCategoria(c)
     );
     return Math.max(...valores, 1); // Evita divisão por zero
+  }
+
+  openNovaTransacaoDialog() {
+    // Primeiro abre o dialog de seleção
+    const dialogRef = this.dialog.open(SelecionarTipoTransacaoDialogComponent, {
+      width: '500px',
+    });
+
+    dialogRef.afterClosed().subscribe((tipo) => {
+      if (tipo) {
+        // Se um tipo foi selecionado, abre o dialog de transação
+        const transacaoDialogRef = this.dialog.open(
+          NovaTransacaoDialogComponent,
+          {
+            width: '500px',
+            data: { tipo },
+          }
+        );
+
+        transacaoDialogRef.afterClosed().subscribe((result) => {
+          if (result) {
+            // Atualizar a lista de transações
+            this.carregarTransacoes();
+          }
+        });
+      }
+    });
   }
 }

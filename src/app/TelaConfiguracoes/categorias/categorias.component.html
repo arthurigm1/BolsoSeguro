@@ -1,182 +1,272 @@
-<!-- Container Principal -->
-<div
-  class="min-h-screen bg-gradient-to-br from-[#F8F7F5] to-[#E0E5E7] p-4 sm:p-6"
->
-  <div class="max-w-4xl mx-auto">
-    <!-- Header -->
-    <div
-      class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4"
-    >
-      <div>
-        <h1 class="text-xl sm:text-2xl font-bold text-[#013E4C]">Categorias</h1>
-        <p class="text-sm text-[#5e6d72] mt-1">
-          Gerencie suas categorias de despesas e receitas
-        </p>
-      </div>
-      <button
-        (click)="openModal()"
-        [disabled]="isAddingCategory"
-        class="w-full sm:w-auto flex items-center justify-center font-semibold bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300"
-      >
-        @if (isAddingCategory) {
-        <i class="fas fa-spinner fa-spin mr-2"></i>
-        Processando... } @else {
-        <i class="fas fa-plus mr-2"></i>
-        {{
-          activeTab === "expenses"
-            ? "Nova Categoria de Despesa"
-            : "Nova Categoria de Receita"
-        }}
-        }
-      </button>
+<div class="max-w-4xl mx-auto p-4 sm:p-6">
+  <!-- Header -->
+  <div
+    class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4"
+  >
+    <div>
+      <h1 class="text-xl sm:text-2xl font-extrabold text-gray-900">
+        Categorias
+      </h1>
+      <p class="text-gray-500 mt-1 text-sm">
+        Gerencie suas categorias de despesas e receitas
+      </p>
     </div>
+    <button
+      (click)="openModal()"
+      [disabled]="isAddingCategory"
+      class="w-full sm:w-auto flex items-center justify-center font-semibold bg-gradient-to-r from-[#b6c6cc] to-[#5e6d72] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
+    >
+      @if (isAddingCategory) {
+      <svg
+        class="animate-spin h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2 text-white"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <circle
+          class="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          stroke-width="4"
+        ></circle>
+        <path
+          class="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+        ></path>
+      </svg>
+      Processando... } @else {
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+          clip-rule="evenodd"
+        />
+      </svg>
+      {{
+        activeTab === "expenses"
+          ? "Nova Categoria de Despesa"
+          : "Nova Categoria de Receita"
+      }}
+      }
+    </button>
+  </div>
 
-    @if (isLoadingPage) {
-    <!-- Loading State -->
-    <div class="flex items-center justify-center min-h-[60vh] w-full">
-      <div class="text-center">
-        <i class="fas fa-spinner fa-spin text-4xl text-[#1C6956] mb-4"></i>
-        <p class="text-base font-medium text-[#5e6d72]">
-          Carregando categorias...
-        </p>
+  @if (isLoadingPage) {
+  <div class="flex items-center justify-center min-h-[60vh] w-full">
+    <div class="text-center">
+      <svg
+        class="animate-spin h-10 w-10 sm:h-12 sm:w-12 text-[#5e6d72] mx-auto"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <circle
+          class="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          stroke-width="4"
+        />
+        <path
+          class="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+        />
+      </svg>
+      <p class="mt-4 text-base font-medium text-gray-600">
+        Carregando categorias...
+      </p>
+    </div>
+  </div>
+  } @else {
+  <!-- Navigation Tabs -->
+  <div class="bg-gray-100 rounded-lg shadow-sm mb-6">
+    <ul class="flex flex-col sm:flex-row">
+      <li
+        class="flex-1 text-center border-b-2"
+        [class.border-red-500]="activeTab === 'expenses'"
+      >
+        <button
+          (click)="setActiveTab('expenses')"
+          class="w-full py-3 text-sm sm:text-base text-gray-700 hover:text-red-500 transition font-medium cursor-pointer"
+        >
+          <i class="fas fa-wallet mr-2"></i>Despesas
+        </button>
+      </li>
+      <li
+        class="flex-1 text-center border-b-2"
+        [class.border-green-500]="activeTab === 'earnings'"
+      >
+        <button
+          (click)="setActiveTab('earnings')"
+          class="w-full py-3 text-sm sm:text-base text-gray-700 hover:text-green-500 transition font-medium cursor-pointer"
+        >
+          <i class="fas fa-dollar-sign mr-2"></i>Receitas
+        </button>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Content Box -->
+  <div class="bg-gray-100 rounded-lg shadow-sm p-4 sm:p-6">
+    @if (activeTab === 'expenses') {
+    <!-- Despesas -->
+    @if (loadingExpenses) {
+    <div class="space-y-4 py-6">
+      <!-- Skeleton loading para categorias de despesas -->
+      @for (i of [1, 2, 3]; track i) {
+      <div class="animate-pulse flex justify-between items-center py-3 px-4">
+        <div class="flex items-center">
+          <div class="w-6 h-6 bg-gray-200 rounded-full mr-3"></div>
+          <div class="h-4 bg-gray-200 rounded w-32"></div>
+        </div>
+        <div class="w-4 h-4 bg-gray-200 rounded-full"></div>
       </div>
+      }
     </div>
     } @else {
-    <!-- Navigation Tabs -->
-    <div class="bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg mb-6">
-      <ul class="flex flex-col sm:flex-row">
-        <li
-          class="flex-1 text-center border-b-2"
-          [class.border-[#1C6956]]="activeTab === 'expenses'"
-        >
-          <button
-            (click)="setActiveTab('expenses')"
-            class="w-full py-3 text-sm sm:text-base text-[#5e6d72] hover:text-[#1C6956] transition font-medium cursor-pointer"
-          >
-            <i class="fas fa-wallet mr-2"></i>Despesas
-          </button>
-        </li>
-        <li
-          class="flex-1 text-center border-b-2"
-          [class.border-[#1C6956]]="activeTab === 'earnings'"
-        >
-          <button
-            (click)="setActiveTab('earnings')"
-            class="w-full py-3 text-sm sm:text-base text-[#5e6d72] hover:text-[#1C6956] transition font-medium cursor-pointer"
-          >
-            <i class="fas fa-dollar-sign mr-2"></i>Receitas
-          </button>
-        </li>
-      </ul>
+    <h2
+      class="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-gray-800 flex items-center"
+    >
+      <i class="fas fa-list-ul mr-3"></i>Categorias de Despesas
+    </h2>
+
+    @if (categoriasDespesas.length === 0) {
+    <div class="text-center py-10 text-gray-400">
+      <i class="fas fa-folder-open text-4xl mb-3"></i>
+      <p class="text-sm">Nenhuma categoria de despesa cadastrada</p>
     </div>
-
-    <!-- Content Box -->
-    <div class="bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg p-4 sm:p-6">
-      @if (activeTab === 'expenses') {
-      <!-- Despesas -->
-      @if (loadingExpenses) {
-      <div class="space-y-4 py-6">
-        <!-- Skeleton loading -->
-        @for (i of [1, 2, 3]; track i) {
-        <div class="animate-pulse flex justify-between items-center py-3 px-4">
-          <div class="flex items-center">
-            <div class="w-6 h-6 bg-[#E0E5E7] rounded-full mr-3"></div>
-            <div class="h-4 bg-[#E0E5E7] rounded w-32"></div>
-          </div>
-          <div class="w-4 h-4 bg-[#E0E5E7] rounded-full"></div>
-        </div>
-        }
-      </div>
-      } @else {
-      <h2
-        class="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-[#013E4C] flex items-center"
+    } @else {
+    <ul class="divide-y divide-gray-100">
+      @for (category of categoriasDespesas; track category.id) {
+      <li
+        class="py-3 sm:py-4 px-2 sm:px-4 hover:bg-gray-50 rounded-lg transition flex justify-between items-center"
       >
-        <i class="fas fa-list-ul mr-3"></i>Categorias de Despesas
-      </h2>
-
-      @if (categoriasDespesas.length === 0) {
-      <div class="text-center py-10 text-[#5e6d72]">
-        <i class="fas fa-folder-open text-4xl mb-3"></i>
-        <p class="text-sm">Nenhuma categoria de despesa cadastrada</p>
-      </div>
-      } @else {
-      <ul class="divide-y divide-[#E0E5E7]">
-        @for (category of categoriasDespesas; track category.id) {
-        <li
-          class="py-3 sm:py-4 px-2 sm:px-4 hover:bg-[#F8F7F5] rounded-lg transition flex justify-between items-center"
-        >
-          <div class="flex items-center">
-            <i class="fas fa-minus-circle mr-3 text-lg text-[#1C6956]"></i>
-            <span class="text-[#013E4C] text-sm sm:text-base font-medium">
-              {{ category.nome }}
-            </span>
-          </div>
-          <button
-            (click)="deletarCategoria(category.id)"
-            [disabled]="deletingCategoryId === category.id"
-            class="p-2 rounded-full bg-[#E0E5E7]/20 hover:bg-[#E0E5E7]/30 transition cursor-pointer"
-            title="Remover"
-          >
-            @if (deletingCategoryId === category.id) {
-            <i class="fas fa-spinner fa-spin text-[#5e6d72]"></i>
-            } @else {
-            <i class="fas fa-trash text-[#5e6d72]"></i>
-            }
-          </button>
-        </li>
-        }
-      </ul>
-      } } } @if (activeTab === 'earnings') {
-      <!-- Receitas -->
-      @if (loadingEarnings) {
-      <div class="space-y-4 py-6">
-        <!-- Skeleton loading -->
-        @for (i of [1, 2, 3]; track i) {
-        <div class="animate-pulse flex justify-between items-center py-3 px-4">
-          <div class="flex items-center">
-            <div class="w-6 h-6 bg-[#E0E5E7] rounded-full mr-3"></div>
-            <div class="h-4 bg-[#E0E5E7] rounded w-32"></div>
-          </div>
-          <div class="w-4 h-4 bg-[#E0E5E7] rounded-full"></div>
+        <div class="flex items-center">
+          <i class="fas fa-minus-circle mr-3 text-lg text-red-500"></i>
+          <span class="text-gray-700 text-sm sm:text-base font-medium">
+            {{ category.nome }}
+          </span>
         </div>
-        }
-      </div>
-      } @else {
-      <h2
-        class="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-[#013E4C] flex items-center"
-      >
-        <i class="fas fa-list-ul mr-3"></i>Categorias de Receitas
-      </h2>
-
-      @if (categoriasReceitas.length === 0) {
-      <div class="text-center py-10 text-[#5e6d72]">
-        <i class="fas fa-folder-open text-4xl mb-3"></i>
-        <p class="text-sm">Nenhuma categoria de receita cadastrada</p>
-      </div>
-      } @else {
-      <ul class="divide-y divide-[#E0E5E7]">
-        @for (category of categoriasReceitas; track category.id) {
-        <li
-          class="py-3 sm:py-4 px-2 sm:px-4 hover:bg-[#F8F7F5] rounded-lg transition flex justify-between items-center"
+        <button
+          (click)="deletarCategoria(category.id)"
+          [disabled]="deletingCategoryId === category.id"
+          class="p-2 rounded-full bg-white bg-opacity-20 hover:bg-opacity-30 transition cursor-pointer"
+          title="Remover"
         >
-          <div class="flex items-center">
-            <i class="fas fa-plus-circle mr-3 text-lg text-[#1C6956]"></i>
-            <span class="text-[#013E4C] text-sm sm:text-base font-medium">
-              {{ category.nome }}
-            </span>
-          </div>
-          <button
-            (click)="deletarCategoria(category.id)"
-            class="p-2 rounded-full bg-[#E0E5E7]/20 hover:bg-[#E0E5E7]/30 transition cursor-pointer"
-            title="Remover"
+          @if (deletingCategoryId === category.id) {
+          <svg
+            class="animate-spin h-4 w-4 text-gray-500"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
           >
-            <i class="fas fa-trash text-[#5e6d72]"></i>
-          </button>
-        </li>
-        }
-      </ul>
-      } } }
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            ></circle>
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
+          } @else {
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+            />
+          </svg>
+          }
+        </button>
+      </li>
+      }
+    </ul>
+    } } } @if (activeTab === 'earnings') {
+    <!-- Receitas -->
+    @if (loadingEarnings) {
+    <div class="space-y-4 py-6">
+      <!-- Skeleton loading para categorias de receitas -->
+      @for (i of [1, 2, 3]; track i) {
+      <div class="animate-pulse flex justify-between items-center py-3 px-4">
+        <div class="flex items-center">
+          <div class="w-6 h-6 bg-gray-200 rounded-full mr-3"></div>
+          <div class="h-4 bg-gray-200 rounded w-32"></div>
+        </div>
+        <div class="w-4 h-4 bg-gray-200 rounded-full"></div>
+      </div>
+      }
     </div>
-    }
+    } @else {
+    <h2
+      class="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-gray-800 flex items-center"
+    >
+      <i class="fas fa-list-ul mr-3"></i>Categorias de Receitas
+    </h2>
+
+    @if (categoriasReceitas.length === 0) {
+    <div class="text-center py-10 text-gray-400">
+      <i class="fas fa-folder-open text-4xl mb-3"></i>
+      <p class="text-sm">Nenhuma categoria de receita cadastrada</p>
+    </div>
+    } @else {
+    <ul class="divide-y divide-gray-100">
+      @for (category of categoriasReceitas; track category.id) {
+      <li
+        class="py-3 sm:py-4 px-2 sm:px-4 hover:bg-gray-50 rounded-lg transition flex justify-between items-center"
+      >
+        <div class="flex items-center">
+          <i class="fas fa-plus-circle mr-3 text-lg text-green-500"></i>
+          <span class="text-gray-700 text-sm sm:text-base font-medium">
+            {{ category.nome }}
+          </span>
+        </div>
+        <button
+          (click)="deletarCategoria(category.id)"
+          class="p-1.5 rounded-full bg-white bg-opacity-20 hover:bg-opacity-30 transition cursor-pointer"
+          title="Remover"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+            />
+          </svg>
+        </button>
+      </li>
+      }
+    </ul>
+    } } }
   </div>
+  }
 </div>

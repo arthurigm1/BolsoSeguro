@@ -1,0 +1,40 @@
+<div class="p-6 max-w-md mx-auto">
+  <!-- Header -->
+  <div class="flex items-center justify-between mb-6">
+    <h2 class="text-xl font-bold text-[#013E4C]">Nova Transação</h2>
+    <button (click)="fechar()" class="text-[#5e6d72] hover:text-[#013E4C]">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <!-- Opções -->
+  <div class="grid grid-cols-2 gap-4">
+    <!-- Despesa -->
+    <button
+      (click)="selecionarTipo('DESPESA')"
+      class="p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 flex flex-col items-center justify-center border border-[#E0E5E7] hover:border-[#1C6956]"
+    >
+      <div
+        class="w-12 h-12 rounded-full bg-[#F5E8E8] flex items-center justify-center mb-3"
+      >
+        <i class="fas fa-arrow-down text-[#A83E3E] text-xl"></i>
+      </div>
+      <span class="text-lg font-medium text-[#013E4C]">Despesa</span>
+      <span class="text-sm text-[#5e6d72] mt-1">Registrar saída</span>
+    </button>
+
+    <!-- Receita -->
+    <button
+      (click)="selecionarTipo('RECEITA')"
+      class="p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 flex flex-col items-center justify-center border border-[#E0E5E7] hover:border-[#1C6956]"
+    >
+      <div
+        class="w-12 h-12 rounded-full bg-[#D8EAE5] flex items-center justify-center mb-3"
+      >
+        <i class="fas fa-arrow-up text-[#1C6956] text-xl"></i>
+      </div>
+      <span class="text-lg font-medium text-[#013E4C]">Receita</span>
+      <span class="text-sm text-[#5e6d72] mt-1">Registrar entrada</span>
+    </button>
+  </div>
+</div>

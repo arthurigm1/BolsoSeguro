@@ -1,89 +1,197 @@
-<!-- Container Principal -->
-<div
-  class="min-h-screen bg-gradient-to-br from-[#F8F7F5] to-[#E0E5E7] p-4 sm:p-6"
->
-  <div class="max-w-4xl mx-auto">
-    <!-- Header -->
+<div class="p-4 sm:p-6">
+  <div class="max-w-4xl mx-auto px-2 sm:px-4">
+    <!-- Header - Ajustado para mobile -->
     <div
-      class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4"
+      class="flex flex-col sm:flex-row justify-between items-start gap-3 mb-6 sm:mb-8"
     >
       <div>
-        <h1 class="text-xl sm:text-2xl font-bold text-[#013E4C]">Cartões</h1>
-        <p class="text-sm text-[#5e6d72] mt-1">
-          Gerencie seus cartões de crédito e débito
+        <h1 class="text-lg sm:text-2xl font-bold text-gray-900">
+          Meus Cartões
+        </h1>
+        <p class="text-xs sm:text-base text-gray-500 mt-1">
+          Gerencie seus cartões
         </p>
       </div>
       <button
         (click)="openModal()"
-        [disabled]="isAddingCard"
-        class="w-full sm:w-auto flex items-center justify-center font-semibold bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300"
+        class="cursor-pointer w-full sm:w-auto flex items-center justify-center font-semibold bg-gradient-to-r from-[#b6c6cc] to-[#5e6d72] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300"
       >
-        @if (isAddingCard) {
-        <i class="fas fa-spinner fa-spin mr-2"></i>
-        Processando... } @else {
-        <i class="fas fa-plus mr-2"></i>
-        Novo Cartão }
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        Novo Cartão
       </button>
     </div>
 
-    @if (isLoadingPage) {
-    <!-- Loading State -->
-    <div class="flex items-center justify-center min-h-[60vh] w-full">
+    @if (isLoading) {
+    <!-- Loading State - Centralizado -->
+    <div class="flex items-center justify-center py-12 sm:py-16">
       <div class="text-center">
-        <i class="fas fa-spinner fa-spin text-4xl text-[#1C6956] mb-4"></i>
-        <p class="text-base font-medium text-[#5e6d72]">
-          Carregando cartões...
+        <svg
+          class="animate-spin h-10 w-10 sm:h-12 sm:w-12 text-[#5e6d72] mx-auto"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            class="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            stroke-width="4"
+          ></circle>
+          <path
+            class="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+          ></path>
+        </svg>
+        <p class="mt-4 text-sm sm:text-base font-medium text-gray-600">
+          Carregando seus cartões...
         </p>
       </div>
     </div>
     } @else {
-    <!-- Content Box -->
-    <div class="bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg p-4 sm:p-6">
-      <h2
-        class="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-[#013E4C] flex items-center"
-      >
-        <i class="fas fa-credit-card mr-3"></i>Meus Cartões
-      </h2>
-
-      @if (cartoes.length === 0) {
-      <div class="text-center py-10 text-[#5e6d72]">
-        <i class="fas fa-credit-card text-4xl mb-3"></i>
-        <p class="text-sm">Nenhum cartão cadastrado</p>
+    <!-- Cards List - Otimizado para mobile -->
+    <div class="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2">
+      @if (creditCards.length === 0) {
+      <!-- Empty State - Mais compacto -->
+      <div class="col-span-full py-8 sm:py-12 text-center">
+        <div class="mx-auto max-w-xs sm:max-w-md">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-10 sm:h-12 w-10 sm:w-12 mx-auto text-gray-400"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
+            />
+          </svg>
+          <h3
+            class="mt-3 sm:mt-4 text-base sm:text-lg font-medium text-gray-900"
+          >
+            Nenhum cartão cadastrado
+          </h3>
+          <p class="mt-1 text-xs sm:text-sm text-gray-500">
+            Adicione seu primeiro cartão
+          </p>
+        </div>
       </div>
       } @else {
-      <ul class="divide-y divide-[#E0E5E7]">
-        @for (cartao of cartoes; track cartao.id) {
-        <li
-          class="py-3 sm:py-4 px-2 sm:px-4 hover:bg-[#F8F7F5] rounded-lg transition flex justify-between items-center"
-        >
-          <div class="flex items-center">
-            <i class="fas fa-credit-card mr-3 text-lg text-[#1C6956]"></i>
+      <!-- Card Item - Simplificado para mobile -->
+      <div
+        *ngFor="let card of creditCards"
+        class="relative bg-gray-100 rounded-xl sm:rounded-2xl shadow-sm sm:shadow-md overflow-hidden border border-gray-200 hover:shadow-md sm:hover:shadow-xl transition-shadow"
+      >
+        <!-- Card Background -->
+        <div
+          class="absolute inset-0 z-0"
+          [ngClass]="{
+            'bg-gradient-to-br from-blue-600 to-blue-400':
+              card.bandeira === 'VISA',
+            'bg-gradient-to-br from-red-600 to-red-400':
+              card.bandeira === 'MASTERCARD',
+            'bg-gradient-to-br from-green-600 to-green-400':
+              card.bandeira === 'ELO',
+            'bg-gradient-to-br from-yellow-600 to-yellow-400':
+              card.bandeira === 'AMEX'
+          }"
+        ></div>
+
+        <div class="relative z-10 p-4 sm:p-6 text-black">
+          <!-- Card Header - Reorganizado -->
+          <div class="flex justify-between items-center mb-4 sm:mb-6">
             <div>
-              <span
-                class="text-[#013E4C] text-sm sm:text-base font-medium block"
-              >
-                {{ cartao.nome }}
-              </span>
-              <span class="text-[#5e6d72] text-xs">
-                {{ cartao.tipo === "credito" ? "Crédito" : "Débito" }}
-              </span>
+              <p class="text-xs sm:text-sm opacity-80">Disponível</p>
+              <p class="text-lg sm:text-xl font-bold">
+                {{
+                  card.limiteDisponivel | currency : "BRL" : "symbol" : "1.2-2"
+                }}
+              </p>
             </div>
+            <img
+              [src]="getCardLogo(card.bandeira)"
+              [alt]="card.bandeira"
+              class="h-10 sm:h-16 w-auto rounded-full bg-white bg-opacity-20 p-1 sm:p-2 shadow"
+            />
           </div>
-          <button
-            (click)="deletarCartao(cartao.id)"
-            [disabled]="deletingCardId === cartao.id"
-            class="p-2 rounded-full bg-[#E0E5E7]/20 hover:bg-[#E0E5E7]/30 transition cursor-pointer"
-            title="Remover"
-          >
-            @if (deletingCardId === cartao.id) {
-            <i class="fas fa-spinner fa-spin text-[#5e6d72]"></i>
-            } @else {
-            <i class="fas fa-trash text-[#5e6d72]"></i>
-            }
-          </button>
-        </li>
-        }
-      </ul>
+
+          <!-- Card Info - Mais compacto -->
+          <div class="mb-4 sm:mb-6">
+            <p class="text-base sm:text-lg font-semibold truncate">
+              {{ card.nome }}
+            </p>
+            <p class="text-xs sm:text-sm opacity-80">{{ card.bandeira }}</p>
+          </div>
+
+          <!-- Card Footer - Botões maiores para mobile -->
+          <div class="flex justify-between items-center">
+            <div class="flex space-x-1 sm:space-x-2">
+              <button
+                (click)="editarCartao(card)"
+                class="p-2 sm:p-2 rounded-full bg-white bg-opacity-20 hover:bg-opacity-30 transition cursor-pointer"
+                title="Editar"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4 sm:h-4 sm:w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                  />
+                </svg>
+              </button>
+              <button
+                (click)="deletarCartao(card.id)"
+                class="p-2 sm:p-2 rounded-full bg-white bg-opacity-20 hover:bg-opacity-30 transition cursor-pointer"
+                title="Remover"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4 sm:h-4 sm:w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                  />
+                </svg>
+              </button>
+            </div>
+            <button
+              (click)="verDetalhesFatura(card.id)"
+              class="text-xs sm:text-sm font-medium px-3 py-1 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full transition cursor-pointer"
+            >
+              Detalhes
+            </button>
+          </div>
+        </div>
+      </div>
       }
     </div>
     }

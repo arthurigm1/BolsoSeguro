@@ -1,0 +1,230 @@
+<div class="p-6 max-w-md mx-auto">
+  <!-- Passo 1: Seleção do tipo -->
+  <div *ngIf="step === 'select'" class="space-y-6">
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-xl font-bold text-[#013E4C]">Nova Transação</h2>
+      <button (click)="onCancel()" class="text-[#5e6d72] hover:text-[#013E4C]">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <p class="text-[#5e6d72]">Selecione o tipo de transação:</p>
+
+    <div class="grid grid-cols-2 gap-4">
+      <!-- Botão Receita -->
+      <button
+        (click)="selectTipo('RECEITA')"
+        class="p-6 border-2 border-[#D8EAE5] rounded-lg flex flex-col items-center justify-center gap-2 hover:bg-[#F8F7F5] transition-colors"
+      >
+        <div class="p-3 bg-[#D8EAE5] text-[#1C6956] rounded-full">
+          <i class="fas fa-arrow-up"></i>
+        </div>
+        <span class="font-medium text-[#013E4C]">Receita</span>
+        <span class="text-sm text-[#5e6d72]">Entrada de valores</span>
+      </button>
+
+      <!-- Botão Despesa -->
+      <button
+        (click)="selectTipo('DESPESA')"
+        class="p-6 border-2 border-[#F5E8E8] rounded-lg flex flex-col items-center justify-center gap-2 hover:bg-[#F8F7F5] transition-colors"
+      >
+        <div class="p-3 bg-[#F5E8E8] text-[#A83E3E] rounded-full">
+          <i class="fas fa-arrow-down"></i>
+        </div>
+        <span class="font-medium text-[#013E4C]">Despesa</span>
+        <span class="text-sm text-[#5e6d72]">Saída de valores</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Passo 2: Formulário -->
+  <div *ngIf="step === 'form'">
+    <!-- Cabeçalho com botão de voltar -->
+    <div class="flex items-center gap-3 mb-6">
+      <button
+        (click)="backToSelection()"
+        class="text-[#5e6d72] hover:text-[#013E4C]"
+      >
+        <i class="fas fa-arrow-left"></i>
+      </button>
+      <h2 class="text-xl font-bold text-[#013E4C]">
+        {{ tipoTransacao === "DESPESA" ? "Nova Despesa" : "Nova Receita" }}
+      </h2>
+      <button
+        (click)="onCancel()"
+        class="ml-auto text-[#5e6d72] hover:text-[#013E4C]"
+      >
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    @if (isLoading) {
+    <div class="flex items-center justify-center py-12">
+      <div class="text-center">
+        <i class="fas fa-spinner fa-spin text-4xl text-[#1C6956] mb-4"></i>
+        <p class="text-[#5e6d72]">Carregando dados...</p>
+      </div>
+    </div>
+    } @else {
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
+      <!-- Valor -->
+      <div>
+        <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+          >Valor *</label
+        >
+        <div class="relative">
+          <span
+            class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#5e6d72]"
+          >
+            R$
+          </span>
+          <input
+            type="number"
+            formControlName="valor"
+            class="w-full pl-8 pr-4 py-2 border border-[#E0E5E7] rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:border-transparent"
+            placeholder="0,00"
+            step="0.01"
+          />
+        </div>
+      </div>
+
+      <!-- Data -->
+      <div>
+        <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+          >Data *</label
+        >
+        <input
+          type="date"
+          formControlName="data"
+          class="w-full px-4 py-2 border border-[#E0E5E7] rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:border-transparent"
+        />
+      </div>
+
+      <!-- Categoria -->
+      <div>
+        <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+          >Categoria *</label
+        >
+        <select
+          formControlName="categoria"
+          class="w-full px-4 py-2 border border-[#E0E5E7] rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:border-transparent"
+        >
+          <option value="">Selecione uma categoria</option>
+          @if (tipoTransacao === 'DESPESA') { @for (categoria of
+          categoriasDespesas; track categoria.id) {
+          <option [value]="categoria.id">{{ categoria.nome }}</option>
+          } } @else { @for (categoria of categoriasReceitas; track categoria.id)
+          {
+          <option [value]="categoria.id">{{ categoria.nome }}</option>
+          } }
+        </select>
+      </div>
+
+      <!-- Descrição -->
+      <div>
+        <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+          >Descrição *</label
+        >
+        <input
+          type="text"
+          formControlName="descricao"
+          class="w-full px-4 py-2 border border-[#E0E5E7] rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:border-transparent"
+          placeholder="Digite uma descrição"
+        />
+      </div>
+
+      <!-- Conta/Cartão -->
+      <div class="animate-slideUp">
+        <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+          >Conta/Cartão *</label
+        >
+        <div class="relative group">
+          <span
+            class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#748389] group-focus-within:text-[#1C6956] transition-colors"
+          >
+            <i class="fas fa-wallet"></i>
+          </span>
+          <select
+            formControlName="contaId"
+            class="w-full pl-10 pr-4 py-3 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all appearance-none"
+            required
+          >
+            <optgroup label="Contas">
+              @for (conta of contas; track conta.id) {
+              <option [value]="conta.id">{{ conta.nome }}</option>
+              }
+            </optgroup>
+            @if (tipoTransacao === 'DESPESA') {
+            <optgroup label="Cartões">
+              @for (cartao of cartoes; track cartao.id) {
+              <option [value]="cartao.id">{{ cartao.nome }}</option>
+              }
+            </optgroup>
+            }
+          </select>
+          <span
+            class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-[#748389]"
+          >
+            <i class="fas fa-chevron-down"></i>
+          </span>
+        </div>
+      </div>
+
+      @if (tipoTransacao === 'DESPESA') {
+      <!-- Tipo de Pagamento -->
+      <div>
+        <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+          >Tipo de Pagamento *</label
+        >
+        <select
+          formControlName="tipoPagamento"
+          class="w-full px-4 py-2 border border-[#E0E5E7] rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:border-transparent"
+        >
+          <option value="CONTA">Conta</option>
+          <option value="CARTAO">Cartão</option>
+        </select>
+      </div>
+
+      <!-- Cartão (apenas para despesas) -->
+      @if (form.get('tipoPagamento')?.value === 'CARTAO') {
+      <div>
+        <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+          >Cartão *</label
+        >
+        <select
+          formControlName="cartaoId"
+          class="w-full px-4 py-2 border border-[#E0E5E7] rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:border-transparent"
+        >
+          <option value="">Selecione um cartão</option>
+          @for (cartao of cartoes; track cartao.id) {
+          <option [value]="cartao.id">{{ cartao.nome }}</option>
+          }
+        </select>
+      </div>
+      } }
+
+      <!-- Botões -->
+      <div class="flex justify-end space-x-3 mt-6">
+        <button
+          type="button"
+          (click)="onCancel()"
+          class="px-4 py-2 text-sm font-medium text-[#5e6d72] hover:text-[#013E4C]"
+        >
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          [disabled]="form.invalid || isLoading"
+          class="px-4 py-2 text-sm font-medium text-white bg-[#1C6956] rounded-lg hover:bg-[#013E4C] disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          @if (isLoading) {
+          <i class="fas fa-spinner fa-spin mr-2"></i>
+          } @else {
+          <i class="fas fa-check mr-2"></i>
+          } Salvar
+        </button>
+      </div>
+    </form>
+    }
+  </div>
+</div>

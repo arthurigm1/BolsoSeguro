@@ -1,116 +1,83 @@
-<!-- Container Principal -->
-<div class="min-h-screen p-4 sm:p-6">
+<section class="min-h-screen p-4">
   <!-- Conteúdo Principal -->
-  <div class="container mx-auto max-w-7xl">
-    <div class="flex flex-col lg:flex-row gap-6">
-      <!-- Menu Lateral -->
-      <div class="lg:w-1/4">
-        <div
-          class="bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg p-4 sticky top-4"
-        >
-          <h2 class="text-xl font-bold text-[#013E4C] mb-4 px-2">
-            Configurações
-          </h2>
-          <ul class="space-y-2">
-            <li *ngFor="let item of menuItems">
-              <a
-                (click)="setActive(item.id)"
-                class="flex items-center px-4 py-3 rounded-xl text-[#5e6d72] hover:bg-[#D8EAE5] hover:text-[#1C6956] transition-all duration-300 cursor-pointer group"
-                [class.bg-[#D8EAE5]]="activeComponent === item.id"
-                [class.text-[#1C6956]]="activeComponent === item.id"
-              >
-                <i
-                  [class]="
-                    item.icon +
-                    ' mr-3 text-lg group-hover:scale-110 transition-transform duration-300'
-                  "
-                ></i>
-                <span class="font-medium">{{ item.label }}</span>
-              </a>
-            </li>
-          </ul>
-        </div>
+  <div class="container mx-auto pt-16 md:pt-0">
+    <div class="flex flex-col md:flex-row">
+      <div
+        class="hidden md:block w-1/4 p-4 bg-gray-100 shadow-md rounded-lg h-full mt-4"
+      >
+        <ul class="mt-6 space-y-4">
+          <li *ngFor="let item of menuItems">
+            <a
+              (click)="setActive(item.id)"
+              class="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-300 hover:text-gray-900 transition-all cursor-pointer"
+              [class.bg-gray-200]="activeComponent === item.id"
+              [class.border-l-4]="activeComponent === item.id"
+              [class.border-black]="activeComponent === item.id"
+            >
+              <i [class]="item.icon + ' mr-3 text-xl text-gray-600'"></i>
+              <span class="text-lg font-semibold">{{ item.label }}</span>
+            </a>
+          </li>
+        </ul>
       </div>
 
       <!-- Conteúdo Dinâmico -->
-      <div class="lg:w-3/4">
-        <div
-          class="bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg p-6 animate-fade-in"
-        >
-          <div [ngSwitch]="activeComponent" class="min-h-[500px]">
+      <div class="w-full md:w-3/4 p-4">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+          <div [ngSwitch]="activeComponent">
             <app-contas
               *ngSwitchCase="'contas'"
               (openModalEvent)="openGlobalModal('conta')"
-              class="animate-fade-in"
             ></app-contas>
 
             <app-categorias
               *ngSwitchCase="'categorias'"
               (openModalEvent)="openGlobalModal('categoria', $event)"
-              class="animate-fade-in"
             ></app-categorias>
 
             <app-cartao
               *ngSwitchCase="'cartoes'"
               (openModalEvent)="openGlobalModal('cartao')"
               (showFaturaEvent)="showFaturaDetails($event)"
-              class="animate-fade-in"
             ></app-cartao>
 
             <app-fatura-detalhes
               *ngSwitchCase="'cartaofatura'"
               [faturaData]="faturaData"
               (backEvent)="backToCards()"
-              class="animate-fade-in"
             ></app-fatura-detalhes>
 
             <app-metasfinanceiras
               *ngSwitchCase="'metas'"
               (openModalEvent)="openGlobalModal('meta')"
-              class="animate-fade-in"
             ></app-metasfinanceiras>
 
-            <app-minhaconta
-              *ngSwitchCase="'minhaconta'"
-              class="animate-fade-in"
-            ></app-minhaconta>
+            <app-minhaconta *ngSwitchCase="'minhaconta'"></app-minhaconta>
 
-            <div
-              *ngSwitchDefault
-              class="flex flex-col items-center justify-center h-full text-center p-8"
-            >
-              <i
-                class="fas fa-cog text-6xl text-[#1C6956] mb-4 animate-spin-slow"
-              ></i>
-              <h3 class="text-2xl font-bold text-[#013E4C] mb-2">
-                Configurações
-              </h3>
-              <p class="text-[#5e6d72] max-w-md">
-                Selecione uma opção no menu lateral para começar a configurar
-                suas preferências.
-              </p>
-            </div>
+            <p *ngSwitchDefault class="text-center text-gray-500 py-10">
+              Por favor, selecione uma opção do menu.
+            </p>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+</section>
 
-<!-- Modal Global -->
+<!-- Modal Global Mobile -->
 <div
   *ngIf="isModalOpen"
-  class="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm bg-black/30"
+  class="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
 >
   <div
-    class="bg-white/95 backdrop-blur-lg rounded-2xl shadow-2xl w-full max-w-md border border-[#E0E5E7] overflow-hidden transform transition-all duration-300 animate-scale-in"
+    class="bg-white/95 backdrop-blur-lg rounded-2xl shadow-2xl w-full max-w-md border border-gray-200/70 overflow-hidden transform transition-all duration-300"
     (click)="$event.stopPropagation()"
   >
-    <!-- Cabeçalho do Modal -->
+    <!-- Cabeçalho fixo -->
     <div
-      class="flex justify-between items-center border-b border-[#E0E5E7] p-6"
+      class="flex justify-between items-center border-b border-gray-200/50 p-6"
     >
-      <h3 class="text-xl font-bold text-[#013E4C]">
+      <h3 class="text-xl font-bold text-gray-800">
         {{
           modalType === "conta"
             ? "Adicionar Nova Conta"
@@ -125,14 +92,15 @@
       </h3>
       <button
         (click)="closeGlobalModal()"
-        class="text-[#748389] hover:text-[#1C6956] transition-colors duration-200 p-2 rounded-full hover:bg-[#D8EAE5]"
+        class="text-red-500 cursor-pointer rounded-full hover:bg-red-100 p-2 transition duration-200"
       >
-        <i class="fas fa-times text-lg"></i>
+        <i class="fas fa-times"></i>
       </button>
     </div>
 
-    <!-- Conteúdo do Modal -->
-    <div class="p-6">
+    <!-- Conteúdo do formulário -->
+    <div class="p-4">
+      <!-- Formulário dinâmico -->
       <form
         (ngSubmit)="
           modalType === 'conta'
@@ -146,102 +114,104 @@
             : null
         "
         #goalForm="ngForm"
-        class="space-y-6"
+        class="space-y-4"
       >
         <!-- Formulário de Conta -->
-        <div *ngIf="modalType === 'conta'" class="space-y-4">
+        <div *ngIf="modalType === 'conta'">
           <div>
-            <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+            <label class="block text-sm font-medium text-gray-700"
               >Nome do Banco</label
             >
             <input
               type="text"
               [(ngModel)]="newAccount.name"
               name="accountName"
-              class="w-full px-4 py-2.5 border border-[#E0E5E7] rounded-xl focus:ring-2 focus:ring-[#1C6956]/50 focus:border-[#1C6956] bg-white transition-all duration-200"
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
               required
             />
           </div>
           <div>
-            <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+            <label class="block text-sm font-medium text-gray-700"
               >Saldo Inicial</label
             >
-            <div class="relative">
-              <span class="absolute left-4 top-3 text-[#748389]">R$</span>
-              <input
-                type="number"
-                [(ngModel)]="newAccount.balance"
-                name="balance"
-                class="w-full pl-10 pr-4 py-2.5 border border-[#E0E5E7] rounded-xl focus:ring-2 focus:ring-[#1C6956]/50 focus:border-[#1C6956] bg-white transition-all duration-200"
-                required
-              />
-            </div>
+            <input
+              type="number"
+              [(ngModel)]="newAccount.balance"
+              name="balance"
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              required
+            />
           </div>
         </div>
 
         <!-- Formulário de Categoria -->
-        <div *ngIf="modalType === 'categoria'" class="space-y-4">
+        <!-- Modal de Categoria -->
+        <div *ngIf="modalType === 'categoria'">
           <div>
-            <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+            <label class="block text-sm font-medium text-gray-700"
               >Nome da Categoria</label
             >
             <input
               type="text"
               [(ngModel)]="newCategory.name"
               name="categoryName"
-              class="w-full px-4 py-2.5 border border-[#E0E5E7] rounded-xl focus:ring-2 focus:ring-[#1C6956]/50 focus:border-[#1C6956] bg-white transition-all duration-200"
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
               required
             />
           </div>
-          <div>
-            <label class="block text-sm font-medium text-[#5e6d72] mb-2"
-              >Tipo de Categoria</label
+          <div class="mt-6">
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+              Tipo de Categoria
+            </label>
+            <div
+              class="mt-1 p-4 border border-gray-200 rounded-lg bg-white shadow-xs transition-all duration-200 hover:border-blue-300"
             >
-            <div class="grid grid-cols-2 gap-4">
-              <button
-                type="button"
-                (click)="newCategory.type = 'expense'"
-                class="p-4 border-2 rounded-xl transition-all duration-200 flex items-center gap-3"
-                [class.border-[#1C6956]]="newCategory.type === 'expense'"
-                [class.bg-[#D8EAE5]]="newCategory.type === 'expense'"
-                [class.border-[#E0E5E7]]="newCategory.type !== 'expense'"
-              >
-                <div
-                  class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center"
+              <div class="flex items-center">
+                <span
+                  class="inline-flex items-center justify-center h-8 w-8 rounded-full mr-3"
+                  [ngClass]="{
+                    'bg-red-100 text-red-600': newCategory.type === 'expense',
+                    'bg-green-100 text-green-600': newCategory.type === 'income'
+                  }"
                 >
-                  <i class="fas fa-arrow-up text-red-600"></i>
+                  <i
+                    [class]="
+                      newCategory.type === 'expense'
+                        ? 'fas fa-arrow-up'
+                        : 'fas fa-arrow-down'
+                    "
+                    class="text-sm"
+                  ></i>
+                </span>
+                <div>
+                  <span
+                    class="font-semibold text-gray-800"
+                    [ngClass]="{
+                      'text-red-600': newCategory.type === 'expense',
+                      'text-green-600': newCategory.type === 'income'
+                    }"
+                  >
+                    {{ newCategory.type === "expense" ? "Despesa" : "Receita" }}
+                  </span>
+                  <p class="text-sm text-gray-500 mt-1">
+                    {{
+                      newCategory.type === "expense"
+                        ? "Esta categoria será registrada como saída de recursos"
+                        : "Esta categoria será registrada como entrada de recursos"
+                    }}
+                  </p>
                 </div>
-                <div class="text-left">
-                  <span class="font-medium text-[#013E4C]">Despesa</span>
-                  <p class="text-xs text-[#748389]">Saída de recursos</p>
-                </div>
-              </button>
-              <button
-                type="button"
-                (click)="newCategory.type = 'income'"
-                class="p-4 border-2 rounded-xl transition-all duration-200 flex items-center gap-3"
-                [class.border-[#1C6956]]="newCategory.type === 'income'"
-                [class.bg-[#D8EAE5]]="newCategory.type === 'income'"
-                [class.border-[#E0E5E7]]="newCategory.type !== 'income'"
-              >
-                <div
-                  class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center"
-                >
-                  <i class="fas fa-arrow-down text-green-600"></i>
-                </div>
-                <div class="text-left">
-                  <span class="font-medium text-[#013E4C]">Receita</span>
-                  <p class="text-xs text-[#748389]">Entrada de recursos</p>
-                </div>
-              </button>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Formulário de Meta -->
-        <div *ngIf="modalType === 'meta'" class="space-y-4">
+        <!-- Formulário de Meta -->
+        <div *ngIf="modalType === 'meta'">
+          <!-- Nome da Meta -->
           <div>
-            <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+            <label class="block text-sm font-medium text-gray-700"
               >Nome da Meta</label
             >
             <input
@@ -249,7 +219,7 @@
               [(ngModel)]="newGoal.name"
               name="goalName"
               #goalName="ngModel"
-              class="w-full px-4 py-2.5 border border-[#E0E5E7] rounded-xl focus:ring-2 focus:ring-[#1C6956]/50 focus:border-[#1C6956] bg-white transition-all duration-200"
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
               required
             />
             <div
@@ -262,23 +232,21 @@
             </div>
           </div>
 
+          <!-- Valor Alvo -->
           <div>
-            <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+            <label class="block text-sm font-medium text-gray-700"
               >Valor Alvo (R$)</label
             >
-            <div class="relative">
-              <span class="absolute left-4 top-3 text-[#748389]">R$</span>
-              <input
-                type="number"
-                [(ngModel)]="newGoal.targetValue"
-                name="targetValue"
-                #targetValue="ngModel"
-                class="w-full pl-10 pr-4 py-2.5 border border-[#E0E5E7] rounded-xl focus:ring-2 focus:ring-[#1C6956]/50 focus:border-[#1C6956] bg-white transition-all duration-200"
-                required
-                min="0.01"
-                step="0.01"
-              />
-            </div>
+            <input
+              type="number"
+              [(ngModel)]="newGoal.targetValue"
+              name="targetValue"
+              #targetValue="ngModel"
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              required
+              min="0.01"
+              step="0.01"
+            />
             <div
               *ngIf="targetValue.invalid && targetValue.touched"
               class="text-red-500 text-xs mt-1"
@@ -292,24 +260,22 @@
             </div>
           </div>
 
+          <!-- Valor Atual -->
           <div>
-            <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+            <label class="block text-sm font-medium text-gray-700"
               >Valor Atual (R$)</label
             >
-            <div class="relative">
-              <span class="absolute left-4 top-3 text-[#748389]">R$</span>
-              <input
-                type="number"
-                [(ngModel)]="newGoal.currentValue"
-                name="currentValue"
-                #currentValue="ngModel"
-                class="w-full pl-10 pr-4 py-2.5 border border-[#E0E5E7] rounded-xl focus:ring-2 focus:ring-[#1C6956]/50 focus:border-[#1C6956] bg-white transition-all duration-200"
-                required
-                min="0"
-                step="0.01"
-                [max]="newGoal.targetValue"
-              />
-            </div>
+            <input
+              type="number"
+              [(ngModel)]="newGoal.currentValue"
+              name="currentValue"
+              #currentValue="ngModel"
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              required
+              min="0"
+              step="0.01"
+              [max]="newGoal.targetValue"
+            />
             <div
               *ngIf="currentValue.invalid && currentValue.touched"
               class="text-red-500 text-xs mt-1"
@@ -325,81 +291,101 @@
               >
             </div>
           </div>
+
+          <!-- Botão de Envio -->
+          <button
+            type="submit"
+            class="mt-4 bg-[#5e6d72] text-white py-2 px-4 rounded-lg hover:bg-[#4e5b61]"
+            [disabled]="
+              goalName.invalid || targetValue.invalid || currentValue.invalid
+            "
+          >
+            Salvar Meta
+          </button>
         </div>
 
-        <!-- Formulário de Cartão -->
         <div *ngIf="modalType === 'cartao'" class="space-y-4">
+          <!-- Seção de Bandeiras -->
           <div>
-            <label class="block text-sm font-medium text-[#5e6d72] mb-2"
-              >Bandeira do Cartão</label
-            >
-            <div class="grid grid-cols-3 gap-4">
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              Bandeira do Cartão
+            </label>
+            <div class="flex justify-center space-x-4">
+              <!-- Visa -->
               <div
                 class="bandeira-option transition-all duration-200"
                 [class.selected]="newCard.bandeira === 'VISA'"
                 (click)="selectBandeira('VISA')"
               >
                 <div
-                  class="p-4 rounded-xl border-2 flex flex-col items-center gap-2"
-                  [class.border-[#1C6956]]="newCard.bandeira === 'VISA'"
-                  [class.bg-[#D8EAE5]]="newCard.bandeira === 'VISA'"
-                  [class.border-[#E0E5E7]]="newCard.bandeira !== 'VISA'"
+                  class="p-3 rounded-lg border-2"
+                  [class.border-blue-500]="newCard.bandeira === 'VISA'"
+                  [class.border-gray-200]="newCard.bandeira !== 'VISA'"
+                  [class.bg-blue-50]="newCard.bandeira === 'VISA'"
                 >
                   <img
                     src="assets/img/visa.png"
                     alt="Visa"
-                    class="w-12 h-12 object-contain"
+                    class="w-16 h-16 rounded-full object-contain mx-auto"
                   />
-                  <span class="text-sm font-medium text-[#013E4C]">Visa</span>
+                  <span class="block text-center text-xs mt-2 font-medium"
+                    >Visa</span
+                  >
                 </div>
               </div>
 
+              <!-- Mastercard -->
               <div
                 class="bandeira-option transition-all duration-200"
                 [class.selected]="newCard.bandeira === 'MASTERCARD'"
                 (click)="selectBandeira('MASTERCARD')"
               >
                 <div
-                  class="p-4 rounded-xl border-2 flex flex-col items-center gap-2"
-                  [class.border-[#1C6956]]="newCard.bandeira === 'MASTERCARD'"
-                  [class.bg-[#D8EAE5]]="newCard.bandeira === 'MASTERCARD'"
-                  [class.border-[#E0E5E7]]="newCard.bandeira !== 'MASTERCARD'"
+                  class="p-3 rounded-lg border-2"
+                  [class.border-red-500]="newCard.bandeira === 'MASTERCARD'"
+                  [class.border-gray-200]="newCard.bandeira !== 'MASTERCARD'"
+                  [class.bg-red-50]="newCard.bandeira === 'MASTERCARD'"
                 >
                   <img
                     src="assets/img/mastercard.png"
                     alt="Mastercard"
-                    class="w-12 h-12 object-contain"
+                    class="w-16 h-16 object-contain mx-auto rounded-full"
                   />
-                  <span class="text-sm font-medium text-[#013E4C]"
+                  <span class="block text-center text-xs mt-2 font-medium"
                     >Mastercard</span
                   >
                 </div>
               </div>
 
+              <!-- Outros -->
               <div
                 class="bandeira-option transition-all duration-200"
                 [class.selected]="newCard.bandeira === 'OUTROS'"
                 (click)="selectBandeira('OUTROS')"
               >
                 <div
-                  class="p-4 rounded-xl border-2 flex flex-col items-center gap-2"
-                  [class.border-[#1C6956]]="newCard.bandeira === 'OUTROS'"
-                  [class.bg-[#D8EAE5]]="newCard.bandeira === 'OUTROS'"
-                  [class.border-[#E0E5E7]]="newCard.bandeira !== 'OUTROS'"
+                  class="p-3 rounded-lg border-2"
+                  [class.border-purple-500]="newCard.bandeira === 'OUTROS'"
+                  [class.border-gray-200]="newCard.bandeira !== 'OUTROS'"
+                  [class.bg-purple-50]="newCard.bandeira === 'OUTROS'"
                 >
                   <img
                     src="assets/img/outroscard.png"
                     alt="Outros"
-                    class="w-12 h-12 object-contain"
+                    class="w-16 h-16 object-contain mx-auto"
                   />
-                  <span class="text-sm font-medium text-[#013E4C]">Outros</span>
+                  <span
+                    class="block rounded-full text-center text-xs mt-2 font-medium"
+                    >Outros</span
+                  >
                 </div>
               </div>
             </div>
           </div>
 
+          <!-- Nome do Cartão -->
           <div>
-            <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+            <label class="block text-sm font-medium text-gray-700"
               >Nome do Cartão</label
             >
             <input
@@ -407,84 +393,102 @@
               [(ngModel)]="newCard.nome"
               name="nome"
               placeholder="Ex: Cartão Nubank"
-              class="w-full px-4 py-2.5 border border-[#E0E5E7] rounded-xl focus:ring-2 focus:ring-[#1C6956]/50 focus:border-[#1C6956] bg-white transition-all duration-200"
+              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
               required
             />
           </div>
 
+          <!-- Limite Total -->
           <div>
-            <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+            <label class="block text-sm font-medium text-gray-700"
               >Limite Total</label
             >
-            <div class="relative">
-              <span class="absolute left-4 top-3 text-[#748389]">R$</span>
+            <div class="mt-1 relative rounded-md shadow-sm">
+              <div
+                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+              >
+                <span class="text-gray-500 sm:text-sm">R$</span>
+              </div>
               <input
                 type="number"
                 [(ngModel)]="newCard.limiteTotal"
                 name="limiteTotal"
                 placeholder="0,00"
-                class="w-full pl-10 pr-4 py-2.5 border border-[#E0E5E7] rounded-xl focus:ring-2 focus:ring-[#1C6956]/50 focus:border-[#1C6956] bg-white transition-all duration-200"
+                class="block w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
                 required
               />
             </div>
           </div>
 
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-medium text-[#5e6d72] mb-1"
-                >Dia de Fechamento</label
-              >
-              <select
-                [(ngModel)]="newCard.diaFechamentoFatura"
-                name="diaFechamentoFatura"
-                class="w-full px-4 py-2.5 border border-[#E0E5E7] rounded-xl focus:ring-2 focus:ring-[#1C6956]/50 focus:border-[#1C6956] bg-white transition-all duration-200 appearance-none"
-                required
-              >
-                <option value="" disabled selected>Selecione o dia</option>
-                <option *ngFor="let dia of dias" [value]="dia">
-                  {{ dia }}
-                </option>
-              </select>
-            </div>
+          <!-- Dia de Fechamento da Fatura -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700">
+              Dia de Fechamento da Fatura
+            </label>
+            <select
+              [(ngModel)]="newCard.diaFechamentoFatura"
+              name="diaFechamentoFatura"
+              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+              required
+            >
+              <option value="" disabled selected>Selecione o dia</option>
+              <option *ngFor="let dia of dias" [value]="dia">{{ dia }}</option>
+            </select>
+          </div>
 
-            <div>
-              <label class="block text-sm font-medium text-[#5e6d72] mb-1"
-                >Dia de Vencimento</label
-              >
-              <select
-                [(ngModel)]="newCard.vencimentoFatura"
-                name="diaVencimentoFatura"
-                class="w-full px-4 py-2.5 border border-[#E0E5E7] rounded-xl focus:ring-2 focus:ring-[#1C6956]/50 focus:border-[#1C6956] bg-white transition-all duration-200 appearance-none"
-                required
-              >
-                <option value="" disabled selected>Selecione o dia</option>
-                <option *ngFor="let dia of dias" [value]="dia">
-                  {{ dia }}
-                </option>
-              </select>
-            </div>
+          <!-- Dia de Vencimento -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700">
+              Dia de Vencimento
+            </label>
+            <select
+              [(ngModel)]="newCard.vencimentoFatura"
+              name="diaVencimentoFatura"
+              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+              required
+            >
+              <option value="" disabled selected>Selecione o dia</option>
+              <option *ngFor="let dia of dias" [value]="dia">{{ dia }}</option>
+            </select>
           </div>
         </div>
 
-        <!-- Botões do Modal -->
-        <div class="flex justify-end gap-3 pt-4">
+        <!-- Botões -->
+        <div class="flex justify-end space-x-3">
           <button
             type="button"
             (click)="closeGlobalModal()"
-            class="px-5 py-2.5 text-[#5e6d72] bg-white border border-[#E0E5E7] rounded-xl hover:bg-[#F8F7F5] transition-all duration-200"
+            class="cursor-pointer px-5 py-2.5 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
           >
             Cancelar
           </button>
           <button
             type="submit"
             [disabled]="goalForm.invalid"
-            class="px-5 py-2.5 bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white rounded-xl hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+            class="flex items-center bg-gradient-to-r from-[#b6c6cc] to-[#5e6d72] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
           >
             @if (isSaving) {
-            <i class="fas fa-spinner fa-spin"></i>
-            Salvando... } @else {
-            <i class="fas fa-save"></i>
-            Salvar }
+            <svg
+              class="animate-spin h-5 w-5 mr-2 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+            Salvando... } @else { Salvar Alterações }
           </button>
         </div>
       </form>
