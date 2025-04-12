@@ -57,6 +57,26 @@
 
           <!-- Controles -->
           <div class="flex flex-wrap items-center gap-3">
+            <button
+              (click)="openNovaTransacaoDialog()"
+              class="px-4 py-2 bg-[#1C6956] hover:bg-[#1a5e4d] text-white text-sm font-medium rounded-lg shadow-sm flex items-center justify-center space-x-2 transition-all duration-200 transform hover:scale-[1.02] active:scale-95"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                />
+              </svg>
+              <span>Nova transação</span>
+            </button>
             <!-- Navegação por Mês -->
             <div
               class="flex items-center bg-white/10 backdrop-blur-md rounded-xl border border-white/20 overflow-hidden"
@@ -603,11 +623,7 @@
               />
             </svg>
             <p class="text-[#5e6d72] mb-4">Nenhuma despesa categorizada</p>
-            <button
-              class="px-4 py-2 bg-[#1C6956] text-white rounded-lg text-sm font-medium hover:bg-[#013E4C] transition-colors"
-            >
-              Adicionar Categorias
-            </button>
+
             }
           </div>
           }
@@ -909,27 +925,7 @@
               Parece que você ainda não tem movimentações registradas para
               {{ getMonthYear() | titlecase }}.
             </p>
-            <div class="mt-6">
-              <button
-                class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-lg text-white bg-[#1C6956] hover:bg-[#1a5e4d] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1C6956] transition-all duration-200 transform hover:scale-105 active:scale-95"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="-ml-1 mr-2 h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                  />
-                </svg>
-                Adicionar primeira transação
-              </button>
-            </div>
+            <div class="mt-6"></div>
           </div>
         </div>
       </div>
@@ -1016,9 +1012,6 @@
           </span>
           <a href="#" class="text-sm text-emerald-600 hover:text-emerald-700"
             >Ajuda</a
-          >
-          <a href="#" class="text-sm text-emerald-600 hover:text-emerald-700"
-            >Termos</a
           >
         </div>
       </div>

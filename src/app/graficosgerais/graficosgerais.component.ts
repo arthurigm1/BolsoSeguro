@@ -17,7 +17,8 @@ import {
   animate,
   state,
 } from '@angular/animations';
-
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 Chart.register(...registerables);
 
 interface Transacao {
@@ -117,7 +118,6 @@ export class GraficosgeraisComponent implements OnInit, OnDestroy {
     { id: 'timeline', label: 'Linha do Tempo', icon: 'fas fa-chart-line' },
     { id: 'banks', label: 'Por Banco', icon: 'fas fa-university' },
     { id: 'categories', label: 'Por Categoria', icon: 'fas fa-tags' },
-    { id: 'comparison', label: 'Comparativo', icon: 'fas fa-balance-scale' },
   ];
   activeView = 'overview';
 
@@ -297,13 +297,13 @@ export class GraficosgeraisComponent implements OnInit, OnDestroy {
   getCorCategoria(categoria: string): string {
     // Mapeia cores fixas para categorias principais
     const cores: Record<string, string> = {
-      Alimentação: '#FF6384',
-      Transporte: '#36A2EB',
-      Moradia: '#FFCE56',
-      Lazer: '#4BC0C0',
-      Educação: '#9966FF',
-      Saúde: '#FF9F40',
-      Outros: '#8AC24A',
+      Alimentação: '#F97316', // Laranja forte
+      Transporte: '#3B82F6', // Azul vibrante
+      Moradia: '#FACC15', // Amarelo dourado
+      Lazer: '#0EA5E9', // Azul claro/água
+      Educação: '#8B5CF6', // Roxo vibrante
+      Saúde: '#EF4444', // Vermelho vivo
+      Outros: '#A855F7', // Roxo mais claro
     };
 
     return cores[categoria] || this.gerarCorAleatoria(categoria);
@@ -315,8 +315,12 @@ export class GraficosgeraisComponent implements OnInit, OnDestroy {
       hash = semente.charCodeAt(i) + ((hash << 5) - hash);
     }
 
-    const h = hash % 360;
-    return `hsl(${h}, 70%, 60%)`;
+    // Gera hue na faixa que combina com verde (ex: 60° a 180°)
+    const baseHue = 60; // amarelo
+    const range = 120; // até azul-esverdeado
+    const h = (baseHue + (hash % range)) % 360;
+
+    return `hsl(${h}, 60%, 55%)`; // Saturação e brilho equilibrados
   }
 
   carregarFiltros(): void {

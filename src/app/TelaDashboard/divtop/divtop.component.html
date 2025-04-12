@@ -296,16 +296,30 @@
                     class="w-full h-full object-cover"
                   />
                 </div>
-                <div class="ml-4">
+                <div class="ml-4 relative">
                   <p class="font-semibold text-lg tracking-tight">
                     Bem-vindo de volta!
                   </p>
                   <p class="text-xs text-white/90 mt-0.5">
                     Gerencie sua conta e preferências
                   </p>
+
+                  <!-- Indicador sutil para conta inativa -->
+                  <div
+                    *ngIf="!usuario.enabled"
+                    class="absolute -bottom-5 left-0"
+                  >
+                    <div
+                      class="flex items-center text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded-full mt-1 animate-pulse"
+                    >
+                      <i class="fas fa-exclamation-circle mr-1"></i>
+                      <span>Conta inativa - verifique seu e-mail</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
+
             <ul class="py-1.5">
               <li>
                 <a

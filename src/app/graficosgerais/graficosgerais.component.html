@@ -1,50 +1,94 @@
 <div class="min-h-screen bg-[#F8F7F5]">
   <!-- Header com Efeito Glassmorphism -->
-  <div
-    class="bg-white/30 backdrop-blur-md bg-gradient-to-br from-[#f0f7f4] to-[#e0ece8]"
-  >
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div
-        class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6"
-      >
-        <div class="space-y-2">
-          <h1
-            class="text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#1C6956] to-[#013E4C] animate-gradient-x"
-          >
-            <i class="fas fa-chart-pie mr-2"></i>
-            Dashboard Financeiro
-          </h1>
-          <p class="text-[#5e6d72] text-sm sm:text-base flex items-center">
-            <i class="fas fa-chart-line mr-2 text-[#1C6956]"></i>
-            Visualização completa do seu fluxo financeiro
-          </p>
+  <header class="bg-white shadow-sm">
+    <div
+      class="min-h-[180px] bg-gradient-to-r from-[#013E4C] to-[#1C6956] p-6 mb-8 transition-all duration-500 animate-fade-in"
+    >
+      <div class="max-w-7xl mx-auto">
+        <!-- Container Principal -->
+        <div
+          class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6"
+        >
+          <!-- Título e Subtítulo -->
+          <div class="space-y-3">
+            <div class="flex items-center space-x-4">
+              <div
+                class="p-3 bg-white/20 backdrop-blur-sm rounded-xl border border-white/10"
+              >
+                <svg
+                  class="h-8 w-8 text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                  />
+                </svg>
+              </div>
+              <h1
+                class="text-3xl md:text-4xl font-bold text-white drop-shadow-md"
+              >
+                Dashboard Financeiro
+                <span class="inline-block ml-2 text-emerald-300 animate-pulse"
+                  >•</span
+                >
+              </h1>
+            </div>
+
+            <p class="text-[#D8EAE5] text-sm md:text-base flex items-center">
+              <svg
+                class="h-5 w-5 mr-2 text-emerald-300"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2h-1V9z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              Visualização completa do seu fluxo financeiro
+            </p>
+          </div>
+
+          <!-- Controles -->
+          <div class="flex flex-wrap items-center gap-3">
+            <!-- Seletor de Mês -->
+            <div class="relative">
+              <label
+                class="absolute -top-2 left-3 bg-white px-2 text-xs text-[#5e6d72] rounded-full shadow-sm"
+                >Período</label
+              >
+              <input
+                type="month"
+                [(ngModel)]="selectedDate"
+                (change)="carregarTransacoes()"
+                class="px-4 py-2.5 w-48 text-[#013E4C] bg-white/90 border-2 border-[#1C6956] rounded-2xl shadow-md font-semibold focus:outline-none focus:ring-2 focus:ring-[#1C6956]/50 hover:shadow-lg transition-all duration-300 cursor-pointer"
+              />
+            </div>
+
+            <!-- Botão Resetar -->
+            <button
+              (click)="limparFiltros()"
+              class="px-4 py-2.5 text-sm bg-white/80 hover:bg-[#D8EAE5] text-[#5e6d72] hover:text-[#1C6956] rounded-xl font-medium shadow-sm hover:shadow-md transition-all focus:outline-none focus:ring-2 focus:ring-[#1C6956]/50 flex items-center transform hover:scale-[1.02] active:scale-95"
+            >
+              <i class="fas fa-sync-alt mr-2 animate-spin-slow"></i>
+              Resetar
+            </button>
+          </div>
         </div>
 
-        <!-- Controles de Período -->
-        <div class="flex flex-wrap items-center gap-3">
-          <div class="relative">
-            <label
-              class="absolute -top-2 left-3 bg-white px-2 text-xs text-[#5e6d72] rounded-full shadow-sm"
-              >Período</label
-            >
-            <input
-              type="month"
-              [(ngModel)]="selectedDate"
-              (change)="carregarTransacoes()"
-              class="px-4 py-2.5 bg-white/80 text-[#013E4C] rounded-xl font-medium shadow-sm border border-[#E0E5E7] focus:outline-none focus:ring-2 focus:ring-[#1C6956]/50 transition-all duration-300 hover:shadow-md"
-            />
-          </div>
-          <button
-            (click)="limparFiltros()"
-            class="px-4 py-2.5 text-sm bg-white/80 hover:bg-[#D8EAE5] text-[#5e6d72] hover:text-[#1C6956] rounded-xl font-medium shadow-sm hover:shadow-md transition-all focus:outline-none focus:ring-2 focus:ring-[#1C6956]/50 flex items-center transform hover:scale-[1.02] active:scale-95"
-          >
-            <i class="fas fa-sync-alt mr-2 animate-spin-slow"></i>
-            Resetar
-          </button>
+        <!-- Barra de Progresso Sutil -->
+        <div class="mt-6 h-1 bg-white/10 rounded-full overflow-hidden">
+          <div class="h-full bg-emerald-300 rounded-full"></div>
         </div>
       </div>
     </div>
-  </div>
+  </header>
 
   <!-- Container Principal -->
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -346,28 +390,6 @@
             />
             <i
               class="fas fa-dollar-sign absolute left-3 top-2.5 text-[#748389] text-sm"
-            ></i>
-          </div>
-        </div>
-
-        <!-- Filtro por Status -->
-        <div>
-          <label class="block text-sm font-medium text-[#5e6d72] mb-1"
-            >Status</label
-          >
-          <div class="relative">
-            <select
-              [(ngModel)]="filtro.status"
-              (change)="aplicarFiltros()"
-              class="w-full border border-[#E0E5E7] rounded-lg py-2 px-3 text-sm focus:ring-2 focus:ring-[#1C6956]/50 focus:border-[#1C6956] bg-white appearance-none transition-all duration-300 hover:shadow-sm"
-            >
-              <option value="">Todos status</option>
-              <option value="PENDENTE">Pendente</option>
-              <option value="CONCLUIDO">Concluído</option>
-              <option value="CANCELADO">Cancelado</option>
-            </select>
-            <i
-              class="fas fa-chevron-down absolute right-3 top-3 text-[#748389] text-xs"
             ></i>
           </div>
         </div>
@@ -697,118 +719,24 @@
           </div>
         </div>
       </div>
-
-      <!-- Comparativo Mensal -->
-      <div *ngIf="activeView === 'comparison'" class="space-y-6">
-        <div
-          class="bg-white/90 backdrop-blur-sm rounded-xl p-5 border border-[#E0E5E7] shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in"
-        >
-          <div class="flex justify-between items-center mb-4">
-            <h3 class="text-lg font-semibold text-[#013E4C] flex items-center">
-              <i class="fas fa-balance-scale mr-2 text-[#1C6956]"></i>
-              Comparativo Mensal
-            </h3>
-            <div class="flex items-center">
-              <span class="text-xs text-[#5e6d72] mr-2">Período:</span>
-              <span class="font-medium text-[#013E4C]"
-                >{{ getPreviousMonth() }} vs
-                {{ selectedDate | date : "MMMM yyyy" }}</span
-              >
-            </div>
-          </div>
-          <div class="h-96">
-            <canvas id="comparisonChart"></canvas>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div
-            class="bg-white/90 backdrop-blur-sm rounded-xl p-5 border border-[#E0E5E7] shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in"
-          >
-            <div class="flex justify-between items-center mb-4">
-              <h3
-                class="text-lg font-semibold text-[#013E4C] flex items-center"
-              >
-                <i class="fas fa-chart-bar mr-2 text-[#1C6956]"></i>
-                Variação de Receitas
-              </h3>
-              <span
-                class="text-sm font-medium flex items-center"
-                [ngClass]="{
-                  'text-[#1C6956]': variacaoReceitas >= 0,
-                  'text-[#748389]': variacaoReceitas < 0
-                }"
-              >
-                <i
-                  class="fas fa-arrow-{{
-                    variacaoReceitas >= 0 ? 'up' : 'down'
-                  }} mr-1"
-                ></i>
-                {{ (variacaoReceitas * 100).toFixed(1) }}%
-              </span>
-            </div>
-            <div class="h-64">
-              <canvas id="incomeComparisonChart"></canvas>
-            </div>
-          </div>
-
-          <div
-            class="bg-white/90 backdrop-blur-sm rounded-xl p-5 border border-[#E0E5E7] shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in"
-          >
-            <div class="flex justify-between items-center mb-4">
-              <h3
-                class="text-lg font-semibold text-[#013E4C] flex items-center"
-              >
-                <i class="fas fa-chart-bar mr-2 text-[#1C6956]"></i>
-                Variação de Despesas
-              </h3>
-              <span
-                class="text-sm font-medium flex items-center"
-                [ngClass]="{
-                  'text-[#1C6956]': variacaoDespesas <= 0,
-                  'text-[#748389]': variacaoDespesas > 0
-                }"
-              >
-                <i
-                  class="fas fa-arrow-{{
-                    variacaoDespesas <= 0 ? 'down' : 'up'
-                  }} mr-1"
-                ></i>
-                {{ (variacaoDespesas * 100).toFixed(1) }}%
-              </span>
-            </div>
-            <div class="h-64">
-              <canvas id="expenseComparisonChart"></canvas>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 
   <!-- Rodapé -->
-  <footer class="bg-[#013E4C] text-white py-6 mt-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <footer class="bg-white border-t border-gray-200 mt-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
       <div class="flex flex-col md:flex-row justify-between items-center">
-        <div class="mb-4 md:mb-0">
-          <p class="text-sm">
-            <i class="far fa-copyright mr-1"></i>
-            {{ currentDate | date : "yyyy" }} Dashboard Financeiro
-          </p>
-        </div>
-        <div class="flex space-x-4">
-          <a href="#" class="text-white hover:text-[#D8EAE5] transition-colors">
-            <i class="fas fa-question-circle"></i>
-            <span class="ml-1">Ajuda</span>
-          </a>
-          <a href="#" class="text-white hover:text-[#D8EAE5] transition-colors">
-            <i class="fas fa-cog"></i>
-            <span class="ml-1">Configurações</span>
-          </a>
-          <a href="#" class="text-white hover:text-[#D8EAE5] transition-colors">
-            <i class="fas fa-envelope"></i>
-            <span class="ml-1">Contato</span>
-          </a>
+        <p class="text-sm text-gray-500">
+          &copy; {{ currentDate | date : "yyyy" }} Sistema Financeiro. Todos os
+          direitos reservados.
+        </p>
+        <div class="mt-4 md:mt-0 flex space-x-6">
+          <span class="text-sm text-gray-500">
+            Atualizado em {{ currentDate | date : "dd/MM/yyyy 'às' HH:mm" }}
+          </span>
+          <a href="#" class="text-sm text-emerald-600 hover:text-emerald-700"
+            >Ajuda</a
+          >
         </div>
       </div>
     </div>

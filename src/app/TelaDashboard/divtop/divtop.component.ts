@@ -35,6 +35,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
   ],
 })
 export class DivtopComponent implements OnInit {
+  usuario: any = null;
   isMobileMenuOpen = false;
   isSettingsDropdownOpen = false;
   isAccountDropdownOpen = false;
@@ -68,6 +69,19 @@ export class DivtopComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.loginService.getUsuarioInfo().subscribe(
+      (response) => {
+        if (response) {
+          this.usuario = response;
+          this.toastService.success('Login efetuado com sucesso');
+        } else {
+          this.toastService.error('Erro ao obter informações do usuário');
+        }
+      },
+      () => {
+        this.toastService.error('Erro ao obter informações do usuário');
+      }
+    );
     this.loadExchangeRates();
   }
 
@@ -208,15 +222,12 @@ export class DivtopComponent implements OnInit {
   }
 
   getNome(): string {
-    // Implementar lógica para obter o nome do usuário do serviço de login
-    return 'Usuário Teste';
+    return this.usuario?.nome || 'Usuário';
   }
 
   getEmail(): string {
-    // Implementar lógica para obter o email do usuário do serviço de login
-    return 'usuario@teste.com';
+    return this.usuario?.email || 'sem-email@exemplo.com';
   }
-
   getCurrentDate(): Date {
     return new Date();
   }

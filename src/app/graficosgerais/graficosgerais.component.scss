@@ -92,6 +92,12 @@
     }
 }
 
+/* Personalizar o ícone do calendário (não funciona em todos os browsers) */
+input[type="month"]::-webkit-calendar-picker-indicator {
+    filter: invert(30%) sepia(80%) saturate(500%) hue-rotate(130deg);
+    cursor: pointer;
+}
+
 @keyframes scaleIn {
     from {
         transform: scale(0.95);

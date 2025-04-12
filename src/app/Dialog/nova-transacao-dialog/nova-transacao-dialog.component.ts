@@ -112,8 +112,27 @@ export class NovaTransacaoDialogComponent implements OnInit {
       this.isLoading = true;
       const formData = this.form.value;
 
+      const payload: any = {
+        valor: formData.valor,
+        data: formData.data,
+        categoria: formData.categoria,
+        descricao: formData.descricao,
+      };
+
+      // Verifica se é uma conta ou cartão (usando this.contas)
+      const isConta = this.contas.some(
+        (conta) => conta.id === formData.contaId
+      );
+
       if (this.tipoTransacao === 'DESPESA') {
-        this.despesaService.adicionarDespesa(formData).subscribe({
+        // Se for conta, envia como contaId, senão como cartaoId
+        if (isConta) {
+          payload.contaId = formData.contaId;
+        } else {
+          payload.cartaoId = formData.contaId;
+        }
+
+        this.despesaService.adicionarDespesa(payload).subscribe({
           next: () => {
             this.toastr.success('Despesa adicionada com sucesso!');
             this.dialogRef.close(true);
@@ -124,7 +143,9 @@ export class NovaTransacaoDialogComponent implements OnInit {
           },
         });
       } else {
-        this.receitaService.adicionarReceita(formData).subscribe({
+        payload.contaId = formData.contaId;
+
+        this.receitaService.adicionarReceita(payload).subscribe({
           next: () => {
             this.toastr.success('Receita adicionada com sucesso!');
             this.dialogRef.close(true);

@@ -252,7 +252,7 @@ export class ConfiguracoesComponent {
       },
     });
   }
-
+  currentDate: Date = new Date();
   addMeta() {
     this.isSaving = true;
     const metaRequest: MetaFinanceiraRequestDTO = {
