@@ -112,7 +112,7 @@ export class DashboardComponent {
       },
     });
   }
-
+  currentDate: Date = new Date();
   openModal(type: string) {
     this.modalType = type;
     this.modalTitle = `Adicionar ${type}`;

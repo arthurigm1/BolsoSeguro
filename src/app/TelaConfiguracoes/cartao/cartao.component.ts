@@ -15,6 +15,10 @@ import { EditCardDialogComponent } from '../../Dialog/edit-card-dialog/edit-card
 })
 export class CartaoComponent implements OnInit {
   creditCards: CartaoResponseDTO[] = [];
+  isAddingCard = false;
+  isLoadingPage = false;
+  deletingCardId: string | null = null;
+  cartoes: any[] = [];
   constructor(
     private dialog: MatDialog,
     private cartaoService: CartaoService,

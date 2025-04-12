@@ -493,7 +493,27 @@
     </div>
   </div>
 </div>
-
+<footer class="bg-white border-t border-gray-200 mt-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="flex flex-col md:flex-row justify-between items-center">
+      <p class="text-sm text-gray-500">
+        &copy; {{ currentDate | date : "yyyy" }} Sistema Financeiro. Todos os
+        direitos reservados.
+      </p>
+      <div class="mt-4 md:mt-0 flex space-x-6">
+        <span class="text-sm text-gray-500">
+          Atualizado em {{ currentDate | date : "dd/MM/yyyy 'às' HH:mm" }}
+        </span>
+        <a href="#" class="text-sm text-emerald-600 hover:text-emerald-700"
+          >Ajuda</a
+        >
+        <a href="#" class="text-sm text-emerald-600 hover:text-emerald-700"
+          >Termos</a
+        >
+      </div>
+    </div>
+  </div>
+</footer>
 <!-- Modal com efeito de vidro -->
 <div
   *ngIf="isModalOpen"

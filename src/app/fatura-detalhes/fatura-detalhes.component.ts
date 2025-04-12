@@ -32,7 +32,7 @@ export class FaturaDetalhesComponent {
     private datePipe: DatePipe,
     private despesaService: DespesaService,
     private dialog: MatDialog,
-    private toarstService: ToastrService
+    private toastrService: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -61,49 +61,52 @@ export class FaturaDetalhesComponent {
     this.loading = true;
     this.error = null;
 
-    const { cartaoId, mes, ano } = this.faturaData;
-
-    // Buscar dados da fatura
-    this.faturaService.buscarFaturaPorMes(cartaoId, mes, ano).subscribe({
-      next: (faturas) => {
-        if (faturas && faturas.length > 0) {
-          const faturaBase = faturas[0];
-          this.fatura = {
-            ...faturaBase,
-            nomeCartao: faturaBase.nomeCartao || '',
-            bandeira: faturaBase.bandeira || '',
-            limiteTotal: faturaBase.limiteTotal ?? 0,
-            limiteDisponivel: faturaBase.limiteDisponivel ?? 0,
-          };
-        } else {
-          this.error = 'Nenhuma fatura encontrada para este período.';
-          this.toarstService.error(this.error, 'Erro', {
-            timeOut: 3000,
-            progressBar: true,
-          });
-        }
-        this.loading = false;
-      },
-      error: (err) => {
-        this.error = 'Erro ao carregar fatura. Tente novamente.';
-        this.loading = false;
-        this.toarstService.error(this.error, 'Erro');
-      },
-    });
+    this.faturaService
+      .buscarFaturaPorMes(
+        this.faturaData.cartaoId,
+        this.faturaData.mes,
+        this.faturaData.ano
+      )
+      .subscribe({
+        next: (faturas) => {
+          if (faturas && faturas.length > 0) {
+            this.fatura = {
+              ...faturas[0],
+              nomeCartao: faturas[0].nomeCartao || '',
+              bandeira: faturas[0].bandeira || '',
+              limiteTotal: faturas[0].limiteTotal || 0,
+              limiteDisponivel: faturas[0].limiteDisponivel || 0,
+              // Add other missing properties with default values if necessary
+            };
+          } else {
+            this.error = 'Nenhuma fatura encontrada para este período.';
+          }
+          this.loading = false;
+        },
+        error: (err) => {
+          this.error = 'Erro ao carregar fatura. Tente novamente.';
+          this.loading = false;
+          this.toastrService.error('Erro ao carregar fatura. Tente novamente.');
+        },
+      });
 
     // Buscar despesas
-    this.despesaService.buscarDespesasPorMes(cartaoId, ano, mes).subscribe({
-      next: (despesas) => {
-        this.despesas = despesas;
-      },
-      error: (err) => {
-        this.toarstService.error(
-          'Erro ao carregar despesas. Tente novamente.',
-          'Erro',
-          err
-        );
-      },
-    });
+    this.despesaService
+      .buscarDespesasPorMes(
+        this.faturaData.cartaoId,
+        this.faturaData.ano,
+        this.faturaData.mes
+      )
+      .subscribe({
+        next: (despesas) => {
+          this.despesas = despesas;
+        },
+        error: (err) => {
+          this.toastrService.error(
+            'Erro ao carregar despesas. Tente novamente.'
+          );
+        },
+      });
   }
 
   alterarMes(direcao: number): void {
@@ -179,7 +182,7 @@ export class FaturaDetalhesComponent {
             error: (err) => {
               this.error = 'Erro ao processar pagamento. Tente novamente.';
               this.loading = false;
-              this.toarstService.error(
+              this.toastrService.error(
                 'Erro ao processar pagamento. Tente novamente.'
               );
             },
@@ -249,7 +252,9 @@ export class FaturaDetalhesComponent {
         error: (err) => {
           this.loading = false;
           this.error = 'Erro ao baixar relatório. Tente novamente.';
-          this.toarstService.error(this.error, 'Erro');
+          this.toastrService.error(
+            'Erro ao baixar relatório. Tente novamente.'
+          );
         },
       });
   }

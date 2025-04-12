@@ -1,9 +1,22 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Chart, registerables } from 'chart.js';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
+import { Chart, registerables, ChartConfiguration } from 'chart.js';
 import { TransacoesService } from '../Services/TransacaoService/transacoes.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import {
+  trigger,
+  transition,
+  style,
+  animate,
+  state,
+} from '@angular/animations';
 
 Chart.register(...registerables);
 
@@ -14,6 +27,7 @@ interface Transacao {
   categoria: string;
   data: string;
   descricao: string;
+  status?: string;
 }
 
 interface ViewOption {
@@ -28,15 +42,44 @@ interface ViewOption {
   imports: [CommonModule, FormsModule],
   templateUrl: './graficosgerais.component.html',
   styleUrls: ['./graficosgerais.component.scss'],
+  animations: [
+    trigger('fadeInOut', [
+      state(
+        'collapsed',
+        style({
+          height: '0',
+          opacity: '0',
+          overflow: 'hidden',
+        })
+      ),
+      state(
+        'expanded',
+        style({
+          height: '*',
+          opacity: '1',
+        })
+      ),
+      transition('collapsed <=> expanded', [animate('300ms ease-in-out')]),
+    ]),
+  ],
 })
 export class GraficosgeraisComponent implements OnInit, OnDestroy {
   // Data properties
   transacoes: Transacao[] = [];
   transacoesFiltradas: Transacao[] = [];
   transacoesMesAnterior: Transacao[] = [];
-  categorias: string[] = [];
+  categorias: string[] = [
+    'Alimentação',
+    'Transporte',
+    'Moradia',
+    'Lazer',
+    'Saúde',
+    'Educação',
+    'Outros',
+  ];
   bancos: string[] = [];
   tipos = ['RECEITA', 'DESPESA'];
+  statusList = ['PENDENTE', 'CONCLUIDO', 'CANCELADO'];
 
   // Filter properties
   filtro = {
@@ -46,6 +89,9 @@ export class GraficosgeraisComponent implements OnInit, OnDestroy {
     banco: '',
     tipo: '',
     descricao: '',
+    valorMinimo: null as number | null,
+    valorMaximo: null as number | null,
+    status: '',
   };
 
   // Summary properties
@@ -57,12 +103,13 @@ export class GraficosgeraisComponent implements OnInit, OnDestroy {
   variacaoSaldo = 0;
   categoriasPrincipais: string[] = [];
   progresso = 0;
-  dataAtual: Date = new Date();
+  currentDate: Date = new Date();
 
   // UI properties
   selectedDate: string = new Date().toISOString().slice(0, 7);
   loading = false;
   error = '';
+  filtrosAvancados = false;
 
   // View options
   views: ViewOption[] = [
@@ -70,6 +117,7 @@ export class GraficosgeraisComponent implements OnInit, OnDestroy {
     { id: 'timeline', label: 'Linha do Tempo', icon: 'fas fa-chart-line' },
     { id: 'banks', label: 'Por Banco', icon: 'fas fa-university' },
     { id: 'categories', label: 'Por Categoria', icon: 'fas fa-tags' },
+    { id: 'comparison', label: 'Comparativo', icon: 'fas fa-balance-scale' },
   ];
   activeView = 'overview';
 
@@ -77,9 +125,18 @@ export class GraficosgeraisComponent implements OnInit, OnDestroy {
   private charts: { [key: string]: Chart | undefined } = {
     pieChart: undefined,
     barChart: undefined,
-    lineChart: undefined,
+    dailyLineChart: undefined,
+    doughnutChart: undefined,
+    timelineChart: undefined,
     bankChart: undefined,
+    bankIncomeChart: undefined,
+    bankExpenseChart: undefined,
     categoryChart: undefined,
+    categoryIncomeChart: undefined,
+    categoryExpenseChart: undefined,
+    comparisonChart: undefined,
+    incomeComparisonChart: undefined,
+    expenseComparisonChart: undefined,
   };
 
   private subscription?: Subscription;
@@ -88,6 +145,10 @@ export class GraficosgeraisComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.carregarTransacoes();
+    // Atualiza a data atual a cada minuto
+    setInterval(() => {
+      this.currentDate = new Date();
+    }, 60000);
   }
 
   ngOnDestroy(): void {
@@ -242,6 +303,7 @@ export class GraficosgeraisComponent implements OnInit, OnDestroy {
       Lazer: '#4BC0C0',
       Educação: '#9966FF',
       Saúde: '#FF9F40',
+      Outros: '#8AC24A',
     };
 
     return cores[categoria] || this.gerarCorAleatoria(categoria);
@@ -274,6 +336,10 @@ export class GraficosgeraisComponent implements OnInit, OnDestroy {
         ? new Date(this.filtro.dataFim)
         : null;
 
+      const valor = t.valor;
+      const valorMinimo = this.filtro.valorMinimo || 0;
+      const valorMaximo = this.filtro.valorMaximo || Infinity;
+
       return (
         (!this.filtro.dataInicio ||
           (dataInicio && dataTransacao >= dataInicio)) &&
@@ -281,6 +347,9 @@ export class GraficosgeraisComponent implements OnInit, OnDestroy {
         (!this.filtro.categoria || t.categoria === this.filtro.categoria) &&
         (!this.filtro.banco || t.banco === this.filtro.banco) &&
         (!this.filtro.tipo || t.tipo === this.filtro.tipo) &&
+        (!this.filtro.status || t.status === this.filtro.status) &&
+        valor >= valorMinimo &&
+        valor <= valorMaximo &&
         (!this.filtro.descricao ||
           t.descricao
             .toLowerCase()
@@ -301,8 +370,15 @@ export class GraficosgeraisComponent implements OnInit, OnDestroy {
       banco: '',
       tipo: '',
       descricao: '',
+      valorMinimo: null,
+      valorMaximo: null,
+      status: '',
     };
     this.aplicarFiltros();
+  }
+
+  toggleFiltrosAvancados(): void {
+    this.filtrosAvancados = !this.filtrosAvancados;
   }
 
   async mudarVisualizacao(viewId: string, event?: Event): Promise<void> {
@@ -332,15 +408,26 @@ export class GraficosgeraisComponent implements OnInit, OnDestroy {
       case 'overview':
         this.criarGraficoPizza();
         this.criarGraficoBarras();
+        this.criarGraficoLinhaDiaria();
+        this.criarGraficoRosca();
         break;
       case 'timeline':
-        this.criarGraficoLinhas();
+        this.criarGraficoLinhaTemporal();
         break;
       case 'banks':
         this.criarGraficoBancos();
+        this.criarGraficoReceitasBancos();
+        this.criarGraficoDespesasBancos();
         break;
       case 'categories':
         this.criarGraficoCategorias();
+        this.criarGraficoReceitasCategorias();
+        this.criarGraficoDespesasCategorias();
+        break;
+      case 'comparison':
+        this.criarGraficoComparativo();
+        this.criarGraficoComparativoReceitas();
+        this.criarGraficoComparativoDespesas();
         break;
     }
   }
@@ -354,9 +441,18 @@ export class GraficosgeraisComponent implements OnInit, OnDestroy {
     this.charts = {
       pieChart: undefined,
       barChart: undefined,
-      lineChart: undefined,
+      dailyLineChart: undefined,
+      doughnutChart: undefined,
+      timelineChart: undefined,
       bankChart: undefined,
+      bankIncomeChart: undefined,
+      bankExpenseChart: undefined,
       categoryChart: undefined,
+      categoryIncomeChart: undefined,
+      categoryExpenseChart: undefined,
+      comparisonChart: undefined,
+      incomeComparisonChart: undefined,
+      expenseComparisonChart: undefined,
     };
   }
 
@@ -392,7 +488,42 @@ export class GraficosgeraisComponent implements OnInit, OnDestroy {
           },
         ],
       },
-      options: this.getPieChartOptions(),
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'right',
+            labels: {
+              font: {
+                family: "'Inter', sans-serif",
+                size: 12,
+              },
+              padding: 20,
+            },
+          },
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                const label = context.label || '';
+                const value = context.raw || 0;
+                const total = context.dataset.data.reduce(
+                  (a: number, b: number) => a + b,
+                  0
+                );
+                const percentage = Math.round(
+                  (Number(value) / Number(total)) * 100
+                );
+                const formattedValue = new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(Number(value));
+                return `${label}: ${formattedValue} (${percentage}%)`;
+              },
+            },
+          },
+        },
+      },
     });
   }
 
@@ -425,22 +556,62 @@ export class GraficosgeraisComponent implements OnInit, OnDestroy {
             label: 'Receitas',
             data: receitas,
             backgroundColor: '#4BC0C0',
+            borderColor: '#36A2EB',
             borderWidth: 1,
           },
           {
             label: 'Despesas',
             data: despesas,
             backgroundColor: '#FF6384',
+            borderColor: '#FF9F40',
             borderWidth: 1,
           },
         ],
       },
-      options: this.getBarChartOptions(),
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: {
+              font: {
+                family: "'Inter', sans-serif",
+              },
+            },
+          },
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                const label = context.dataset.label || '';
+                const value = Number(context.raw) || 0;
+                return `${label}: ${new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(value)}`;
+              },
+            },
+          },
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: (value) => {
+                return new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(Number(value));
+              },
+            },
+          },
+        },
+      },
     });
   }
 
-  private criarGraficoLinhas(): void {
-    const ctx = document.getElementById('lineChart') as HTMLCanvasElement;
+  private criarGraficoLinhaDiaria(): void {
+    const ctx = document.getElementById('dailyLineChart') as HTMLCanvasElement;
     if (!ctx) return;
 
     const diasNoMes = new Date(
@@ -472,7 +643,7 @@ export class GraficosgeraisComponent implements OnInit, OnDestroy {
         .reduce((sum, t) => sum + t.valor, 0);
     });
 
-    this.charts['lineChart'] = new Chart(ctx, {
+    this.charts['dailyLineChart'] = new Chart(ctx, {
       type: 'line',
       data: {
         labels: labels,
@@ -483,8 +654,11 @@ export class GraficosgeraisComponent implements OnInit, OnDestroy {
             borderColor: '#4BC0C0',
             backgroundColor: 'rgba(75, 192, 192, 0.1)',
             borderWidth: 2,
-            tension: 0.1,
+            tension: 0.3,
             fill: true,
+            pointBackgroundColor: '#4BC0C0',
+            pointRadius: 4,
+            pointHoverRadius: 6,
           },
           {
             label: 'Despesas',
@@ -492,12 +666,217 @@ export class GraficosgeraisComponent implements OnInit, OnDestroy {
             borderColor: '#FF6384',
             backgroundColor: 'rgba(255, 99, 132, 0.1)',
             borderWidth: 2,
-            tension: 0.1,
+            tension: 0.3,
+            fill: true,
+            pointBackgroundColor: '#FF6384',
+            pointRadius: 4,
+            pointHoverRadius: 6,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: {
+              font: {
+                family: "'Inter', sans-serif",
+              },
+            },
+          },
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                const label = context.dataset.label || '';
+                const value = Number(context.raw) || 0;
+                return `${label}: ${new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(value)}`;
+              },
+            },
+          },
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: (value) => {
+                return new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(Number(value));
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  private criarGraficoRosca(): void {
+    const ctx = document.getElementById('doughnutChart') as HTMLCanvasElement;
+    if (!ctx) return;
+
+    const topCategorias = this.categoriasPrincipais.slice(0, 5);
+    const outrosValor =
+      this.totalDespesas -
+      topCategorias.reduce((sum, cat) => {
+        return (
+          sum +
+          this.transacoesFiltradas
+            .filter((t) => t.tipo === 'DESPESA' && t.categoria === cat)
+            .reduce((s, t) => s + t.valor, 0)
+        );
+      }, 0);
+
+    const labels = [...topCategorias];
+    const data = [
+      ...topCategorias.map((cat) =>
+        this.transacoesFiltradas
+          .filter((t) => t.tipo === 'DESPESA' && t.categoria === cat)
+          .reduce((sum, t) => sum + t.valor, 0)
+      ),
+    ];
+
+    if (outrosValor > 0) {
+      labels.push('Outros');
+      data.push(outrosValor);
+    }
+
+    this.charts['doughnutChart'] = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            data: data,
+            backgroundColor: labels.map((cat) => this.getCorCategoria(cat)),
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '70%',
+        plugins: {
+          legend: {
+            position: 'right',
+            labels: {
+              font: {
+                family: "'Inter', sans-serif",
+                size: 12,
+              },
+              padding: 20,
+            },
+          },
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                const label = context.label || '';
+                const value = context.raw || 0;
+                const total = context.dataset.data.reduce(
+                  (a: number, b: number) => a + b,
+                  0
+                );
+                const percentage = Math.round(
+                  (Number(value) / Number(total)) * 100
+                );
+                const formattedValue = new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(Number(value));
+                return `${label}: ${formattedValue} (${percentage}%)`;
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  private criarGraficoLinhaTemporal(): void {
+    const ctx = document.getElementById('timelineChart') as HTMLCanvasElement;
+    if (!ctx) return;
+
+    // Simulando dados dos últimos 12 meses para exemplo
+    const meses = Array.from({ length: 12 }, (_, i) => {
+      const date = new Date();
+      date.setMonth(date.getMonth() - (11 - i));
+      return date.toLocaleString('default', { month: 'short' });
+    });
+
+    // Valores simulados - na implementação real, você buscaria esses dados
+    const receitas = meses.map((_, i) => 5000 + Math.random() * 10000);
+    const despesas = meses.map((_, i) => 3000 + Math.random() * 8000);
+
+    this.charts['timelineChart'] = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: meses,
+        datasets: [
+          {
+            label: 'Receitas',
+            data: receitas,
+            borderColor: '#4BC0C0',
+            backgroundColor: 'rgba(75, 192, 192, 0.1)',
+            borderWidth: 3,
+            tension: 0.3,
+            fill: true,
+          },
+          {
+            label: 'Despesas',
+            data: despesas,
+            borderColor: '#FF6384',
+            backgroundColor: 'rgba(255, 99, 132, 0.1)',
+            borderWidth: 3,
+            tension: 0.3,
             fill: true,
           },
         ],
       },
-      options: this.getLineChartOptions(),
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: {
+              font: {
+                family: "'Inter', sans-serif",
+              },
+            },
+          },
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                const label = context.dataset.label || '';
+                const value = Number(context.raw) || 0;
+                return `${label}: ${new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(value)}`;
+              },
+            },
+          },
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: (value) => {
+                return new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(Number(value));
+              },
+            },
+          },
+        },
+      },
     });
   }
 
@@ -533,13 +912,175 @@ export class GraficosgeraisComponent implements OnInit, OnDestroy {
               val >= 0 ? '#4BC0C0' : '#FF6384'
             ),
             borderColor: saldos.map((val) =>
-              val >= 0 ? '#4BC0C0' : '#FF6384'
+              val >= 0 ? '#36A2EB' : '#FF9F40'
             ),
             borderWidth: 1,
           },
         ],
       },
-      options: this.getBankChartOptions(),
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          },
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                const value = context.raw || 0;
+                return `Saldo: ${new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(Number(value))}`;
+              },
+            },
+          },
+        },
+        scales: {
+          y: {
+            beginAtZero: false,
+            ticks: {
+              callback: (value) => {
+                return new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(Number(value));
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  private criarGraficoReceitasBancos(): void {
+    const ctx = document.getElementById('bankIncomeChart') as HTMLCanvasElement;
+    if (!ctx) return;
+
+    const bancos = [
+      ...new Set(this.transacoesFiltradas.map((t) => t.banco)),
+    ].sort();
+
+    const receitas = bancos.map((banco) =>
+      this.transacoesFiltradas
+        .filter((t) => t.banco === banco && t.tipo === 'RECEITA')
+        .reduce((sum, t) => sum + t.valor, 0)
+    );
+
+    this.charts['bankIncomeChart'] = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: bancos,
+        datasets: [
+          {
+            label: 'Receitas',
+            data: receitas,
+            backgroundColor: '#4BC0C0',
+            borderColor: '#36A2EB',
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          },
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                const value = context.raw || 0;
+                return `Receitas: ${new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(Number(value))}`;
+              },
+            },
+          },
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: (value) => {
+                return new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(Number(value));
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  private criarGraficoDespesasBancos(): void {
+    const ctx = document.getElementById(
+      'bankExpenseChart'
+    ) as HTMLCanvasElement;
+    if (!ctx) return;
+
+    const bancos = [
+      ...new Set(this.transacoesFiltradas.map((t) => t.banco)),
+    ].sort();
+
+    const despesas = bancos.map((banco) =>
+      this.transacoesFiltradas
+        .filter((t) => t.banco === banco && t.tipo === 'DESPESA')
+        .reduce((sum, t) => sum + t.valor, 0)
+    );
+
+    this.charts['bankExpenseChart'] = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: bancos,
+        datasets: [
+          {
+            label: 'Despesas',
+            data: despesas,
+            backgroundColor: '#FF6384',
+            borderColor: '#FF9F40',
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          },
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                const value = context.raw || 0;
+                return `Despesas: ${new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(Number(value))}`;
+              },
+            },
+          },
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: (value) => {
+                return new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(Number(value));
+              },
+            },
+          },
+        },
+      },
     });
   }
 
@@ -574,6 +1115,8 @@ export class GraficosgeraisComponent implements OnInit, OnDestroy {
             backgroundColor: 'rgba(75, 192, 192, 0.2)',
             borderColor: '#4BC0C0',
             borderWidth: 2,
+            pointBackgroundColor: '#4BC0C0',
+            pointRadius: 4,
           },
           {
             label: 'Despesas',
@@ -581,230 +1124,454 @@ export class GraficosgeraisComponent implements OnInit, OnDestroy {
             backgroundColor: 'rgba(255, 99, 132, 0.2)',
             borderColor: '#FF6384',
             borderWidth: 2,
+            pointBackgroundColor: '#FF6384',
+            pointRadius: 4,
           },
         ],
       },
-      options: this.getRadarChartOptions(),
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: {
+              font: {
+                family: "'Inter', sans-serif",
+              },
+            },
+          },
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                const label = context.dataset.label || '';
+                const value = Number(context.raw) || 0;
+                return `${label}: ${new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(value)}`;
+              },
+            },
+          },
+        },
+        scales: {
+          r: {
+            angleLines: {
+              display: true,
+            },
+            suggestedMin: 0,
+            ticks: {
+              callback: (value) => {
+                return new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(Number(value));
+              },
+            },
+          },
+        },
+      },
     });
   }
 
-  // Helper methods for chart configuration
-  private getChartColors(count: number): string[] {
-    const colors = [
-      '#FF6384',
-      '#36A2EB',
-      '#FFCE56',
-      '#4BC0C0',
-      '#9966FF',
-      '#FF9F40',
-      '#8AC24A',
-      '#607D8B',
-      '#E91E63',
-      '#9C27B0',
+  private criarGraficoReceitasCategorias(): void {
+    const ctx = document.getElementById(
+      'categoryIncomeChart'
+    ) as HTMLCanvasElement;
+    if (!ctx) return;
+
+    const categorias = [
+      ...new Set(
+        this.transacoesFiltradas
+          .filter((t) => t.tipo === 'RECEITA')
+          .map((t) => t.categoria)
+      ),
+    ].sort();
+
+    const receitas = categorias.map((categoria) =>
+      this.transacoesFiltradas
+        .filter((t) => t.tipo === 'RECEITA' && t.categoria === categoria)
+        .reduce((sum, t) => sum + t.valor, 0)
+    );
+
+    this.charts['categoryIncomeChart'] = new Chart(ctx, {
+      type: 'polarArea',
+      data: {
+        labels: categorias,
+        datasets: [
+          {
+            label: 'Receitas por Categoria',
+            data: receitas,
+            backgroundColor: categorias.map((cat) => this.getCorCategoria(cat)),
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'right',
+            labels: {
+              font: {
+                family: "'Inter', sans-serif",
+              },
+            },
+          },
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                const label = context.label || '';
+                const value = context.raw || 0;
+                return `${label}: ${new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(Number(value))}`;
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  private criarGraficoDespesasCategorias(): void {
+    const ctx = document.getElementById(
+      'categoryExpenseChart'
+    ) as HTMLCanvasElement;
+    if (!ctx) return;
+
+    const categorias = [
+      ...new Set(
+        this.transacoesFiltradas
+          .filter((t) => t.tipo === 'DESPESA')
+          .map((t) => t.categoria)
+      ),
+    ].sort();
+
+    const despesas = categorias.map((categoria) =>
+      this.transacoesFiltradas
+        .filter((t) => t.tipo === 'DESPESA' && t.categoria === categoria)
+        .reduce((sum, t) => sum + t.valor, 0)
+    );
+
+    this.charts['categoryExpenseChart'] = new Chart(ctx, {
+      type: 'polarArea',
+      data: {
+        labels: categorias,
+        datasets: [
+          {
+            label: 'Despesas por Categoria',
+            data: despesas,
+            backgroundColor: categorias.map((cat) => this.getCorCategoria(cat)),
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'right',
+            labels: {
+              font: {
+                family: "'Inter', sans-serif",
+              },
+            },
+          },
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                const label = context.label || '';
+                const value = context.raw || 0;
+                return `${label}: ${new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(Number(value))}`;
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  private criarGraficoComparativo(): void {
+    const ctx = document.getElementById('comparisonChart') as HTMLCanvasElement;
+    if (!ctx) return;
+
+    // Simulando dados para exemplo
+    const meses = [
+      this.getPreviousMonth(),
+      this.selectedDate.split('-')[1] + '/' + this.selectedDate.split('-')[0],
     ];
-    return colors.slice(0, count);
+    const receitasAtual = this.totalReceitas;
+    const despesasAtual = this.totalDespesas;
+
+    // Valores do mês anterior (simulados)
+    const receitasAnterior = this.transacoesMesAnterior
+      .filter((t) => t.tipo === 'RECEITA')
+      .reduce((sum, t) => sum + t.valor, 0);
+
+    const despesasAnterior = this.transacoesMesAnterior
+      .filter((t) => t.tipo === 'DESPESA')
+      .reduce((sum, t) => sum + t.valor, 0);
+
+    this.charts['comparisonChart'] = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: meses,
+        datasets: [
+          {
+            label: 'Receitas',
+            data: [receitasAnterior, receitasAtual],
+            backgroundColor: '#4BC0C0',
+            borderColor: '#36A2EB',
+            borderWidth: 1,
+          },
+          {
+            label: 'Despesas',
+            data: [despesasAnterior, despesasAtual],
+            backgroundColor: '#FF6384',
+            borderColor: '#FF9F40',
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: {
+              font: {
+                family: "'Inter', sans-serif",
+              },
+            },
+          },
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                const label = context.dataset.label || '';
+                const value = Number(context.raw) || 0;
+                return `${label}: ${new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(value)}`;
+              },
+            },
+          },
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: (value) => {
+                return new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(Number(value));
+              },
+            },
+          },
+        },
+      },
+    });
   }
 
-  private getPieChartOptions(): any {
-    return {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: 'right',
-          labels: {
-            font: {
-              family: "'Inter', sans-serif",
-              size: 12,
+  private criarGraficoComparativoReceitas(): void {
+    const ctx = document.getElementById(
+      'incomeComparisonChart'
+    ) as HTMLCanvasElement;
+    if (!ctx) return;
+
+    // Simulando dados para exemplo
+    const meses = [
+      this.getPreviousMonth(),
+      this.selectedDate.split('-')[1] + '/' + this.selectedDate.split('-')[0],
+    ];
+
+    // Valores do mês anterior (simulados)
+    const receitasAnterior = this.transacoesMesAnterior
+      .filter((t) => t.tipo === 'RECEITA')
+      .reduce((sum, t) => sum + t.valor, 0);
+
+    const receitasAtual = this.totalReceitas;
+
+    this.charts['incomeComparisonChart'] = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Mês Anterior', 'Mês Atual'],
+        datasets: [
+          {
+            label: 'Receitas',
+            data: [receitasAnterior, receitasAtual],
+            backgroundColor: ['#C8E6C9', '#4BC0C0'],
+            borderColor: ['#81C784', '#36A2EB'],
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          },
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                const value = Number(context.raw) || 0;
+                return `Receitas: ${new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(value)}`;
+              },
+              afterLabel: (context) => {
+                if (context.dataIndex === 1) {
+                  const variacao =
+                    ((receitasAtual - receitasAnterior) / receitasAnterior) *
+                    100;
+                  return `Variação: ${
+                    variacao >= 0 ? '+' : ''
+                  }${variacao.toFixed(1)}%`;
+                }
+                return '';
+              },
             },
           },
         },
-        tooltip: {
-          callbacks: {
-            label: (context: any) => {
-              const label = context.label || '';
-              const value = context.raw || 0;
-              const total = context.dataset.data.reduce(
-                (a: number, b: number) => a + b,
-                0
-              );
-              const percentage = Math.round(
-                (Number(value) / Number(total)) * 100
-              );
-              const formattedValue = new Intl.NumberFormat('pt-BR', {
-                style: 'currency',
-                currency: 'BRL',
-              }).format(Number(value));
-              return `${label}: ${formattedValue} (${percentage}%)`;
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: (value) => {
+                return new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(Number(value));
+              },
             },
           },
         },
       },
-    };
+    });
   }
 
-  private getBarChartOptions(): any {
-    return {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: 'top',
-          labels: {
-            font: {
-              family: "'Inter', sans-serif",
+  private criarGraficoComparativoDespesas(): void {
+    const ctx = document.getElementById(
+      'expenseComparisonChart'
+    ) as HTMLCanvasElement;
+    if (!ctx) return;
+
+    // Simulando dados para exemplo
+    const meses = [
+      this.getPreviousMonth(),
+      this.selectedDate.split('-')[1] + '/' + this.selectedDate.split('-')[0],
+    ];
+
+    // Valores do mês anterior (simulados)
+    const despesasAnterior = this.transacoesMesAnterior
+      .filter((t) => t.tipo === 'DESPESA')
+      .reduce((sum, t) => sum + t.valor, 0);
+
+    const despesasAtual = this.totalDespesas;
+
+    this.charts['expenseComparisonChart'] = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Mês Anterior', 'Mês Atual'],
+        datasets: [
+          {
+            label: 'Despesas',
+            data: [despesasAnterior, despesasAtual],
+            backgroundColor: ['#FFCDD2', '#FF6384'],
+            borderColor: ['#E57373', '#FF9F40'],
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          },
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                const value = Number(context.raw) || 0;
+                return `Despesas: ${new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(value)}`;
+              },
+              afterLabel: (context) => {
+                if (context.dataIndex === 1) {
+                  const variacao =
+                    ((despesasAtual - despesasAnterior) / despesasAnterior) *
+                    100;
+                  return `Variação: ${
+                    variacao >= 0 ? '+' : ''
+                  }${variacao.toFixed(1)}%`;
+                }
+                return '';
+              },
             },
           },
         },
-        tooltip: {
-          callbacks: {
-            label: (context: any) => {
-              const label = context.dataset.label || '';
-              const value = Number(context.raw) || 0;
-              return `${label}: ${new Intl.NumberFormat('pt-BR', {
-                style: 'currency',
-                currency: 'BRL',
-              }).format(value)}`;
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: (value) => {
+                return new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(Number(value));
+              },
             },
           },
         },
       },
-      scales: {
-        y: {
-          beginAtZero: true,
-          ticks: {
-            callback: (value: any) => {
-              return new Intl.NumberFormat('pt-BR', {
-                style: 'currency',
-                currency: 'BRL',
-              }).format(value);
-            },
-          },
-        },
-      },
-    };
+    });
   }
 
-  private getLineChartOptions(): any {
-    return {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: 'top',
-          labels: {
-            font: {
-              family: "'Inter', sans-serif",
-            },
-          },
-        },
-        tooltip: {
-          callbacks: {
-            label: (context: any) => {
-              const label = context.dataset.label || '';
-              const value = Number(context.raw) || 0;
-              return `${label}: ${new Intl.NumberFormat('pt-BR', {
-                style: 'currency',
-                currency: 'BRL',
-              }).format(value)}`;
-            },
-          },
-        },
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          ticks: {
-            callback: (value: any) => {
-              return new Intl.NumberFormat('pt-BR', {
-                style: 'currency',
-                currency: 'BRL',
-              }).format(value);
-            },
-          },
-        },
-      },
-    };
+  getPreviousMonth(): string {
+    const [year, month] = this.selectedDate.split('-');
+    const date = new Date(parseInt(year), parseInt(month) - 1, 1);
+    date.setMonth(date.getMonth() - 1);
+    return (
+      date.toLocaleString('default', { month: 'short' }) +
+      ' ' +
+      date.getFullYear()
+    );
   }
 
-  private getBankChartOptions(): any {
-    return {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          display: false,
-        },
-        tooltip: {
-          callbacks: {
-            label: (context: any) => {
-              const value = context.raw || 0;
-              return `Saldo: ${new Intl.NumberFormat('pt-BR', {
-                style: 'currency',
-                currency: 'BRL',
-              }).format(Number(value))}`;
-            },
-          },
-        },
-      },
-      scales: {
-        y: {
-          beginAtZero: false,
-          ticks: {
-            callback: (value: any) => {
-              return new Intl.NumberFormat('pt-BR', {
-                style: 'currency',
-                currency: 'BRL',
-              }).format(value);
-            },
-          },
-        },
-      },
-    };
-  }
+  calcularPercentualCategoria(categoria: string): string {
+    if (this.totalDespesas <= 0) {
+      return '0';
+    }
 
-  private getRadarChartOptions(): any {
-    return {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: 'top',
-          labels: {
-            font: {
-              family: "'Inter', sans-serif",
-            },
-          },
-        },
-        tooltip: {
-          callbacks: {
-            label: (context: any) => {
-              const label = context.dataset.label || '';
-              const value = Number(context.raw) || 0;
-              return `${label}: ${new Intl.NumberFormat('pt-BR', {
-                style: 'currency',
-                currency: 'BRL',
-              }).format(value)}`;
-            },
-          },
-        },
-      },
-      scales: {
-        r: {
-          angleLines: {
-            display: true,
-          },
-          suggestedMin: 0,
-          ticks: {
-            callback: (value: any) => {
-              return new Intl.NumberFormat('pt-BR', {
-                style: 'currency',
-                currency: 'BRL',
-              }).format(value);
-            },
-          },
-        },
-      },
-    };
+    const transacoesCategoria = this.transacoesFiltradas.filter(
+      (t) => t.categoria === categoria && t.tipo === 'DESPESA'
+    );
+
+    if (transacoesCategoria.length === 0) {
+      return '0';
+    }
+
+    const totalCategoria = transacoesCategoria.reduce(
+      (sum, t) => sum + t.valor,
+      0
+    );
+
+    const percentual = (totalCategoria / this.totalDespesas) * 100;
+    return percentual.toFixed(1);
   }
 }

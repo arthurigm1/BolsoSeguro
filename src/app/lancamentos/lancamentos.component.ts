@@ -70,54 +70,82 @@ export class LancamentosComponent implements OnInit {
 
   // Garanta que o método processarGrafico() está correto:
   processarGrafico(): void {
+    // 1. Verifica se há transações
     if (!this.transacoes || this.transacoes.length === 0) {
-      this.graficoDias = [];
+      this.graficoDias = this.criarArrayDiasVazios();
       return;
     }
 
-    const diasNoMes = new Date(
+    // 2. Determina quantos dias tem o mês selecionado
+    const ultimoDiaMes = new Date(
       this.selectedDate.getFullYear(),
       this.selectedDate.getMonth() + 1,
       0
     ).getDate();
 
-    // Inicializa um array para todos os dias do mês
-    this.graficoDias = Array.from({ length: diasNoMes }, (_, i) => {
-      return {
+    // 3. Inicializa o array de dias com valores zerados
+    const diasDoMes: GraficoDiaDTO[] = Array.from(
+      { length: ultimoDiaMes },
+      (_, i) => ({
         dia: i + 1,
         saldo: 0,
         saldoPercentual: 0,
         positivo: true,
-      };
-    });
+      })
+    );
 
-    // Calcula totais por dia
+    // 4. Processa cada transação e acumula os valores por dia
     this.transacoes.forEach((transacao) => {
       try {
-        const data = new Date(transacao.data);
-        const dia = data.getDate();
-        const valor =
-          transacao.tipo === 'RECEITA' ? transacao.valor : -transacao.valor;
+        // Converte a string de data para objeto Date
+        const dataTransacao = new Date(transacao.data);
+        const dia = dataTransacao.getDate();
 
-        if (dia >= 1 && dia <= diasNoMes) {
-          this.graficoDias[dia - 1].saldo += valor;
+        // Verifica se a data está dentro do mês atual
+        if (dia >= 1 && dia <= ultimoDiaMes) {
+          const valor =
+            transacao.tipo === 'RECEITA' ? transacao.valor : -transacao.valor;
+          diasDoMes[dia - 1].saldo += valor;
         }
       } catch (e) {
         console.error('Erro ao processar transação:', transacao, e);
       }
     });
 
-    // Calcula percentuais
-    const maxSaldo = Math.max(
-      ...this.graficoDias.map((d) => Math.abs(d.saldo)),
-      1
+    // 5. Calcula os valores percentuais para o gráfico
+    this.calcularPercentuais(diasDoMes);
+
+    // 6. Atualiza a propriedade do componente
+    this.graficoDias = diasDoMes;
+  }
+
+  // Método auxiliar para criar array de dias vazios
+  criarArrayDiasVazios(): GraficoDiaDTO[] {
+    const ultimoDiaMes = new Date(
+      this.selectedDate.getFullYear(),
+      this.selectedDate.getMonth() + 1,
+      0
+    ).getDate();
+
+    return Array.from({ length: ultimoDiaMes }, (_, i) => ({
+      dia: i + 1,
+      saldo: 0,
+      saldoPercentual: 0,
+      positivo: true,
+    }));
+  }
+
+  // Método auxiliar para calcular percentuais
+  calcularPercentuais(dias: GraficoDiaDTO[]): void {
+    // Encontra o maior valor absoluto para normalização
+    const maiorValor = Math.max(
+      ...dias.map((d) => Math.abs(d.saldo)),
+      1 // Garante que não dividiremos por zero
     );
-    this.graficoDias.forEach((dia) => {
+
+    dias.forEach((dia) => {
       dia.positivo = dia.saldo >= 0;
-      dia.saldoPercentual = Math.min(
-        100,
-        (Math.abs(dia.saldo) / maxSaldo) * 100
-      );
+      dia.saldoPercentual = (Math.abs(dia.saldo) / maiorValor) * 100;
     });
   }
 

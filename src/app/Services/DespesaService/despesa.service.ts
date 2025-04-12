@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Despesa } from '../../Interface/Despesapost.type';
 import { Observable } from 'rxjs';
@@ -32,11 +32,12 @@ export class DespesaService {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     });
-    return this.http.get<any[]>(
-      `${this.apiUrl}/despesa/cartao/${cartaoId}/${ano}/${mes}`,
-      {
-        headers,
-      }
-    );
+
+    const params = new HttpParams()
+      .set('cartaoId', cartaoId)
+      .set('ano', ano.toString())
+      .set('mes', mes.toString());
+
+    return this.http.get<any[]>(`${this.apiUrl}/despesa`, { headers, params });
   }
 }
