@@ -1,518 +1,807 @@
 @if (isLoading) {
-<div
-  class="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F8F7F5] via-[#D8EAE5] to-[#F8F7F5] p-8"
->
-  <div class="text-center animate-fadeIn">
-    <div class="relative w-24 h-24 mx-auto mb-6">
+<div class="min-h-screen flex items-center justify-center bg-[#F8F7F5]">
+  <!-- Loader moderno com animação -->
+  <div class="text-center space-y-6 animate-pulse">
+    <div class="relative w-32 h-32 mx-auto">
+      <!-- Anel animado -->
       <div
         class="absolute inset-0 rounded-full border-4 border-[#1C6956] border-t-transparent animate-spin"
       ></div>
+      <!-- Ícone pulsante -->
       <div class="absolute inset-0 flex items-center justify-center">
-        <i class="fas fa-wallet text-[#1C6956] text-3xl animate-pulse"></i>
+        <i class="fas fa-wallet text-[#1C6956] text-4xl animate-bounce"></i>
       </div>
+      <!-- Partículas flutuantes -->
+      <div
+        class="absolute top-0 left-1/4 w-3 h-3 rounded-full bg-[#1C6956] animate-float1"
+      ></div>
+      <div
+        class="absolute top-1/3 right-0 w-2 h-2 rounded-full bg-[#013E4C] animate-float2"
+      ></div>
     </div>
-    <p class="mt-4 text-lg font-medium text-[#5e6d72]">
-      Carregando seu dashboard...
-    </p>
+    <div>
+      <p class="text-xl font-medium text-[#5e6d72]">
+        Preparando seu dashboard...
+      </p>
+      <p class="text-sm text-[#748389] mt-2">
+        Isso pode levar alguns instantes
+      </p>
+    </div>
   </div>
 </div>
 } @else {
-<div
-  class="min-h-screen bg-[#F8F7F5] p-4 md:p-8 transition-all duration-500 animate-fadeIn"
->
-  <!-- Cabeçalho com efeito de vidro -->
+<div class="min-h-screen bg-[#F8F7F5] p-4 md:p-6 lg:p-8">
+  <!-- Cabeçalho moderno com glass morphism -->
   <header
-    class="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl p-6 mb-8 flex flex-col md:flex-row justify-between items-center gap-6 relative overflow-hidden border border-white/20 animate-slideDown"
+    class="bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl p-6 mb-8 border border-white/30 transition-all duration-300 hover:shadow-3xl relative overflow-hidden"
   >
-    <!-- Elementos decorativos -->
+    <!-- Elementos decorativos animados -->
     <div
-      class="absolute top-0 right-0 w-64 h-64 bg-[#D8EAE5] opacity-30 rounded-full -mr-32 -mt-32 animate-pulse"
+      class="absolute -top-20 -right-20 w-64 h-64 bg-[#D8EAE5] opacity-20 rounded-full animate-float3"
     ></div>
     <div
-      class="absolute bottom-0 left-0 w-48 h-48 bg-[#1C6956] opacity-10 rounded-full -ml-24 -mb-24 animate-pulse"
+      class="absolute -bottom-16 -left-16 w-48 h-48 bg-[#013E4C] opacity-10 rounded-full animate-float4"
     ></div>
 
-    <!-- Texto de boas-vindas com animação -->
-    <div class="relative z-10 animate-fadeIn">
-      <h1
-        class="text-3xl md:text-4xl font-bold text-[#013E4C] flex items-center"
-      >
-        <span
-          class="bg-gradient-to-r from-[#1C6956] to-[#013E4C] bg-clip-text text-transparent"
-          >Olá, {{ nome }}!</span
-        >
-        <span class="ml-2 text-2xl animate-wave">👋</span>
-      </h1>
-      <p class="text-[#5e6d72] mt-2 flex items-center">
-        <i class="fas fa-chart-line mr-2 text-[#1C6956] animate-bounce"></i>
-        Gerencie suas finanças de forma inteligente.
-      </p>
-    </div>
-
-    <!-- Acesso Rápido com efeito de vidro -->
     <div
-      class="bg-white/70 backdrop-blur-sm p-5 rounded-2xl shadow-lg w-full md:w-auto border border-white/30 relative z-10 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+      class="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-8 items-center"
     >
-      <h2
-        class="text-lg font-semibold text-[#013E4C] mb-4 text-center md:text-left flex items-center"
-      >
-        <i class="fas fa-bolt mr-2 text-[#1C6956] animate-pulse"></i>
-        Acesso Rápido
-      </h2>
-      <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <!-- Despesa -->
-        <li>
-          <a
-            (click)="openModal('Despesa')"
-            class="flex items-center justify-center space-x-2 text-[#013E4C] hover:text-white transition-all cursor-pointer p-3 rounded-xl hover:bg-gradient-to-r hover:from-[#013E4C] hover:to-[#1C6956] group transform hover:scale-105 duration-300"
-          >
-            <i
-              class="fas fa-minus-circle text-xl group-hover:text-white group-hover:animate-bounce"
-            ></i>
-            <span class="font-medium">DESPESA</span>
-          </a>
-        </li>
-        <!-- Receita -->
-        <li>
-          <a
-            (click)="openModal('Receita')"
-            class="flex items-center justify-center space-x-2 text-[#1C6956] hover:text-white transition-all cursor-pointer p-3 rounded-xl hover:bg-gradient-to-r hover:from-[#1C6956] hover:to-[#013E4C] group transform hover:scale-105 duration-300"
-          >
-            <i
-              class="fas fa-plus-circle text-xl group-hover:text-white group-hover:animate-bounce"
-            ></i>
-            <span class="font-medium">RECEITA</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </header>
-
-  <!-- Resumo Financeiro com cards modernos -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-    <!-- Saldo Atual -->
-    <div
-      class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 relative overflow-hidden animate-slideUp"
-      style="animation-delay: 0.1s"
-    >
-      <div
-        class="absolute top-0 right-0 w-32 h-32 bg-[#D8EAE5] opacity-30 rounded-full -mr-16 -mt-16 animate-pulse"
-      ></div>
-      <div class="flex items-center justify-between relative z-10">
-        <div>
-          <h2 class="text-lg font-semibold text-[#5e6d72]">Saldo Atual</h2>
-          <p
-            class="text-3xl font-bold bg-gradient-to-r from-[#1C6956] to-[#013E4C] bg-clip-text text-transparent mt-2"
-          >
-            R$ {{ saldo | number : "1.2-2" }}
-          </p>
-        </div>
-        <div
-          class="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#1C6956] to-[#013E4C] flex items-center justify-center shadow-md transform hover:rotate-12 transition-transform duration-300"
-        >
-          <i class="fas fa-money-bill-wave text-white text-2xl"></i>
-        </div>
-      </div>
-    </div>
-
-    <!-- Receita Mensal -->
-    <div
-      class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 relative overflow-hidden animate-slideUp"
-      style="animation-delay: 0.2s"
-    >
-      <div
-        class="absolute top-0 right-0 w-32 h-32 bg-green-100 opacity-30 rounded-full -mr-16 -mt-16 animate-pulse"
-      ></div>
-      <div class="flex items-center justify-between relative z-10">
-        <div>
-          <h2 class="text-lg font-semibold text-[#5e6d72]">Receita Mensal</h2>
-          <p class="text-3xl font-bold text-[#1C6956] mt-2">
-            R$ {{ totalReceitas | number : "1.2-2" }}
-          </p>
-        </div>
-        <div
-          class="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center shadow-md transform hover:rotate-12 transition-transform duration-300"
-        >
-          <i class="fas fa-arrow-up text-white text-2xl"></i>
-        </div>
-      </div>
-    </div>
-
-    <!-- Despesa Mensal -->
-    <div
-      class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 relative overflow-hidden animate-slideUp"
-      style="animation-delay: 0.3s"
-    >
-      <div
-        class="absolute top-0 right-0 w-32 h-32 bg-red-100 opacity-30 rounded-full -mr-16 -mt-16 animate-pulse"
-      ></div>
-      <div class="flex items-center justify-between relative z-10">
-        <div>
-          <h2 class="text-lg font-semibold text-[#5e6d72]">Despesa Mensal</h2>
-          <p class="text-3xl font-bold text-red-500 mt-2">
-            R$ {{ totalDespesas | number : "1.2-2" }}
-          </p>
-        </div>
-        <div
-          class="w-14 h-14 rounded-2xl bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center shadow-md transform hover:rotate-12 transition-transform duration-300"
-        >
-          <i class="fas fa-arrow-down text-white text-2xl"></i>
-        </div>
-      </div>
-    </div>
-
-    <!-- Investimentos -->
-    <div
-      class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 relative overflow-hidden animate-slideUp"
-      style="animation-delay: 0.4s"
-    >
-      <div
-        class="absolute top-0 right-0 w-32 h-32 bg-purple-100 opacity-30 rounded-full -mr-16 -mt-16 animate-pulse"
-      ></div>
-      <div class="flex items-center justify-between relative z-10">
-        <div>
-          <h2 class="text-lg font-semibold text-[#5e6d72]">Investimentos</h2>
-          <p class="text-3xl font-bold text-purple-600 mt-2">
-            R$ {{ totalInvestimento | number : "1.2-2" }}
-          </p>
-        </div>
-        <div
-          class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center shadow-md transform hover:rotate-12 transition-transform duration-300"
-        >
-          <i class="fas fa-chart-line text-white text-2xl"></i>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Grid de Cards -->
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-    <!-- Minhas Contas -->
-    <div
-      class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg p-6 flex flex-col justify-between h-full animate-slideUp"
-      style="animation-delay: 0.5s"
-    >
-      <div class="flex items-center justify-between mb-6">
-        <h2 class="text-xl font-bold text-[#013E4C] flex items-center">
-          <i class="fas fa-wallet mr-2 text-[#1C6956] animate-pulse"></i>
-          Minhas Contas
-        </h2>
-        <button
-          (click)="mudarPagina('configuracoes', 'contas')"
-          class="text-[#1C6956] hover:text-[#013E4C] transition-colors hover:rotate-12"
-        >
-          <i class="fas fa-cog"></i>
-        </button>
-      </div>
-
-      <ul class="flex-1 space-y-4">
-        <li
-          *ngFor="let account of accounts; let i = index"
-          class="flex items-center justify-between p-4 bg-[#F8F7F5] rounded-xl shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 animate-slideUp"
-          [style.animation-delay]="0.1 * i + 's'"
-        >
-          <div class="flex items-center min-w-0">
+      <!-- Saudação personalizada -->
+      <div class="space-y-3 animate-fadeIn">
+        <div class="flex items-center space-x-4">
+          <div class="relative">
             <div
-              class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#1C6956] to-[#013E4C] flex items-center justify-center mr-4 shadow-md transform hover:rotate-12 transition-transform duration-300"
+              class="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#1C6956] to-[#013E4C] flex items-center justify-center shadow-lg"
             >
-              <i class="fas fa-wallet text-white"></i>
+              <i class="fas fa-user text-white text-xl"></i>
             </div>
-            <div class="min-w-0">
-              <p class="text-lg font-semibold text-[#013E4C] truncate">
-                {{ account.nome }}
-              </p>
-            </div>
+            <div
+              class="absolute -bottom-1 -right-1 w-5 h-5 bg-green-400 rounded-full border-2 border-white"
+            ></div>
           </div>
-          <div class="text-right ml-2 min-w-0">
-            <p class="text-lg font-semibold text-[#013E4C] truncate">
-              {{ account.saldo | currency : "BRL" : "symbol" : "1.2-2" }}
+          <div>
+            <p class="text-[#5e6d72]">Bem-vindo de volta</p>
+            <h1
+              class="text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#1C6956] to-[#013E4C] bg-clip-text text-transparent"
+            >
+              {{ nome }}
+            </h1>
+          </div>
+        </div>
+
+        <div class="flex items-center space-x-4 text-sm text-[#5e6d72]">
+          <div class="flex items-center space-x-2">
+            <i class="fas fa-calendar-day text-[#1C6956]"></i>
+            <span>{{ currentDate | date : "fullDate" }}</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <i class="fas fa-clock text-[#1C6956]"></i>
+            <span>{{ currentDate | date : "shortTime" }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Status financeiro resumido -->
+      <div
+        class="bg-white/90 backdrop-blur-sm rounded-2xl p-5 shadow-md border border-white/20 animate-slideInDown"
+      >
+        <div class="grid grid-cols-3 gap-4 text-center">
+          <div class="space-y-1">
+            <p class="text-xs text-[#5e6d72]">Saldo</p>
+            <p class="text-lg font-bold text-[#013E4C]">
+              R$ {{ saldo | number : "1.2-2" }}
             </p>
-            <p class="text-sm text-[#748389]">Saldo disponível</p>
           </div>
-        </li>
-      </ul>
-
-      <button
-        (click)="mudarPagina('configuracoes', 'contas')"
-        class="mt-6 w-full bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#1C6956] focus:ring-offset-2 cursor-pointer flex items-center justify-center hover:scale-105"
-      >
-        <i class="fas fa-plus mr-2"></i>
-        Gerenciar Contas
-      </button>
-    </div>
-
-    <!-- Metas Financeiras -->
-    <div
-      class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg p-6 flex flex-col justify-between h-full animate-slideUp"
-      style="animation-delay: 0.6s"
-    >
-      <div class="flex items-center justify-between mb-6">
-        <h2 class="text-xl font-bold text-[#013E4C] flex items-center">
-          <i class="fas fa-bullseye mr-2 text-[#1C6956] animate-pulse"></i>
-          Metas Financeiras
-        </h2>
-        <button
-          (click)="mudarPagina('configuracoes', 'metas')"
-          class="text-[#1C6956] hover:text-[#013E4C] transition-colors hover:rotate-12"
-        >
-          <i class="fas fa-cog"></i>
-        </button>
-      </div>
-
-      <div class="space-y-4 flex-grow">
-        <!-- Mensagem quando não há metas -->
-        <div
-          *ngIf="metas.length === 0"
-          class="flex items-center justify-center h-full animate-fadeIn"
-        >
-          <div class="text-center p-6">
-            <div
-              class="w-16 h-16 rounded-full bg-[#D8EAE5] flex items-center justify-center mx-auto mb-4 animate-pulse"
-            >
-              <i class="fas fa-bullseye text-[#1C6956] text-2xl"></i>
-            </div>
-            <p class="text-[#5e6d72]">Nenhuma Meta Financeira cadastrada.</p>
-            <button
-              (click)="mudarPagina('configuracoes', 'metas')"
-              class="mt-4 text-[#1C6956] hover:text-[#013E4C] transition-colors hover:scale-105"
-            >
-              Criar sua primeira meta
-            </button>
+          <div class="space-y-1">
+            <p class="text-xs text-[#5e6d72]">Receitas</p>
+            <p class="text-lg font-bold text-green-600">
+              +R$ {{ totalReceitas | number : "1.2-2" }}
+            </p>
+          </div>
+          <div class="space-y-1">
+            <p class="text-xs text-[#5e6d72]">Despesas</p>
+            <p class="text-lg font-bold text-red-500">
+              -R$ {{ totalDespesas | number : "1.2-2" }}
+            </p>
           </div>
         </div>
 
-        <!-- Lista de metas -->
-        <div
-          *ngFor="let meta of metas; let i = index"
-          class="bg-[#F8F7F5] p-4 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 animate-slideUp"
-          [style.animation-delay]="0.1 * i + 's'"
-        >
-          <div class="flex items-center justify-between mb-2">
-            <h3 class="text-lg font-medium text-[#013E4C]">{{ meta.nome }}</h3>
-            <span class="text-sm font-medium text-[#1C6956]"
-              >{{ calcularProgresso(meta) }}%</span
-            >
+        <!-- Barra de progresso do mês -->
+        <div class="mt-4">
+          <div class="flex justify-between text-xs text-[#5e6d72] mb-1">
+            <span>Início do mês</span>
+            <span>{{ currentDate | date : "MMMM" }}</span>
+            <span>Fim do mês</span>
           </div>
-          <p class="text-sm text-[#5e6d72] mb-3">
-            {{ meta.valorAtual || 0 | currency : "BRL" : "symbol" : "1.2-2" }} /
-            {{ meta.valorMeta | currency : "BRL" : "symbol" : "1.2-2" }}
-          </p>
-          <div class="w-full bg-[#E0E5E7] rounded-full h-2.5 overflow-hidden">
+          <div class="w-full bg-[#E0E5E7] rounded-full h-2">
             <div
-              class="h-2.5 rounded-full bg-gradient-to-r from-[#1C6956] to-[#013E4C] transition-all duration-1000"
-              [style.width.%]="calcularProgresso(meta)"
+              class="bg-gradient-to-r from-green-400 to-[#1C6956] h-2 rounded-full"
+              [style.width]="monthProgress + '%'"
             ></div>
           </div>
         </div>
       </div>
 
-      <button
-        (click)="mudarPagina('configuracoes', 'metas')"
-        class="mt-6 w-full bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#1C6956] focus:ring-offset-2 cursor-pointer flex items-center justify-center hover:scale-105"
-      >
-        <i class="fas fa-plus mr-2"></i>
-        {{ metas.length > 0 ? "Gerenciar Metas" : "Criar Primeira Meta" }}
-      </button>
-    </div>
-  </div>
-
-  <!-- Segunda Linha de Grid -->
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-    <!-- Últimas Transações -->
-    <div
-      class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg p-6 flex flex-col justify-between h-full animate-slideUp"
-      style="animation-delay: 0.7s"
-    >
-      <div class="flex items-center justify-between mb-6">
-        <h2 class="text-xl font-bold text-[#013E4C] flex items-center">
-          <i class="fas fa-exchange-alt mr-2 text-[#1C6956] animate-pulse"></i>
-          Últimas Transações
-        </h2>
-        <button
-          (click)="alterarComponente('lancamentos')"
-          class="text-[#1C6956] hover:text-[#013E4C] transition-colors hover:rotate-12"
-        >
-          <i class="fas fa-external-link-alt"></i>
-        </button>
+      <!-- Ações rápidas -->
+      <div class="space-y-4 animate-slideInRight">
+        <h3 class="text-lg font-semibold text-[#013E4C] flex items-center">
+          <i class="fas fa-bolt text-[#1C6956] mr-2"></i>
+          Ações Rápidas
+        </h3>
+        <div class="grid grid-cols-2 gap-3">
+          <button
+            (click)="openModal('Receita')"
+            class="bg-gradient-to-r from-green-400 to-[#1C6956] text-white p-3 rounded-xl flex items-center justify-center space-x-2 transition-all hover:shadow-lg hover:scale-[1.02]"
+          >
+            <i class="fas fa-plus-circle"></i>
+            <span>Receita</span>
+          </button>
+          <button
+            (click)="openModal('Despesa')"
+            class="bg-gradient-to-r from-red-400 to-red-600 text-white p-3 rounded-xl flex items-center justify-center space-x-2 transition-all hover:shadow-lg hover:scale-[1.02]"
+          >
+            <i class="fas fa-minus-circle"></i>
+            <span>Despesa</span>
+          </button>
+        </div>
       </div>
+    </div>
+  </header>
 
+  <!-- Seção principal -->
+  <main class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+    <!-- Primeira coluna -->
+    <div class="space-y-6">
+      <!-- Cartão de contas -->
       <div
-        *ngIf="transacoes.length === 0"
-        class="flex items-center justify-center h-full animate-fadeIn"
+        class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-6 transition-all duration-300 hover:shadow-2xl animate-fadeIn"
       >
-        <div class="text-center p-6">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-bold text-[#013E4C] flex items-center">
+            <i class="fas fa-wallet text-[#1C6956] mr-2"></i>
+            Minhas Contas
+          </h2>
+          <button
+            (click)="mudarPagina('configuracoes', 'contas')"
+            class="text-[#5e6d72] hover:text-[#013E4C] transition-colors"
+          >
+            <i class="fas fa-ellipsis-h"></i>
+          </button>
+        </div>
+
+        <div class="space-y-4">
+          @for (account of accounts; track account.id; let i = $index) {
           <div
-            class="w-16 h-16 rounded-full bg-[#D8EAE5] flex items-center justify-center mx-auto mb-4 animate-pulse"
+            class="bg-gradient-to-r from-[#F8F7F5] to-white p-4 rounded-xl shadow-sm border border-white/50 flex items-center justify-between transition-all hover:shadow-md hover:border-[#1C6956]/30 animate-slideInLeft"
+            [style.animation-delay.ms]="i * 100"
           >
-            <i class="fas fa-exchange-alt text-[#1C6956] text-2xl"></i>
-          </div>
-          <p class="text-[#5e6d72]">Não há transações realizadas.</p>
-        </div>
-      </div>
-
-      <div *ngIf="transacoes.length > 0" class="space-y-4 flex-grow">
-        <div
-          *ngFor="let transacao of transacoes; let i = index"
-          class="flex items-center justify-between p-4 bg-[#F8F7F5] rounded-xl shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 animate-slideUp"
-          [style.animation-delay]="0.1 * i + 's'"
-        >
-          <div class="flex items-center">
-            <div
-              class="p-3 rounded-xl mr-4"
-              [ngClass]="
-                transacao.tipoTransacao === 'RECEITA'
-                  ? 'bg-green-100'
-                  : 'bg-red-100'
-              "
-            >
-              <i
-                class="fas"
-                [ngClass]="
-                  transacao.tipoTransacao === 'RECEITA'
-                    ? 'fa-arrow-up text-green-600'
-                    : 'fa-arrow-down text-red-600'
-                "
-              ></i>
+            <div class="flex items-center space-x-3">
+              <div
+                class="w-10 h-10 rounded-xl bg-[#1C6956] flex items-center justify-center text-white"
+              >
+                <i class="fas fa-piggy-bank"></i>
+              </div>
+              <div>
+                <h3 class="font-medium text-[#013E4C]">{{ account.nome }}</h3>
+                <p class="text-xs text-[#5e6d72]">Conta bancária</p>
+              </div>
             </div>
-            <div>
-              <h3 class="text-lg font-medium text-[#013E4C]">
-                {{ transacao.nomeConta }}
-              </h3>
-              <p class="text-sm text-[#748389]">
-                {{ transacao.dataTransacao | date : "dd/MM/yyyy" }}
+            <div class="text-right">
+              <p class="font-semibold text-[#013E4C]">
+                {{ account.saldo | currency : "BRL" : "symbol" : "1.2-2" }}
               </p>
+              <p class="text-xs text-[#5e6d72]">Saldo disponível</p>
             </div>
           </div>
-          <strong
-            [ngClass]="
-              transacao.tipoTransacao === 'RECEITA'
-                ? 'text-green-600'
-                : 'text-red-600'
-            "
-            class="text-lg"
-          >
-            {{ transacao.tipoTransacao === "RECEITA" ? "+" : "-" }} R$
-            {{ transacao.valor | number : "1.2-2" }}
-          </strong>
+          }
         </div>
-      </div>
 
-      <button
-        (click)="alterarComponente('lancamentos')"
-        class="mt-6 w-full bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#1C6956] focus:ring-offset-2 cursor-pointer flex items-center justify-center hover:scale-105"
-      >
-        <i class="fas fa-list mr-2"></i>
-        Ver todas Transações
-      </button>
-    </div>
-
-    <!-- Meus Cartões -->
-    <div
-      class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg p-6 flex flex-col h-full animate-slideUp"
-      style="animation-delay: 0.8s"
-    >
-      <div class="flex items-center justify-between mb-6">
-        <h2 class="text-xl font-bold text-[#013E4C] flex items-center">
-          <i class="fas fa-credit-card mr-2 text-[#1C6956] animate-pulse"></i>
-          Meus Cartões
-        </h2>
         <button
-          (click)="mudarPagina('configuracoes', 'cartoes')"
-          class="text-[#1C6956] hover:text-[#013E4C] transition-colors hover:rotate-12"
+          (click)="mudarPagina('configuracoes', 'contas')"
+          class="mt-6 w-full bg-[#F8F7F5] hover:bg-[#D8EAE5] text-[#013E4C] p-3 rounded-xl flex items-center justify-center space-x-2 transition-all border border-[#E0E5E7] hover:border-[#1C6956]/30"
         >
-          <i class="fas fa-cog"></i>
+          <i class="fas fa-plus text-[#1C6956]"></i>
+          <span>Adicionar conta</span>
         </button>
       </div>
 
-      <!-- Área de rolagem dos cartões -->
-      <div class="flex-1 overflow-auto">
-        <div
-          *ngIf="cartoes.length > 0; else noCards"
-          class="flex flex-col gap-4"
-        >
-          <div
-            *ngFor="let card of cartoes; let i = index"
-            class="flex items-center justify-between p-4 bg-[#F8F7F5] rounded-xl shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 animate-slideUp"
-            [style.animation-delay]="0.1 * i + 's'"
+      <!-- Cartão de metas -->
+      <div
+        class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-6 transition-all duration-300 hover:shadow-2xl animate-fadeIn"
+      >
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-bold text-[#013E4C] flex items-center">
+            <i class="fas fa-bullseye text-[#1C6956] mr-2"></i>
+            Metas Financeiras
+          </h2>
+          <button
+            (click)="mudarPagina('configuracoes', 'metas')"
+            class="text-[#5e6d72] hover:text-[#013E4C] transition-colors"
           >
-            <div class="flex items-center min-w-0">
-              <div class="flex items-center">
+            <i class="fas fa-ellipsis-h"></i>
+          </button>
+        </div>
+
+        @if (metas.length === 0) {
+        <div class="text-center py-8 animate-fadeIn">
+          <div
+            class="mx-auto w-20 h-20 bg-[#D8EAE5] rounded-full flex items-center justify-center mb-4"
+          >
+            <i class="fas fa-bullseye text-[#1C6956] text-2xl"></i>
+          </div>
+          <h3 class="text-lg font-medium text-[#013E4C] mb-2">
+            Nenhuma meta cadastrada
+          </h3>
+          <p class="text-[#5e6d72] mb-4">
+            Comece criando sua primeira meta financeira
+          </p>
+          <button
+            (click)="mudarPagina('configuracoes', 'metas')"
+            class="bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-6 py-2 rounded-full text-sm hover:shadow-md transition-all"
+          >
+            Criar Meta
+          </button>
+        </div>
+        } @else {
+        <div class="space-y-5">
+          @for (meta of metas; track meta.id; let i = $index) {
+          <div class="animate-slideInUp" [style.animation-delay.ms]="i * 100">
+            <div class="flex justify-between items-center mb-1">
+              <h3 class="font-medium text-[#013E4C]">{{ meta.nome }}</h3>
+              <span class="text-sm font-medium text-[#1C6956]">
+                {{ calcularProgresso(meta) }}%
+              </span>
+            </div>
+            <div class="w-full bg-[#E0E5E7] rounded-full h-2 overflow-hidden">
+              <div
+                class="h-2 rounded-full bg-gradient-to-r from-[#1C6956] to-[#013E4C] transition-all duration-1000"
+                [style.width.%]="calcularProgresso(meta)"
+              ></div>
+            </div>
+            <div class="flex justify-between text-xs text-[#5e6d72] mt-1">
+              <span>{{
+                meta.valorAtual || 0 | currency : "BRL" : "symbol" : "1.2-2"
+              }}</span>
+              <span>{{
+                meta.valorMeta | currency : "BRL" : "symbol" : "1.2-2"
+              }}</span>
+            </div>
+          </div>
+          }
+        </div>
+        }
+      </div>
+    </div>
+
+    <!-- Segunda coluna (maior) -->
+    <div class="lg:col-span-2 space-y-6">
+      <!-- Gráfico e resumo -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Card de investimentos -->
+        <div
+          class="bg-gradient-to-br from-[#1C6956] to-[#013E4C] rounded-3xl p-6 text-white shadow-xl transition-all hover:shadow-2xl animate-slideInDown"
+        >
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="text-sm opacity-80">Investimentos</p>
+              <h3 class="text-2xl font-bold mt-1">
+                R$ {{ totalInvestimento | number : "1.2-2" }}
+              </h3>
+            </div>
+            <div
+              class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center"
+            >
+              <i class="fas fa-chart-line text-xl"></i>
+            </div>
+          </div>
+          <div class="mt-6">
+            <div class="flex justify-between text-xs opacity-80 mb-1">
+              <span>Rendimento</span>
+              <span>+5.2%</span>
+            </div>
+            <div class="w-full bg-white/20 rounded-full h-1.5">
+              <div class="bg-white h-1.5 rounded-full" style="width: 52%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card de despesas por categoria -->
+        <div
+          class="bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-xl transition-all hover:shadow-2xl animate-slideInDown delay-100"
+        >
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="font-bold text-[#013E4C]">Categorias</h3>
+            <i class="fas fa-tag text-[#1C6956]"></i>
+          </div>
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-2">
+                <div class="w-3 h-3 rounded-full bg-red-400"></div>
+                <span class="text-sm text-[#5e6d72]">Alimentação</span>
+              </div>
+              <span class="text-sm font-medium text-[#013E4C]">25%</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-2">
+                <div class="w-3 h-3 rounded-full bg-blue-400"></div>
+                <span class="text-sm text-[#5e6d72]">Transporte</span>
+              </div>
+              <span class="text-sm font-medium text-[#013E4C]">18%</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-2">
+                <div class="w-3 h-3 rounded-full bg-green-400"></div>
+                <span class="text-sm text-[#5e6d72]">Lazer</span>
+              </div>
+              <span class="text-sm font-medium text-[#013E4C]">12%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card de economia -->
+        <div
+          class="bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-xl transition-all hover:shadow-2xl animate-slideInDown delay-200"
+        >
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="font-bold text-[#013E4C]">Economia</h3>
+            <i class="fas fa-piggy-bank text-[#1C6956]"></i>
+          </div>
+          <div class="text-center py-4">
+            <div class="relative w-24 h-24 mx-auto mb-3">
+              <svg class="w-full h-full" viewBox="0 0 36 36">
+                <path
+                  d="M18 2.0845
+                    a 15.9155 15.9155 0 0 1 0 31.831
+                    a 15.9155 15.9155 0 0 1 0 -31.831"
+                  fill="none"
+                  stroke="#E0E5E7"
+                  stroke-width="3"
+                />
+                <path
+                  d="M18 2.0845
+                    a 15.9155 15.9155 0 0 1 0 31.831
+                    a 15.9155 15.9155 0 0 1 0 -31.831"
+                  fill="none"
+                  stroke="#1C6956"
+                  stroke-width="3"
+                  stroke-dasharray="60, 100"
+                />
+              </svg>
+              <div class="absolute inset-0 flex items-center justify-center">
+                <span class="text-xl font-bold text-[#013E4C]">60%</span>
+              </div>
+            </div>
+            <p class="text-sm text-[#5e6d72]">da sua meta mensal</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Últimas transações -->
+      <div
+        class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl overflow-hidden transition-all duration-300 hover:shadow-2xl animate-fadeIn"
+      >
+        <div class="p-6 pb-0">
+          <div class="flex justify-between items-center mb-6">
+            <h2 class="text-xl font-bold text-[#013E4C] flex items-center">
+              <i class="fas fa-exchange-alt text-[#1C6956] mr-2"></i>
+              Últimas Transações
+            </h2>
+            <button
+              (click)="alterarComponente('lancamentos')"
+              class="text-[#5e6d72] hover:text-[#013E4C] transition-colors flex items-center text-sm"
+            >
+              Ver todas <i class="fas fa-chevron-right ml-1 text-xs"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="divide-y divide-[#E0E5E7]/50">
+          @if (transacoes.length === 0) {
+          <div class="p-8 text-center animate-fadeIn">
+            <div
+              class="mx-auto w-20 h-20 bg-[#D8EAE5] rounded-full flex items-center justify-center mb-4"
+            >
+              <i class="fas fa-exchange-alt text-[#1C6956] text-2xl"></i>
+            </div>
+            <h3 class="text-lg font-medium text-[#013E4C] mb-2">
+              Nenhuma transação recente
+            </h3>
+            <p class="text-[#5e6d72]">Suas transações aparecerão aqui</p>
+          </div>
+          } @else { @for (transacao of transacoes; track transacao.id; let i =
+          $index) {
+          <div
+            class="p-4 hover:bg-[#F8F7F5] transition-colors duration-200 animate-slideInRight"
+            [style.animation-delay.ms]="i * 50"
+          >
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-3">
                 <div
-                  class="w-12 h-12 rounded-xl flex items-center justify-center bg-white shadow-md mr-4 transform hover:rotate-12 transition-transform duration-300"
+                  class="w-10 h-10 rounded-xl flex items-center justify-center"
+                  [ngClass]="
+                    transacao.tipoTransacao === 'RECEITA'
+                      ? 'bg-green-100 text-green-600'
+                      : 'bg-red-100 text-red-600'
+                  "
                 >
-                  <!-- Exibir logo do cartão -->
-                  <img
-                    [src]="getCardLogo(card.bandeira)"
-                    alt="{{ card.nome }}"
-                    class="w-8 h-8"
-                  />
+                  <i
+                    [class]="
+                      transacao.tipoTransacao === 'RECEITA'
+                        ? 'fas fa-arrow-up'
+                        : 'fas fa-arrow-down'
+                    "
+                  >
+                  </i>
                 </div>
                 <div>
-                  <strong class="block text-[#013E4C]">{{ card.nome }}</strong>
-                  <small class="block text-[#748389]">{{
-                    card.bandeira
-                  }}</small>
-                  <small class="block text-[#1C6956] font-medium"
-                    >Limite:
-                    {{
-                      card.limiteDisponivel
-                        | currency : "BRL" : "symbol" : "1.2-2"
-                    }}</small
-                  >
+                  <h3 class="font-medium text-[#013E4C]">
+                    {{ transacao.nomeConta }}
+                  </h3>
+                  <p class="text-xs text-[#5e6d72]">
+                    {{ transacao.dataTransacao | date : "dd MMM yyyy" }} •
+                    {{ transacao.categoria }}
+                  </p>
                 </div>
               </div>
+              <div
+                class="font-semibold"
+                [ngClass]="
+                  transacao.tipoTransacao === 'RECEITA'
+                    ? 'text-green-600'
+                    : 'text-red-600'
+                "
+              >
+                {{ transacao.tipoTransacao === "RECEITA" ? "+" : "-" }} R$
+                {{ transacao.valor | number : "1.2-2" }}
+              </div>
+            </div>
+          </div>
+          } }
+        </div>
+      </div>
+
+      <!-- Cartões de crédito -->
+      <div
+        class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-6 transition-all duration-300 hover:shadow-2xl animate-fadeIn"
+      >
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-xl font-bold text-[#013E4C] flex items-center">
+            <i class="fas fa-credit-card text-[#1C6956] mr-2"></i>
+            Meus Cartões
+          </h2>
+          <button
+            (click)="mudarPagina('configuracoes', 'cartoes')"
+            class="text-[#5e6d72] hover:text-[#013E4C] transition-colors"
+          >
+            <i class="fas fa-ellipsis-h"></i>
+          </button>
+        </div>
+
+        @if (cartoes.length === 0) {
+        <div class="text-center py-8 animate-fadeIn">
+          <div
+            class="mx-auto w-20 h-20 bg-[#D8EAE5] rounded-full flex items-center justify-center mb-4"
+          >
+            <i class="fas fa-credit-card text-[#1C6956] text-2xl"></i>
+          </div>
+          <h3 class="text-lg font-medium text-[#013E4C] mb-2">
+            Nenhum cartão cadastrado
+          </h3>
+          <p class="text-[#5e6d72] mb-4">
+            Adicione seus cartões para melhor controle
+          </p>
+          <button
+            (click)="mudarPagina('configuracoes', 'cartoes')"
+            class="bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-6 py-2 rounded-full text-sm hover:shadow-md transition-all"
+          >
+            Adicionar Cartão
+          </button>
+        </div>
+        } @else {
+        <!-- Carrossel de cartões -->
+        <div class="relative">
+          <div class="overflow-hidden">
+            <div class="flex space-x-4 pb-4">
+              @for (card of cartoes; track card.id; let i = $index) {
+              <div
+                class="min-w-[280px] bg-gradient-to-br from-[#1C6956] to-[#013E4C] rounded-2xl p-5 text-white shadow-lg relative overflow-hidden transition-transform duration-300 hover:scale-[1.02] animate-slideInUp"
+                [style.animation-delay.ms]="i * 100"
+              >
+                <!-- Elementos decorativos do cartão -->
+                <div
+                  class="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-full -mr-10 -mt-10"
+                ></div>
+                <div
+                  class="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full -ml-10 -mb-10"
+                ></div>
+
+                <div class="relative z-10">
+                  <div class="flex justify-between items-start mb-8">
+                    <div>
+                      <p class="text-xs opacity-80 mb-1">Limite disponível</p>
+                      <p class="font-medium">
+                        {{
+                          card.limiteDisponivel
+                            | currency : "BRL" : "symbol" : "1.2-2"
+                        }}
+                      </p>
+                    </div>
+                    <img
+                      [src]="getCardLogo(card.bandeira)"
+                      alt="{{ card.bandeira }}"
+                      class="h-8"
+                    />
+                  </div>
+
+                  <div class="mb-6">
+                    <p class="text-sm opacity-80 mb-1">Nome do titular</p>
+                    <p class="font-medium tracking-wider">
+                      {{ nome | uppercase }}
+                    </p>
+                  </div>
+
+                  <div class="flex justify-between">
+                    <div>
+                      <p class="text-sm opacity-80 mb-1">Encerramento</p>
+                      <p class="font-medium">
+                        15/{{ currentDate | date : "MM" }}
+                      </p>
+                    </div>
+                    <div>
+                      <p class="text-sm opacity-80 mb-1">Vencimento</p>
+                      <p class="font-medium">
+                        20/{{ currentDate | date : "MM" }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              }
             </div>
           </div>
         </div>
-
-        <!-- Template caso não haja cartões -->
-        <ng-template #noCards>
-          <div class="flex items-center justify-center h-full animate-fadeIn">
-            <div class="text-center p-6">
-              <div
-                class="w-16 h-16 rounded-full bg-[#D8EAE5] flex items-center justify-center mx-auto mb-4 animate-pulse"
-              >
-                <i class="fas fa-credit-card text-[#1C6956] text-2xl"></i>
-              </div>
-              <p class="text-[#5e6d72]">Você não tem cartões cadastrados.</p>
-            </div>
-          </div>
-        </ng-template>
-      </div>
-
-      <!-- Botão fixado na parte inferior da div -->
-      <div class="mt-6">
-        <button
-          (click)="mudarPagina('configuracoes', 'cartoes')"
-          class="w-full bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#1C6956] focus:ring-offset-2 cursor-pointer flex items-center justify-center hover:scale-105"
-        >
-          <i class="fas fa-plus mr-2"></i>
-          Gerenciar Cartões
-        </button>
+        }
       </div>
     </div>
-  </div>
-</div>
-<footer class="bg-white border-t border-gray-200 mt-8">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-    <div class="flex flex-col md:flex-row justify-between items-center">
-      <p class="text-sm text-gray-500">
-        &copy; {{ currentDate | date : "yyyy" }} Sistema Financeiro. Todos os
+  </main>
+
+  <!-- Rodapé -->
+  <footer
+    class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg p-6 mt-8 border border-white/30 animate-fadeIn"
+  >
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div>
+        <h3 class="text-lg font-semibold text-[#013E4C] mb-4">
+          Finance Dashboard
+        </h3>
+        <p class="text-[#5e6d72] text-sm">
+          Uma ferramenta completa para gerenciar suas finanças pessoais e
+          alcançar seus objetivos financeiros.
+        </p>
+      </div>
+
+      <div>
+        <h3 class="text-lg font-semibold text-[#013E4C] mb-4">Links Rápidos</h3>
+        <ul class="space-y-2">
+          <li>
+            <a
+              (click)="alterarComponente('lancamentos')"
+              class="text-[#5e6d72] hover:text-[#1C6956] transition-colors cursor-pointer text-sm flex items-center"
+            >
+              <i class="fas fa-chevron-right text-xs mr-2 text-[#1C6956]"></i>
+              Transações
+            </a>
+          </li>
+          <li>
+            <a
+              (click)="mudarPagina('configuracoes', 'contas')"
+              class="text-[#5e6d72] hover:text-[#1C6956] transition-colors cursor-pointer text-sm flex items-center"
+            >
+              <i class="fas fa-chevron-right text-xs mr-2 text-[#1C6956]"></i>
+              Minhas Contas
+            </a>
+          </li>
+          <li>
+            <a
+              (click)="mudarPagina('configuracoes', 'metas')"
+              class="text-[#5e6d72] hover:text-[#1C6956] transition-colors cursor-pointer text-sm flex items-center"
+            >
+              <i class="fas fa-chevron-right text-xs mr-2 text-[#1C6956]"></i>
+              Metas Financeiras
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="text-lg font-semibold text-[#013E4C] mb-4">Contato</h3>
+        <ul class="space-y-2 text-sm text-[#5e6d72]">
+          <li class="flex items-center">
+            <i class="fas fa-envelope mr-2 text-[#1C6956]"></i>
+            contatofinancedashboard.com
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-globe mr-2 text-[#1C6956]"></i>
+            www.financedashboard.com
+          </li>
+        </ul>
+
+        <div class="mt-4 flex space-x-4">
+          <a
+            href="#"
+            class="text-[#5e6d72] hover:text-[#1C6956] transition-colors"
+          >
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a
+            href="#"
+            class="text-[#5e6d72] hover:text-[#1C6956] transition-colors"
+          >
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a
+            href="#"
+            class="text-[#5e6d72] hover:text-[#1C6956] transition-colors"
+          >
+            <i class="fab fa-instagram"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="border-t border-[#E0E5E7] mt-8 pt-6 text-center text-sm text-[#5e6d72]"
+    >
+      <p>
+        &copy; {{ currentDate | date : "yyyy" }} Finance Dashboard. Todos os
         direitos reservados.
       </p>
-      <div class="mt-4 md:mt-0 flex space-x-6">
-        <span class="text-sm text-gray-500">
-          Atualizado em {{ currentDate | date : "dd/MM/yyyy 'às' HH:mm" }}
-        </span>
-        <a href="#" class="text-sm text-emerald-600 hover:text-emerald-700"
-          >Ajuda</a
-        >
-        <a href="#" class="text-sm text-emerald-600 hover:text-emerald-700"
-          >Termos</a
-        >
-      </div>
+      <p class="mt-1">
+        Atualizado em {{ currentDate | date : "dd/MM/yyyy 'às' HH:mm" }}
+      </p>
     </div>
-  </div>
-</footer>
-
+  </footer>
+</div>
 }
+
+<!-- Adicione isso ao seu arquivo de estilos globais -->
+<style>
+  /* Animações personalizadas */
+  @keyframes slideInLeft {
+    from {
+      transform: translateX(-20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideInRight {
+    from {
+      transform: translateX(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideInDown {
+    from {
+      transform: translateY(-20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideInUp {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes float1 {
+    0%,
+    100% {
+      transform: translateY(0) translateX(0);
+    }
+    50% {
+      transform: translateY(-10px) translateX(5px);
+    }
+  }
+
+  @keyframes float2 {
+    0%,
+    100% {
+      transform: translateY(0) translateX(0);
+    }
+    50% {
+      transform: translateY(5px) translateX(-5px);
+    }
+  }
+
+  @keyframes float3 {
+    0%,
+    100% {
+      transform: translateY(0) translateX(0);
+    }
+    50% {
+      transform: translateY(-20px) translateX(10px);
+    }
+  }
+
+  @keyframes float4 {
+    0%,
+    100% {
+      transform: translateY(0) translateX(0);
+    }
+    50% {
+      transform: translateY(10px) translateX(-10px);
+    }
+  }
+
+  /* Aplicando as animações */
+  .animate-slideInLeft {
+    animation: slideInLeft 0.5s ease-out forwards;
+  }
+
+  .animate-slideInRight {
+    animation: slideInRight 0.5s ease-out forwards;
+  }
+
+  .animate-slideInDown {
+    animation: slideInDown 0.5s ease-out forwards;
+  }
+
+  .animate-slideInUp {
+    animation: slideInUp 0.5s ease-out forwards;
+  }
+
+  .animate-fadeIn {
+    animation: fadeIn 0.8s ease-out forwards;
+  }
+
+  .animate-float1 {
+    animation: float1 4s ease-in-out infinite;
+  }
+
+  .animate-float2 {
+    animation: float2 5s ease-in-out infinite;
+  }
+
+  .animate-float3 {
+    animation: float3 8s ease-in-out infinite;
+  }
+
+  .animate-float4 {
+    animation: float4 7s ease-in-out infinite;
+  }
+
+  .delay-100 {
+    animation-delay: 100ms;
+  }
+
+  .delay-200 {
+    animation-delay: 200ms;
+  }
+</style>
