@@ -6,7 +6,8 @@ import {
 } from '@angular/core';
 import { Chart } from 'chart.js';
 import { TransacoesService } from '../../Services/TransacaoService/transacoes.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { Despesa } from '../../Interface/Despesapost.type';
 import { Receita } from '../../Interface/Receitapost.type';
@@ -78,6 +79,19 @@ export class DashboardComponent {
   ngOnInit(): void {
     this.carregarDados();
   }
+  saldoProporcao: number = 0;
+  maxWidth: number = 100; // Máximo de 100% para a barra
+
+  // Adicione este método para calcular a largura da barra
+  getSaldoWidth(): number {
+    if (this.totalReceitas === 0) return 0;
+
+    // Calcula a proporção do saldo em relação à receita total
+    this.saldoProporcao = (this.saldo / this.totalReceitas) * 100;
+
+    // Limita a largura para não ultrapassar os limites visuais
+    return Math.min(this.maxWidth, Math.max(0, Math.abs(this.saldoProporcao)));
+  }
 
   carregarDados() {
     this.isLoading = true;
@@ -102,6 +116,7 @@ export class DashboardComponent {
         this.totalInvestimento = res.investimentos;
         this.accounts = res.contas;
         this.cartoes = res.cartoes;
+        this.getSaldoWidth();
         this.isLoading = false;
       },
       error: (err) => {
@@ -110,7 +125,12 @@ export class DashboardComponent {
       },
     });
   }
+  calcularPorcentagemEconomia(): number {
+    if (this.totalReceitas <= 0) return 0;
 
+    const porcentagem = (this.saldo / this.totalReceitas) * 100;
+    return Math.min(100, Math.max(0, Math.round(porcentagem)));
+  }
   openModal(type: string) {
     const dialogRef = this.dialog.open(NovaTransacaoDialogComponent, {
       width: '500px',
@@ -159,5 +179,21 @@ export class DashboardComponent {
       default:
         return 'assets/logos/default.png';
     }
+  }
+
+  calcularLimiteTotal(): number {
+    if (!this.cartoes || this.cartoes.length === 0) return 0;
+    return this.cartoes.reduce(
+      (total, cartao) => total + cartao.limiteDisponivel,
+      0
+    );
+  }
+
+  calcularPorcentagemLimite(): number {
+    if (!this.cartoes || this.cartoes.length === 0) return 0;
+    const limiteDisponivel = this.calcularLimiteTotal();
+    // Usando um valor fixo como referência para o limite total
+    const limiteTotal = 10000; // Valor de referência
+    return (limiteDisponivel / limiteTotal) * 100;
   }
 }

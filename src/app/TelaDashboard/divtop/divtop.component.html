@@ -594,152 +594,166 @@
   </div>
 </header>
 
-<!-- Modal do Conversor com design moderno -->
+<!-- Modal do Conversor com novo design -->
 <div
   *ngIf="isModalOpen"
   class="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50 p-4"
 >
-  <div
-    class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden transform transition-all"
-  >
+  <div class="bg-[#F8F7F5] rounded-2xl w-full max-w-md overflow-hidden">
     <!-- Cabeçalho do Modal -->
-    <div
-      class="flex justify-between items-center p-6 bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white"
-    >
-      <h3 class="text-xl font-semibold flex items-center">
-        <i class="fas fa-exchange-alt mr-3 text-2xl"></i>
-        Conversor de Moedas
-      </h3>
+    <div class="flex items-center justify-between p-6">
+      <div class="flex items-center gap-3">
+        <button
+          (click)="fecharModal()"
+          class="text-[#5e6d72] hover:text-[#013E4C]"
+        >
+          <i class="fas fa-arrow-left"></i>
+        </button>
+        <h2 class="text-xl font-bold text-[#013E4C]">Conversor de Moedas</h2>
+      </div>
       <button
         (click)="fecharModal()"
-        class="text-white hover:bg-white/20 p-2.5 rounded-xl transition duration-200"
+        class="text-[#5e6d72] hover:text-[#013E4C]"
       >
         <i class="fas fa-times"></i>
       </button>
     </div>
 
-    <div class="p-6">
+    <div class="p-6 pt-0">
       <!-- Mensagens de erro/loading -->
       <div
         *ngIf="error"
-        class="mb-4 p-4 bg-red-50 text-red-600 rounded-xl text-sm flex items-center"
+        class="mb-4 p-4 bg-red-50 text-red-600 rounded-lg text-sm flex items-center"
       >
-        <i class="fas fa-exclamation-circle mr-3 text-lg"></i>
+        <i class="fas fa-exclamation-circle mr-3"></i>
         {{ error }}
       </div>
 
-      <div *ngIf="isLoading" class="mb-4 text-center py-8">
-        <div
-          class="inline-block animate-spin rounded-full h-10 w-10 border-4 border-[#1C6956] border-t-transparent"
-        ></div>
-        <p class="mt-4 text-[#5e6d72]">Carregando taxas de câmbio...</p>
+      <div *ngIf="isLoading" class="flex items-center justify-center py-12">
+        <div class="text-center">
+          <i class="fas fa-spinner fa-spin text-4xl text-[#1C6956] mb-4"></i>
+          <p class="text-[#5e6d72]">Carregando taxas de câmbio...</p>
+        </div>
       </div>
 
       <!-- Campos do formulário -->
-      <div class="mb-6">
-        <label class="block text-sm font-medium text-[#5e6d72] mb-2"
-          >Valor</label
-        >
-        <div class="relative">
-          <span
-            class="absolute inset-y-0 left-0 pl-4 flex items-center text-[#748389]"
-          >
-            <i class="fas fa-dollar-sign"></i>
-          </span>
-          <input
-            type="number"
-            [(ngModel)]="amount"
-            (input)="convert()"
-            class="w-full pl-12 pr-4 py-3.5 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] placeholder-[#748389] transition-all"
-            placeholder="Digite o valor"
-          />
-        </div>
-      </div>
-
-      <div class="grid grid-cols-2 gap-4 mb-6">
+      <div class="space-y-6">
+        <!-- Valor -->
         <div>
-          <label class="block text-sm font-medium text-[#5e6d72] mb-2"
-            >De</label
+          <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+            >Valor</label
           >
           <div class="relative">
             <span
-              class="absolute inset-y-0 left-0 pl-4 flex items-center text-[#748389]"
+              class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#5e6d72]"
             >
-              <i class="fas fa-globe"></i>
+              <i class="fas fa-dollar-sign"></i>
             </span>
-            <select
-              [(ngModel)]="fromCurrency"
-              (change)="convert()"
-              class="w-full pl-12 pr-4 py-3.5 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] appearance-none"
-            >
-              <option *ngFor="let currency of currencies" [value]="currency">
-                {{ currency }}
-              </option>
-            </select>
-            <span
-              class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-[#748389]"
-            >
-              <i class="fas fa-chevron-down"></i>
-            </span>
+            <input
+              type="number"
+              [(ngModel)]="amount"
+              (input)="convert()"
+              class="w-full pl-10 pr-4 py-2 border border-[#E0E5E7] rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:border-transparent"
+              placeholder="Digite o valor"
+            />
           </div>
         </div>
 
-        <div class="flex items-end justify-center">
+        <!-- Moedas -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+              >De</label
+            >
+            <div class="relative">
+              <span
+                class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#5e6d72]"
+              >
+                <i class="fas fa-globe"></i>
+              </span>
+              <select
+                [(ngModel)]="fromCurrency"
+                (change)="convert()"
+                class="w-full pl-10 pr-4 py-2 border border-[#E0E5E7] rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:border-transparent"
+              >
+                <option *ngFor="let currency of currencies" [value]="currency">
+                  {{ currency }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+              >Para</label
+            >
+            <div class="relative">
+              <span
+                class="absolute inset-y-0 left-0 pl-3 flex items-center text-[#5e6d72]"
+              >
+                <i class="fas fa-globe"></i>
+              </span>
+              <select
+                [(ngModel)]="toCurrency"
+                (change)="convert()"
+                class="w-full pl-10 pr-4 py-2 border border-[#E0E5E7] rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:border-transparent"
+              >
+                <option *ngFor="let currency of currencies" [value]="currency">
+                  {{ currency }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botão de inverter -->
+        <div class="flex justify-center">
           <button
             (click)="inverterMoedas()"
-            class="mb-1 p-3 rounded-xl bg-[#D8EAE5] text-[#1C6956] hover:bg-[#1C6956] hover:text-white transition-all duration-300 transform hover:rotate-180"
+            class="p-3 rounded-full bg-[#D8EAE5] text-[#1C6956] hover:bg-[#1C6956] hover:text-white transition-all"
             title="Inverter moedas"
           >
             <i class="fas fa-exchange-alt"></i>
           </button>
         </div>
 
-        <div>
-          <label class="block text-sm font-medium text-[#5e6d72] mb-2"
-            >Para</label
-          >
-          <div class="relative">
-            <span
-              class="absolute inset-y-0 left-0 pl-4 flex items-center text-[#748389]"
-            >
-              <i class="fas fa-globe"></i>
-            </span>
-            <select
-              [(ngModel)]="toCurrency"
-              (change)="convert()"
-              class="w-full pl-12 pr-4 py-3.5 border border-[#E0E5E7] bg-[#F8F7F5] text-sm rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:outline-none text-[#013E4C] appearance-none"
-            >
-              <option *ngFor="let currency of currencies" [value]="currency">
-                {{ currency }}
-              </option>
-            </select>
-            <span
-              class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-[#748389]"
-            >
-              <i class="fas fa-chevron-down"></i>
-            </span>
-          </div>
+        <!-- Resultado -->
+        <div
+          *ngIf="convertedAmount !== null"
+          class="p-4 bg-[#D8EAE5] rounded-lg border border-[#1C6956]/20"
+        >
+          <h4 class="text-sm font-medium text-[#5e6d72] mb-2">Resultado</h4>
+          <p class="text-2xl font-bold text-[#013E4C]">
+            {{ amount | number }} {{ fromCurrency }} =
+            {{ convertedAmount | number : "1.2-2" }} {{ toCurrency }}
+          </p>
+          <p class="text-xs text-[#5e6d72] mt-2">
+            1 {{ fromCurrency }} =
+            {{
+              exchangeRates[toCurrency] / exchangeRates[fromCurrency]
+                | number : "1.6-6"
+            }}
+            {{ toCurrency }}
+          </p>
         </div>
-      </div>
 
-      <!-- Resultado -->
-      <div
-        *ngIf="convertedAmount !== null"
-        class="mt-6 p-6 bg-[#D8EAE5] rounded-xl border border-[#1C6956]/20"
-      >
-        <h4 class="text-sm font-medium text-[#5e6d72] mb-3">Resultado</h4>
-        <p class="text-3xl font-bold text-[#013E4C]">
-          {{ amount | number }} {{ fromCurrency }} =
-          {{ convertedAmount | number : "1.2-2" }} {{ toCurrency }}
-        </p>
-        <p class="text-sm text-[#5e6d72] mt-3">
-          1 {{ fromCurrency }} =
-          {{
-            exchangeRates[toCurrency] / exchangeRates[fromCurrency]
-              | number : "1.6-6"
-          }}
-          {{ toCurrency }}
-        </p>
+        <!-- Botões -->
+        <div class="flex justify-end space-x-3 pt-4">
+          <button
+            type="button"
+            (click)="fecharModal()"
+            class="px-4 py-2 text-sm font-medium text-[#5e6d72] hover:text-[#013E4C]"
+          >
+            Cancelar
+          </button>
+          <button
+            type="button"
+            (click)="convert()"
+            class="px-4 py-2 text-sm font-medium text-white bg-[#1C6956] rounded-lg hover:bg-[#013E4C]"
+          >
+            <i class="fas fa-sync-alt mr-2"></i> Converter
+          </button>
+        </div>
       </div>
     </div>
   </div>
