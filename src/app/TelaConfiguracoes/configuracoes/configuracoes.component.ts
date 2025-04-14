@@ -36,7 +36,6 @@ import { FaturaDetalhesComponent } from '../../fatura-detalhes/fatura-detalhes.c
     ReactiveFormsModule,
     MinhacontaComponent,
     FaturaDetalhesComponent,
-    ReactiveFormsModule,
   ],
   templateUrl: './configuracoes.component.html',
   styleUrl: './configuracoes.component.scss',
@@ -202,8 +201,7 @@ export class ConfiguracoesComponent {
     this.categoriaService.criarCategoria(categoriaDTO).subscribe(
       (response) => {
         this.toastrService.success('Categoria criada com sucesso!');
-        this.categoriasComponent.getCategoriasDespesas();
-        this.categoriasComponent.getCategoriasReceitas();
+
         this.closeGlobalModal();
         this.categoriaAtualizada.emit();
         this.isSaving = false;

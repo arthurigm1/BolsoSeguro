@@ -1,168 +1,254 @@
-<div class="p-4">
-  <div class="max-w-4xl mx-auto">
-    <!-- Header - Ajustado para mobile -->
+<!-- Container principal com gradiente e efeito de vidro -->
+<div class="min-h-screen bg-[#F8F7F5] p-4 sm:p-6">
+  <div class="max-w-6xl mx-auto">
+    <!-- Card principal com efeito de vidro -->
     <div
-      class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2"
+      class="bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/30 overflow-hidden animate-fadeIn"
     >
-      <div>
-        <h1 class="text-xl font-bold text-gray-900">Minhas Contas</h1>
-        <p class="text-gray-500 text-xs sm:text-base">
-          Gerencie suas contas bancárias e carteiras
-        </p>
-      </div>
-      <button
-        (click)="openModal()"
-        class="w-full sm:w-auto flex items-center justify-center font-semibold bg-gradient-to-r from-[#b6c6cc] to-[#5e6d72] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-            clip-rule="evenodd"
-          />
-        </svg>
-        <span>Nova Conta</span>
-      </button>
-    </div>
+      <!-- Header com gradiente e elementos decorativos -->
+      <div class="relative overflow-hidden">
+        <div
+          class="absolute top-0 right-0 w-64 h-64 bg-[#D8EAE5] opacity-20 rounded-full -mr-32 -mt-32 animate-float1"
+        ></div>
+        <div
+          class="absolute bottom-0 left-0 w-48 h-48 bg-[#013E4C] opacity-10 rounded-full -ml-24 -mb-24 animate-float2"
+        ></div>
 
-    @if (isLoading) {
-    <!-- Loading Centralizado -->
-    <div class="flex items-center justify-center py-20">
-      <div class="text-center">
-        <!-- Spinner SVG animado -->
-        <svg
-          class="animate-spin h-12 w-12 text-[#5e6d72] mx-auto"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <circle
-            class="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="4"
-          ></circle>
-          <path
-            class="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          ></path>
-        </svg>
-        <p class="mt-4 text-lg font-medium text-gray-600">
-          Carregando suas contas...
-        </p>
-      </div>
-    </div>
-    } @else {
-    <!-- Lista de Contas - Ajustado para mobile -->
-    <div class="bg-gray-100 rounded-xl shadow-sm overflow-hidden">
-      <ul id="accounts-sortable" class="divide-y divide-gray-200">
-        @for (account of accounts; track account.id) {
-        <li class="p-3 sm:p-4 hover:bg-gray-50 transition-colors duration-150">
-          <div class="flex justify-between items-center gap-2">
-            <div class="flex items-center min-w-0 flex-1">
-              <div class="relative">
-                <div
-                  class="absolute -inset-1 bg-indigo-100 rounded-full opacity-50"
-                ></div>
-                <div
-                  class="relative flex items-center justify-center h-10 w-10 rounded-full bg-indigo-50 text-indigo-600"
-                >
-                  <i class="fas fa-wallet text-gray-700 text-xl"></i>
-                </div>
-              </div>
-              <div class="ml-2 sm:ml-3 min-w-0">
-                <strong
-                  class="block text-sm sm:text-base font-semibold text-gray-900 truncate"
-                >
-                  {{ account.nome }}
-                </strong>
-                <div class="flex items-center mt-0.5">
-                  <small class="text-xs sm:text-sm text-gray-500">Saldo:</small>
-                  <span
-                    class="ml-1 font-medium text-xs sm:text-sm"
-                    [class.text-green-600]="account.saldo >= 0"
-                    [class.text-red-600]="account.saldo < 0"
-                  >
-                    {{ account.saldo | currency : "BRL" : "symbol" : "1.2-2" }}
-                  </span>
-                </div>
-              </div>
+        <div class="relative z-10 p-6 sm:p-8">
+          <div
+            class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6"
+          >
+            <div class="space-y-2">
+              <h1
+                class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-[#1C6956] to-[#013E4C] bg-clip-text text-transparent"
+              >
+                Minhas Contas
+              </h1>
+              <p class="text-[#5e6d72] text-sm sm:text-base">
+                Gerencie suas contas bancárias e carteiras
+              </p>
             </div>
-            <div class="flex items-center">
+
+            <button
+              (click)="openModal()"
+              class="group w-full sm:w-auto flex items-center justify-center font-medium bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-6 py-3 rounded-xl shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+              @if (isLoading) {
+              <svg
+                class="animate-spin h-5 w-5 mr-3 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+              <span class="text-sm sm:text-base">Processando...</span>
+              } @else {
+              <i
+                class="fas fa-plus-circle text-lg mr-3 group-hover:rotate-90 transition-transform duration-300"
+              ></i>
+              <span class="text-sm sm:text-base">Nova Conta</span>
+              }
+            </button>
+          </div>
+        </div>
+      </div>
+
+      @if (isLoading) {
+      <!-- Loading state com animação -->
+      <div class="flex items-center justify-center min-h-[60vh] w-full">
+        <div class="text-center space-y-6">
+          <div class="relative w-24 h-24 mx-auto">
+            <div
+              class="absolute inset-0 rounded-full border-4 border-[#1C6956] border-t-transparent animate-spin"
+            ></div>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <i
+                class="fas fa-wallet text-[#1C6956] text-3xl animate-bounce"
+              ></i>
+            </div>
+          </div>
+          <p class="text-lg font-medium text-[#5e6d72] animate-pulse">
+            Carregando suas contas...
+          </p>
+        </div>
+      </div>
+      } @else {
+      <!-- Lista de Contas -->
+      <div class="p-6 sm:p-8">
+        @if (accounts.length === 0) {
+        <!-- Estado vazio com animação -->
+        <div class="text-center py-12 space-y-4 animate-fadeIn">
+          <div class="relative w-24 h-24 mx-auto">
+            <!-- Círculo animado de fundo -->
+            <div
+              class="absolute inset-0 rounded-full bg-[#D8EAE5] animate-ping"
+            ></div>
+
+            <!-- Ícone centralizado com sombra sutil -->
+            <div
+              class="absolute inset-0 flex items-center justify-center rounded-full bg-white shadow-lg"
+            >
+              <i class="fas fa-wallet text-[#1C6956] text-4xl"></i>
+            </div>
+          </div>
+          <h3 class="text-xl font-bold text-[#013E4C]">
+            Nenhuma conta cadastrada
+          </h3>
+          <p class="text-[#5e6d72] text-lg">
+            Adicione sua primeira conta para começar
+          </p>
+          <button
+            (click)="openModal()"
+            class="inline-flex items-center space-x-2 text-[#1C6956] font-medium hover:text-[#013E4C] transition-colors group"
+          >
+            <i
+              class="fas fa-plus-circle group-hover:rotate-90 transition-transform duration-300"
+            ></i>
+            <span>Criar primeira conta</span>
+          </button>
+        </div>
+        } @else {
+        <!-- Lista de contas com animações -->
+        <div class="space-y-4">
+          @for (account of accounts; track account.id; let i = $index) {
+          <div
+            class="group bg-white/80 hover:bg-white rounded-xl p-4 transition-all duration-300 hover:shadow-md animate-slideInRight"
+            [style.animation-delay.ms]="i * 100"
+          >
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-4">
+                <div
+                  class="w-12 h-12 rounded-full bg-[#D8EAE5] flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
+                >
+                  <i class="fas fa-wallet text-[#1C6956] text-xl"></i>
+                </div>
+                <div>
+                  <h3
+                    class="text-lg font-semibold text-[#013E4C] group-hover:text-[#1C6956] transition-colors"
+                  >
+                    {{ account.nome }}
+                  </h3>
+                  <div class="flex items-center space-x-2">
+                    <span class="text-sm text-[#5e6d72]">Saldo:</span>
+                    <span
+                      class="font-medium"
+                      [class.text-green-600]="account.saldo >= 0"
+                      [class.text-red-600]="account.saldo < 0"
+                    >
+                      {{
+                        account.saldo | currency : "BRL" : "symbol" : "1.2-2"
+                      }}
+                    </span>
+                  </div>
+                </div>
+              </div>
               <button
                 (click)="deleteAccount(account.id)"
-                class="p-2 rounded-full bg-white bg-opacity-20 hover:bg-opacity-30 transition cursor-pointer"
+                class="p-2 rounded-full hover:bg-[#D8EAE5] transition-all duration-300 text-[#748389] hover:text-[#013E4C] group-hover:scale-110"
                 title="Remover"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                  />
-                </svg>
+                <i class="fas fa-trash-alt text-lg"></i>
               </button>
             </div>
           </div>
-        </li>
-        } @if (accounts.length === 0) {
-        <li class="p-6 text-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-12 w-12 mx-auto text-gray-300"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1.5"
-              d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"
-            />
-          </svg>
-          <h3 class="mt-2 text-base font-medium text-gray-700">
-            Nenhuma conta cadastrada
-          </h3>
-          <p class="mt-1 text-xs sm:text-sm text-gray-500">
-            Adicione sua primeira conta para começar
-          </p>
-        </li>
-        }
-      </ul>
-    </div>
+          }
+        </div>
 
-    <!-- Totalizador - Ajustado para mobile -->
-    @if (accounts.length > 0) {
-    <div class="mt-4 bg-gray-100 rounded-xl shadow-sm p-3 sm:p-4">
-      <div class="flex justify-between items-center">
-        <h3 class="text-sm sm:text-base font-medium text-gray-700">
-          Saldo Total
-        </h3>
-        <span
-          class="text-lg sm:text-xl font-bold"
-          [class.text-green-600]="getTotalBalance() >= 0"
-          [class.text-red-600]="getTotalBalance() < 0"
+        <!-- Totalizador com animação -->
+        <div
+          class="mt-8 bg-gradient-to-r from-[#D8EAE5] to-white rounded-xl p-6 shadow-sm animate-fadeIn"
         >
-          {{ getTotalBalance() | currency : "BRL" : "symbol" : "1.2-2" }}
-        </span>
+          <div class="flex justify-between items-center">
+            <div>
+              <h3 class="text-lg font-semibold text-[#013E4C]">Saldo Total</h3>
+              <p class="text-sm text-[#5e6d72]">Soma de todas as suas contas</p>
+            </div>
+            <span
+              class="text-2xl font-bold"
+              [class.text-green-600]="getTotalBalance() >= 0"
+              [class.text-red-600]="getTotalBalance() < 0"
+            >
+              {{ getTotalBalance() | currency : "BRL" : "symbol" : "1.2-2" }}
+            </span>
+          </div>
+        </div>
+        }
       </div>
+      }
     </div>
-    } }
   </div>
 </div>
+
+<!-- Animações personalizadas -->
+<style>
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes float1 {
+    0%,
+    100% {
+      transform: translate(0, 0);
+    }
+    50% {
+      transform: translate(-10px, -10px);
+    }
+  }
+
+  @keyframes float2 {
+    0%,
+    100% {
+      transform: translate(0, 0);
+    }
+    50% {
+      transform: translate(10px, 10px);
+    }
+  }
+
+  .animate-fadeIn {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+
+  .animate-slideInRight {
+    animation: slideInRight 0.5s ease-out forwards;
+  }
+
+  .animate-float1 {
+    animation: float1 6s ease-in-out infinite;
+  }
+
+  .animate-float2 {
+    animation: float2 7s ease-in-out infinite;
+  }
+</style>

@@ -1,4 +1,4 @@
-import { Component, Inject, HostBinding } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormsModule,
@@ -92,17 +92,23 @@ import {
       </div>
 
       <!-- Main form content -->
-      <div class="relative z-10 space-y-6" [@contentAnimation]>
+      <form
+        [formGroup]="categoriaForm"
+        (ngSubmit)="onSubmit()"
+        class="relative z-10 space-y-6"
+        [@contentAnimation]
+      >
         <!-- Category name field -->
         <div [@formFieldAnimation]>
           <div class="relative">
             <label class="block text-sm font-medium text-[#5e6d72] mb-2 ml-1">
-              Nome da Categoria
+              Nome da Categoria *
             </label>
             <div class="relative">
               <input
                 type="text"
                 formControlName="nome"
+                (blur)="categoriaForm.get('nome')?.markAsTouched()"
                 placeholder="Ex: Alimentação, Transporte..."
                 class="w-full px-4 py-3 bg-white/90 border border-[#E0E5E7] rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:border-transparent shadow-sm transition-all duration-300 placeholder-[#748389]/60"
                 [class.border-[#1C6956]]="
@@ -135,12 +141,12 @@ import {
         <!-- Category type selector -->
         <div [@formFieldAnimation]>
           <label class="block text-sm font-medium text-[#5e6d72] mb-2 ml-1">
-            Tipo de Categoria
+            Tipo de Categoria *
           </label>
           <div class="grid grid-cols-2 gap-3">
             <button
               type="button"
-              (click)="data.tipo = 'expense'"
+              (click)="selectType('expense')"
               class="p-4 rounded-xl border transition-all duration-300 flex items-center justify-center space-x-2"
               [class]="
                 data.tipo === 'expense'
@@ -154,7 +160,7 @@ import {
             </button>
             <button
               type="button"
-              (click)="data.tipo = 'income'"
+              (click)="selectType('income')"
               class="p-4 rounded-xl border transition-all duration-300 flex items-center justify-center space-x-2"
               [class]="
                 data.tipo === 'income'
@@ -205,41 +211,35 @@ import {
           </div>
           }
         </div>
-      </div>
 
-      <!-- Action buttons -->
-      <div
-        class="relative z-10 mt-8 flex justify-end space-x-3"
-        [@buttonsAnimation]
-      >
-        <button
-          type="button"
-          (click)="onCancel()"
-          class="px-6 py-2.5 rounded-xl border border-[#E0E5E7] text-[#5e6d72] hover:text-[#013E4C] hover:border-[#748389] transition-all duration-300 font-medium flex items-center"
-          [disabled]="isSaving"
-        >
-          Cancelar
-        </button>
-        <button
-          type="submit"
-          class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white hover:shadow-lg transition-all duration-300 font-medium flex items-center disabled:opacity-70 disabled:cursor-not-allowed"
-          [disabled]="categoriaForm.invalid || isSaving"
-          [class.opacity-70]="isSaving"
-        >
-          @if (isSaving) {
-          <mat-spinner
-            diameter="20"
-            class="mr-2"
-            [@spinnerAnimation]
-          ></mat-spinner>
-          <span class="animate-pulse">Criando...</span>
-          } @else {
-          <mat-icon class="mr-2 transform hover:scale-110 transition-transform"
-            >add_circle</mat-icon
+        <!-- Action buttons -->
+        <div class="flex justify-end space-x-3 pt-6" [@buttonsAnimation]>
+          <button
+            type="button"
+            (click)="onCancel()"
+            class="px-6 py-2.5 rounded-xl border border-[#E0E5E7] text-[#5e6d72] hover:text-[#013E4C] hover:border-[#748389] transition-all duration-300 font-medium flex items-center"
+            [disabled]="isSaving"
           >
-          Criar Categoria }
-        </button>
-      </div>
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white hover:shadow-lg transition-all duration-300 font-medium flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
+            [disabled]="!categoriaForm.valid || isSaving"
+          >
+            @if (isSaving) {
+            <mat-spinner
+              diameter="20"
+              class="mr-2"
+              [@spinnerAnimation]
+            ></mat-spinner>
+            <span class="animate-pulse">Criando...</span>
+            } @else {
+            <mat-icon class="mr-2">add_circle</mat-icon>
+            Criar Categoria }
+          </button>
+        </div>
+      </form>
 
       <!-- Success state -->
       @if (showSuccess) {
@@ -266,6 +266,7 @@ import {
         <button
           mat-raised-button
           color="primary"
+          (click)="dialogRef.close(true)"
           class="px-6 py-2.5 bg-[#1C6956] text-white hover:bg-[#013E4C] rounded-xl font-medium"
         >
           Continuar
@@ -416,7 +417,7 @@ export class NovaCategoriaDialogComponent {
   }
 
   constructor(
-    private dialogRef: MatDialogRef<NovaCategoriaDialogComponent>,
+    public dialogRef: MatDialogRef<NovaCategoriaDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { tipo: 'expense' | 'income' },
     private categoriaService: CategoriaService,
     private toastr: ToastrService,
@@ -433,6 +434,12 @@ export class NovaCategoriaDialogComponent {
         ],
       ],
     });
+  }
+
+  // Select category type
+  selectType(type: 'expense' | 'income'): void {
+    this.data.tipo = type;
+    this.categoriaForm.markAsDirty();
   }
 
   // Toggle icon picker visibility
@@ -476,5 +483,16 @@ export class NovaCategoriaDialogComponent {
     if (!this.isSaving) {
       this.dialogRef.close(false);
     }
+  }
+
+  // Helper function to mark all controls as touched
+  private markFormGroupTouched(formGroup: FormGroup) {
+    Object.values(formGroup.controls).forEach((control) => {
+      control.markAsTouched();
+
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
   }
 }
