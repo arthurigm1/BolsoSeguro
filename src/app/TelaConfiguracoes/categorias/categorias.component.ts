@@ -1,96 +1,130 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TransacoesService } from '../../Services/TransacaoService/transacoes.service';
 import { CategoriaService } from '../../Services/CategoriaService/categoria.service';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
+import { MatDialog } from '@angular/material/dialog';
+import { NovaCategoriaDialogComponent } from '../../Dialog/nova-categoria-dialog/nova-categoria-dialog.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatCardModule } from '@angular/material/card';
+import { MatListModule } from '@angular/material/list';
+
 @Component({
   selector: 'app-categorias',
-  imports: [CommonModule, FormsModule],
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatTabsModule,
+    MatCardModule,
+    MatListModule,
+  ],
   templateUrl: './categorias.component.html',
-  styleUrls: ['./categorias.component.scss'], // Corrigido para styleUrls
+  styleUrls: ['./categorias.component.scss'],
 })
-export class CategoriasComponent {
+export class CategoriasComponent implements OnInit {
   constructor(
     private transacaoService: TransacoesService,
     private categoriaService: CategoriaService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private dialog: MatDialog
   ) {}
+
   isLoadingPage = true;
   activeTab: 'expenses' | 'earnings' = 'expenses';
-  @Output() openModalEvent = new EventEmitter<'expense' | 'income'>();
   categoriasDespesas: any[] = [];
   categoriasReceitas: any[] = [];
-
-  isLoading: boolean = true;
   loadingExpenses: boolean = false;
   loadingEarnings: boolean = false;
-  isAddingCategory: boolean = false;
   deletingCategoryId: string | null = null;
-  setActiveTab(tab: 'expenses' | 'earnings') {
-    this.activeTab = tab;
-    if (tab === 'expenses') {
-      this.loadingExpenses = true;
-      // Recarrega dados se necessário
-      setTimeout(() => (this.loadingExpenses = false), 500); // Simula carregamento
-    } else {
-      this.loadingEarnings = true;
-      setTimeout(() => (this.loadingEarnings = false), 500); // Simula carregamento
-    }
+  isAddingCategory: boolean = false;
+
+  ngOnInit(): void {
+    this.carregarCategorias();
   }
 
-  openModal() {
-    // Envia o tipo fixo baseado na aba ativa
-    const tipo = this.activeTab === 'expenses' ? 'expense' : 'income';
-    this.openModalEvent.emit(tipo);
-  }
-  ngOnInit(): void {
+  carregarCategorias(): void {
+    this.isLoadingPage = true;
     Promise.all([this.getCategoriasDespesas(), this.getCategoriasReceitas()])
       .then(() => {
         this.isLoadingPage = false;
       })
       .catch((err) => {
         console.error('Erro ao carregar categorias:', err);
+        this.toastrService.error('Erro ao carregar categorias');
         this.isLoadingPage = false;
       });
   }
 
+  setActiveTab(tab: 'expenses' | 'earnings'): void {
+    this.activeTab = tab;
+    if (tab === 'expenses') {
+      this.loadingExpenses = true;
+      setTimeout(() => (this.loadingExpenses = false), 500);
+    } else {
+      this.loadingEarnings = true;
+      setTimeout(() => (this.loadingEarnings = false), 500);
+    }
+  }
+
+  openModal(): void {
+    const dialogRef = this.dialog.open(NovaCategoriaDialogComponent, {
+      width: '500px',
+      data: { tipo: this.activeTab === 'expenses' ? 'expense' : 'income' },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.carregarCategorias();
+      }
+    });
+  }
+
   getCategoriasDespesas(): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.transacaoService.obterCategoriasDespesas().subscribe(
-        (data) => {
+      this.transacaoService.obterCategoriasDespesas().subscribe({
+        next: (data) => {
           this.categoriasDespesas = data;
           resolve();
         },
-        (error) => {
+        error: (error) => {
           console.error('Erro ao carregar categorias de despesas:', error);
+          this.toastrService.error('Erro ao carregar categorias de despesas');
           reject(error);
-        }
-      );
+        },
+      });
     });
   }
 
   getCategoriasReceitas(): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.transacaoService.obterCategoriasReceitas().subscribe(
-        (data) => {
+      this.transacaoService.obterCategoriasReceitas().subscribe({
+        next: (data) => {
           this.categoriasReceitas = data;
           resolve();
         },
-        (error) => {
+        error: (error) => {
           console.error('Erro ao carregar categorias de receitas:', error);
+          this.toastrService.error('Erro ao carregar categorias de receitas');
           reject(error);
-        }
-      );
+        },
+      });
     });
   }
 
-  deletarCategoria(id: string) {
+  deletarCategoria(id: string): void {
     this.deletingCategoryId = id;
     Swal.fire({
       title: 'Tem certeza?',
-      text: 'Esta ação não pode ser desfeita! Não e possivel excluir categorias com despesas ou receitas associadas.',
+      text: 'Esta ação não pode ser desfeita! Não é possível excluir categorias com despesas ou receitas associadas.',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#d33',
@@ -99,26 +133,21 @@ export class CategoriasComponent {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.categoriaService.deletarCategoria(id).subscribe(
-          () => {
-            Swal.fire(
-              'Excluída!',
-              'A categoria foi excluída com sucesso.',
-              'success'
-            );
+        this.categoriaService.deletarCategoria(id).subscribe({
+          next: () => {
+            this.toastrService.success('Categoria excluída com sucesso!');
             this.deletingCategoryId = null;
-            this.getCategoriasDespesas();
-            this.getCategoriasReceitas();
+            this.carregarCategorias();
           },
-          (error) => {
+          error: (error) => {
             this.deletingCategoryId = null;
-            Swal.fire(
-              'Erro!',
-              'Erro ao excluir categoria, ela está associada a uma Despesa ou Receita.',
-              'error'
+            this.toastrService.error(
+              'Erro ao excluir categoria. Ela está associada a uma Despesa ou Receita.'
             );
-          }
-        );
+          },
+        });
+      } else {
+        this.deletingCategoryId = null;
       }
     });
   }

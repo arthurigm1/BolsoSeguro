@@ -252,6 +252,16 @@ export class ConfiguracoesComponent {
       },
     });
   }
+  getActiveTitle() {
+    const activeItem = this.menuItems.find(
+      (item) => item.id === this.activeComponent
+    );
+    return activeItem ? activeItem.label : 'Configurações';
+  }
+  onCancel() {
+    this.isSaving = false;
+    this.closeGlobalModal();
+  }
   currentDate: Date = new Date();
   addMeta() {
     this.isSaving = true;

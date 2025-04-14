@@ -1,67 +1,178 @@
-<section class="min-h-screen p-4">
+<section class="min-h-screen p-4 bg-[#F8F7F5]">
   <!-- Conteúdo Principal -->
-  <div class="container mx-auto pt-16 md:pt-0">
-    <div class="flex flex-col md:flex-row">
+  <div class="container mx-auto pt-16 md:pt-8">
+    <div class="flex flex-col md:flex-row gap-6">
+      <!-- Sidebar Menu -->
       <div
-        class="hidden md:block w-1/4 p-4 bg-gray-100 shadow-md rounded-lg h-full mt-4"
+        class="hidden md:block w-1/4 p-4 bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/30 shadow-sm rounded-lg h-full"
       >
-        <ul class="mt-6 space-y-4">
+        <ul class="mt-2 space-y-2">
           <li *ngFor="let item of menuItems">
             <a
               (click)="setActive(item.id)"
-              class="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-300 hover:text-gray-900 transition-all cursor-pointer"
-              [class.bg-gray-200]="activeComponent === item.id"
-              [class.border-l-4]="activeComponent === item.id"
-              [class.border-black]="activeComponent === item.id"
+              class="flex items-center px-4 py-3 rounded-lg transition-all cursor-pointer"
+              [class.bg-[#D8EAE5]]="activeComponent === item.id"
+              [class.text-[#013E4C]]="activeComponent === item.id"
+              [class.font-medium]="activeComponent === item.id"
+              [class.text-[#5e6d72]]="activeComponent !== item.id"
+              [class.hover:bg-[#E0E5E7]]="activeComponent !== item.id"
             >
-              <i [class]="item.icon + ' mr-3 text-xl text-gray-600'"></i>
-              <span class="text-lg font-semibold">{{ item.label }}</span>
+              <i
+                [class]="item.icon + ' mr-3 text-lg'"
+                [class.text-[#1C6956]]="activeComponent === item.id"
+              ></i>
+              <span class="text-base">{{ item.label }}</span>
+              <span
+                *ngIf="activeComponent === item.id"
+                class="ml-auto w-1 h-6 bg-[#1C6956] rounded-full"
+              ></span>
             </a>
           </li>
         </ul>
+
+        <!-- Footer Sidebar -->
+        <div class="mt-8 pt-4 border-t border-[#E0E5E7] text-center">
+          <p class="text-sm text-[#748389]">BolsoSeguro v1.0</p>
+        </div>
       </div>
 
       <!-- Conteúdo Dinâmico -->
-      <div class="w-full md:w-3/4 p-4">
-        <div class="bg-white p-6 rounded-lg shadow-lg">
-          <div [ngSwitch]="activeComponent">
-            <app-contas
-              *ngSwitchCase="'contas'"
-              (openModalEvent)="openGlobalModal('conta')"
-            ></app-contas>
+      <div class="w-full h-full">
+        <div [ngSwitch]="activeComponent">
+          <app-contas
+            *ngSwitchCase="'contas'"
+            (openModalEvent)="openGlobalModal('conta')"
+          ></app-contas>
 
-            <app-categorias
-              *ngSwitchCase="'categorias'"
-              (openModalEvent)="openGlobalModal('categoria', $event)"
-            ></app-categorias>
+          <app-categorias *ngSwitchCase="'categorias'"></app-categorias>
 
-            <app-cartao
-              *ngSwitchCase="'cartoes'"
-              (openModalEvent)="openGlobalModal('cartao')"
-              (showFaturaEvent)="showFaturaDetails($event)"
-            ></app-cartao>
+          <app-cartao
+            *ngSwitchCase="'cartoes'"
+            (openModalEvent)="openGlobalModal('cartao')"
+            (showFaturaEvent)="showFaturaDetails($event)"
+          ></app-cartao>
 
-            <app-fatura-detalhes
-              *ngSwitchCase="'cartaofatura'"
-              [faturaData]="faturaData"
-              (backEvent)="backToCards()"
-            ></app-fatura-detalhes>
+          <app-fatura-detalhes
+            *ngSwitchCase="'cartaofatura'"
+            [faturaData]="faturaData"
+            (backEvent)="backToCards()"
+          ></app-fatura-detalhes>
 
-            <app-metasfinanceiras
-              *ngSwitchCase="'metas'"
-              (openModalEvent)="openGlobalModal('meta')"
-            ></app-metasfinanceiras>
+          <app-metasfinanceiras
+            *ngSwitchCase="'metas'"
+            (openModalEvent)="openGlobalModal('meta')"
+          ></app-metasfinanceiras>
 
-            <app-minhaconta *ngSwitchCase="'minhaconta'"></app-minhaconta>
+          <app-minhaconta *ngSwitchCase="'minhaconta'"></app-minhaconta>
 
-            <p *ngSwitchDefault class="text-center text-gray-500 py-10">
-              Por favor, selecione uma opção do menu.
+          <div *ngSwitchDefault class="text-center py-12">
+            <i class="ri-inbox-line text-5xl text-[#E0E5E7] mb-4"></i>
+            <p class="text-lg text-[#5e6d72] font-medium mb-2">
+              Nada selecionado
+            </p>
+            <p class="text-[#748389]">
+              Escolha uma opção no menu lateral para começar
             </p>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <footer
+    class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg p-6 mt-8 border border-white/30 animate-fadeIn"
+  >
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div>
+        <h3 class="text-lg font-semibold text-[#013E4C] mb-4">
+          BolsoSeguro Dashboard
+        </h3>
+        <p class="text-[#5e6d72] text-sm">
+          Uma ferramenta completa para gerenciar suas finanças pessoais e
+          alcançar seus objetivos financeiros.
+        </p>
+      </div>
+
+      <div>
+        <h3 class="text-lg font-semibold text-[#013E4C] mb-4">Links Rápidos</h3>
+        <ul class="space-y-2">
+          <li>
+            <a
+              (click)="setActive('lancamentos')"
+              class="text-[#5e6d72] hover:text-[#1C6956] transition-colors cursor-pointer text-sm flex items-center"
+            >
+              <i class="fas fa-chevron-right text-xs mr-2 text-[#1C6956]"></i>
+              Transações
+            </a>
+          </li>
+          <li>
+            <a
+              (click)="setActive('contas')"
+              class="text-[#5e6d72] hover:text-[#1C6956] transition-colors cursor-pointer text-sm flex items-center"
+            >
+              <i class="fas fa-chevron-right text-xs mr-2 text-[#1C6956]"></i>
+              Minhas Contas
+            </a>
+          </li>
+          <li>
+            <a
+              (click)="setActive('metas')"
+              class="text-[#5e6d72] hover:text-[#1C6956] transition-colors cursor-pointer text-sm flex items-center"
+            >
+              <i class="fas fa-chevron-right text-xs mr-2 text-[#1C6956]"></i>
+              Metas Financeiras
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="text-lg font-semibold text-[#013E4C] mb-4">Contato</h3>
+        <ul class="space-y-2 text-sm text-[#5e6d72]">
+          <li class="flex items-center">
+            <i class="fas fa-envelope mr-2 text-[#1C6956]"></i>
+            contatofinancedashboard.com
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-globe mr-2 text-[#1C6956]"></i>
+            www.financedashboard.com
+          </li>
+        </ul>
+
+        <div class="mt-4 flex space-x-4">
+          <a
+            href="#"
+            class="text-[#5e6d72] hover:text-[#1C6956] transition-colors"
+          >
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a
+            href="#"
+            class="text-[#5e6d72] hover:text-[#1C6956] transition-colors"
+          >
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a
+            href="#"
+            class="text-[#5e6d72] hover:text-[#1C6956] transition-colors"
+          >
+            <i class="fab fa-instagram"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="border-t border-[#E0E5E7] mt-8 pt-6 text-center text-sm text-[#5e6d72]"
+    >
+      <p>
+        &copy; {{ currentDate | date : "yyyy" }} BolsoSeguro Dashboard. Todos os
+        direitos reservados.
+      </p>
+      <p class="mt-1">
+        Atualizado em {{ currentDate | date : "dd/MM/yyyy 'às' HH:mm" }}
+      </p>
+    </div>
+  </footer>
 </section>
 
 <!-- Modal Global Mobile -->
@@ -146,32 +257,116 @@
 
         <!-- Formulário de Categoria -->
         <!-- Modal de Categoria -->
-        <div *ngIf="modalType === 'categoria'">
-          <div>
-            <label class="block text-sm font-medium text-gray-700"
-              >Nome da Categoria</label
+        <div class="bg-[#F8F7F5] p-6">
+          <!-- Cabeçalho -->
+          <div class="flex items-center justify-between mb-6">
+            <h2 class="text-xl font-bold text-[#013E4C]">Nova Categoria</h2>
+            <button
+              (click)="onCancel()"
+              class="text-[#5e6d72] hover:text-[#013E4C]"
             >
-            <input
-              type="text"
-              [(ngModel)]="newCategory.name"
-              name="categoryName"
-              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-              required
-            />
+              <i class="fas fa-times"></i>
+            </button>
           </div>
-          <div class="mt-6">
-            <label class="block text-sm font-medium text-gray-700 mb-1">
-              Tipo de Categoria
-            </label>
+
+          <!-- Formulário -->
+          <form class="space-y-4">
+            <!-- Nome da Categoria -->
+            <div class="animate-slideUp">
+              <label class="block text-sm font-medium text-[#5e6d72] mb-1"
+                >Nome da Categoria *</label
+              >
+              <input
+                type="text"
+                [(ngModel)]="newCategory.name"
+                name="categoryName"
+                class="w-full px-4 py-2 border border-[#E0E5E7] rounded-lg focus:ring-2 focus:ring-[#1C6956] focus:border-transparent"
+                placeholder="Digite o nome da categoria"
+                required
+              />
+            </div>
+
+            <!-- Tipo de Categoria -->
+            <div class="mt-6 animate-slideUp">
+              <label class="block text-sm font-medium text-[#5e6d72] mb-1">
+                Tipo de Categoria *
+              </label>
+
+              <div class="grid grid-cols-2 gap-4">
+                <!-- Botão Receita -->
+                <button
+                  type="button"
+                  (click)="newCategory.type = 'income'"
+                  class="p-4 border-2 rounded-lg flex items-center gap-3 transition-colors"
+                  [class.border-[#1C6956]]="newCategory.type === 'income'"
+                  [class.border-[#E0E5E7]]="newCategory.type !== 'income'"
+                  [class.bg-[#D8EAE5]]="newCategory.type === 'income'"
+                  [class.hover:border-[#1C6956]]="newCategory.type !== 'income'"
+                >
+                  <div class="p-2 bg-[#D8EAE5] text-[#1C6956] rounded-full">
+                    <i class="fas fa-arrow-down"></i>
+                  </div>
+                  <div class="text-left">
+                    <span class="font-medium text-[#013E4C] block"
+                      >Receita</span
+                    >
+                    <span class="text-xs text-[#5e6d72]"
+                      >Entrada de recursos</span
+                    >
+                  </div>
+                  <div class="ml-auto">
+                    <i
+                      class="fas fa-check text-[#1C6956]"
+                      *ngIf="newCategory.type === 'income'"
+                    ></i>
+                  </div>
+                </button>
+
+                <!-- Botão Despesa -->
+                <button
+                  type="button"
+                  (click)="newCategory.type = 'expense'"
+                  class="p-4 border-2 rounded-lg flex items-center gap-3 transition-colors"
+                  [class.border-[#A83E3E]]="newCategory.type === 'expense'"
+                  [class.border-[#E0E5E7]]="newCategory.type !== 'expense'"
+                  [class.bg-[#F5E8E8]]="newCategory.type === 'expense'"
+                  [class.hover:border-[#A83E3E]]="
+                    newCategory.type !== 'expense'
+                  "
+                >
+                  <div class="p-2 bg-[#F5E8E8] text-[#A83E3E] rounded-full">
+                    <i class="fas fa-arrow-up"></i>
+                  </div>
+                  <div class="text-left">
+                    <span class="font-medium text-[#013E4C] block"
+                      >Despesa</span
+                    >
+                    <span class="text-xs text-[#5e6d72]"
+                      >Saída de recursos</span
+                    >
+                  </div>
+                  <div class="ml-auto">
+                    <i
+                      class="fas fa-check text-[#A83E3E]"
+                      *ngIf="newCategory.type === 'expense'"
+                    ></i>
+                  </div>
+                </button>
+              </div>
+            </div>
+
+            <!-- Visualização do Tipo Selecionado -->
             <div
-              class="mt-1 p-4 border border-gray-200 rounded-lg bg-white shadow-xs transition-all duration-200 hover:border-blue-300"
+              class="mt-4 p-4 border border-[#E0E5E7] rounded-lg bg-white animate-fadeIn"
+              *ngIf="newCategory.type"
             >
               <div class="flex items-center">
                 <span
-                  class="inline-flex items-center justify-center h-8 w-8 rounded-full mr-3"
+                  class="inline-flex items-center justify-center h-10 w-10 rounded-full mr-3"
                   [ngClass]="{
-                    'bg-red-100 text-red-600': newCategory.type === 'expense',
-                    'bg-green-100 text-green-600': newCategory.type === 'income'
+                    'bg-[#F5E8E8] text-[#A83E3E]':
+                      newCategory.type === 'expense',
+                    'bg-[#D8EAE5] text-[#1C6956]': newCategory.type === 'income'
                   }"
                 >
                   <i
@@ -180,20 +375,20 @@
                         ? 'fas fa-arrow-up'
                         : 'fas fa-arrow-down'
                     "
-                    class="text-sm"
+                    class="text-lg"
                   ></i>
                 </span>
                 <div>
                   <span
-                    class="font-semibold text-gray-800"
+                    class="font-semibold block"
                     [ngClass]="{
-                      'text-red-600': newCategory.type === 'expense',
-                      'text-green-600': newCategory.type === 'income'
+                      'text-[#A83E3E]': newCategory.type === 'expense',
+                      'text-[#1C6956]': newCategory.type === 'income'
                     }"
                   >
                     {{ newCategory.type === "expense" ? "Despesa" : "Receita" }}
                   </span>
-                  <p class="text-sm text-gray-500 mt-1">
+                  <p class="text-sm text-[#5e6d72] mt-1">
                     {{
                       newCategory.type === "expense"
                         ? "Esta categoria será registrada como saída de recursos"
@@ -203,7 +398,25 @@
                 </div>
               </div>
             </div>
-          </div>
+
+            <!-- Botões -->
+            <div class="flex justify-end space-x-3 mt-6">
+              <button
+                type="button"
+                (click)="onCancel()"
+                class="px-4 py-2 text-sm font-medium text-[#5e6d72] hover:text-[#013E4C]"
+              >
+                Cancelar
+              </button>
+              <button
+                type="submit"
+                [disabled]="!newCategory.name || !newCategory.type"
+                class="px-4 py-2 text-sm font-medium text-white bg-[#1C6956] rounded-lg hover:bg-[#013E4C] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                <i class="fas fa-check mr-2"></i> Criar Categoria
+              </button>
+            </div>
+          </form>
         </div>
 
         <!-- Formulário de Meta -->
@@ -495,21 +708,3 @@
     </div>
   </div>
 </div>
-<footer class="bg-white border-t border-gray-200 mt-8">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-    <div class="flex flex-col md:flex-row justify-between items-center">
-      <p class="text-sm text-gray-500">
-        &copy; {{ currentDate | date : "yyyy" }} Sistema Financeiro. Todos os
-        direitos reservados.
-      </p>
-      <div class="mt-4 md:mt-0 flex space-x-6">
-        <span class="text-sm text-gray-500">
-          Atualizado em {{ currentDate | date : "dd/MM/yyyy 'às' HH:mm" }}
-        </span>
-        <a href="#" class="text-sm text-emerald-600 hover:text-emerald-700"
-          >Ajuda</a
-        >
-      </div>
-    </div>
-  </div>
-</footer>

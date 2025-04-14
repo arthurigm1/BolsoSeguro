@@ -127,11 +127,6 @@
               [style.width]="getSaldoWidth() + '%'"
             ></div>
           </div>
-          <div class="flex justify-between text-xs mt-1">
-            <span>Saldo: {{ saldo | currency : "BRL" }}</span>
-            <span>Receitas: {{ totalReceitas | currency : "BRL" }}</span>
-            <span>Despesas: {{ totalDespesas | currency : "BRL" }}</span>
-          </div>
         </div>
       </div>
 
@@ -687,7 +682,6 @@
 </div>
 }
 
-<!-- Adicione isso ao seu arquivo de estilos globais -->
 <style>
   /* Animações personalizadas */
   @keyframes slideInLeft {
