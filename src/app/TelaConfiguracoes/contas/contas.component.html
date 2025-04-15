@@ -130,10 +130,19 @@
           >
             <div class="flex items-center justify-between">
               <div class="flex items-center space-x-4">
-                <div
-                  class="w-12 h-12 rounded-full bg-[#D8EAE5] flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
-                >
-                  <i class="fas fa-wallet text-[#1C6956] text-xl"></i>
+                <div class="bank-icon-container">
+                  <img
+                    [src]="getBankIcon(account.banco)"
+                    [alt]="account.banco"
+                    class="bank-icon"
+                  />
+                </div>
+                <div class="bank-icon-container-large">
+                  <img
+                    [src]="getBankIcon(account.banco)"
+                    [alt]="account.banco"
+                    class="bank-icon-large"
+                  />
                 </div>
                 <div>
                   <h3

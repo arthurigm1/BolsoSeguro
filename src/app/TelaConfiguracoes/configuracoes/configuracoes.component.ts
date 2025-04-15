@@ -79,9 +79,6 @@ export class ConfiguracoesComponent {
   onSubmit() {
     console.log('Formulário enviado! Tipo:', this.modalType);
     switch (this.modalType) {
-      case 'conta':
-        this.addAccount();
-        break;
       case 'categoria':
         this.addCategory();
         break;
@@ -110,24 +107,21 @@ export class ConfiguracoesComponent {
   }
   // Estados do modal
   isModalOpen = false;
-  modalType: 'conta' | 'categoria' | 'meta' | 'cartao' = 'conta'; // Adicionado tipo 'meta'
+  modalType: 'categoria' | 'meta' | 'cartao' = 'categoria'; // Removido tipo 'conta'
   categoriaModalType: 'expenses' | 'earnings' = 'expenses';
 
   // Objetos para formulários
-  newAccount = {
-    name: '',
-    balance: 0,
-  };
-  newCard = {
-    nome: '',
-    limiteTotal: 0,
-    bandeira: '', // Inicia com valor vazio
-    vencimentoFatura: 0,
-    diaFechamentoFatura: 0,
-  };
   newCategory = {
     name: '',
     type: 'expense',
+  };
+
+  newCard = {
+    nome: '',
+    limiteTotal: 0,
+    bandeira: '',
+    vencimentoFatura: 0,
+    diaFechamentoFatura: 0,
   };
 
   newGoal = {
@@ -135,6 +129,7 @@ export class ConfiguracoesComponent {
     targetValue: 0,
     currentValue: 0,
   };
+
   selectBandeira(bandeira: string) {
     this.newCard.bandeira = bandeira;
   }
@@ -144,14 +139,13 @@ export class ConfiguracoesComponent {
   }
 
   openGlobalModal(
-    type: 'conta' | 'categoria' | 'meta' | 'cartao',
+    type: 'categoria' | 'meta' | 'cartao',
     categoriaTipo?: 'expense' | 'income'
   ) {
     this.modalType = type;
     this.isModalOpen = true;
 
     if (type === 'categoria' && categoriaTipo) {
-      // Define o tipo fixo baseado no que veio do componente filho
       this.newCategory.type = categoriaTipo;
       this.categoriaModalType =
         categoriaTipo === 'expense' ? 'expenses' : 'earnings';
@@ -164,31 +158,20 @@ export class ConfiguracoesComponent {
   }
 
   resetForms() {
-    this.newAccount = { name: '', balance: 0 };
     this.newCategory = { name: '', type: 'expense' };
     this.newGoal = { name: '', targetValue: 0, currentValue: 0 };
+    this.newCard = {
+      nome: '',
+      limiteTotal: 0,
+      bandeira: '',
+      vencimentoFatura: 0,
+      diaFechamentoFatura: 0,
+    };
   }
 
-  addAccount() {
-    this.isSaving = true;
-    const contaCadastro: ContaCadastroDTO = {
-      banco: this.newAccount.name,
-      saldo: this.newAccount.balance,
-    };
-    this.contaService.cadastrarConta(contaCadastro).subscribe(
-      (novaConta) => {
-        this.toastrService.success('Conta cadastrada com sucesso!');
-        this.contasComponent.carregarContas();
-        this.closeGlobalModal();
-        this.contaAtualizada.emit();
-        this.isSaving = false;
-      },
-      (error) => {
-        this.toastrService.error('Erro ao cadastrar conta!');
-
-        this.isSaving = false;
-      }
-    );
+  onCancel() {
+    this.isSaving = false;
+    this.closeGlobalModal();
   }
 
   addCategory() {
@@ -255,10 +238,6 @@ export class ConfiguracoesComponent {
       (item) => item.id === this.activeComponent
     );
     return activeItem ? activeItem.label : 'Configurações';
-  }
-  onCancel() {
-    this.isSaving = false;
-    this.closeGlobalModal();
   }
   currentDate: Date = new Date();
   addMeta() {
