@@ -228,10 +228,12 @@ import {
                 </span>
                 @if (selectedBank === icon.key) {
                 <div
-                  class="absolute top-2 right-2 w-4 h-4 rounded-full bg-[#1C6956] flex items-center justify-center"
+                  class="absolute top-2 right-2 w-5 h-5 rounded-full bg-[#1C6956] flex items-center justify-center shadow-md transition-transform duration-300 hover:scale-110"
+                  title="Confirmado"
                 >
-                  <mat-icon class="text-white text-xs">check</mat-icon>
+                  <mat-icon class="text-white text-sm">check</mat-icon>
                 </div>
+
                 }
               </button>
               }
@@ -281,7 +283,7 @@ import {
           >
             <div class="w-16 h-16 flex items-center justify-center">
               <img
-                [src]="'assets/banks/' + selectedBank?.icon"
+                [src]="'assets/banks/' + selectedBank?.icon.key + '.png'"
                 alt="Bank icon"
                 class="h-full w-full object-contain"
               />
@@ -492,15 +494,7 @@ export class NovaContaDialogComponent {
           this.showSuccess = true;
         },
         error: (err) => {
-          console.error('Erro ao criar conta:', err);
-          this.toastr.error(
-            'Erro ao criar conta. Por favor, tente novamente.',
-            'Erro',
-            {
-              positionClass: 'toast-bottom-right',
-              toastClass: 'bg-red-50 text-red-700 border border-red-200',
-            }
-          );
+          this.toastr.error('Erro ao criar conta. Por favor, tente novamente.');
         },
       });
   }

@@ -101,16 +101,21 @@ export class ContasComponent implements OnInit {
   }
 
   getBankIcon(banco: string): string {
-    const bancos: { [key: string]: string } = {
-      Itaú: 'assets/iconbank/itau.webp',
-      Bradesco: 'assets/iconbank/bradesco.jpg',
-      Santander: 'assets/iconbank/santander.png',
-      Banco_do_Brasil: 'assets/iconbank/bb.svg',
-      Caixa: 'assets/iconbank/caixa.svg',
-      Nubank: 'assets/iconbank/nubank.svg',
-      Inter: 'assets/iconbank/inter.png',
-      Outro: 'assets/iconbank/outros.png',
+    const bankIcons: Record<string, { icon: string; name: string }> = {
+      NUBANK: { icon: 'assets/iconbank/nubank.png', name: 'Nubank' },
+      INTER: { icon: 'assets/iconbank/inter.png', name: 'Inter' },
+      CAIXA: { icon: 'assets/iconbank/caixa.png', name: 'Caixa' },
+      ITAU: { icon: 'assets/iconbank/itau.png', name: 'Itaú' },
+      SANTANDER: { icon: 'assets/iconbank/santander.png', name: 'Santander' },
+      BRADESCO: { icon: 'assets/iconbank/bradesco.png', name: 'Bradesco' },
+      BANCO_DO_BRASIL: { icon: 'assets/iconbank/bb.png', name: 'BB' },
+      OUTROS: { icon: 'assets/iconbank/outros.png', name: 'Outros' },
     };
-    return bancos[banco] || bancos['Outro'];
+
+    // Garantir maiúsculas para compatibilidade com as chaves
+    const bancoKey = banco?.toUpperCase() || 'OUTROS';
+
+    // Retorna o caminho do ícone ou o de "OUTROS"
+    return bankIcons[bancoKey]?.icon || bankIcons['OUTROS'].icon;
   }
 }
