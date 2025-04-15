@@ -28,6 +28,7 @@ export const routes: Routes = [
     data: { animation: 'LoginPage' },
   },
   {
+    canActivate: [AuthGuard],
     path: 'dashboard',
     component: HomedashboardComponent,
 
