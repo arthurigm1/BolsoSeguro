@@ -1,29 +1,29 @@
 <!-- Container principal com gradiente e efeito de vidro -->
-<div class="min-h-screen bg-[#F8F7F5] p-4 sm:p-6">
+<div class="min-h-screen bg-[#F8F7F5] p-3 sm:p-6">
   <!-- Card principal com efeito de vidro -->
   <div
-    class="max-w-6xl mx-auto bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/30 overflow-hidden animate-fadeIn"
+    class="max-w-6xl mx-auto bg-white/80 backdrop-blur-lg rounded-2xl sm:rounded-3xl shadow-2xl border border-white/30 overflow-hidden animate-fadeIn"
   >
     <!-- Header com gradiente e elementos decorativos -->
     <div class="relative overflow-hidden">
       <div
-        class="absolute top-0 right-0 w-64 h-64 bg-[#D8EAE5] opacity-20 rounded-full -mr-32 -mt-32 animate-float1"
+        class="absolute top-0 right-0 w-32 sm:w-64 h-32 sm:h-64 bg-[#D8EAE5] opacity-20 rounded-full -mr-16 sm:-mr-32 -mt-16 sm:-mt-32 animate-float1"
       ></div>
       <div
-        class="absolute bottom-0 left-0 w-48 h-48 bg-[#013E4C] opacity-10 rounded-full -ml-24 -mb-24 animate-float2"
+        class="absolute bottom-0 left-0 w-24 sm:w-48 h-24 sm:h-48 bg-[#013E4C] opacity-10 rounded-full -ml-12 sm:-ml-24 -mb-12 sm:-mb-24 animate-float2"
       ></div>
 
-      <div class="relative z-10 p-6 sm:p-8">
+      <div class="relative z-10 p-4 sm:p-8">
         <div
-          class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6"
+          class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-6"
         >
-          <div class="space-y-2">
+          <div class="space-y-1 sm:space-y-2">
             <h1
-              class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-[#1C6956] to-[#013E4C] bg-clip-text text-transparent"
+              class="text-xl sm:text-3xl font-bold bg-gradient-to-r from-[#1C6956] to-[#013E4C] bg-clip-text text-transparent"
             >
               Gerenciamento de Categorias
             </h1>
-            <p class="text-[#5e6d72] text-sm sm:text-base">
+            <p class="text-[#5e6d72] text-xs sm:text-base">
               Organize suas despesas e receitas de forma eficiente
             </p>
           </div>
@@ -31,11 +31,11 @@
           <button
             (click)="openModal()"
             [disabled]="isAddingCategory"
-            class="group w-full sm:w-auto flex items-center justify-center font-medium bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-6 py-3 rounded-xl shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
+            class="group w-full sm:w-auto flex items-center justify-center font-medium bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed text-sm sm:text-base"
           >
             @if (isAddingCategory) {
             <svg
-              class="animate-spin h-5 w-5 mr-3 text-white"
+              class="animate-spin h-4 w-4 sm:h-5 sm:w-5 mr-2 sm:mr-3 text-white"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -54,12 +54,12 @@
                 d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
               ></path>
             </svg>
-            <span class="text-sm sm:text-base">Processando...</span>
+            <span class="text-xs sm:text-base">Processando...</span>
             } @else {
             <i
-              class="fas fa-plus-circle text-lg mr-3 group-hover:rotate-90 transition-transform duration-300"
+              class="fas fa-plus-circle text-base sm:text-lg mr-2 sm:mr-3 group-hover:rotate-90 transition-transform duration-300"
             ></i>
-            <span class="text-sm sm:text-base">
+            <span class="text-xs sm:text-base">
               {{
                 activeTab === "expenses"
                   ? "Nova Categoria de Despesa"
@@ -74,26 +74,30 @@
 
     @if (isLoadingPage) {
     <!-- Loading state com animação -->
-    <div class="flex items-center justify-center min-h-[60vh] w-full">
-      <div class="text-center space-y-6">
-        <div class="relative w-24 h-24 mx-auto">
+    <div
+      class="flex items-center justify-center min-h-[50vh] sm:min-h-[60vh] w-full"
+    >
+      <div class="text-center space-y-4 sm:space-y-6">
+        <div class="relative w-16 sm:w-24 h-16 sm:h-24 mx-auto">
           <div
             class="absolute inset-0 rounded-full border-4 border-[#1C6956] border-t-transparent animate-spin"
           ></div>
           <div class="absolute inset-0 flex items-center justify-center">
             <i
-              class="fas fa-folder-open text-[#1C6956] text-3xl animate-bounce"
+              class="fas fa-folder-open text-[#1C6956] text-2xl sm:text-3xl animate-bounce"
             ></i>
           </div>
         </div>
-        <p class="text-lg font-medium text-[#5e6d72] animate-pulse">
+        <p
+          class="text-base sm:text-lg font-medium text-[#5e6d72] animate-pulse"
+        >
           Carregando suas categorias...
         </p>
       </div>
     </div>
     } @else {
     <!-- Navigation Tabs com efeito de vidro -->
-    <div class="px-6 sm:px-8 pb-6">
+    <div class="px-4 sm:px-8 pb-4 sm:pb-6">
       <div
         class="bg-white/50 backdrop-blur-sm rounded-xl shadow-sm border border-white/30 overflow-hidden"
       >
@@ -101,13 +105,13 @@
           <li class="flex-1">
             <button
               (click)="setActiveTab('expenses')"
-              class="w-full py-4 px-6 text-sm sm:text-base transition-all duration-300 relative group"
+              class="w-full py-3 sm:py-4 px-4 sm:px-6 text-xs sm:text-base transition-all duration-300 relative group"
               [class.text-[#1C6956]]="activeTab === 'expenses'"
               [class.text-[#5e6d72]]="activeTab !== 'expenses'"
               [class.font-semibold]="activeTab === 'expenses'"
             >
               <div class="flex items-center justify-center space-x-2">
-                <i class="fas fa-wallet text-lg"></i>
+                <i class="fas fa-wallet text-base sm:text-lg"></i>
                 <span>Despesas</span>
               </div>
               <div
@@ -119,13 +123,13 @@
           <li class="flex-1">
             <button
               (click)="setActiveTab('earnings')"
-              class="w-full py-4 px-6 text-sm sm:text-base transition-all duration-300 relative group"
+              class="w-full py-3 sm:py-4 px-4 sm:px-6 text-xs sm:text-base transition-all duration-300 relative group"
               [class.text-[#1C6956]]="activeTab === 'earnings'"
               [class.text-[#5e6d72]]="activeTab !== 'earnings'"
               [class.font-semibold]="activeTab === 'earnings'"
             >
               <div class="flex items-center justify-center space-x-2">
-                <i class="fas fa-dollar-sign text-lg"></i>
+                <i class="fas fa-dollar-sign text-base sm:text-lg"></i>
                 <span>Receitas</span>
               </div>
               <div
@@ -139,56 +143,59 @@
     </div>
 
     <!-- Content Box com efeito de vidro -->
-    <div class="px-6 sm:px-8 pb-8">
+    <div class="px-4 sm:px-8 pb-6 sm:pb-8">
       <div
         class="bg-white/50 backdrop-blur-sm rounded-xl shadow-sm border border-white/30 overflow-hidden animate-slideInUp"
       >
         @if (activeTab === 'expenses') {
         <!-- Despesas -->
         @if (loadingExpenses) {
-        <div class="space-y-4 p-6">
+        <div class="space-y-3 sm:space-y-4 p-4 sm:p-6">
           @for (i of [1, 2, 3]; track i) {
           <div
-            class="animate-pulse flex justify-between items-center py-4 px-6"
+            class="animate-pulse flex justify-between items-center py-3 sm:py-4 px-4 sm:px-6"
           >
-            <div class="flex items-center space-x-4">
-              <div class="w-10 h-10 bg-[#E0E5E7] rounded-full"></div>
-              <div class="h-4 bg-[#E0E5E7] rounded w-32"></div>
+            <div class="flex items-center space-x-3 sm:space-x-4">
+              <div
+                class="w-8 h-8 sm:w-10 sm:h-10 bg-[#E0E5E7] rounded-full"
+              ></div>
+              <div class="h-3 sm:h-4 bg-[#E0E5E7] rounded w-24 sm:w-32"></div>
             </div>
-            <div class="w-8 h-8 bg-[#E0E5E7] rounded-full"></div>
+            <div class="w-6 h-6 sm:w-8 sm:h-8 bg-[#E0E5E7] rounded-full"></div>
           </div>
           }
         </div>
         } @else {
-        <div class="p-6">
+        <div class="p-4 sm:p-6">
           <h2
-            class="text-xl font-bold text-[#013E4C] flex items-center space-x-3 mb-6"
+            class="text-lg sm:text-xl font-bold text-[#013E4C] flex items-center space-x-2 sm:space-x-3 mb-4 sm:mb-6"
           >
-            <i class="fas fa-list-ul text-[#1C6956] text-2xl"></i>
+            <i class="fas fa-list-ul text-[#1C6956] text-xl sm:text-2xl"></i>
             <span>Categorias de Despesas</span>
           </h2>
 
           @if (categoriasDespesas.length === 0) {
-          <div class="text-center py-12 space-y-4 animate-fadeIn">
-            <div class="relative w-24 h-24 mx-auto">
-              <!-- Círculo animado de fundo -->
+          <div
+            class="text-center py-8 sm:py-12 space-y-3 sm:space-y-4 animate-fadeIn"
+          >
+            <div class="relative w-16 sm:w-24 h-16 sm:h-24 mx-auto">
               <div
                 class="absolute inset-0 rounded-full bg-[#D8EAE5] animate-ping"
               ></div>
-
-              <!-- Ícone centralizado com sombra sutil -->
               <div
                 class="absolute inset-0 flex items-center justify-center rounded-full bg-white shadow-lg"
               >
-                <i class="fas fa-folder-open text-[#1C6956] text-4xl"></i>
+                <i
+                  class="fas fa-folder-open text-[#1C6956] text-2xl sm:text-4xl"
+                ></i>
               </div>
             </div>
-            <p class="text-[#5e6d72] text-lg">
+            <p class="text-[#5e6d72] text-base sm:text-lg">
               Nenhuma categoria de despesa cadastrada
             </p>
             <button
               (click)="openModal()"
-              class="inline-flex items-center space-x-2 text-[#1C6956] font-medium hover:text-[#013E4C] transition-colors group"
+              class="inline-flex items-center space-x-2 text-[#1C6956] font-medium hover:text-[#013E4C] transition-colors group text-sm sm:text-base"
             >
               <i
                 class="fas fa-plus-circle group-hover:rotate-90 transition-transform duration-300"
@@ -197,22 +204,24 @@
             </button>
           </div>
           } @else {
-          <ul class="space-y-3">
+          <ul class="space-y-2 sm:space-y-3">
             @for (category of categoriasDespesas; track category.id; let i =
             $index) {
             <li
-              class="group bg-white/80 hover:bg-white rounded-xl p-4 transition-all duration-300 hover:shadow-md animate-slideInRight"
+              class="group bg-white/80 hover:bg-white rounded-xl p-3 sm:p-4 transition-all duration-300 hover:shadow-md animate-slideInRight"
               [style.animation-delay.ms]="i * 100"
             >
               <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-4">
+                <div class="flex items-center space-x-3 sm:space-x-4">
                   <div
-                    class="w-10 h-10 rounded-full bg-[#D8EAE5] flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
+                    class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#D8EAE5] flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
                   >
-                    <i class="fas fa-minus-circle text-[#1C6956] text-lg"></i>
+                    <i
+                      class="fas fa-minus-circle text-[#1C6956] text-base sm:text-lg"
+                    ></i>
                   </div>
                   <span
-                    class="text-[#5e6d72] text-base font-medium group-hover:text-[#013E4C] transition-colors"
+                    class="text-[#5e6d72] text-sm sm:text-base font-medium group-hover:text-[#013E4C] transition-colors"
                   >
                     {{ category.nome }}
                   </span>
@@ -220,12 +229,12 @@
                 <button
                   (click)="deletarCategoria(category.id)"
                   [disabled]="deletingCategoryId === category.id"
-                  class="p-2 rounded-full hover:bg-[#D8EAE5] transition-all duration-300 text-[#748389] hover:text-[#013E4C] group-hover:scale-110"
+                  class="p-1.5 sm:p-2 rounded-full hover:bg-[#D8EAE5] transition-all duration-300 text-[#748389] hover:text-[#013E4C] group-hover:scale-110"
                   title="Remover"
                 >
                   @if (deletingCategoryId === category.id) {
                   <svg
-                    class="animate-spin h-5 w-5"
+                    class="animate-spin h-4 w-4 sm:h-5 sm:w-5"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -245,7 +254,7 @@
                     ></path>
                   </svg>
                   } @else {
-                  <i class="fas fa-trash-alt text-lg"></i>
+                  <i class="fas fa-trash-alt text-base sm:text-lg"></i>
                   }
                 </button>
               </div>
@@ -257,49 +266,52 @@
         } } @if (activeTab === 'earnings') {
         <!-- Receitas -->
         @if (loadingEarnings) {
-        <div class="space-y-4 p-6">
+        <div class="space-y-3 sm:space-y-4 p-4 sm:p-6">
           @for (i of [1, 2, 3]; track i) {
           <div
-            class="animate-pulse flex justify-between items-center py-4 px-6"
+            class="animate-pulse flex justify-between items-center py-3 sm:py-4 px-4 sm:px-6"
           >
-            <div class="flex items-center space-x-4">
-              <div class="w-10 h-10 bg-[#E0E5E7] rounded-full"></div>
-              <div class="h-4 bg-[#E0E5E7] rounded w-32"></div>
+            <div class="flex items-center space-x-3 sm:space-x-4">
+              <div
+                class="w-8 h-8 sm:w-10 sm:h-10 bg-[#E0E5E7] rounded-full"
+              ></div>
+              <div class="h-3 sm:h-4 bg-[#E0E5E7] rounded w-24 sm:w-32"></div>
             </div>
-            <div class="w-8 h-8 bg-[#E0E5E7] rounded-full"></div>
+            <div class="w-6 h-6 sm:w-8 sm:h-8 bg-[#E0E5E7] rounded-full"></div>
           </div>
           }
         </div>
         } @else {
-        <div class="p-6">
+        <div class="p-4 sm:p-6">
           <h2
-            class="text-xl font-bold text-[#013E4C] flex items-center space-x-3 mb-6"
+            class="text-lg sm:text-xl font-bold text-[#013E4C] flex items-center space-x-2 sm:space-x-3 mb-4 sm:mb-6"
           >
-            <i class="fas fa-list-ul text-[#1C6956] text-2xl"></i>
+            <i class="fas fa-list-ul text-[#1C6956] text-xl sm:text-2xl"></i>
             <span>Categorias de Receitas</span>
           </h2>
 
           @if (categoriasReceitas.length === 0) {
-          <div class="text-center py-12 space-y-4 animate-fadeIn">
-            <div class="relative w-24 h-24 mx-auto">
-              <!-- Círculo animado de fundo -->
+          <div
+            class="text-center py-8 sm:py-12 space-y-3 sm:space-y-4 animate-fadeIn"
+          >
+            <div class="relative w-16 sm:w-24 h-16 sm:h-24 mx-auto">
               <div
                 class="absolute inset-0 rounded-full bg-[#D8EAE5] animate-ping"
               ></div>
-
-              <!-- Ícone centralizado com sombra sutil -->
               <div
                 class="absolute inset-0 flex items-center justify-center rounded-full bg-white shadow-lg"
               >
-                <i class="fas fa-folder-open text-[#1C6956] text-4xl"></i>
+                <i
+                  class="fas fa-folder-open text-[#1C6956] text-2xl sm:text-4xl"
+                ></i>
               </div>
             </div>
-            <p class="text-[#5e6d72] text-lg">
+            <p class="text-[#5e6d72] text-base sm:text-lg">
               Nenhuma categoria de receita cadastrada
             </p>
             <button
               (click)="openModal()"
-              class="inline-flex items-center space-x-2 text-[#1C6956] font-medium hover:text-[#013E4C] transition-colors group"
+              class="inline-flex items-center space-x-2 text-[#1C6956] font-medium hover:text-[#013E4C] transition-colors group text-sm sm:text-base"
             >
               <i
                 class="fas fa-plus-circle group-hover:rotate-90 transition-transform duration-300"
@@ -308,22 +320,24 @@
             </button>
           </div>
           } @else {
-          <ul class="space-y-3">
+          <ul class="space-y-2 sm:space-y-3">
             @for (category of categoriasReceitas; track category.id; let i =
             $index) {
             <li
-              class="group bg-white/80 hover:bg-white rounded-xl p-4 transition-all duration-300 hover:shadow-md animate-slideInRight"
+              class="group bg-white/80 hover:bg-white rounded-xl p-3 sm:p-4 transition-all duration-300 hover:shadow-md animate-slideInRight"
               [style.animation-delay.ms]="i * 100"
             >
               <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-4">
+                <div class="flex items-center space-x-3 sm:space-x-4">
                   <div
-                    class="w-10 h-10 rounded-full bg-[#D8EAE5] flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
+                    class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#D8EAE5] flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
                   >
-                    <i class="fas fa-plus-circle text-[#1C6956] text-lg"></i>
+                    <i
+                      class="fas fa-plus-circle text-[#1C6956] text-base sm:text-lg"
+                    ></i>
                   </div>
                   <span
-                    class="text-[#5e6d72] text-base font-medium group-hover:text-[#013E4C] transition-colors"
+                    class="text-[#5e6d72] text-sm sm:text-base font-medium group-hover:text-[#013E4C] transition-colors"
                   >
                     {{ category.nome }}
                   </span>
@@ -331,12 +345,12 @@
                 <button
                   (click)="deletarCategoria(category.id)"
                   [disabled]="deletingCategoryId === category.id"
-                  class="p-2 rounded-full hover:bg-[#D8EAE5] transition-all duration-300 text-[#748389] hover:text-[#013E4C] group-hover:scale-110"
+                  class="p-1.5 sm:p-2 rounded-full hover:bg-[#D8EAE5] transition-all duration-300 text-[#748389] hover:text-[#013E4C] group-hover:scale-110"
                   title="Remover"
                 >
                   @if (deletingCategoryId === category.id) {
                   <svg
-                    class="animate-spin h-5 w-5"
+                    class="animate-spin h-4 w-4 sm:h-5 sm:w-5"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -356,7 +370,7 @@
                     ></path>
                   </svg>
                   } @else {
-                  <i class="fas fa-trash-alt text-lg"></i>
+                  <i class="fas fa-trash-alt text-base sm:text-lg"></i>
                   }
                 </button>
               </div>
@@ -445,5 +459,12 @@
 
   .animate-float2 {
     animation: float2 7s ease-in-out infinite;
+  }
+
+  /* Mobile specific styles */
+  @media (max-width: 640px) {
+    .mat-mdc-dialog-container {
+      padding: 1rem;
+    }
   }
 </style>

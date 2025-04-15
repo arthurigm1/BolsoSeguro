@@ -83,42 +83,46 @@
 
       <!-- Status financeiro resumido -->
       <div
-        class="bg-white/90 backdrop-blur-sm rounded-2xl p-5 shadow-md border border-white/20 animate-slideInDown"
+        class="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl p-3 sm:p-5 shadow-md border border-white/20 animate-slideInDown"
       >
-        <div class="grid grid-cols-3 gap-4 text-center">
-          <div class="space-y-1">
-            <p class="text-xs text-[#5e6d72]">Saldo</p>
-            <p class="text-lg font-bold text-[#013E4C]">
+        <div class="grid grid-cols-3 gap-2 sm:gap-4 text-center">
+          <div class="space-y-0.5 sm:space-y-1">
+            <p class="text-[10px] sm:text-xs text-[#5e6d72]">Saldo</p>
+            <p class="text-sm sm:text-lg font-bold text-[#013E4C]">
               R$ {{ saldo | number : "1.2-2" }}
             </p>
           </div>
-          <div class="space-y-1">
-            <p class="text-xs text-[#5e6d72]">Receitas</p>
-            <p class="text-lg font-bold text-green-600">
+          <div class="space-y-0.5 sm:space-y-1">
+            <p class="text-[10px] sm:text-xs text-[#5e6d72]">Receitas</p>
+            <p class="text-sm sm:text-lg font-bold text-green-600">
               +R$ {{ totalReceitas | number : "1.2-2" }}
             </p>
           </div>
-          <div class="space-y-1">
-            <p class="text-xs text-[#5e6d72]">Despesas</p>
-            <p class="text-lg font-bold text-red-500">
+          <div class="space-y-0.5 sm:space-y-1">
+            <p class="text-[10px] sm:text-xs text-[#5e6d72]">Despesas</p>
+            <p class="text-sm sm:text-lg font-bold text-red-500">
               -R$ {{ totalDespesas | number : "1.2-2" }}
             </p>
           </div>
         </div>
 
         <!-- Barra de progresso do mês -->
-        <div class="mt-4">
-          <div class="flex justify-between text-xs text-[#5e6d72] mb-1">
-            <span>Início do mês</span>
-            <span>{{
+        <div class="mt-2 sm:mt-4">
+          <div
+            class="flex justify-between text-[10px] sm:text-xs text-[#5e6d72] mb-1"
+          >
+            <span>Início</span>
+            <span class="hidden sm:inline">{{
               currentDate | date : "MMMM" : "" : "pt-BR" | uppercase
             }}</span>
-
-            <span>Fim do mês</span>
+            <span class="sm:hidden">{{
+              currentDate | date : "MMM" : "" : "pt-BR" | uppercase
+            }}</span>
+            <span>Fim</span>
           </div>
-          <div class="w-full bg-[#E0E5E7] rounded-full h-2">
+          <div class="w-full bg-[#E0E5E7] rounded-full h-1 sm:h-2">
             <div
-              class="h-2 rounded-full"
+              class="h-1 sm:h-2 rounded-full"
               [ngClass]="{
                 'bg-gradient-to-r from-green-400 to-[#1C6956]':
                   saldoProporcao >= 0,
@@ -486,10 +490,12 @@
 
       <!-- Cartões de crédito -->
       <div
-        class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-6 transition-all duration-300 hover:shadow-2xl animate-fadeIn"
+        class="bg-white/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-xl p-4 sm:p-6 transition-all duration-300 hover:shadow-2xl animate-fadeIn"
       >
-        <div class="flex justify-between items-center mb-6">
-          <h2 class="text-xl font-bold text-[#013E4C] flex items-center">
+        <div class="flex justify-between items-center mb-4 sm:mb-6">
+          <h2
+            class="text-lg sm:text-xl font-bold text-[#013E4C] flex items-center"
+          >
             <i class="fas fa-credit-card text-[#1C6956] mr-2"></i>
             Meus Cartões
           </h2>
@@ -502,21 +508,23 @@
         </div>
 
         @if (cartoes.length === 0) {
-        <div class="text-center py-8 animate-fadeIn">
+        <div class="text-center py-6 sm:py-8 animate-fadeIn">
           <div
-            class="mx-auto w-20 h-20 bg-[#D8EAE5] rounded-full flex items-center justify-center mb-4"
+            class="mx-auto w-16 h-16 sm:w-20 sm:h-20 bg-[#D8EAE5] rounded-full flex items-center justify-center mb-3 sm:mb-4"
           >
-            <i class="fas fa-credit-card text-[#1C6956] text-2xl"></i>
+            <i
+              class="fas fa-credit-card text-[#1C6956] text-xl sm:text-2xl"
+            ></i>
           </div>
-          <h3 class="text-lg font-medium text-[#013E4C] mb-2">
+          <h3 class="text-base sm:text-lg font-medium text-[#013E4C] mb-2">
             Nenhum cartão cadastrado
           </h3>
-          <p class="text-[#5e6d72] mb-4">
+          <p class="text-sm text-[#5e6d72] mb-4">
             Adicione seus cartões para melhor controle
           </p>
           <button
             (click)="mudarPagina('configuracoes', 'cartoes')"
-            class="bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-6 py-2 rounded-full text-sm hover:shadow-md transition-all"
+            class="bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-4 sm:px-6 py-2 rounded-full text-xs sm:text-sm hover:shadow-md transition-all"
           >
             Adicionar Cartão
           </button>
@@ -524,26 +532,26 @@
         } @else {
         <!-- Carrossel de cartões -->
         <div class="relative">
-          <div class="overflow-hidden">
-            <div class="flex space-x-4 pb-4">
+          <div class="overflow-x-auto">
+            <div class="flex space-x-3 sm:space-x-4 pb-4">
               @for (card of cartoes; track card.id; let i = $index) {
               <div
-                class="min-w-[280px] bg-gradient-to-br from-[#1C6956] to-[#013E4C] rounded-2xl p-5 text-white shadow-lg relative overflow-hidden transition-transform duration-300 hover:scale-[1.02] animate-slideInUp"
+                class="min-w-[240px] sm:min-w-[280px] bg-gradient-to-br from-[#1C6956] to-[#013E4C] rounded-xl sm:rounded-2xl p-4 sm:p-5 text-white shadow-lg relative overflow-hidden transition-transform duration-300 hover:scale-[1.02] animate-slideInUp"
                 [style.animation-delay.ms]="i * 100"
               >
                 <!-- Elementos decorativos do cartão -->
                 <div
-                  class="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-full -mr-10 -mt-10"
+                  class="absolute top-0 right-0 w-16 h-16 sm:w-24 sm:h-24 bg-white/10 rounded-full -mr-8 sm:-mr-10 -mt-8 sm:-mt-10"
                 ></div>
                 <div
-                  class="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full -ml-10 -mb-10"
+                  class="absolute bottom-0 left-0 w-16 h-16 sm:w-24 sm:h-24 bg-white/10 rounded-full -ml-8 sm:-ml-10 -mb-8 sm:-mb-10"
                 ></div>
 
                 <div class="relative z-10">
-                  <div class="flex justify-between items-start mb-8">
+                  <div class="flex justify-between items-start mb-6 sm:mb-8">
                     <div>
                       <p class="text-xs opacity-80 mb-1">Limite disponível</p>
-                      <p class="font-medium">
+                      <p class="text-sm sm:text-base font-medium">
                         {{
                           card.limiteDisponivel
                             | currency : "BRL" : "symbol" : "1.2-2"
@@ -553,21 +561,23 @@
                     <img
                       [src]="getCardLogo(card.bandeira)"
                       alt="{{ card.bandeira }}"
-                      class="h-10 rounded-full"
+                      class="h-8 sm:h-10 rounded-full"
                     />
                   </div>
 
-                  <div class="mb-6">
-                    <p class="text-sm opacity-80 mb-1">Nome do titular</p>
-                    <p class="font-medium tracking-wider">
+                  <div class="mb-4 sm:mb-6">
+                    <p class="text-xs opacity-80 mb-1">Nome do titular</p>
+                    <p class="text-sm sm:text-base font-medium tracking-wider">
                       {{ nome | uppercase }}
                     </p>
                   </div>
 
                   <div class="flex justify-between">
                     <div>
-                      <p class="text-sm opacity-80 mb-1">Nome do Cartao</p>
-                      <p class="font-medium tracking-wider">
+                      <p class="text-xs opacity-80 mb-1">Nome do Cartao</p>
+                      <p
+                        class="text-sm sm:text-base font-medium tracking-wider"
+                      >
                         {{ card.nome | uppercase }}
                       </p>
                     </div>

@@ -1,30 +1,30 @@
 <!-- Container principal com gradiente e efeito de vidro -->
-<div class="min-h-screen bg-[#F8F7F5] p-4 sm:p-6">
+<div class="min-h-screen bg-[#F8F7F5] p-3 sm:p-6">
   <div class="max-w-6xl mx-auto">
     <!-- Card principal com efeito de vidro -->
     <div
-      class="bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/30 overflow-hidden animate-fadeIn"
+      class="bg-white/80 backdrop-blur-lg rounded-2xl sm:rounded-3xl shadow-2xl border border-white/30 overflow-hidden animate-fadeIn"
     >
       <!-- Header com gradiente e elementos decorativos -->
       <div class="relative overflow-hidden">
         <div
-          class="absolute top-0 right-0 w-64 h-64 bg-[#D8EAE5] opacity-20 rounded-full -mr-32 -mt-32 animate-float1"
+          class="absolute top-0 right-0 w-32 h-32 sm:w-64 sm:h-64 bg-[#D8EAE5] opacity-20 rounded-full -mr-16 sm:-mr-32 -mt-16 sm:-mt-32 animate-float1"
         ></div>
         <div
-          class="absolute bottom-0 left-0 w-48 h-48 bg-[#013E4C] opacity-10 rounded-full -ml-24 -mb-24 animate-float2"
+          class="absolute bottom-0 left-0 w-24 h-24 sm:w-48 sm:h-48 bg-[#013E4C] opacity-10 rounded-full -ml-12 sm:-ml-24 -mb-12 sm:-mb-24 animate-float2"
         ></div>
 
-        <div class="relative z-10 p-6 sm:p-8">
+        <div class="relative z-10 p-4 sm:p-8">
           <div
-            class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6"
+            class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 sm:gap-6"
           >
-            <div class="space-y-2">
+            <div class="space-y-1 sm:space-y-2">
               <h1
-                class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-[#1C6956] to-[#013E4C] bg-clip-text text-transparent"
+                class="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#1C6956] to-[#013E4C] bg-clip-text text-transparent"
               >
                 Meus Cartões
               </h1>
-              <p class="text-[#5e6d72] text-sm sm:text-base">
+              <p class="text-[#5e6d72] text-xs sm:text-sm md:text-base">
                 Gerencie seus cartões de crédito
               </p>
             </div>
@@ -32,11 +32,11 @@
             <button
               (click)="openModal()"
               [disabled]="isAddingCartao"
-              class="group w-full sm:w-auto flex items-center justify-center font-medium bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-6 py-3 rounded-xl shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
+              class="group w-full sm:w-auto flex items-center justify-center font-medium bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed text-sm sm:text-base"
             >
               @if (isAddingCartao) {
               <svg
-                class="animate-spin h-5 w-5 mr-3 text-white"
+                class="animate-spin h-4 w-4 sm:h-5 sm:w-5 mr-2 sm:mr-3 text-white"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -55,12 +55,14 @@
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                 ></path>
               </svg>
-              <span class="text-sm sm:text-base">Processando...</span>
+              <span class="text-xs sm:text-sm md:text-base"
+                >Processando...</span
+              >
               } @else {
               <i
-                class="fas fa-plus-circle text-lg mr-3 group-hover:rotate-90 transition-transform duration-300"
+                class="fas fa-plus-circle text-base sm:text-lg mr-2 sm:mr-3 group-hover:rotate-90 transition-transform duration-300"
               ></i>
-              <span class="text-sm sm:text-base">Novo Cartão</span>
+              <span class="text-xs sm:text-sm md:text-base">Novo Cartão</span>
               }
             </button>
           </div>
@@ -69,30 +71,36 @@
 
       @if (isLoading) {
       <!-- Loading state com animação -->
-      <div class="flex items-center justify-center min-h-[60vh] w-full">
-        <div class="text-center space-y-6">
-          <div class="relative w-24 h-24 mx-auto">
+      <div
+        class="flex items-center justify-center min-h-[50vh] sm:min-h-[60vh] w-full"
+      >
+        <div class="text-center space-y-4 sm:space-y-6">
+          <div class="relative w-16 h-16 sm:w-24 sm:h-24 mx-auto">
             <div
               class="absolute inset-0 rounded-full border-4 border-[#1C6956] border-t-transparent animate-spin"
             ></div>
             <div class="absolute inset-0 flex items-center justify-center">
               <i
-                class="fas fa-credit-card text-[#1C6956] text-3xl animate-bounce"
+                class="fas fa-credit-card text-[#1C6956] text-xl sm:text-3xl animate-bounce"
               ></i>
             </div>
           </div>
-          <p class="text-lg font-medium text-[#5e6d72] animate-pulse">
+          <p
+            class="text-base sm:text-lg font-medium text-[#5e6d72] animate-pulse"
+          >
             Carregando seus cartões...
           </p>
         </div>
       </div>
       } @else {
       <!-- Lista de Cartões -->
-      <div class="p-6 sm:p-8">
+      <div class="p-4 sm:p-8">
         @if (creditCards.length === 0) {
         <!-- Estado vazio com animação -->
-        <div class="text-center py-12 space-y-4 animate-fadeIn">
-          <div class="relative w-24 h-24 mx-auto">
+        <div
+          class="text-center py-8 sm:py-12 space-y-3 sm:space-y-4 animate-fadeIn"
+        >
+          <div class="relative w-16 h-16 sm:w-24 sm:h-24 mx-auto">
             <!-- Círculo animado de fundo -->
             <div
               class="absolute inset-0 rounded-full bg-[#D8EAE5] animate-ping"
@@ -101,18 +109,20 @@
             <div
               class="absolute inset-0 flex items-center justify-center rounded-full bg-white shadow-lg"
             >
-              <i class="fas fa-credit-card text-[#1C6956] text-4xl"></i>
+              <i
+                class="fas fa-credit-card text-[#1C6956] text-2xl sm:text-4xl"
+              ></i>
             </div>
           </div>
-          <h3 class="text-xl font-bold text-[#013E4C]">
+          <h3 class="text-lg sm:text-xl font-bold text-[#013E4C]">
             Nenhum cartão cadastrado
           </h3>
-          <p class="text-[#5e6d72] text-lg">
+          <p class="text-[#5e6d72] text-base sm:text-lg">
             Adicione seu primeiro cartão para começar
           </p>
           <button
             (click)="openModal()"
-            class="inline-flex items-center space-x-2 text-[#1C6956] font-medium hover:text-[#013E4C] transition-colors group"
+            class="inline-flex items-center space-x-2 text-[#1C6956] font-medium hover:text-[#013E4C] transition-colors group text-sm sm:text-base"
           >
             <i
               class="fas fa-plus-circle group-hover:rotate-90 transition-transform duration-300"
@@ -122,10 +132,10 @@
         </div>
         } @else {
         <!-- Lista de cartões com animações -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           @for (card of creditCards; track card.id; let i = $index) {
           <div
-            class="group relative bg-gradient-to-br from-[#1C6956] to-[#013E4C] rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 animate-slideInRight overflow-hidden"
+            class="group relative bg-gradient-to-br from-[#1C6956] to-[#013E4C] rounded-2xl p-4 sm:p-6 shadow-xl hover:shadow-2xl transition-all duration-300 animate-slideInRight overflow-hidden"
             [style.animation-delay.ms]="i * 100"
           >
             <!-- Efeito de brilho no hover -->
@@ -134,26 +144,30 @@
             ></div>
 
             <!-- Logo do cartão -->
-            <div class="absolute top-4 right-4">
+            <div class="absolute top-3 right-3 sm:top-4 sm:right-4">
               <img
                 [src]="getCardLogo(card.bandeira)"
                 [alt]="card.bandeira"
-                class="w-16 h-16 object-contain filter drop-shadow-lg"
+                class="w-12 h-12 sm:w-16 sm:h-16 object-contain filter drop-shadow-lg rounded-full animate-float1"
               />
             </div>
 
             <!-- Nome do cartão e limite -->
-            <div class="space-y-4">
+            <div class="space-y-3 sm:space-y-4">
               <div>
-                <span class="text-white/80 text-sm">Nome do cartão</span>
-                <h3 class="text-white text-xl font-semibold">
+                <span class="text-white/80 text-xs sm:text-sm"
+                  >Nome do cartão</span
+                >
+                <h3 class="text-white text-lg sm:text-xl font-semibold">
                   {{ card.nome }}
                 </h3>
               </div>
 
               <div>
-                <span class="text-white/80 text-sm">Limite disponível</span>
-                <p class="text-white text-xl font-bold">
+                <span class="text-white/80 text-xs sm:text-sm"
+                  >Limite disponível</span
+                >
+                <p class="text-white text-lg sm:text-xl font-bold">
                   {{
                     card.limiteDisponivel
                       | currency : "BRL" : "symbol" : "1.2-2"
@@ -163,27 +177,29 @@
             </div>
 
             <!-- Botões de ação -->
-            <div class="absolute bottom-4 right-4 flex items-center space-x-2">
+            <div
+              class="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 flex items-center space-x-2"
+            >
               <button
                 (click)="verDetalhesFatura(card.id)"
-                class="p-2 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-300 text-white hover:text-white/90 group-hover:scale-110"
+                class="p-1.5 sm:p-2 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-300 text-white hover:text-white/90 group-hover:scale-110"
                 title="Ver fatura"
               >
-                <i class="fas fa-file-invoice-dollar text-lg"></i>
+                <i class="fas fa-file-invoice-dollar text-base sm:text-lg"></i>
               </button>
               <button
                 (click)="editarCartao(card)"
-                class="p-2 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-300 text-white hover:text-white/90 group-hover:scale-110"
+                class="p-1.5 sm:p-2 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-300 text-white hover:text-white/90 group-hover:scale-110"
                 title="Editar"
               >
-                <i class="fas fa-edit text-lg"></i>
+                <i class="fas fa-edit text-base sm:text-lg"></i>
               </button>
               <button
                 (click)="deletarCartao(card.id)"
-                class="p-2 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-300 text-white hover:text-white/90 group-hover:scale-110"
+                class="p-1.5 sm:p-2 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-300 text-white hover:text-white/90 group-hover:scale-110"
                 title="Remover"
               >
-                <i class="fas fa-trash-alt text-lg"></i>
+                <i class="fas fa-trash-alt text-base sm:text-lg"></i>
               </button>
             </div>
           </div>
@@ -192,16 +208,20 @@
 
         <!-- Totalizador com animação -->
         <div
-          class="mt-8 bg-gradient-to-r from-[#D8EAE5] to-white rounded-xl p-6 shadow-sm animate-fadeIn"
+          class="mt-6 sm:mt-8 bg-gradient-to-r from-[#D8EAE5] to-white rounded-xl p-4 sm:p-6 shadow-sm animate-fadeIn"
         >
-          <div class="flex justify-between items-center">
+          <div
+            class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0"
+          >
             <div>
-              <h3 class="text-lg font-semibold text-[#013E4C]">
+              <h3 class="text-base sm:text-lg font-semibold text-[#013E4C]">
                 Limite Total Disponível
               </h3>
-              <p class="text-sm text-[#5e6d72]">Soma dos limites disponíveis</p>
+              <p class="text-xs sm:text-sm text-[#5e6d72]">
+                Soma dos limites disponíveis
+              </p>
             </div>
-            <span class="text-2xl font-bold text-[#1C6956]">
+            <span class="text-xl sm:text-2xl font-bold text-[#1C6956]">
               {{
                 getTotalAvailableLimit() | currency : "BRL" : "symbol" : "1.2-2"
               }}
@@ -273,5 +293,12 @@
 
   .animate-float2 {
     animation: float2 7s ease-in-out infinite;
+  }
+
+  /* Ajustes específicos para mobile */
+  @media (max-width: 640px) {
+    .mat-mdc-dialog-container {
+      padding: 1rem;
+    }
   }
 </style>

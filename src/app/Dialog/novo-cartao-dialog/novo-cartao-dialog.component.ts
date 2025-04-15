@@ -41,7 +41,7 @@ import {
   template: `
     <!-- Main dialog container with glass morphism effect -->
     <div
-      class="relative p-8 bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/30 overflow-hidden"
+      class="relative p-4 sm:p-8 bg-white/80 backdrop-blur-lg rounded-2xl sm:rounded-3xl shadow-2xl border border-white/30 overflow-hidden"
       [@dialogContainer]="{
         value: '',
         params: {
@@ -52,23 +52,23 @@ import {
     >
       <!-- Floating decorative elements -->
       <div
-        class="absolute -top-32 -right-32 w-64 h-64 rounded-full bg-[#D8EAE5] opacity-20 animate-float-slow"
+        class="absolute -top-16 sm:-top-32 -right-16 sm:-right-32 w-32 h-32 sm:w-64 sm:h-64 rounded-full bg-[#D8EAE5] opacity-20 animate-float-slow"
       ></div>
       <div
-        class="absolute -bottom-24 -left-24 w-48 h-48 rounded-full bg-[#013E4C] opacity-10 animate-float-medium"
+        class="absolute -bottom-12 sm:-bottom-24 -left-12 sm:-left-24 w-24 h-24 sm:w-48 sm:h-48 rounded-full bg-[#013E4C] opacity-10 animate-float-medium"
       ></div>
       <div
-        class="absolute top-1/4 -left-16 w-32 h-32 rounded-full bg-[#1C6956] opacity-15 animate-float-fast"
+        class="absolute top-1/4 -left-8 sm:-left-16 w-16 h-16 sm:w-32 sm:h-32 rounded-full bg-[#1C6956] opacity-15 animate-float-fast"
       ></div>
 
       <!-- Dialog header -->
-      <div class="relative z-10 mb-8">
+      <div class="relative z-10 mb-4 sm:mb-8">
         <div class="flex justify-between items-start">
           <div>
-            <h2 class="text-2xl font-bold text-[#013E4C] mb-1">
+            <h2 class="text-xl sm:text-2xl font-bold text-[#013E4C] mb-1">
               Novo Cartão de Crédito
             </h2>
-            <p class="text-[#5e6d72] text-sm">
+            <p class="text-[#5e6d72] text-xs sm:text-sm">
               Adicione um novo cartão para gerenciar seus gastos
             </p>
           </div>
@@ -79,7 +79,8 @@ import {
             aria-label="Fechar dialog"
             [disabled]="isSaving"
           >
-            <mat-icon class="transform hover:rotate-90 transition-transform"
+            <mat-icon
+              class="transform hover:rotate-90 transition-transform text-base sm:text-lg"
               >close</mat-icon
             >
           </button>
@@ -90,13 +91,15 @@ import {
       <form
         [formGroup]="cartaoForm"
         (ngSubmit)="onSubmit()"
-        class="relative z-10 space-y-6"
+        class="relative z-10 space-y-4 sm:space-y-6"
         [@contentAnimation]
       >
         <!-- Card name field -->
         <div [@formFieldAnimation]>
           <div class="relative">
-            <label class="block text-sm font-medium text-[#5e6d72] mb-2 ml-1">
+            <label
+              class="block text-xs sm:text-sm font-medium text-[#5e6d72] mb-1 sm:mb-2 ml-1"
+            >
               Nome do Cartão *
             </label>
             <div class="relative">
@@ -105,7 +108,7 @@ import {
                 formControlName="nome"
                 (blur)="cartaoForm.get('nome')?.markAsTouched()"
                 placeholder="Ex: Cartão Principal"
-                class="w-full px-4 py-3 bg-white/90 border border-[#E0E5E7] rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:border-transparent shadow-sm transition-all duration-300 placeholder-[#748389]/60"
+                class="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white/90 border border-[#E0E5E7] rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:border-transparent shadow-sm transition-all duration-300 placeholder-[#748389]/60 text-sm sm:text-base"
                 [class.border-[#1C6956]]="
                   cartaoForm.get('nome')?.valid && cartaoForm.get('nome')?.dirty
                 "
@@ -120,7 +123,7 @@ import {
             <div
               class="mt-1 ml-1 text-red-500 text-xs flex items-center space-x-1"
             >
-              <mat-icon class="text-sm">error</mat-icon>
+              <mat-icon class="text-xs sm:text-sm">error</mat-icon>
               <span>
                 @if (cartaoForm.get('nome')?.hasError('required')) { Campo
                 obrigatório } @else if
@@ -139,12 +142,12 @@ import {
             (click)="toggleBrandPicker()"
           >
             <label
-              class="block text-sm font-medium text-[#5e6d72] ml-1 group-hover:text-[#013E4C] transition-colors"
+              class="block text-xs sm:text-sm font-medium text-[#5e6d72] ml-1 group-hover:text-[#013E4C] transition-colors"
             >
               Bandeira do Cartão *
             </label>
             <mat-icon
-              class="text-[#748389] transform transition-transform duration-300 group-hover:text-[#013E4C]"
+              class="text-[#748389] transform transition-transform duration-300 group-hover:text-[#013E4C] text-base sm:text-lg"
               [class.rotate-180]="showBrandPicker"
             >
               expand_more
@@ -153,15 +156,15 @@ import {
 
           @if (showBrandPicker) {
           <div
-            class="mt-4 p-4 bg-white/50 backdrop-blur-sm rounded-2xl border border-[#E0E5E7] shadow-lg"
+            class="mt-3 sm:mt-4 p-3 sm:p-4 bg-white/50 backdrop-blur-sm rounded-2xl border border-[#E0E5E7] shadow-lg"
             [@iconsAnimation]
           >
-            <div class="grid grid-cols-3 gap-4">
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
               @for (brand of cardBrands | keyvalue; track brand.key) {
               <button
                 type="button"
                 (click)="selectBrand(brand.key)"
-                class="group relative p-4 rounded-xl transition-all duration-300 flex flex-col items-center justify-center overflow-hidden"
+                class="group relative p-3 sm:p-4 rounded-xl transition-all duration-300 flex flex-col items-center justify-center overflow-hidden"
                 [class]="
                   selectedBrand === brand.key
                     ? 'bg-gradient-to-br from-[#D8EAE5] to-[#1C6956]/20 border-2 border-[#1C6956] shadow-lg scale-105'
@@ -169,7 +172,7 @@ import {
                 "
               >
                 <div
-                  class="w-16 h-16 mb-3 flex items-center justify-center transform transition-transform duration-300 group-hover:scale-110"
+                  class="w-12 h-12 sm:w-16 sm:h-16 mb-2 sm:mb-3 flex items-center justify-center transform transition-transform duration-300 group-hover:scale-110"
                 >
                   <img
                     [src]="brand.value.icon"
@@ -178,16 +181,18 @@ import {
                   />
                 </div>
                 <span
-                  class="text-sm font-medium text-[#5e6d72] group-hover:text-[#013E4C] transition-colors"
+                  class="text-xs sm:text-sm font-medium text-[#5e6d72] group-hover:text-[#013E4C] transition-colors"
                 >
                   {{ brand.value.name }}
                 </span>
                 @if (selectedBrand === brand.key) {
                 <div
-                  class="absolute top-2 right-2 w-5 h-5 rounded-full bg-[#1C6956] flex items-center justify-center shadow-md transition-transform duration-300 hover:scale-110"
+                  class="absolute top-1 right-1 sm:top-2 sm:right-2 w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-[#1C6956] flex items-center justify-center shadow-md transition-transform duration-300 hover:scale-110"
                   title="Selecionado"
                 >
-                  <mat-icon class="text-white text-sm">check</mat-icon>
+                  <mat-icon class="text-white text-xs sm:text-sm"
+                    >check</mat-icon
+                  >
                 </div>
                 }
               </button>
@@ -200,7 +205,9 @@ import {
         <!-- Credit limit field -->
         <div [@formFieldAnimation]>
           <div class="relative">
-            <label class="block text-sm font-medium text-[#5e6d72] mb-2 ml-1">
+            <label
+              class="block text-xs sm:text-sm font-medium text-[#5e6d72] mb-1 sm:mb-2 ml-1"
+            >
               Limite Total *
             </label>
             <div class="relative">
@@ -210,7 +217,7 @@ import {
                 (blur)="cartaoForm.get('limiteTotal')?.markAsTouched()"
                 placeholder="0,00"
                 step="0.01"
-                class="w-full px-4 py-3 bg-white/90 border border-[#E0E5E7] rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:border-transparent shadow-sm transition-all duration-300 placeholder-[#748389]/60"
+                class="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white/90 border border-[#E0E5E7] rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:border-transparent shadow-sm transition-all duration-300 placeholder-[#748389]/60 text-sm sm:text-base"
                 [class.border-[#1C6956]]="
                   cartaoForm.get('limiteTotal')?.valid &&
                   cartaoForm.get('limiteTotal')?.dirty
@@ -226,7 +233,7 @@ import {
             <div
               class="mt-1 ml-1 text-red-500 text-xs flex items-center space-x-1"
             >
-              <mat-icon class="text-sm">error</mat-icon>
+              <mat-icon class="text-xs sm:text-sm">error</mat-icon>
               <span>
                 @if (cartaoForm.get('limiteTotal')?.hasError('required')) {
                 Campo obrigatório } @else if
@@ -241,7 +248,9 @@ import {
         <!-- Due date field -->
         <div [@formFieldAnimation]>
           <div class="relative">
-            <label class="block text-sm font-medium text-[#5e6d72] mb-2 ml-1">
+            <label
+              class="block text-xs sm:text-sm font-medium text-[#5e6d72] mb-1 sm:mb-2 ml-1"
+            >
               Dia do Vencimento *
             </label>
             <div class="relative">
@@ -252,7 +261,7 @@ import {
                 placeholder="1-31"
                 min="1"
                 max="31"
-                class="w-full px-4 py-3 bg-white/90 border border-[#E0E5E7] rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:border-transparent shadow-sm transition-all duration-300 placeholder-[#748389]/60"
+                class="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white/90 border border-[#E0E5E7] rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:border-transparent shadow-sm transition-all duration-300 placeholder-[#748389]/60 text-sm sm:text-base"
                 [class.border-[#1C6956]]="
                   cartaoForm.get('vencimentoFatura')?.valid &&
                   cartaoForm.get('vencimentoFatura')?.dirty
@@ -268,7 +277,7 @@ import {
             <div
               class="mt-1 ml-1 text-red-500 text-xs flex items-center space-x-1"
             >
-              <mat-icon class="text-sm">error</mat-icon>
+              <mat-icon class="text-xs sm:text-sm">error</mat-icon>
               <span> Dia de vencimento inválido (1-31) </span>
             </div>
             }
@@ -278,7 +287,9 @@ import {
         <!-- Closing date field -->
         <div [@formFieldAnimation]>
           <div class="relative">
-            <label class="block text-sm font-medium text-[#5e6d72] mb-2 ml-1">
+            <label
+              class="block text-xs sm:text-sm font-medium text-[#5e6d72] mb-1 sm:mb-2 ml-1"
+            >
               Dia do Fechamento *
             </label>
             <div class="relative">
@@ -289,7 +300,7 @@ import {
                 placeholder="1-31"
                 min="1"
                 max="31"
-                class="w-full px-4 py-3 bg-white/90 border border-[#E0E5E7] rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:border-transparent shadow-sm transition-all duration-300 placeholder-[#748389]/60"
+                class="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white/90 border border-[#E0E5E7] rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:border-transparent shadow-sm transition-all duration-300 placeholder-[#748389]/60 text-sm sm:text-base"
                 [class.border-[#1C6956]]="
                   cartaoForm.get('diaFechamentoFatura')?.valid &&
                   cartaoForm.get('diaFechamentoFatura')?.dirty
@@ -305,7 +316,7 @@ import {
             <div
               class="mt-1 ml-1 text-red-500 text-xs flex items-center space-x-1"
             >
-              <mat-icon class="text-sm">error</mat-icon>
+              <mat-icon class="text-xs sm:text-sm">error</mat-icon>
               <span> Dia de fechamento inválido (1-31) </span>
             </div>
             }
@@ -313,29 +324,32 @@ import {
         </div>
 
         <!-- Action buttons -->
-        <div class="flex justify-end space-x-3 pt-6" [@buttonsAnimation]>
+        <div
+          class="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3 pt-4 sm:pt-6"
+          [@buttonsAnimation]
+        >
           <button
             type="button"
             (click)="onCancel()"
-            class="px-6 py-2.5 rounded-xl border border-[#E0E5E7] text-[#5e6d72] hover:text-[#013E4C] hover:border-[#748389] transition-all duration-300 font-medium flex items-center"
+            class="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl border border-[#E0E5E7] text-[#5e6d72] hover:text-[#013E4C] hover:border-[#748389] transition-all duration-300 font-medium flex items-center justify-center text-sm sm:text-base"
             [disabled]="isSaving"
           >
             Cancelar
           </button>
           <button
             type="submit"
-            class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white hover:shadow-lg transition-all duration-300 font-medium flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
+            class="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white hover:shadow-lg transition-all duration-300 font-medium flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
             [disabled]="!cartaoForm.valid || !selectedBrand || isSaving"
           >
             @if (isSaving) {
             <mat-spinner
-              diameter="20"
+              diameter="16"
               class="mr-2"
               [@spinnerAnimation]
             ></mat-spinner>
             <span class="animate-pulse">Salvando...</span>
             } @else {
-            <mat-icon class="mr-2">credit_card</mat-icon>
+            <mat-icon class="mr-2 text-base sm:text-lg">credit_card</mat-icon>
             Adicionar Cartão }
           </button>
         </div>
@@ -344,29 +358,35 @@ import {
       <!-- Success state -->
       @if (showSuccess) {
       <div
-        class="absolute inset-0 bg-[#F8F7F5]/90 backdrop-blur-sm flex flex-col items-center justify-center p-8 z-20"
+        class="absolute inset-0 bg-[#F8F7F5]/90 backdrop-blur-sm flex flex-col items-center justify-center p-4 sm:p-8 z-20"
         [@successAnimation]
       >
         <div class="relative">
           <div
-            class="w-24 h-24 bg-[#D8EAE5] rounded-full flex items-center justify-center mb-6"
+            class="w-16 h-16 sm:w-24 sm:h-24 bg-[#D8EAE5] rounded-full flex items-center justify-center mb-4 sm:mb-6"
           >
-            <div class="w-16 h-16 flex items-center justify-center">
+            <div
+              class="w-10 h-10 sm:w-16 sm:h-16 flex items-center justify-center"
+            >
               <img
                 [src]="selectedBrand ? cardBrands[selectedBrand]?.icon : ''"
                 [alt]="selectedBrand ? cardBrands[selectedBrand]?.name : ''"
-                class="h-full w-full object-contain"
+                class="h-full w-full object-contain rounded-full"
               />
             </div>
           </div>
           <div
-            class="absolute -inset-4 rounded-full border-4 border-[#D8EAE5] animate-ping opacity-0"
+            class="absolute -inset-2 sm:-inset-4 rounded-full border-4 border-[#D8EAE5] animate-ping opacity-0"
           ></div>
         </div>
-        <h3 class="text-xl font-bold text-[#013E4C] mb-2 text-center">
+        <h3
+          class="text-lg sm:text-xl font-bold text-[#013E4C] mb-2 text-center"
+        >
           Cartão adicionado com sucesso!
         </h3>
-        <p class="text-[#5e6d72] text-center mb-6 max-w-xs">
+        <p
+          class="text-[#5e6d72] text-center mb-4 sm:mb-6 max-w-xs text-sm sm:text-base"
+        >
           Seu novo cartão {{ cartaoForm.value.nome }} foi cadastrado com limite
           de {{ cartaoForm.value.limiteTotal | currency : 'BRL' }}.
         </p>
@@ -374,7 +394,7 @@ import {
           mat-raised-button
           color="primary"
           (click)="dialogRef.close(true)"
-          class="px-6 py-2.5 bg-[#1C6956] text-white hover:bg-[#013E4C] rounded-xl font-medium"
+          class="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-2.5 bg-[#1C6956] text-white hover:bg-[#013E4C] rounded-xl font-medium text-sm sm:text-base"
         >
           Continuar
         </button>

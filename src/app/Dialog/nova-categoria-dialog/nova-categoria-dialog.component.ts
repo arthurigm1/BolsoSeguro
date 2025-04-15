@@ -46,7 +46,7 @@ import {
   template: `
     <!-- Main dialog container with glass morphism effect -->
     <div
-      class="relative p-8 bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/30 overflow-hidden"
+      class="relative p-4 sm:p-8 bg-white/80 backdrop-blur-lg rounded-2xl sm:rounded-3xl shadow-2xl border border-white/30 overflow-hidden"
       [@dialogContainer]="{
         value: '',
         params: {
@@ -57,23 +57,23 @@ import {
     >
       <!-- Floating decorative elements -->
       <div
-        class="absolute -top-32 -right-32 w-64 h-64 rounded-full bg-[#D8EAE5] opacity-20 animate-float-slow"
+        class="absolute -top-16 sm:-top-32 -right-16 sm:-right-32 w-32 sm:w-64 h-32 sm:h-64 rounded-full bg-[#D8EAE5] opacity-20 animate-float-slow"
       ></div>
       <div
-        class="absolute -bottom-24 -left-24 w-48 h-48 rounded-full bg-[#013E4C] opacity-10 animate-float-medium"
+        class="absolute -bottom-12 sm:-bottom-24 -left-12 sm:-left-24 w-24 sm:w-48 h-24 sm:h-48 rounded-full bg-[#013E4C] opacity-10 animate-float-medium"
       ></div>
       <div
-        class="absolute top-1/4 -left-16 w-32 h-32 rounded-full bg-[#1C6956] opacity-15 animate-float-fast"
+        class="absolute top-1/4 -left-8 sm:-left-16 w-16 sm:w-32 h-16 sm:h-32 rounded-full bg-[#1C6956] opacity-15 animate-float-fast"
       ></div>
 
       <!-- Dialog header -->
-      <div class="relative z-10 mb-8">
+      <div class="relative z-10 mb-6 sm:mb-8">
         <div class="flex justify-between items-start">
           <div>
-            <h2 class="text-2xl font-bold text-[#013E4C] mb-1">
+            <h2 class="text-xl sm:text-2xl font-bold text-[#013E4C] mb-1">
               {{ dialogTitle }}
             </h2>
-            <p class="text-[#5e6d72] text-sm">
+            <p class="text-[#5e6d72] text-xs sm:text-sm">
               Organize suas finanças com categorias personalizadas
             </p>
           </div>
@@ -84,7 +84,8 @@ import {
             aria-label="Fechar dialog"
             [disabled]="isSaving"
           >
-            <mat-icon class="transform hover:rotate-90 transition-transform"
+            <mat-icon
+              class="transform hover:rotate-90 transition-transform text-lg sm:text-xl"
               >close</mat-icon
             >
           </button>
@@ -95,13 +96,15 @@ import {
       <form
         [formGroup]="categoriaForm"
         (ngSubmit)="onSubmit()"
-        class="relative z-10 space-y-6"
+        class="relative z-10 space-y-4 sm:space-y-6"
         [@contentAnimation]
       >
         <!-- Category name field -->
         <div [@formFieldAnimation]>
           <div class="relative">
-            <label class="block text-sm font-medium text-[#5e6d72] mb-2 ml-1">
+            <label
+              class="block text-xs sm:text-sm font-medium text-[#5e6d72] mb-2 ml-1"
+            >
               Nome da Categoria *
             </label>
             <div class="relative">
@@ -110,7 +113,7 @@ import {
                 formControlName="nome"
                 (blur)="categoriaForm.get('nome')?.markAsTouched()"
                 placeholder="Ex: Alimentação, Transporte..."
-                class="w-full px-4 py-3 bg-white/90 border border-[#E0E5E7] rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:border-transparent shadow-sm transition-all duration-300 placeholder-[#748389]/60"
+                class="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white/90 border border-[#E0E5E7] rounded-xl focus:ring-2 focus:ring-[#1C6956] focus:border-transparent shadow-sm transition-all duration-300 placeholder-[#748389]/60 text-sm sm:text-base"
                 [class.border-[#1C6956]]="
                   categoriaForm.get('nome')?.valid &&
                   categoriaForm.get('nome')?.dirty
@@ -126,7 +129,7 @@ import {
             <div
               class="mt-1 ml-1 text-red-500 text-xs flex items-center space-x-1"
             >
-              <mat-icon class="text-sm">error</mat-icon>
+              <mat-icon class="text-xs sm:text-sm">error</mat-icon>
               <span>
                 @if (categoriaForm.get('nome')?.hasError('required')) { Campo
                 obrigatório } @else if
@@ -140,14 +143,16 @@ import {
 
         <!-- Category type selector -->
         <div [@formFieldAnimation]>
-          <label class="block text-sm font-medium text-[#5e6d72] mb-2 ml-1">
+          <label
+            class="block text-xs sm:text-sm font-medium text-[#5e6d72] mb-2 ml-1"
+          >
             Tipo de Categoria *
           </label>
-          <div class="grid grid-cols-2 gap-3">
+          <div class="grid grid-cols-2 gap-2 sm:gap-3">
             <button
               type="button"
               (click)="selectType('expense')"
-              class="p-4 rounded-xl border transition-all duration-300 flex items-center justify-center space-x-2"
+              class="p-3 sm:p-4 rounded-xl border transition-all duration-300 flex items-center justify-center space-x-2 text-xs sm:text-sm"
               [class]="
                 data.tipo === 'expense'
                   ? 'bg-[#D8EAE5] border-[#1C6956] text-[#013E4C] shadow-inner'
@@ -155,13 +160,15 @@ import {
               "
               [disabled]="isSaving"
             >
-              <mat-icon class="text-[#1C6956]">trending_down</mat-icon>
+              <mat-icon class="text-[#1C6956] text-lg sm:text-xl"
+                >trending_down</mat-icon
+              >
               <span>Despesa</span>
             </button>
             <button
               type="button"
               (click)="selectType('income')"
-              class="p-4 rounded-xl border transition-all duration-300 flex items-center justify-center space-x-2"
+              class="p-3 sm:p-4 rounded-xl border transition-all duration-300 flex items-center justify-center space-x-2 text-xs sm:text-sm"
               [class]="
                 data.tipo === 'income'
                   ? 'bg-[#D8EAE5] border-[#1C6956] text-[#013E4C] shadow-inner'
@@ -169,7 +176,9 @@ import {
               "
               [disabled]="isSaving"
             >
-              <mat-icon class="text-[#1C6956]">trending_up</mat-icon>
+              <mat-icon class="text-[#1C6956] text-lg sm:text-xl"
+                >trending_up</mat-icon
+              >
               <span>Receita</span>
             </button>
           </div>
@@ -181,11 +190,13 @@ import {
             class="flex justify-between items-center cursor-pointer"
             (click)="toggleIconPicker()"
           >
-            <label class="block text-sm font-medium text-[#5e6d72] ml-1">
+            <label
+              class="block text-xs sm:text-sm font-medium text-[#5e6d72] ml-1"
+            >
               Ícone da Categoria (opcional)
             </label>
             <mat-icon
-              class="text-[#748389] transform transition-transform duration-300"
+              class="text-[#748389] transform transition-transform duration-300 text-lg sm:text-xl"
               [class.rotate-180]="showIconPicker"
             >
               expand_more
@@ -193,7 +204,10 @@ import {
           </div>
 
           @if (showIconPicker) {
-          <div class="mt-3 grid grid-cols-6 gap-2" [@iconsAnimation]>
+          <div
+            class="mt-3 grid grid-cols-4 sm:grid-cols-6 gap-2"
+            [@iconsAnimation]
+          >
             @for (icon of icons; track icon) {
             <button
               type="button"
@@ -205,7 +219,7 @@ import {
                   : 'bg-white/90 hover:bg-[#D8EAE5] text-[#5e6d72]'
               "
             >
-              <mat-icon class="text-lg">{{ icon }}</mat-icon>
+              <mat-icon class="text-base sm:text-lg">{{ icon }}</mat-icon>
             </button>
             }
           </div>
@@ -213,29 +227,32 @@ import {
         </div>
 
         <!-- Action buttons -->
-        <div class="flex justify-end space-x-3 pt-6" [@buttonsAnimation]>
+        <div
+          class="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3 pt-4 sm:pt-6"
+          [@buttonsAnimation]
+        >
           <button
             type="button"
             (click)="onCancel()"
-            class="px-6 py-2.5 rounded-xl border border-[#E0E5E7] text-[#5e6d72] hover:text-[#013E4C] hover:border-[#748389] transition-all duration-300 font-medium flex items-center"
+            class="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl border border-[#E0E5E7] text-[#5e6d72] hover:text-[#013E4C] hover:border-[#748389] transition-all duration-300 font-medium flex items-center justify-center text-sm sm:text-base"
             [disabled]="isSaving"
           >
             Cancelar
           </button>
           <button
             type="submit"
-            class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white hover:shadow-lg transition-all duration-300 font-medium flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
+            class="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white hover:shadow-lg transition-all duration-300 font-medium flex items-center justify-center text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
             [disabled]="!categoriaForm.valid || isSaving"
           >
             @if (isSaving) {
             <mat-spinner
-              diameter="20"
+              diameter="16"
               class="mr-2"
               [@spinnerAnimation]
             ></mat-spinner>
             <span class="animate-pulse">Criando...</span>
             } @else {
-            <mat-icon class="mr-2">add_circle</mat-icon>
+            <mat-icon class="mr-2 text-lg sm:text-xl">add_circle</mat-icon>
             Criar Categoria }
           </button>
         </div>
@@ -244,30 +261,36 @@ import {
       <!-- Success state -->
       @if (showSuccess) {
       <div
-        class="absolute inset-0 bg-[#F8F7F5]/90 backdrop-blur-sm flex flex-col items-center justify-center p-8 z-20"
+        class="absolute inset-0 bg-[#F8F7F5]/90 backdrop-blur-sm flex flex-col items-center justify-center p-4 sm:p-8 z-20"
         [@successAnimation]
       >
         <div class="relative">
           <div
-            class="w-24 h-24 bg-[#D8EAE5] rounded-full flex items-center justify-center mb-6 animate-bounce"
+            class="w-16 sm:w-24 h-16 sm:h-24 bg-[#D8EAE5] rounded-full flex items-center justify-center mb-4 sm:mb-6 animate-bounce"
           >
-            <mat-icon class="text-[#1C6956] text-5xl">check_circle</mat-icon>
+            <mat-icon class="text-[#1C6956] text-3xl sm:text-5xl"
+              >check_circle</mat-icon
+            >
           </div>
           <div
-            class="absolute -inset-4 rounded-full border-4 border-[#D8EAE5] animate-ping opacity-0"
+            class="absolute -inset-2 sm:-inset-4 rounded-full border-4 border-[#D8EAE5] animate-ping opacity-0"
           ></div>
         </div>
-        <h3 class="text-xl font-bold text-[#013E4C] mb-2 text-center">
+        <h3
+          class="text-lg sm:text-xl font-bold text-[#013E4C] mb-2 text-center"
+        >
           Categoria criada com sucesso!
         </h3>
-        <p class="text-[#5e6d72] text-center mb-6 max-w-xs">
+        <p
+          class="text-[#5e6d72] text-center mb-4 sm:mb-6 max-w-xs text-xs sm:text-sm"
+        >
           Sua nova categoria foi adicionada e já está disponível para uso.
         </p>
         <button
           mat-raised-button
           color="primary"
           (click)="dialogRef.close(true)"
-          class="px-6 py-2.5 bg-[#1C6956] text-white hover:bg-[#013E4C] rounded-xl font-medium"
+          class="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-2.5 bg-[#1C6956] text-white hover:bg-[#013E4C] rounded-xl font-medium text-sm sm:text-base"
         >
           Continuar
         </button>
@@ -297,6 +320,13 @@ import {
         }
         50% {
           transform: translateY(-20px) translateX(10px);
+        }
+      }
+
+      /* Mobile specific styles */
+      @media (max-width: 640px) {
+        .mat-mdc-dialog-container {
+          padding: 1rem;
         }
       }
     `,
