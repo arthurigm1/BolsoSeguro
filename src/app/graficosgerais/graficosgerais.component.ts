@@ -4,6 +4,8 @@ import {
   OnDestroy,
   ViewChild,
   ElementRef,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { Chart, registerables, ChartConfiguration } from 'chart.js';
 import { TransacoesService } from '../Services/TransacaoService/transacoes.service';
@@ -65,6 +67,8 @@ interface ViewOption {
   ],
 })
 export class GraficosgeraisComponent implements OnInit, OnDestroy {
+  @Output() activeComponentChange = new EventEmitter<string>();
+  @Output() viewChange: EventEmitter<string> = new EventEmitter<string>();
   // Data properties
   transacoes: Transacao[] = [];
   transacoesFiltradas: Transacao[] = [];
@@ -1558,24 +1562,18 @@ export class GraficosgeraisComponent implements OnInit, OnDestroy {
   }
 
   calcularPercentualCategoria(categoria: string): string {
-    if (this.totalDespesas <= 0) {
-      return '0';
-    }
-
-    const transacoesCategoria = this.transacoesFiltradas.filter(
-      (t) => t.categoria === categoria && t.tipo === 'DESPESA'
-    );
-
-    if (transacoesCategoria.length === 0) {
-      return '0';
-    }
-
-    const totalCategoria = transacoesCategoria.reduce(
-      (sum, t) => sum + t.valor,
-      0
-    );
-
-    const percentual = (totalCategoria / this.totalDespesas) * 100;
+    const totalCategoria = this.transacoesFiltradas
+      .filter((t) => t.categoria === categoria)
+      .reduce((sum, t) => sum + t.valor, 0);
+    const total = this.transacoesFiltradas.reduce((sum, t) => sum + t.valor, 0);
+    const percentual = (totalCategoria / total) * 100;
     return percentual.toFixed(1);
+  }
+  alterarComponente(componente: string) {
+    this.viewChange.emit(componente);
+  }
+  mudarPagina(pagina: string, activeComponent: string) {
+    this.viewChange.emit(pagina);
+    this.activeComponentChange.emit(activeComponent);
   }
 }

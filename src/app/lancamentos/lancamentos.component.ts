@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { TransacoesService } from '../Services/TransacaoService/transacoes.service';
 import {
   format,
@@ -77,7 +83,16 @@ export class LancamentosComponent implements OnInit {
       },
     });
   }
+  @Output() activeComponentChange = new EventEmitter<string>();
+  @Output() viewChange: EventEmitter<string> = new EventEmitter<string>();
 
+  alterarComponente(componente: string) {
+    this.viewChange.emit(componente);
+  }
+  mudarPagina(pagina: string, activeComponent: string) {
+    this.viewChange.emit(pagina);
+    this.activeComponentChange.emit(activeComponent);
+  }
   // Garanta que o método processarGrafico() está correto:
   processarGrafico(): void {
     // Garantir que temos um mês válido
@@ -101,7 +116,6 @@ export class LancamentosComponent implements OnInit {
 
     // 3. Se não houver transações, manter tudo zerado
     if (!this.transacoes || this.transacoes.length === 0) {
-      console.log('Nenhuma transação para exibir');
       return;
     }
 
@@ -142,13 +156,6 @@ export class LancamentosComponent implements OnInit {
     this.graficoDias.forEach((dia) => {
       dia.positivo = dia.saldo >= 0;
       dia.saldoPercentual = (Math.abs(dia.saldo) / maxValue) * 100;
-
-      // Debug: Verifique os valores calculados
-      console.log(`Dia ${dia.dia}:`, {
-        saldo: dia.saldo,
-        percentual: dia.saldoPercentual,
-        positivo: dia.positivo,
-      });
     });
   }
 

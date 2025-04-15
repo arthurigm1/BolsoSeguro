@@ -57,26 +57,6 @@
 
           <!-- Controles -->
           <div class="flex flex-wrap items-center gap-3">
-            <button
-              (click)="openNovaTransacaoDialog()"
-              class="px-4 py-2 bg-[#1C6956] hover:bg-[#1a5e4d] text-white text-sm font-medium rounded-lg shadow-sm flex items-center justify-center space-x-2 transition-all duration-200 transform hover:scale-[1.02] active:scale-95"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                />
-              </svg>
-              <span>Nova transação</span>
-            </button>
             <!-- Navegação por Mês -->
             <div
               class="flex items-center bg-white/10 backdrop-blur-md rounded-xl border border-white/20 overflow-hidden"
@@ -431,13 +411,15 @@
         </div>
 
         <!-- Container do Gráfico (sempre visível) -->
-        <div class="h-72 relative">
+        <div class="h-72 relative w-full overflow-x-auto">
           @if (graficoDias && graficoDias.length > 0) {
           <!-- Gráfico Interativo -->
-          <div class="h-full flex items-end gap-1">
+          <div
+            class="h-full flex items-end gap-1 min-w-[600px] sm:min-w-0 w-fit sm:w-full"
+          >
             @for (dia of graficoDias; track dia.dia) {
             <div
-              class="flex-1 flex flex-col items-center group relative h-full"
+              class="flex-1 flex flex-col items-center group relative h-full min-w-[28px]"
             >
               <!-- Barra do gráfico -->
               <div
@@ -452,7 +434,7 @@
 
               <!-- Tooltip -->
               <div
-                class="absolute bottom-full mb-2 hidden group-hover:block bg-white p-2 rounded shadow text-xs"
+                class="absolute bottom-full mb-2 hidden group-hover:block bg-white p-2 rounded shadow text-[0.65rem] sm:text-xs text-center w-max max-w-[120px] z-10"
               >
                 <p class="font-bold">Dia {{ dia.dia }}</p>
                 <p
@@ -464,7 +446,9 @@
               </div>
 
               <!-- Rótulo do dia -->
-              <span class="text-xs text-gray-500 mt-1">{{ dia.dia }}</span>
+              <span class="text-[10px] sm:text-xs text-gray-500 mt-1">{{
+                dia.dia
+              }}</span>
             </div>
             }
           </div>
@@ -473,9 +457,11 @@
           <div class="absolute left-0 right-0 h-px bg-gray-200 top-1/2"></div>
           } @else {
           <!-- Estado vazio (dentro do card) -->
-          <div class="h-full flex flex-col items-center justify-center">
+          <div
+            class="h-full flex flex-col items-center justify-center px-4 text-center"
+          >
             @if (loading) {
-            <div class="text-center animate-pulse">
+            <div class="animate-pulse">
               <div
                 class="w-16 h-16 bg-[#D8EAE5] rounded-full flex items-center justify-center mx-auto mb-4"
               >
@@ -493,10 +479,12 @@
                   />
                 </svg>
               </div>
-              <p class="text-[#5e6d72]">Processando dados financeiros...</p>
+              <p class="text-[#5e6d72] text-sm">
+                Processando dados financeiros...
+              </p>
             </div>
             } @else {
-            <div class="text-center">
+            <div>
               <svg
                 class="h-16 w-16 text-[#E0E5E7] mx-auto mb-4"
                 fill="none"
@@ -510,7 +498,9 @@
                   d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                 />
               </svg>
-              <p class="text-[#5e6d72]">Nenhuma transação neste período</p>
+              <p class="text-[#5e6d72] text-sm">
+                Nenhuma transação neste período
+              </p>
             </div>
             }
           </div>
@@ -623,7 +613,11 @@
               />
             </svg>
             <p class="text-[#5e6d72] mb-4">Nenhuma despesa categorizada</p>
-
+            <button
+              class="px-4 py-2 bg-[#1C6956] text-white rounded-lg text-sm font-medium hover:bg-[#013E4C] transition-colors"
+            >
+              Adicionar Categorias
+            </button>
             }
           </div>
           }
@@ -667,7 +661,6 @@
 
           <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
             <button
-              (click)="openNovaTransacaoDialog()"
               class="px-4 py-2 bg-[#1C6956] hover:bg-[#1a5e4d] text-white text-sm font-medium rounded-lg shadow-sm flex items-center justify-center space-x-2 transition-all duration-200 transform hover:scale-[1.02] active:scale-95"
             >
               <svg
@@ -925,7 +918,27 @@
               Parece que você ainda não tem movimentações registradas para
               {{ getMonthYear() | titlecase }}.
             </p>
-            <div class="mt-6"></div>
+            <div class="mt-6">
+              <button
+                class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-lg text-white bg-[#1C6956] hover:bg-[#1a5e4d] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1C6956] transition-all duration-200 transform hover:scale-105 active:scale-95"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="-ml-1 mr-2 h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                  />
+                </svg>
+                Adicionar primeira transação
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -1012,6 +1025,9 @@
           </span>
           <a href="#" class="text-sm text-emerald-600 hover:text-emerald-700"
             >Ajuda</a
+          >
+          <a href="#" class="text-sm text-emerald-600 hover:text-emerald-700"
+            >Termos</a
           >
         </div>
       </div>

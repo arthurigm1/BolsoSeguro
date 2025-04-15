@@ -498,7 +498,7 @@
       >
         <!-- Gráfico de Pizza -->
         <div
-          class="bg-white/90 backdrop-blur-sm rounded-xl p-5 border border-[#E0E5E7] shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in"
+          class="bg-white/90 backdrop-blur-sm rounded-xl p-5 border border-[#E0E5E7] shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in overflow-hidden"
         >
           <div class="flex justify-between items-center mb-4">
             <h3 class="text-lg font-semibold text-[#013E4C] flex items-center">
@@ -512,14 +512,14 @@
               }}</span>
             </div>
           </div>
-          <div class="h-80">
+          <div class="h-[300px] sm:h-[400px] w-full">
             <canvas id="pieChart"></canvas>
           </div>
         </div>
 
         <!-- Gráfico de Barras -->
         <div
-          class="bg-white/90 backdrop-blur-sm rounded-xl p-5 border border-[#E0E5E7] shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in"
+          class="bg-white/90 backdrop-blur-sm rounded-xl p-5 border border-[#E0E5E7] shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in overflow-hidden"
         >
           <div class="flex justify-between items-center mb-4">
             <h3 class="text-lg font-semibold text-[#013E4C] flex items-center">
@@ -538,14 +538,14 @@
               >
             </div>
           </div>
-          <div class="h-80">
+          <div class="h-[300px] sm:h-[400px] w-full">
             <canvas id="barChart"></canvas>
           </div>
         </div>
 
         <!-- Gráfico de Linha - Evolução Diária -->
         <div
-          class="bg-white/90 backdrop-blur-sm rounded-xl p-5 border border-[#E0E5E7] shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in"
+          class="bg-white/90 backdrop-blur-sm rounded-xl p-5 border border-[#E0E5E7] shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in overflow-hidden"
         >
           <div class="flex justify-between items-center mb-4">
             <h3 class="text-lg font-semibold text-[#013E4C] flex items-center">
@@ -559,14 +559,14 @@
               }}</span>
             </div>
           </div>
-          <div class="h-80">
+          <div class="h-[300px] sm:h-[400px] w-full">
             <canvas id="dailyLineChart"></canvas>
           </div>
         </div>
 
         <!-- Gráfico de Rosca - Top Categorias -->
         <div
-          class="bg-white/90 backdrop-blur-sm rounded-xl p-5 border border-[#E0E5E7] shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in"
+          class="bg-white/90 backdrop-blur-sm rounded-xl p-5 border border-[#E0E5E7] shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in overflow-hidden"
         >
           <div class="flex justify-between items-center mb-4">
             <h3 class="text-lg font-semibold text-[#013E4C] flex items-center">
@@ -580,7 +580,7 @@
               }}</span>
             </div>
           </div>
-          <div class="h-80">
+          <div class="h-[300px] sm:h-[400px] w-full">
             <canvas id="doughnutChart"></canvas>
           </div>
         </div>
@@ -589,7 +589,7 @@
       <!-- Linha do Tempo -->
       <div
         *ngIf="activeView === 'timeline'"
-        class="bg-white/90 backdrop-blur-sm rounded-xl p-5 border border-[#E0E5E7] shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in"
+        class="bg-white/90 backdrop-blur-sm rounded-xl p-5 border border-[#E0E5E7] shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in overflow-hidden"
       >
         <div class="flex justify-between items-center mb-4">
           <h3 class="text-lg font-semibold text-[#013E4C] flex items-center">
@@ -601,7 +601,7 @@
             <span class="font-medium text-[#013E4C]">Últimos 12 meses</span>
           </div>
         </div>
-        <div class="h-96">
+        <div class="h-[300px] sm:h-[400px] w-full">
           <canvas id="timelineChart"></canvas>
         </div>
       </div>
@@ -609,7 +609,7 @@
       <!-- Por Banco -->
       <div *ngIf="activeView === 'banks'" class="space-y-6">
         <div
-          class="bg-white/90 backdrop-blur-sm rounded-xl p-5 border border-[#E0E5E7] shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in"
+          class="bg-white/90 backdrop-blur-sm rounded-xl p-5 border border-[#E0E5E7] shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in overflow-hidden"
         >
           <div class="flex justify-between items-center mb-4">
             <h3 class="text-lg font-semibold text-[#013E4C] flex items-center">
@@ -623,14 +623,14 @@
               }}</span>
             </div>
           </div>
-          <div class="h-96">
+          <div class="h-[300px] sm:h-[400px] w-full">
             <canvas id="bankChart"></canvas>
           </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div
-            class="bg-white/90 backdrop-blur-sm rounded-xl p-5 border border-[#E0E5E7] shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in"
+            class="bg-white/90 backdrop-blur-sm rounded-xl p-5 border border-[#E0E5E7] shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in overflow-hidden"
           >
             <div class="flex justify-between items-center mb-4">
               <h3
@@ -640,13 +640,13 @@
                 Receitas por Banco
               </h3>
             </div>
-            <div class="h-64">
+            <div class="h-[300px] sm:h-[400px] w-full">
               <canvas id="bankIncomeChart"></canvas>
             </div>
           </div>
 
           <div
-            class="bg-white/90 backdrop-blur-sm rounded-xl p-5 border border-[#E0E5E7] shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in"
+            class="bg-white/90 backdrop-blur-sm rounded-xl p-5 border border-[#E0E5E7] shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in overflow-hidden"
           >
             <div class="flex justify-between items-center mb-4">
               <h3
@@ -656,7 +656,7 @@
                 Despesas por Banco
               </h3>
             </div>
-            <div class="h-64">
+            <div class="h-[300px] sm:h-[400px] w-full">
               <canvas id="bankExpenseChart"></canvas>
             </div>
           </div>
@@ -666,7 +666,7 @@
       <!-- Por Categoria -->
       <div *ngIf="activeView === 'categories'" class="space-y-6">
         <div
-          class="bg-white/90 backdrop-blur-sm rounded-xl p-5 border border-[#E0E5E7] shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in"
+          class="bg-white/90 backdrop-blur-sm rounded-xl p-5 border border-[#E0E5E7] shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in overflow-hidden"
         >
           <div class="flex justify-between items-center mb-4">
             <h3 class="text-lg font-semibold text-[#013E4C] flex items-center">
@@ -680,14 +680,14 @@
               }}</span>
             </div>
           </div>
-          <div class="h-96">
+          <div class="h-[300px] sm:h-[400px] w-full">
             <canvas id="categoryChart"></canvas>
           </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div
-            class="bg-white/90 backdrop-blur-sm rounded-xl p-5 border border-[#E0E5E7] shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in"
+            class="bg-white/90 backdrop-blur-sm rounded-xl p-5 border border-[#E0E5E7] shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in overflow-hidden"
           >
             <div class="flex justify-between items-center mb-4">
               <h3
@@ -697,13 +697,13 @@
                 Receitas por Categoria
               </h3>
             </div>
-            <div class="h-64">
+            <div class="h-[300px] sm:h-[400px] w-full">
               <canvas id="categoryIncomeChart"></canvas>
             </div>
           </div>
 
           <div
-            class="bg-white/90 backdrop-blur-sm rounded-xl p-5 border border-[#E0E5E7] shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in"
+            class="bg-white/90 backdrop-blur-sm rounded-xl p-5 border border-[#E0E5E7] shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in overflow-hidden"
           >
             <div class="flex justify-between items-center mb-4">
               <h3
@@ -713,32 +713,109 @@
                 Despesas por Categoria
               </h3>
             </div>
-            <div class="h-64">
+            <div class="h-[300px] sm:h-[400px] w-full">
               <canvas id="categoryExpenseChart"></canvas>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+    <footer
+      class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg p-6 mt-8 border border-white/30 animate-fadeIn h-full w-full"
+    >
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div>
+          <h3 class="text-lg font-semibold text-[#013E4C] mb-4">
+            BolsoSeguro Dashboard
+          </h3>
+          <p class="text-[#5e6d72] text-sm">
+            Uma ferramenta completa para gerenciar suas finanças pessoais e
+            alcançar seus objetivos financeiros.
+          </p>
+        </div>
 
-  <!-- Rodapé -->
-  <footer class="bg-white border-t border-gray-200 mt-8">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-      <div class="flex flex-col md:flex-row justify-between items-center">
-        <p class="text-sm text-gray-500">
-          &copy; {{ currentDate | date : "yyyy" }} Sistema Financeiro. Todos os
-          direitos reservados.
-        </p>
-        <div class="mt-4 md:mt-0 flex space-x-6">
-          <span class="text-sm text-gray-500">
-            Atualizado em {{ currentDate | date : "dd/MM/yyyy 'às' HH:mm" }}
-          </span>
-          <a href="#" class="text-sm text-emerald-600 hover:text-emerald-700"
-            >Ajuda</a
-          >
+        <div>
+          <h3 class="text-lg font-semibold text-[#013E4C] mb-4">
+            Links Rápidos
+          </h3>
+          <ul class="space-y-2">
+            <li>
+              <a
+                (click)="alterarComponente('lancamentos')"
+                class="text-[#5e6d72] hover:text-[#1C6956] transition-colors cursor-pointer text-sm flex items-center"
+              >
+                <i class="fas fa-chevron-right text-xs mr-2 text-[#1C6956]"></i>
+                Transações
+              </a>
+            </li>
+            <li>
+              <a
+                (click)="mudarPagina('configuracoes', 'contas')"
+                class="text-[#5e6d72] hover:text-[#1C6956] transition-colors cursor-pointer text-sm flex items-center"
+              >
+                <i class="fas fa-chevron-right text-xs mr-2 text-[#1C6956]"></i>
+                Minhas Contas
+              </a>
+            </li>
+            <li>
+              <a
+                (click)="mudarPagina('configuracoes', 'metas')"
+                class="text-[#5e6d72] hover:text-[#1C6956] transition-colors cursor-pointer text-sm flex items-center"
+              >
+                <i class="fas fa-chevron-right text-xs mr-2 text-[#1C6956]"></i>
+                Metas Financeiras
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold text-[#013E4C] mb-4">Contato</h3>
+          <ul class="space-y-2 text-sm text-[#5e6d72]">
+            <li class="flex items-center">
+              <i class="fas fa-envelope mr-2 text-[#1C6956]"></i>
+              contatofinancedashboard.com
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-globe mr-2 text-[#1C6956]"></i>
+              www.financedashboard.com
+            </li>
+          </ul>
+
+          <div class="mt-4 flex space-x-4">
+            <a
+              href="#"
+              class="text-[#5e6d72] hover:text-[#1C6956] transition-colors"
+            >
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a
+              href="#"
+              class="text-[#5e6d72] hover:text-[#1C6956] transition-colors"
+            >
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a
+              href="#"
+              class="text-[#5e6d72] hover:text-[#1C6956] transition-colors"
+            >
+              <i class="fab fa-instagram"></i>
+            </a>
+          </div>
         </div>
       </div>
-    </div>
-  </footer>
+
+      <div
+        class="border-t border-[#E0E5E7] mt-8 pt-6 text-center text-sm text-[#5e6d72]"
+      >
+        <p>
+          &copy; {{ currentDate | date : "yyyy" }} BolsoSeguro Dashboard. Todos
+          os direitos reservados.
+        </p>
+        <p class="mt-1">
+          Atualizado em {{ currentDate | date : "dd/MM/yyyy 'às' HH:mm" }}
+        </p>
+      </div>
+    </footer>
+  </div>
 </div>
