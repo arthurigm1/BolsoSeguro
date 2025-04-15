@@ -328,18 +328,9 @@ export class EditCardDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.editForm = this.fb.group({
-      nomeCartao: [
-        data.card.nome,
-        [Validators.required, Validators.minLength(3)],
-      ],
-      limiteTotal: [
-        data.card.limiteTotal,
-        [Validators.required, Validators.min(0)],
-      ],
-      limiteDisponivel: [
-        data.card.limiteDisponivel,
-        [Validators.required, Validators.min(0)],
-      ],
+      nomeCartao: [data.card.nome],
+      limiteTotal: [data.card.limiteTotal],
+      limiteDisponivel: [data.card.limiteDisponivel],
     });
   }
 
