@@ -132,18 +132,12 @@
               <div class="flex items-center space-x-4">
                 <div class="bank-icon-container">
                   <img
-                    [src]="getBankIcon(account.banco)"
-                    [alt]="account.banco"
+                    [src]="getBankIcon(account.bancoTipo)"
+                    [alt]="account.bancoTipo"
                     class="bank-icon"
                   />
                 </div>
-                <div class="bank-icon-container-large">
-                  <img
-                    [src]="getBankIcon(account.banco)"
-                    [alt]="account.banco"
-                    class="bank-icon-large"
-                  />
-                </div>
+
                 <div>
                   <h3
                     class="text-lg font-semibold text-[#013E4C] group-hover:text-[#1C6956] transition-colors"

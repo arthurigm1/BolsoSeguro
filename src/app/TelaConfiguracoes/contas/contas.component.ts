@@ -102,14 +102,14 @@ export class ContasComponent implements OnInit {
 
   getBankIcon(banco: string): string {
     const bancos: { [key: string]: string } = {
-      Itaú: 'assets/images/banks/itau.png',
-      Bradesco: 'assets/images/banks/bradesco.png',
-      Santander: 'assets/images/banks/santander.png',
-      Banco_do_Brasil: 'assets/images/banks/bb.png',
-      Caixa: 'assets/images/banks/caixa.png',
-      Nubank: 'assets/images/banks/nubank.png',
-      Inter: 'assets/images/banks/inter.png',
-      Outro: 'assets/images/banks/generic.png',
+      Itaú: 'assets/iconbank/itau.webp',
+      Bradesco: 'assets/iconbank/bradesco.jpg',
+      Santander: 'assets/iconbank/santander.png',
+      Banco_do_Brasil: 'assets/iconbank/bb.svg',
+      Caixa: 'assets/iconbank/caixa.svg',
+      Nubank: 'assets/iconbank/nubank.svg',
+      Inter: 'assets/iconbank/inter.png',
+      Outro: 'assets/iconbank/outros.png',
     };
     return bancos[banco] || bancos['Outro'];
   }

@@ -1,7 +1,7 @@
 export type ContaCadastroDTO = {
   banco: string;
   saldo: number;
-  bancoTipo: BancoTipo;
+  bancoTipo: string;
 };
 
 export enum BancoTipo {
@@ -11,6 +11,6 @@ export enum BancoTipo {
   ITAU = 'ITAU',
   SANTANDER = 'SANTANDER',
   BRADESCO = 'BRADESCO',
-  BANCO_DO_BRASIL = 'BANCO_DO_BRASIL',
+  BB = 'BB',
   OUTROS = 'OUTROS',
 }

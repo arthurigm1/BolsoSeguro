@@ -179,14 +179,16 @@ import {
         <!-- Bank icon selector -->
         <div [@formFieldAnimation]>
           <div
-            class="flex justify-between items-center cursor-pointer"
+            class="flex justify-between items-center cursor-pointer group"
             (click)="toggleIconPicker()"
           >
-            <label class="block text-sm font-medium text-[#5e6d72] ml-1">
-              Ícone do Banco *
+            <label
+              class="block text-sm font-medium text-[#5e6d72] ml-1 group-hover:text-[#013E4C] transition-colors"
+            >
+              Selecione o Banco *
             </label>
             <mat-icon
-              class="text-[#748389] transform transition-transform duration-300"
+              class="text-[#748389] transform transition-transform duration-300 group-hover:text-[#013E4C]"
               [class.rotate-180]="showIconPicker"
             >
               expand_more
@@ -194,28 +196,46 @@ import {
           </div>
 
           @if (showIconPicker) {
-          <div class="mt-3 grid grid-cols-4 gap-3" [@iconsAnimation]>
-            @for (icon of bankIcons | keyvalue; track icon.key) {
-            <button
-              type="button"
-              (click)="selectBank(icon.key)"
-              class="p-3 rounded-xl transition-all duration-200 flex flex-col items-center justify-center"
-              [class]="
-                selectedBank === icon.key
-                  ? 'bg-[#D8EAE5] border border-[#1C6956] shadow-inner'
-                  : 'bg-white/90 border border-[#E0E5E7] hover:border-[#748389]'
-              "
-            >
-              <div class="w-10 h-10 mb-2 flex items-center justify-center">
-                <img
-                  [src]="icon.value"
-                  [alt]="icon.key"
-                  class="h-full w-full object-contain"
-                />
-              </div>
-              <span class="text-xs text-[#5e6d72]">{{ icon.key }}</span>
-            </button>
-            }
+          <div
+            class="mt-4 p-4 bg-white/50 backdrop-blur-sm rounded-2xl border border-[#E0E5E7] shadow-lg"
+            [@iconsAnimation]
+          >
+            <div class="grid grid-cols-4 gap-4">
+              @for (icon of bankIcons | keyvalue; track icon.key) {
+              <button
+                type="button"
+                (click)="selectBank(icon.key)"
+                class="group relative p-4 rounded-xl transition-all duration-300 flex flex-col items-center justify-center overflow-hidden"
+                [class]="
+                  selectedBank === icon.key
+                    ? 'bg-gradient-to-br from-[#D8EAE5] to-[#1C6956]/20 border-2 border-[#1C6956] shadow-lg scale-105'
+                    : 'bg-white/90 border border-[#E0E5E7] hover:border-[#748389] hover:shadow-md hover:scale-105'
+                "
+              >
+                <div
+                  class="w-16 h-16 mb-3 flex items-center justify-center transform transition-transform duration-300 group-hover:scale-110"
+                >
+                  <img
+                    [src]="icon.value.icon"
+                    [alt]="icon.value.name"
+                    class="h-full w-full object-contain drop-shadow-md rounded-4xl"
+                  />
+                </div>
+                <span
+                  class="text-sm font-medium text-[#5e6d72] group-hover:text-[#013E4C] transition-colors"
+                >
+                  {{ icon.value.name }}
+                </span>
+                @if (selectedBank === icon.key) {
+                <div
+                  class="absolute top-2 right-2 w-4 h-4 rounded-full bg-[#1C6956] flex items-center justify-center"
+                >
+                  <mat-icon class="text-white text-xs">check</mat-icon>
+                </div>
+                }
+              </button>
+              }
+            </div>
           </div>
           }
         </div>
@@ -399,15 +419,18 @@ export class NovaContaDialogComponent {
   selectedBank: any = null;
 
   // Professional bank options with high-quality icons
-  bankIcons: Record<string, string> = {
-    NUBANK: 'assets/iconbank/nubank.svg',
-    INTER: 'assets/iconbank/inter.png',
-    CAIXA: 'assets/iconbank/caixa.svg',
-    ITAU: 'assets/iconbank/itau.webp',
-    SANTANDER: 'assets/iconbank/santander.png',
-    BRADESCO: 'assets/iconbank/bradesco.jpg',
-    BB: 'assets/iconbank/bb.svg',
-    OUTROS: 'assets/iconbank/outros.png',
+  bankIcons: Record<string, { icon: string; name: string }> = {
+    NUBANK: { icon: 'assets/iconbank/nubank.png', name: 'Nubank' },
+    INTER: { icon: 'assets/iconbank/inter.png', name: 'Inter' },
+    CAIXA: { icon: 'assets/iconbank/caixa.png', name: 'Caixa' },
+    ITAU: { icon: 'assets/iconbank/itau.png', name: 'Itaú' },
+    SANTANDER: { icon: 'assets/iconbank/santander.png', name: 'Santander' },
+    BRADESCO: { icon: 'assets/iconbank/bradesco.png', name: 'Bradesco' },
+    BANCO_DO_BRASIL: {
+      icon: 'assets/iconbank/bb.png',
+      name: 'BB',
+    },
+    OUTROS: { icon: 'assets/iconbank/outros.png', name: 'Outros' },
   };
 
   // Form group for account data
@@ -434,10 +457,10 @@ export class NovaContaDialogComponent {
   }
 
   // Select bank
-  selectBank(bank: any): void {
-    this.selectedBank = bank;
+  selectBank(bankKey: string): void {
+    const bank = this.bankIcons[bankKey];
+    this.selectedBank = bankKey;
     this.contaForm.patchValue({ banco: bank.name });
-    this.showIconPicker = false;
   }
 
   // Select account type
@@ -456,8 +479,8 @@ export class NovaContaDialogComponent {
 
     this.isSaving = true;
     const contaDTO: ContaCadastroDTO = {
-      banco: this.selectedBank.name,
-      bancoTipo: this.selectedBank.icon.key,
+      banco: this.contaForm.value.banco,
+      bancoTipo: this.selectedBank,
       saldo: this.contaForm.value.saldo!,
     };
 

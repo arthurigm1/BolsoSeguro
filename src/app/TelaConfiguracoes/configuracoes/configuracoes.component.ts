@@ -5,7 +5,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { ContasComponent } from '../contas/contas.component';
+
 import { CategoriasComponent } from '../categorias/categorias.component';
 import { CartaoComponent } from '../cartao/cartao.component';
 import { CommonModule } from '@angular/common';
@@ -23,6 +23,7 @@ import { CartaoService } from '../../Services/CartaoService/cartao.service';
 import { CartaoDTO } from '../../Interface/CartaoDTO.interface';
 import { MinhacontaComponent } from '../minhaconta/minhaconta.component';
 import { FaturaDetalhesComponent } from '../../fatura-detalhes/fatura-detalhes.component';
+import { ContasComponent } from '../contas/contas.component';
 
 @Component({
   selector: 'app-configuracoes',
