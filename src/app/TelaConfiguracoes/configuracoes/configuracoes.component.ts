@@ -43,10 +43,8 @@ import { ContasComponent } from '../contas/contas.component';
 })
 export class ConfiguracoesComponent {
   constructor(
-    private contaService: ContaService,
     private toastrService: ToastrService,
-    private cartaoService: CartaoService,
-    private categoriaService: CategoriaService,
+
     private metaService: MetaService
   ) {}
   isSaving: boolean = false;
@@ -77,21 +75,6 @@ export class ConfiguracoesComponent {
 
     this.activeComponent = 'cartaofatura';
   }
-  onSubmit() {
-    console.log('Formulário enviado! Tipo:', this.modalType);
-    switch (this.modalType) {
-      case 'categoria':
-        this.addCategory();
-        break;
-      case 'meta':
-        this.addMeta();
-        break;
-      case 'cartao':
-        break;
-      default:
-        break;
-    }
-  }
 
   menuItems = [
     { id: 'categorias', icon: 'fas fa-tags', label: 'Categorias' },
@@ -107,7 +90,7 @@ export class ConfiguracoesComponent {
   }
   // Estados do modal
   isModalOpen = false;
-  modalType: 'categoria' | 'meta' | 'cartao' = 'categoria'; // Removido tipo 'conta'
+
   categoriaModalType: 'expenses' | 'earnings' = 'expenses';
 
   // Objetos para formulários
@@ -126,56 +109,11 @@ export class ConfiguracoesComponent {
     this.activeComponent = component;
   }
 
-  openGlobalModal(
-    type: 'categoria' | 'meta' | 'cartao',
-    categoriaTipo?: 'expense' | 'income'
-  ) {
-    this.modalType = type;
-    this.isModalOpen = true;
-
-    if (type === 'categoria' && categoriaTipo) {
-      this.newCategory.type = categoriaTipo;
-      this.categoriaModalType =
-        categoriaTipo === 'expense' ? 'expenses' : 'earnings';
-    }
-  }
-
-  closeGlobalModal() {
-    this.isModalOpen = false;
-    this.resetForms();
-  }
-
   resetForms() {
     this.newCategory = { name: '', type: 'expense' };
     this.newGoal = { name: '', targetValue: 0, currentValue: 0 };
   }
 
-  onCancel() {
-    this.isSaving = false;
-    this.closeGlobalModal();
-  }
-
-  addCategory() {
-    this.isSaving = true;
-    const categoriaDTO: CategoriaDTO = {
-      nome: this.newCategory.name,
-      tipo: this.newCategory.type === 'expense' ? 'DESPESA' : 'RECEITA',
-    };
-
-    this.categoriaService.criarCategoria(categoriaDTO).subscribe(
-      (response) => {
-        this.toastrService.success('Categoria criada com sucesso!');
-
-        this.closeGlobalModal();
-        this.categoriaAtualizada.emit();
-        this.isSaving = false;
-      },
-      (error) => {
-        this.toastrService.error('Erro ao criar categoria!');
-        this.isSaving = false;
-      }
-    );
-  }
   dias: number[] = Array.from({ length: 31 }, (_, i) => i + 1);
 
   getActiveTitle() {
@@ -199,7 +137,7 @@ export class ConfiguracoesComponent {
         this.isSaving = false;
         this.metasComponent.carregarMetas();
         this.metaAtualizada.emit();
-        this.closeGlobalModal();
+
         this.resetGoalForm();
       },
       error: (error) => {

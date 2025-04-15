@@ -1,47 +1,32 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   MetaFinanceiraRequestDTO,
   MetaFinanceiraResponseDTO,
   MetaFinanceiraResponseDTOComId,
 } from '../../Interface/MetaFinanceiraResponseDTO.interface';
-import {
-  FormBuilder,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MetaService } from '../../Services/MetaService/meta.service';
 import { ToastrService } from 'ngx-toastr';
-import { th } from 'date-fns/locale';
 import Swal from 'sweetalert2';
+import { MatDialog } from '@angular/material/dialog';
+import { NovaMetaDialogComponent } from '../../Dialog/nova-meta-dialog/nova-meta-dialog.component';
 
 @Component({
   selector: 'app-metasfinanceiras',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './metasfinanceiras.component.html',
   styleUrl: './metasfinanceiras.component.scss',
 })
 export class MetasfinanceirasComponent implements OnInit {
   metas: MetaFinanceiraResponseDTO[] = [];
   isLoading: boolean = true;
-  isSaving: boolean = false;
-  metaForm: FormGroup;
-  selectedMeta: MetaFinanceiraResponseDTOComId | null = null;
-
-  @Output() openModalEvent = new EventEmitter<void>();
 
   constructor(
     private metaService: MetaService,
-    private fb: FormBuilder,
-    private toasrtservice: ToastrService
-  ) {
-    this.metaForm = this.fb.group({
-      nome: ['', [Validators.required, Validators.minLength(3)]],
-      valorMeta: ['', [Validators.required, Validators.min(0.01)]],
-    });
-  }
+    private toastr: ToastrService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.carregarMetas();
@@ -54,13 +39,12 @@ export class MetasfinanceirasComponent implements OnInit {
         this.isLoading = false;
         this.metas = metas.map((meta) => ({
           ...meta,
-
           progresso: this.calcularProgresso(meta),
         }));
       },
       error: (err) => {
         this.isLoading = false;
-        this.toasrtservice.error('Erro ao carregar metas financeiras');
+        this.toastr.error('Erro ao carregar metas financeiras');
       },
     });
   }
@@ -69,70 +53,36 @@ export class MetasfinanceirasComponent implements OnInit {
     return Math.round(((meta.valorAtual ?? 0) / meta.valorMeta) * 100);
   }
 
-  openCreateModal(): void {
-    this.openModalEvent.emit();
+  calcularTotalMetas(): number {
+    return this.metas.reduce((total, meta) => total + meta.valorMeta, 0);
   }
 
-  editMeta(meta: MetaFinanceiraResponseDTOComId): void {
-    this.selectedMeta = { ...meta };
+  openCreateModal(): void {
+    const dialogRef = this.dialog.open(NovaMetaDialogComponent, {
+      width: '500px',
+    });
 
-    // Preenche o formulário com os valores da meta selecionada
-    this.metaForm.patchValue({
-      nome: meta.nome,
-      valorMeta: meta.valorMeta,
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.carregarMetas();
+      }
     });
   }
 
-  closeModal(): void {
-    this.selectedMeta = null;
-    this.metaForm.reset();
+  editMeta(meta: MetaFinanceiraResponseDTOComId): void {
+    const dialogRef = this.dialog.open(NovaMetaDialogComponent, {
+      width: '500px',
+      data: meta,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.carregarMetas();
+      }
+    });
   }
 
-  atualizarMeta(): void {
-    // Verifica se o formulário é válido e há uma meta selecionada
-    if (this.metaForm.valid && this.selectedMeta) {
-      this.isSaving = true;
-
-      // Pega os valores do formulário
-      const formValues = this.metaForm.value;
-      const valorAtual = this.selectedMeta.valorAtual ?? 0;
-
-      // Cria o objeto com os dados atualizados
-      const metaAtualizada: MetaFinanceiraRequestDTO = {
-        nome: formValues.nome,
-        valorMeta: Number(formValues.valorMeta),
-        valorAtual: Number(valorAtual),
-      };
-
-      this.metaService
-        .editarMeta(
-          this.selectedMeta.id.toString(),
-          metaAtualizada.nome,
-          metaAtualizada.valorMeta,
-          metaAtualizada.valorAtual ?? 0
-        )
-        .subscribe({
-          next: () => {
-            this.toasrtservice.success('Meta atualizada com sucesso!');
-            this.carregarMetas();
-            this.closeModal();
-          },
-          error: (err) => {
-            this.isSaving = false;
-            this.toasrtservice.error('Erro ao atualizar meta');
-            console.error('Erro ao atualizar meta:', err);
-          },
-          complete: () => {
-            this.isSaving = false;
-          },
-        });
-    } else {
-      // Marca os campos como tocados para mostrar erros de validação
-      this.metaForm.markAllAsTouched();
-    }
-  }
   deletarMeta(id: number): void {
-    // Exibe o SweetAlert2 para confirmar a exclusão
     Swal.fire({
       title: 'Tem certeza?',
       text: 'Essa ação não pode ser desfeita!',
@@ -144,10 +94,9 @@ export class MetasfinanceirasComponent implements OnInit {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-        // Se o usuário confirmar, chama o serviço de exclusão
         this.metaService.deletarMeta(id.toString()).subscribe(
           () => {
-            this.carregarMetas(); // Atualiza a lista de metas após a exclusão
+            this.carregarMetas();
             Swal.fire(
               'Excluído!',
               'A meta foi excluída com sucesso.',

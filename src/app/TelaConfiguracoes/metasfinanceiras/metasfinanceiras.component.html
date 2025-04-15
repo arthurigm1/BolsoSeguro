@@ -1,340 +1,309 @@
-<div class="min-h-screen p-6">
-  <div class="max-w-4xl mx-auto">
-    <!-- Cabeçalho -->
+<div class="min-h-screen bg-[#F8F7F5] p-4 sm:p-6">
+  <div class="max-w-6xl mx-auto">
+    <!-- Card principal com efeito de vidro -->
     <div
-      class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6"
+      class="bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/30 overflow-hidden animate-fadeIn"
     >
-      <div>
-        <h1 class="text-2xl font-extrabold text-gray-900">
-          Minhas Metas Financeiras
-        </h1>
-        <p class="text-gray-500 mt-2 text-lg">
-          Visualize e acompanhe seu progresso financeiro
-        </p>
-      </div>
-      <button
-        (click)="openCreateModal()"
-        class="cursor-pointer w-full sm:w-auto flex items-center justify-center font-semibold bg-gradient-to-r from-[#b6c6cc] to-[#5e6d72] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5 mr-2"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-            clip-rule="evenodd"
-          />
-        </svg>
-        <span class="font-semibold">Nova Meta</span>
-      </button>
-    </div>
-
-    @if (isLoading) {
-    <!-- Loading Centralizado -->
-    <div class="flex items-center justify-center py-20">
-      <div class="text-center">
-        <!-- Spinner SVG animado -->
-        <svg
-          class="animate-spin h-12 w-12 text-[#5e6d72] mx-auto"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <circle
-            class="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="4"
-          ></circle>
-          <path
-            class="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          ></path>
-        </svg>
-        <p class="mt-4 text-lg font-medium text-gray-600">
-          Carregando suas metas...
-        </p>
-      </div>
-    </div>
-    } @else { @if (metas.length === 0) {
-    <!-- Estado Vazio -->
-    <div class="py-16 text-center">
-      <div class="max-w-md mx-auto px-4">
+      <!-- Header com gradiente e elementos decorativos -->
+      <div class="relative overflow-hidden">
         <div
-          class="mx-auto h-24 w-24 flex items-center justify-center rounded-2xl bg-gray-200 mb-6"
-        >
-          <i class="fas fa-bullseye text-black text-4xl"></i>
-        </div>
-        <h3 class="text-2xl font-bold text-gray-800 mb-3">
-          Nenhuma meta cadastrada
-        </h3>
-        <p class="text-gray-500 text-lg mb-8">
-          Comece criando sua primeira meta financeira
-        </p>
-      </div>
-    </div>
-    } @else {
-    <!-- Cards de Metas -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mb-10">
-      <div
-        *ngFor="let meta of metas"
-        class="bg-gray-100 backdrop-blur-sm rounded-2xl border border-gray-200/70 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 overflow-hidden"
-      >
-        <div class="p-6">
-          <!-- Cabeçalho do Card -->
-          <div class="flex justify-between items-start mb-5">
-            <div
-              class="w-14 h-14 rounded-xl flex items-center justify-center"
-              [ngClass]="{
-                'bg-green-100 text-green-600': (meta.progresso ?? 0) >= 100,
-                'bg-gray-300 text-gray-900': (meta.progresso ?? 0) < 100
-              }"
-            >
-              <i class="fas fa-bullseye text-2xl"></i>
+          class="absolute top-0 right-0 w-64 h-64 bg-[#D8EAE5] opacity-20 rounded-full -mr-32 -mt-32 animate-float1"
+        ></div>
+        <div
+          class="absolute bottom-0 left-0 w-48 h-48 bg-[#013E4C] opacity-10 rounded-full -ml-24 -mb-24 animate-float2"
+        ></div>
+
+        <div class="relative z-10 p-6 sm:p-8">
+          <div
+            class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6"
+          >
+            <div class="space-y-2">
+              <h1
+                class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-[#1C6956] to-[#013E4C] bg-clip-text text-transparent"
+              >
+                Minhas Metas Financeiras
+              </h1>
+              <p class="text-[#5e6d72] text-sm sm:text-base">
+                Visualize e acompanhe seu progresso financeiro
+              </p>
             </div>
 
-            <span
-              class="px-3 py-1 rounded-full text-xs font-semibold"
-              [ngClass]="{
-                'bg-green-100 text-green-800': (meta.progresso ?? 0) >= 100,
-                'bg-yellow-100 text-yellow-800': (meta.progresso ?? 0) < 100
-              }"
+            <button
+              (click)="openCreateModal()"
+              [disabled]="isLoading"
+              class="group w-full sm:w-auto flex items-center justify-center font-medium bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-6 py-3 rounded-xl shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              {{ (meta.progresso ?? 0) >= 100 ? "Concluída" : "Em andamento" }}
+              @if (isLoading) {
+              <svg
+                class="animate-spin h-5 w-5 mr-3 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+              <span class="text-sm sm:text-base">Processando...</span>
+              } @else {
+              <i
+                class="fas fa-plus-circle text-lg mr-3 group-hover:rotate-90 transition-transform duration-300"
+              ></i>
+              <span class="text-sm sm:text-base">Nova Meta</span>
+              }
+            </button>
+          </div>
+        </div>
+      </div>
+
+      @if (isLoading) {
+      <!-- Loading state com animação -->
+      <div class="flex items-center justify-center min-h-[60vh] w-full">
+        <div class="text-center space-y-6">
+          <div class="relative w-24 h-24 mx-auto">
+            <div
+              class="absolute inset-0 rounded-full border-4 border-[#1C6956] border-t-transparent animate-spin"
+            ></div>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <i
+                class="fas fa-bullseye text-[#1C6956] text-3xl animate-bounce"
+              ></i>
+            </div>
+          </div>
+          <p class="text-lg font-medium text-[#5e6d72] animate-pulse">
+            Carregando suas metas...
+          </p>
+        </div>
+      </div>
+      } @else {
+      <!-- Lista de Metas -->
+      <div class="p-6 sm:p-8">
+        @if (metas.length === 0) {
+        <!-- Estado vazio com animação -->
+        <div class="text-center py-12 space-y-4 animate-fadeIn">
+          <div class="relative w-24 h-24 mx-auto">
+            <!-- Círculo animado de fundo -->
+            <div
+              class="absolute inset-0 rounded-full bg-[#D8EAE5] animate-ping"
+            ></div>
+            <!-- Ícone centralizado com sombra sutil -->
+            <div
+              class="absolute inset-0 flex items-center justify-center rounded-full bg-white shadow-lg"
+            >
+              <i class="fas fa-bullseye text-[#1C6956] text-4xl"></i>
+            </div>
+          </div>
+          <h3 class="text-xl font-bold text-[#013E4C]">
+            Nenhuma meta cadastrada
+          </h3>
+          <p class="text-[#5e6d72] text-lg">
+            Comece criando sua primeira meta financeira
+          </p>
+          <button
+            (click)="openCreateModal()"
+            class="inline-flex items-center space-x-2 text-[#1C6956] font-medium hover:text-[#013E4C] transition-colors group"
+          >
+            <i
+              class="fas fa-plus-circle group-hover:rotate-90 transition-transform duration-300"
+            ></i>
+            <span>Criar primeira meta</span>
+          </button>
+        </div>
+        } @else {
+        <!-- Lista de metas com animações -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          @for (meta of metas; track meta.id; let i = $index) {
+          <div
+            class="group bg-white/80 hover:bg-white rounded-xl p-6 transition-all duration-300 hover:shadow-md animate-slideInRight"
+            [style.animation-delay.ms]="i * 100"
+          >
+            <!-- Cabeçalho da Meta -->
+            <div class="flex justify-between items-start mb-4">
+              <div
+                class="w-14 h-14 rounded-xl flex items-center justify-center"
+                [ngClass]="{
+                  'bg-[#D8EAE5] text-[#1C6956]': (meta.progresso ?? 0) >= 100,
+                  'bg-gray-100 text-[#5e6d72]': (meta.progresso ?? 0) < 100
+                }"
+              >
+                <i class="fas fa-bullseye text-2xl"></i>
+              </div>
+
+              <span
+                class="px-3 py-1 rounded-full text-xs font-semibold"
+                [ngClass]="{
+                  'bg-[#D8EAE5] text-[#1C6956]': (meta.progresso ?? 0) >= 100,
+                  'bg-gray-100 text-[#5e6d72]': (meta.progresso ?? 0) < 100
+                }"
+              >
+                {{
+                  (meta.progresso ?? 0) >= 100 ? "Concluída" : "Em andamento"
+                }}
+              </span>
+            </div>
+
+            <!-- Nome da Meta -->
+            <h3
+              class="text-xl font-bold text-[#013E4C] mb-4 group-hover:text-[#1C6956] transition-colors"
+            >
+              {{ meta.nome }}
+            </h3>
+
+            <!-- Barra de Progresso -->
+            <div class="mb-6">
+              <div class="flex justify-between text-sm text-[#5e6d72] mb-2">
+                <span>Progresso</span>
+                <span class="font-medium">{{ meta.progresso }}%</span>
+              </div>
+              <div
+                class="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden"
+              >
+                <div
+                  class="h-2.5 rounded-full"
+                  [ngClass]="{
+                    'bg-[#1C6956]': (meta.progresso ?? 0) >= 100,
+                    'bg-gradient-to-r from-[#1C6956] to-[#013E4C]':
+                      (meta.progresso ?? 0) < 100
+                  }"
+                  [style.width]="(meta.progresso ?? 0) + '%'"
+                ></div>
+              </div>
+            </div>
+
+            <!-- Valores -->
+            <div class="space-y-3 mb-6">
+              <div class="flex justify-between items-center">
+                <span class="text-[#5e6d72]">Valor Atual:</span>
+                <span class="font-medium text-[#013E4C]">
+                  {{ meta.valorAtual | currency : "BRL" : "symbol" : "1.2-2" }}
+                </span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-[#5e6d72]">Meta:</span>
+                <span class="font-medium text-[#013E4C]">
+                  {{ meta.valorMeta | currency : "BRL" : "symbol" : "1.2-2" }}
+                </span>
+              </div>
+            </div>
+
+            <!-- Ações -->
+            <div
+              class="flex justify-between items-center pt-4 border-t border-gray-100"
+            >
+              <button
+                (click)="editMeta(meta); $event.stopPropagation()"
+                class="p-2 rounded-full hover:bg-[#D8EAE5] transition-all duration-300 text-[#748389] hover:text-[#013E4C] group-hover:scale-110"
+                title="Editar"
+              >
+                <i class="fas fa-edit text-lg"></i>
+              </button>
+              <button
+                (click)="deletarMeta(meta.id); $event.stopPropagation()"
+                class="p-2 rounded-full hover:bg-[#D8EAE5] transition-all duration-300 text-[#748389] hover:text-[#013E4C] group-hover:scale-110"
+                title="Remover"
+              >
+                <i class="fas fa-trash-alt text-lg"></i>
+              </button>
+            </div>
+          </div>
+          }
+        </div>
+
+        <!-- Totalizador com animação -->
+        <div
+          class="mt-8 bg-gradient-to-r from-[#D8EAE5] to-white rounded-xl p-6 shadow-sm animate-fadeIn"
+        >
+          <div class="flex justify-between items-center">
+            <div>
+              <h3 class="text-lg font-semibold text-[#013E4C]">
+                Total em Metas
+              </h3>
+              <p class="text-sm text-[#5e6d72]">Soma dos valores das metas</p>
+            </div>
+            <span class="text-2xl font-bold text-[#1C6956]">
+              {{ calcularTotalMetas() | currency : "BRL" }}
             </span>
           </div>
-
-          <!-- Conteúdo Principal -->
-          <h3 class="text-xl font-bold text-gray-800 mb-3">{{ meta.nome }}</h3>
-
-          <!-- Barra de Progresso -->
-          <div class="mb-6">
-            <div class="flex justify-between text-sm text-gray-600 mb-2">
-              <span>Progresso</span>
-              <span class="font-medium">{{ meta.progresso }}%</span>
-            </div>
-            <div class="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
-              <div
-                class="h-2.5 rounded-full"
-                [ngClass]="{
-                  'bg-green-500': (meta.progresso ?? 0) >= 100,
-                  'bg-gradient-to-r from-[#b6c6cc] to-[#5e6d72]':
-                    (meta.progresso ?? 0) < 100
-                }"
-                [style.width]="(meta.progresso ?? 0) + '%'"
-              ></div>
-            </div>
-          </div>
-
-          <!-- Valores -->
-          <div class="space-y-3 mb-6">
-            <div class="flex justify-between items-center">
-              <span class="text-gray-500">Valor Atual:</span>
-              <span class="font-medium text-gray-800">
-                {{ meta.valorAtual | currency : "BRL" : "symbol" : "1.2-2" }}
-              </span>
-            </div>
-            <div class="flex justify-between items-center">
-              <span class="text-gray-500">Meta:</span>
-              <span class="font-medium text-gray-800">
-                {{ meta.valorMeta | currency : "BRL" : "symbol" : "1.2-2" }}
-              </span>
-            </div>
-          </div>
-
-          <!-- Ações -->
-          <div
-            class="flex justify-between items-center pt-4 border-t border-gray-200/50"
-          >
-            <button
-              (click)="editMeta(meta); $event.stopPropagation()"
-              class="p-2 rounded-full bg-white bg-opacity-20 hover:bg-opacity-30 transition cursor-pointer"
-              title="Editar"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                />
-              </svg>
-            </button>
-
-            <button
-              (click)="deletarMeta(meta.id); $event.stopPropagation()"
-              class="p-2 rounded-full bg-white bg-opacity-20 hover:bg-opacity-30 transition cursor-pointer"
-              title="Remover"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                />
-              </svg>
-            </button>
-          </div>
         </div>
+        }
       </div>
-    </div>
-    } }
-
-    <!-- Modal -->
-    <div
-      *ngIf="selectedMeta"
-      class="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
-    >
-      <div
-        class="bg-white/95 backdrop-blur-lg rounded-2xl shadow-2xl w-full max-w-md border border-gray-200/70 overflow-hidden transform transition-all duration-300"
-        [class.animate-scale-in]="selectedMeta"
-      >
-        <!-- Cabeçalho do Modal -->
-        <div
-          class="flex justify-between items-center border-b border-gray-200/50 p-6"
-        >
-          <h3 class="text-xl font-bold text-gray-800">Editar Meta</h3>
-          <button
-            (click)="closeModal()"
-            class="text-red-500 cursor-pointer rounded-full hover:bg-red-100 p-2 transition duration-200"
-          >
-            <i class="fas fa-times text-lg"></i>
-          </button>
-        </div>
-
-        <!-- Corpo do Modal -->
-        <div class="p-6">
-          <form [formGroup]="metaForm" class="space-y-6">
-            <!-- Nome da Meta -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">
-                Nome da Meta
-              </label>
-              <input
-                type="text"
-                formControlName="nome"
-                placeholder="Ex: Reserva de emergência"
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-              />
-              <div
-                *ngIf="
-                  metaForm.get('nome')?.invalid && metaForm.get('nome')?.touched
-                "
-                class="text-red-500 text-sm mt-2"
-              >
-                <span *ngIf="metaForm.get('nome')?.errors?.['required']"
-                  >Campo obrigatório</span
-                >
-                <span *ngIf="metaForm.get('nome')?.errors?.['minlength']"
-                  >Mínimo 3 caracteres</span
-                >
-              </div>
-            </div>
-
-            <!-- Valor da Meta -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">
-                Valor da Meta (R$)
-              </label>
-              <input
-                type="number"
-                formControlName="valorMeta"
-                min="0.01"
-                step="0.01"
-                placeholder="0,00"
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-              />
-              <div
-                *ngIf="
-                  metaForm.get('valorMeta')?.invalid &&
-                  metaForm.get('valorMeta')?.touched
-                "
-                class="text-red-500 text-sm mt-2"
-              >
-                <span *ngIf="metaForm.get('valorMeta')?.errors?.['required']"
-                  >Campo obrigatório</span
-                >
-                <span *ngIf="metaForm.get('valorMeta')?.errors?.['min']"
-                  >Valor mínimo: R$ 0,01</span
-                >
-              </div>
-            </div>
-
-            <!-- Valor Atual (se edição) -->
-            <div *ngIf="selectedMeta">
-              <label class="block text-sm font-medium text-gray-700 mb-2">
-                Valor Atual (R$)
-              </label>
-              <input
-                type="number"
-                [(ngModel)]="selectedMeta.valorAtual"
-                [ngModelOptions]="{ standalone: true }"
-                min="0"
-                step="0.01"
-                placeholder="0,00"
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-              />
-            </div>
-          </form>
-        </div>
-
-        <!-- Rodapé do Modal -->
-        <div class="border-t border-gray-200/50 p-6 flex justify-end space-x-4">
-          <button
-            (click)="closeModal()"
-            class="cursor-pointer px-5 py-2.5 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-          >
-            Cancelar
-          </button>
-          <button
-            (click)="atualizarMeta()"
-            [disabled]="!metaForm.valid || isSaving"
-            class="text-bold flex items-center bg-gradient-to-r from-[#b6c6cc] to-[#5e6d72] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
-          >
-            @if (isSaving) {
-            <svg
-              class="animate-spin h-5 w-5 mr-2 text-white"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                class="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                stroke-width="4"
-              ></circle>
-              <path
-                class="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              ></path>
-            </svg>
-            Salvando... } @else { Salvar Alterações }
-          </button>
-        </div>
-      </div>
+      }
     </div>
   </div>
+</div>
+
+<!-- Animações personalizadas -->
+<style>
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes float1 {
+    0%,
+    100% {
+      transform: translate(0, 0);
+    }
+    50% {
+      transform: translate(-10px, -10px);
+    }
+  }
+
+  @keyframes float2 {
+    0%,
+    100% {
+      transform: translate(0, 0);
+    }
+    50% {
+      transform: translate(10px, 10px);
+    }
+  }
+
+  .animate-fadeIn {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+
+  .animate-slideInRight {
+    animation: slideInRight 0.5s ease-out forwards;
+  }
+
+  .animate-float1 {
+    animation: float1 6s ease-in-out infinite;
+  }
+
+  .animate-float2 {
+    animation: float2 7s ease-in-out infinite;
+  }
+</style>
+
+<div class="total-container">
+  <span class="total-label">Total das Metas:</span>
+  <span class="total-value">{{ calcularTotalMetas() | currency : "BRL" }}</span>
 </div>

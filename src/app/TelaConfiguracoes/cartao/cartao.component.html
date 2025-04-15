@@ -122,59 +122,69 @@
         </div>
         } @else {
         <!-- Lista de cartões com animações -->
-        <div class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           @for (card of creditCards; track card.id; let i = $index) {
           <div
-            class="group bg-white/80 hover:bg-white rounded-xl p-4 transition-all duration-300 hover:shadow-md animate-slideInRight"
+            class="group relative bg-gradient-to-br from-[#1C6956] to-[#013E4C] rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 animate-slideInRight overflow-hidden"
             [style.animation-delay.ms]="i * 100"
           >
-            <div class="flex items-center justify-between">
-              <div class="flex items-center space-x-4">
-                <div
-                  class="p-2 bg-white rounded-full shadow-md border-2 border-gray-200"
-                >
-                  <img
-                    [src]="getCardLogo(card.bandeira)"
-                    [alt]="card.bandeira"
-                    class="w-12 h-12 object-contain hover:scale-110 transition-transform"
-                  />
-                </div>
+            <!-- Efeito de brilho no hover -->
+            <div
+              class="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            ></div>
 
-                <div>
-                  <h3
-                    class="text-lg font-semibold text-[#013E4C] group-hover:text-[#1C6956] transition-colors"
-                  >
-                    {{ card.nome }}
-                  </h3>
-                  <div class="flex items-center space-x-2">
-                    <span class="text-sm text-[#5e6d72]"
-                      >Limite disponível:</span
-                    >
-                    <span class="font-medium text-green-600">
-                      {{
-                        card.limiteDisponivel
-                          | currency : "BRL" : "symbol" : "1.2-2"
-                      }}
-                    </span>
-                  </div>
-                </div>
+            <!-- Logo do cartão -->
+            <div class="absolute top-4 right-4">
+              <img
+                [src]="getCardLogo(card.bandeira)"
+                [alt]="card.bandeira"
+                class="w-16 h-16 object-contain filter drop-shadow-lg"
+              />
+            </div>
+
+            <!-- Nome do cartão e limite -->
+            <div class="space-y-4">
+              <div>
+                <span class="text-white/80 text-sm">Nome do cartão</span>
+                <h3 class="text-white text-xl font-semibold">
+                  {{ card.nome }}
+                </h3>
               </div>
-              <div class="flex items-center space-x-2">
-                <button
-                  (click)="editarCartao(card)"
-                  class="p-2 rounded-full hover:bg-[#D8EAE5] transition-all duration-300 text-[#748389] hover:text-[#013E4C] group-hover:scale-110"
-                  title="Editar"
-                >
-                  <i class="fas fa-edit text-lg"></i>
-                </button>
-                <button
-                  (click)="deletarCartao(card.id)"
-                  class="p-2 rounded-full hover:bg-[#D8EAE5] transition-all duration-300 text-[#748389] hover:text-[#013E4C] group-hover:scale-110"
-                  title="Remover"
-                >
-                  <i class="fas fa-trash-alt text-lg"></i>
-                </button>
+
+              <div>
+                <span class="text-white/80 text-sm">Limite disponível</span>
+                <p class="text-white text-xl font-bold">
+                  {{
+                    card.limiteDisponivel
+                      | currency : "BRL" : "symbol" : "1.2-2"
+                  }}
+                </p>
               </div>
+            </div>
+
+            <!-- Botões de ação -->
+            <div class="absolute bottom-4 right-4 flex items-center space-x-2">
+              <button
+                (click)="verDetalhesFatura(card.id)"
+                class="p-2 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-300 text-white hover:text-white/90 group-hover:scale-110"
+                title="Ver fatura"
+              >
+                <i class="fas fa-file-invoice-dollar text-lg"></i>
+              </button>
+              <button
+                (click)="editarCartao(card)"
+                class="p-2 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-300 text-white hover:text-white/90 group-hover:scale-110"
+                title="Editar"
+              >
+                <i class="fas fa-edit text-lg"></i>
+              </button>
+              <button
+                (click)="deletarCartao(card.id)"
+                class="p-2 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-300 text-white hover:text-white/90 group-hover:scale-110"
+                title="Remover"
+              >
+                <i class="fas fa-trash-alt text-lg"></i>
+              </button>
             </div>
           </div>
           }
@@ -191,7 +201,7 @@
               </h3>
               <p class="text-sm text-[#5e6d72]">Soma dos limites disponíveis</p>
             </div>
-            <span class="text-2xl font-bold text-green-600">
+            <span class="text-2xl font-bold text-[#1C6956]">
               {{
                 getTotalAvailableLimit() | currency : "BRL" : "symbol" : "1.2-2"
               }}

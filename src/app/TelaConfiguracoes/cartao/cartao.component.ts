@@ -11,6 +11,7 @@ import { CartaoResponseDTO } from '../../Interface/CartaoDTO.interface';
 import { NovoCartaoDialogComponent } from '../../Dialog/novo-cartao-dialog/novo-cartao-dialog.component';
 import Swal from 'sweetalert2';
 import { EditCardDialogComponent } from '../../Dialog/edit-card-dialog/edit-card-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cartao',
@@ -33,7 +34,8 @@ export class CartaoComponent implements OnInit {
   constructor(
     private cartaoService: CartaoService,
     private dialog: MatDialog,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
