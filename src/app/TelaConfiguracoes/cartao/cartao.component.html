@@ -60,9 +60,11 @@
               >
               } @else {
               <i
-                class="fas fa-plus-circle text-base sm:text-lg mr-2 sm:mr-3 group-hover:rotate-90 transition-transform duration-300"
+                class="cursor-pointer fas fa-plus-circle text-base sm:text-lg mr-2 sm:mr-3 group-hover:rotate-90 transition-transform duration-300"
               ></i>
-              <span class="text-xs sm:text-sm md:text-base">Novo Cartão</span>
+              <span class="cursor-pointer text-xs sm:text-sm md:text-base"
+                >Novo Cartão</span
+              >
               }
             </button>
           </div>
@@ -182,21 +184,21 @@
             >
               <button
                 (click)="verDetalhesFatura(card.id)"
-                class="p-1.5 sm:p-2 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-300 text-white hover:text-white/90 group-hover:scale-110"
+                class="cursor-pointer p-1.5 sm:p-2 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-300 text-white hover:text-white/90 group-hover:scale-110"
                 title="Ver fatura"
               >
                 <i class="fas fa-file-invoice-dollar text-base sm:text-lg"></i>
               </button>
               <button
                 (click)="editarCartao(card)"
-                class="p-1.5 sm:p-2 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-300 text-white hover:text-white/90 group-hover:scale-110"
+                class="cursor-pointer p-1.5 sm:p-2 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-300 text-white hover:text-white/90 group-hover:scale-110"
                 title="Editar"
               >
                 <i class="fas fa-edit text-base sm:text-lg"></i>
               </button>
               <button
                 (click)="deletarCartao(card.id)"
-                class="p-1.5 sm:p-2 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-300 text-white hover:text-white/90 group-hover:scale-110"
+                class="cursor-pointer p-1.5 sm:p-2 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-300 text-white hover:text-white/90 group-hover:scale-110"
                 title="Remover"
               >
                 <i class="fas fa-trash-alt text-base sm:text-lg"></i>

@@ -210,7 +210,7 @@ import {
               <button
                 type="button"
                 (click)="selectBank(icon.key)"
-                class="group relative p-3 sm:p-4 rounded-xl transition-all duration-300 flex flex-col items-center justify-center overflow-hidden"
+                class="cursor-pointer group relative p-3 sm:p-4 rounded-xl transition-all duration-300 flex flex-col items-center justify-center overflow-hidden"
                 [class]="
                   selectedBank === icon.key
                     ? 'bg-gradient-to-br from-[#D8EAE5] to-[#1C6956]/20 border-2 border-[#1C6956] shadow-lg scale-105'
@@ -256,14 +256,14 @@ import {
           <button
             type="button"
             (click)="onCancel()"
-            class="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl border border-[#E0E5E7] text-[#5e6d72] hover:text-[#013E4C] hover:border-[#748389] transition-all duration-300 font-medium flex items-center justify-center text-sm sm:text-base"
+            class="cursor-pointer w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl border border-[#E0E5E7] text-[#5e6d72] hover:text-[#013E4C] hover:border-[#748389] transition-all duration-300 font-medium flex items-center justify-center text-sm sm:text-base"
             [disabled]="isSaving"
           >
             Cancelar
           </button>
           <button
             type="submit"
-            class="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white hover:shadow-lg transition-all duration-300 font-medium flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
+            class="cursor-pointer w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white hover:shadow-lg transition-all duration-300 font-medium flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
             [disabled]="!contaForm.valid || !selectedBank || isSaving"
           >
             @if (isSaving) {

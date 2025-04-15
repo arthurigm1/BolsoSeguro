@@ -57,9 +57,9 @@
               <span class="text-sm sm:text-base">Processando...</span>
               } @else {
               <i
-                class="fas fa-plus-circle text-lg mr-3 group-hover:rotate-90 transition-transform duration-300"
+                class="cursor-pointer fas fa-plus-circle text-lg mr-3 group-hover:rotate-90 transition-transform duration-300"
               ></i>
-              <span class="text-sm sm:text-base">Nova Meta</span>
+              <span class="cursor-pointer text-sm sm:text-base">Nova Meta</span>
               }
             </button>
           </div>
@@ -114,9 +114,9 @@
             class="inline-flex items-center space-x-2 text-[#1C6956] font-medium hover:text-[#013E4C] transition-colors group"
           >
             <i
-              class="fas fa-plus-circle group-hover:rotate-90 transition-transform duration-300"
+              class="cursor-pointer fas fa-plus-circle group-hover:rotate-90 transition-transform duration-300"
             ></i>
-            <span>Criar primeira meta</span>
+            <span class="cursor-pointer">Criar primeira meta</span>
           </button>
         </div>
         } @else {
@@ -202,14 +202,14 @@
             >
               <button
                 (click)="editMeta(meta); $event.stopPropagation()"
-                class="p-2 rounded-full hover:bg-[#D8EAE5] transition-all duration-300 text-[#748389] hover:text-[#013E4C] group-hover:scale-110"
+                class="cursor-pointer p-2 rounded-full hover:bg-[#D8EAE5] transition-all duration-300 text-[#748389] hover:text-[#013E4C] group-hover:scale-110"
                 title="Editar"
               >
                 <i class="fas fa-edit text-lg"></i>
               </button>
               <button
                 (click)="deletarMeta(meta.id); $event.stopPropagation()"
-                class="p-2 rounded-full hover:bg-[#D8EAE5] transition-all duration-300 text-[#748389] hover:text-[#013E4C] group-hover:scale-110"
+                class="cursor-pointer p-2 rounded-full hover:bg-[#D8EAE5] transition-all duration-300 text-[#748389] hover:text-[#013E4C] group-hover:scale-110"
                 title="Remover"
               >
                 <i class="fas fa-trash-alt text-lg"></i>

@@ -27,10 +27,15 @@ import { MatInputModule } from '@angular/material/input';
     MatInputModule,
   ],
   template: `
-    <div class="bg-white rounded-xl shadow-xl overflow-hidden ">
+    <div
+      class="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-[#E0E5E7] overflow-hidden"
+    >
       <!-- Header -->
-      <div class="bg-gradient-to-r from-gray-200 to-gray-50 px-6 py-4">
-        <h2 class="text-xl font-bold text-black">Editar Cartão</h2>
+      <div class="bg-gradient-to-r from-[#013E4C] to-[#1C6956] px-6 py-4">
+        <h2 class="text-xl font-bold text-white flex items-center">
+          <i class="fas fa-credit-card mr-2"></i>
+          Editar Cartão
+        </h2>
       </div>
 
       <!-- Content -->
@@ -38,63 +43,75 @@ import { MatInputModule } from '@angular/material/input';
         <form [formGroup]="editForm" class="space-y-4">
           <!-- Nome do Cartão -->
           <div class="space-y-2">
-            <label class="block text-sm font-medium text-gray-700"
+            <label class="block text-sm font-medium text-[#5e6d72]"
               >Nome do Cartão</label
             >
-            <input
-              formControlName="nomeCartao"
-              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-              placeholder="Ex: Cartão Nubank"
-            />
+            <div class="relative">
+              <input
+                formControlName="nomeCartao"
+                class="w-full px-4 py-2.5 border border-[#E0E5E7] rounded-xl focus:ring-2 focus:ring-[#1C6956]/50 focus:border-[#1C6956] bg-white transition-all duration-300 hover:shadow-sm"
+                placeholder="Ex: Cartão Nubank"
+              />
+              <i
+                class="fas fa-credit-card absolute right-3 top-3 text-[#748389]"
+              ></i>
+            </div>
           </div>
 
           <!-- Limite Total -->
           <div class="space-y-2">
-            <label class="block text-sm font-medium text-gray-700"
+            <label class="block text-sm font-medium text-[#5e6d72]"
               >Limite Total</label
             >
             <div class="relative">
-              <span class="absolute left-3 top-2 text-gray-500">R$</span>
+              <span class="absolute left-3 top-3 text-[#748389]">R$</span>
               <input
                 type="number"
                 formControlName="limiteTotal"
-                class="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                class="w-full pl-8 pr-10 py-2.5 border border-[#E0E5E7] rounded-xl focus:ring-2 focus:ring-[#1C6956]/50 focus:border-[#1C6956] bg-white transition-all duration-300 hover:shadow-sm"
                 placeholder="0,00"
               />
+              <i
+                class="fas fa-wallet absolute right-3 top-3 text-[#748389]"
+              ></i>
             </div>
           </div>
 
           <!-- Limite Disponível -->
           <div class="space-y-2">
-            <label class="block text-sm font-medium text-gray-700"
+            <label class="block text-sm font-medium text-[#5e6d72]"
               >Limite Disponível</label
             >
             <div class="relative">
-              <span class="absolute left-3 top-2 text-gray-500">R$</span>
+              <span class="absolute left-3 top-3 text-[#748389]">R$</span>
               <input
                 type="number"
                 formControlName="limiteDisponivel"
-                class="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                class="w-full pl-8 pr-10 py-2.5 border border-[#E0E5E7] rounded-xl focus:ring-2 focus:ring-[#1C6956]/50 focus:border-[#1C6956] bg-white transition-all duration-300 hover:shadow-sm"
                 placeholder="0,00"
               />
+              <i
+                class="fas fa-money-bill-wave absolute right-3 top-3 text-[#748389]"
+              ></i>
             </div>
           </div>
         </form>
       </div>
 
       <!-- Footer/Actions -->
-      <div class="bg-gray-50 px-6 py-4 flex justify-end space-x-3">
+      <div class="bg-[#F8F7F5] px-6 py-4 flex justify-end space-x-3">
         <button
           mat-dialog-close
-          class="cursor-pointer px-5 py-2.5 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+          class="cursor-pointer px-5 py-2.5 text-[#5e6d72] bg-white border border-[#E0E5E7] rounded-xl shadow-sm hover:bg-[#D8EAE5] hover:text-[#1C6956] focus:ring-2 focus:ring-[#1C6956]/50 transition-all duration-300"
         >
           Cancelar
         </button>
         <button
           (click)="save()"
           [disabled]="editForm.invalid"
-          class="flex items-center bg-gradient-to-r from-[#b6c6cc] to-[#5e6d72] text-white px-4 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
+          class="cursor-pointer px-5 py-2.5 bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 flex items-center"
         >
+          <i class="fas fa-save mr-2"></i>
           Salvar Alterações
         </button>
       </div>

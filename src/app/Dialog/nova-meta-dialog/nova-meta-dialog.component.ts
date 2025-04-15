@@ -230,14 +230,14 @@ import { MetaFinanceiraResponseDTOComId } from '../../Interface/MetaFinanceiraRe
           <button
             type="button"
             (click)="onCancel()"
-            class="w-full sm:w-auto px-3 sm:px-4 md:px-6 py-2 rounded-lg border border-[#E0E5E7] text-[#5e6d72] hover:text-[#013E4C] hover:border-[#748389] transition-all duration-300 font-medium flex items-center justify-center text-sm"
+            class="cursor-pointer w-full sm:w-auto px-3 sm:px-4 md:px-6 py-2 rounded-lg border border-[#E0E5E7] text-[#5e6d72] hover:text-[#013E4C] hover:border-[#748389] transition-all duration-300 font-medium flex items-center justify-center text-sm"
             [disabled]="isSaving"
           >
             Cancelar
           </button>
           <button
             type="submit"
-            class="w-full sm:w-auto px-3 sm:px-4 md:px-6 py-2 rounded-lg bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white hover:shadow-lg transition-all duration-300 font-medium flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+            class="cursor-pointer w-full sm:w-auto px-3 sm:px-4 md:px-6 py-2 rounded-lg bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white hover:shadow-lg transition-all duration-300 font-medium flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed text-sm"
             [disabled]="!metaForm.valid || isSaving"
           >
             @if (isSaving) {

@@ -143,14 +143,14 @@
         <div class="grid grid-cols-2 gap-3">
           <button
             (click)="openModal('Receita')"
-            class="bg-gradient-to-r from-green-400 to-[#1C6956] text-white p-3 rounded-xl flex items-center justify-center space-x-2 transition-all hover:shadow-lg hover:scale-[1.02]"
+            class="cursor-pointer bg-gradient-to-r from-green-400 to-[#1C6956] text-white p-3 rounded-xl flex items-center justify-center space-x-2 transition-all hover:shadow-lg hover:scale-[1.02]"
           >
             <i class="fas fa-plus-circle"></i>
             <span>Receita</span>
           </button>
           <button
             (click)="openModal('Despesa')"
-            class="bg-gradient-to-r from-red-400 to-red-600 text-white p-3 rounded-xl flex items-center justify-center space-x-2 transition-all hover:shadow-lg hover:scale-[1.02]"
+            class="cursor-pointer bg-gradient-to-r from-red-400 to-red-600 text-white p-3 rounded-xl flex items-center justify-center space-x-2 transition-all hover:shadow-lg hover:scale-[1.02]"
           >
             <i class="fas fa-minus-circle"></i>
             <span>Despesa</span>
@@ -175,7 +175,7 @@
           </h2>
           <button
             (click)="mudarPagina('configuracoes', 'contas')"
-            class="text-[#5e6d72] hover:text-[#013E4C] transition-colors"
+            class="cursor-pointer text-[#5e6d72] hover:text-[#013E4C] transition-colors"
           >
             <i class="fas fa-ellipsis-h"></i>
           </button>
@@ -210,7 +210,7 @@
 
         <button
           (click)="mudarPagina('configuracoes', 'contas')"
-          class="mt-6 w-full bg-[#F8F7F5] hover:bg-[#D8EAE5] text-[#013E4C] p-3 rounded-xl flex items-center justify-center space-x-2 transition-all border border-[#E0E5E7] hover:border-[#1C6956]/30"
+          class="cursor-pointer mt-6 w-full bg-[#F8F7F5] hover:bg-[#D8EAE5] text-[#013E4C] p-3 rounded-xl flex items-center justify-center space-x-2 transition-all border border-[#E0E5E7] hover:border-[#1C6956]/30"
         >
           <i class="fas fa-plus text-[#1C6956]"></i>
           <span>Adicionar conta</span>
@@ -228,7 +228,7 @@
           </h2>
           <button
             (click)="mudarPagina('configuracoes', 'metas')"
-            class="text-[#5e6d72] hover:text-[#013E4C] transition-colors"
+            class="cursor-pointer text-[#5e6d72] hover:text-[#013E4C] transition-colors"
           >
             <i class="fas fa-ellipsis-h"></i>
           </button>
@@ -249,7 +249,7 @@
           </p>
           <button
             (click)="mudarPagina('configuracoes', 'metas')"
-            class="bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-6 py-2 rounded-full text-sm hover:shadow-md transition-all"
+            class="cursor-pointer bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-6 py-2 rounded-full text-sm hover:shadow-md transition-all"
           >
             Criar Meta
           </button>
@@ -413,7 +413,7 @@
             </h2>
             <button
               (click)="alterarComponente('lancamentos')"
-              class="text-[#5e6d72] hover:text-[#013E4C] transition-colors flex items-center text-sm"
+              class="cursor-pointer text-[#5e6d72] hover:text-[#013E4C] transition-colors flex items-center text-sm"
             >
               Ver todas <i class="fas fa-chevron-right ml-1 text-xs"></i>
             </button>
@@ -501,7 +501,7 @@
           </h2>
           <button
             (click)="mudarPagina('configuracoes', 'cartoes')"
-            class="text-[#5e6d72] hover:text-[#013E4C] transition-colors"
+            class="cursor-pointer text-[#5e6d72] hover:text-[#013E4C] transition-colors"
           >
             <i class="fas fa-ellipsis-h"></i>
           </button>
@@ -524,7 +524,7 @@
           </p>
           <button
             (click)="mudarPagina('configuracoes', 'cartoes')"
-            class="bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-4 sm:px-6 py-2 rounded-full text-xs sm:text-sm hover:shadow-md transition-all"
+            class="cursor-pointer bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white px-4 sm:px-6 py-2 rounded-full text-xs sm:text-sm hover:shadow-md transition-all"
           >
             Adicionar Cartão
           </button>

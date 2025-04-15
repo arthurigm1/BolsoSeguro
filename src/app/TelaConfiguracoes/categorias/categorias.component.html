@@ -57,9 +57,9 @@
             <span class="text-xs sm:text-base">Processando...</span>
             } @else {
             <i
-              class="fas fa-plus-circle text-base sm:text-lg mr-2 sm:mr-3 group-hover:rotate-90 transition-transform duration-300"
+              class="cursor-pointer fas fa-plus-circle text-base sm:text-lg mr-2 sm:mr-3 group-hover:rotate-90 transition-transform duration-300"
             ></i>
-            <span class="text-xs sm:text-base">
+            <span class="cursor-pointer text-xs sm:text-base">
               {{
                 activeTab === "expenses"
                   ? "Nova Categoria de Despesa"
@@ -110,7 +110,9 @@
               [class.text-[#5e6d72]]="activeTab !== 'expenses'"
               [class.font-semibold]="activeTab === 'expenses'"
             >
-              <div class="flex items-center justify-center space-x-2">
+              <div
+                class="cursor-pointer flex items-center justify-center space-x-2"
+              >
                 <i class="fas fa-wallet text-base sm:text-lg"></i>
                 <span>Despesas</span>
               </div>
@@ -123,7 +125,7 @@
           <li class="flex-1">
             <button
               (click)="setActiveTab('earnings')"
-              class="w-full py-3 sm:py-4 px-4 sm:px-6 text-xs sm:text-base transition-all duration-300 relative group"
+              class="cursor-pointer w-full py-3 sm:py-4 px-4 sm:px-6 text-xs sm:text-base transition-all duration-300 relative group"
               [class.text-[#1C6956]]="activeTab === 'earnings'"
               [class.text-[#5e6d72]]="activeTab !== 'earnings'"
               [class.font-semibold]="activeTab === 'earnings'"
@@ -195,7 +197,7 @@
             </p>
             <button
               (click)="openModal()"
-              class="inline-flex items-center space-x-2 text-[#1C6956] font-medium hover:text-[#013E4C] transition-colors group text-sm sm:text-base"
+              class="cursor-pointer inline-flex items-center space-x-2 text-[#1C6956] font-medium hover:text-[#013E4C] transition-colors group text-sm sm:text-base"
             >
               <i
                 class="fas fa-plus-circle group-hover:rotate-90 transition-transform duration-300"
@@ -229,7 +231,7 @@
                 <button
                   (click)="deletarCategoria(category.id)"
                   [disabled]="deletingCategoryId === category.id"
-                  class="p-1.5 sm:p-2 rounded-full hover:bg-[#D8EAE5] transition-all duration-300 text-[#748389] hover:text-[#013E4C] group-hover:scale-110"
+                  class="cursor-pointer p-1.5 sm:p-2 rounded-full hover:bg-[#D8EAE5] transition-all duration-300 text-[#748389] hover:text-[#013E4C] group-hover:scale-110"
                   title="Remover"
                 >
                   @if (deletingCategoryId === category.id) {
@@ -311,7 +313,7 @@
             </p>
             <button
               (click)="openModal()"
-              class="inline-flex items-center space-x-2 text-[#1C6956] font-medium hover:text-[#013E4C] transition-colors group text-sm sm:text-base"
+              class="cursor-pointer inline-flex items-center space-x-2 text-[#1C6956] font-medium hover:text-[#013E4C] transition-colors group text-sm sm:text-base"
             >
               <i
                 class="fas fa-plus-circle group-hover:rotate-90 transition-transform duration-300"
@@ -345,7 +347,7 @@
                 <button
                   (click)="deletarCategoria(category.id)"
                   [disabled]="deletingCategoryId === category.id"
-                  class="p-1.5 sm:p-2 rounded-full hover:bg-[#D8EAE5] transition-all duration-300 text-[#748389] hover:text-[#013E4C] group-hover:scale-110"
+                  class="cursor-pointer p-1.5 sm:p-2 rounded-full hover:bg-[#D8EAE5] transition-all duration-300 text-[#748389] hover:text-[#013E4C] group-hover:scale-110"
                   title="Remover"
                 >
                   @if (deletingCategoryId === category.id) {

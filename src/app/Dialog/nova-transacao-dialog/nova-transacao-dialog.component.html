@@ -3,18 +3,21 @@
   <div *ngIf="step === 'select'" class="space-y-6">
     <div class="flex items-center justify-between mb-6">
       <h2 class="text-xl font-bold text-[#013E4C]">Nova Transação</h2>
-      <button (click)="onCancel()" class="text-[#5e6d72] hover:text-[#013E4C]">
-        <i class="fas fa-times"></i>
+      <button
+        (click)="onCancel()"
+        class="cursor-pointer text-[#5e6d72] hover:text-[#013E4C]"
+      >
+        <i class="cursor-pointer fas fa-times"></i>
       </button>
     </div>
 
     <p class="text-[#5e6d72]">Selecione o tipo de transação:</p>
 
-    <div class="grid grid-cols-2 gap-4">
+    <div class="cursor-pointer grid grid-cols-2 gap-4">
       <!-- Botão Receita -->
       <button
         (click)="selectTipo('RECEITA')"
-        class="p-6 border-2 border-[#D8EAE5] rounded-lg flex flex-col items-center justify-center gap-2 hover:bg-[#F8F7F5] transition-colors"
+        class="cursor-pointer p-6 border-2 border-[#D8EAE5] rounded-lg flex flex-col items-center justify-center gap-2 hover:bg-[#F8F7F5] transition-colors"
       >
         <div class="p-3 bg-[#D8EAE5] text-[#1C6956] rounded-full">
           <i class="fas fa-arrow-up"></i>
@@ -26,7 +29,7 @@
       <!-- Botão Despesa -->
       <button
         (click)="selectTipo('DESPESA')"
-        class="p-6 border-2 border-[#F5E8E8] rounded-lg flex flex-col items-center justify-center gap-2 hover:bg-[#F8F7F5] transition-colors"
+        class="cursor-pointer p-6 border-2 border-[#F5E8E8] rounded-lg flex flex-col items-center justify-center gap-2 hover:bg-[#F8F7F5] transition-colors"
       >
         <div class="p-3 bg-[#F5E8E8] text-[#A83E3E] rounded-full">
           <i class="fas fa-arrow-down"></i>
@@ -175,14 +178,14 @@
         <button
           type="button"
           (click)="onCancel()"
-          class="px-4 py-2 text-sm font-medium text-[#5e6d72] hover:text-[#013E4C]"
+          class="cursor-pointer px-4 py-2 text-sm font-medium text-[#5e6d72] hover:text-[#013E4C]"
         >
           Cancelar
         </button>
         <button
           type="submit"
           [disabled]="form.invalid || isLoading"
-          class="px-4 py-2 text-sm font-medium text-white bg-[#1C6956] rounded-lg hover:bg-[#013E4C] disabled:opacity-50 disabled:cursor-not-allowed"
+          class="cursor-pointer px-4 py-2 text-sm font-medium text-white bg-[#1C6956] rounded-lg hover:bg-[#013E4C] disabled:opacity-50 disabled:cursor-not-allowed"
         >
           @if (isLoading) {
           <i class="fas fa-spinner fa-spin mr-2"></i>

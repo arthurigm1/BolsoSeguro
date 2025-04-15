@@ -59,9 +59,11 @@
               >
               } @else {
               <i
-                class="fas fa-plus-circle text-base sm:text-lg mr-2 sm:mr-3 group-hover:rotate-90 transition-transform duration-300"
+                class="cursor-pointer fas fa-plus-circle text-base sm:text-lg mr-2 sm:mr-3 group-hover:rotate-90 transition-transform duration-300"
               ></i>
-              <span class="text-xs sm:text-sm md:text-base">Nova Conta</span>
+              <span class="cursor-pointer text-xs sm:text-sm md:text-base"
+                >Nova Conta</span
+              >
               }
             </button>
           </div>
@@ -123,9 +125,9 @@
             class="inline-flex items-center space-x-2 text-[#1C6956] font-medium hover:text-[#013E4C] transition-colors group text-sm sm:text-base"
           >
             <i
-              class="fas fa-plus-circle group-hover:rotate-90 transition-transform duration-300"
+              class="cursor-pointer fas fa-plus-circle group-hover:rotate-90 transition-transform duration-300"
             ></i>
-            <span>Criar primeira conta</span>
+            <span class="cursor-pointer">Criar primeira conta</span>
           </button>
         </div>
         } @else {
@@ -172,7 +174,7 @@
               </div>
               <button
                 (click)="deleteAccount(account.id)"
-                class="p-1.5 sm:p-2 rounded-full hover:bg-[#D8EAE5] transition-all duration-300 text-[#748389] hover:text-[#013E4C] group-hover:scale-110"
+                class="cursor-pointer p-1.5 sm:p-2 rounded-full hover:bg-[#D8EAE5] transition-all duration-300 text-[#748389] hover:text-[#013E4C] group-hover:scale-110"
                 title="Remover"
               >
                 <i class="fas fa-trash-alt text-base sm:text-lg"></i>

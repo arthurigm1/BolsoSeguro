@@ -2,7 +2,10 @@
   <!-- Header -->
   <div class="flex items-center justify-between mb-6">
     <h2 class="text-xl font-bold text-[#013E4C]">Nova Transação</h2>
-    <button (click)="fechar()" class="text-[#5e6d72] hover:text-[#013E4C]">
+    <button
+      (click)="fechar()"
+      class="cursor-pointer text-[#5e6d72] hover:text-[#013E4C]"
+    >
       <i class="fas fa-times"></i>
     </button>
   </div>
@@ -12,7 +15,7 @@
     <!-- Despesa -->
     <button
       (click)="selecionarTipo('DESPESA')"
-      class="p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 flex flex-col items-center justify-center border border-[#E0E5E7] hover:border-[#1C6956]"
+      class="cursor-pointer p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 flex flex-col items-center justify-center border border-[#E0E5E7] hover:border-[#1C6956]"
     >
       <div
         class="w-12 h-12 rounded-full bg-[#F5E8E8] flex items-center justify-center mb-3"
@@ -26,7 +29,7 @@
     <!-- Receita -->
     <button
       (click)="selecionarTipo('RECEITA')"
-      class="p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 flex flex-col items-center justify-center border border-[#E0E5E7] hover:border-[#1C6956]"
+      class="cursor-pointer p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 flex flex-col items-center justify-center border border-[#E0E5E7] hover:border-[#1C6956]"
     >
       <div
         class="w-12 h-12 rounded-full bg-[#D8EAE5] flex items-center justify-center mb-3"

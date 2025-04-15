@@ -57,13 +57,33 @@
 
           <!-- Controles -->
           <div class="flex flex-wrap items-center gap-3">
+            <button
+              (click)="openNovaTransacaoDialog()"
+              class="cursor-pointer px-4 py-2 bg-[#1C6956] hover:bg-[#1a5e4d] text-white text-sm font-medium rounded-lg shadow-sm flex items-center justify-center space-x-2 transition-all duration-200 transform hover:scale-[1.02] active:scale-95"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                />
+              </svg>
+              <span>Nova transação</span>
+            </button>
             <!-- Navegação por Mês -->
             <div
               class="flex items-center bg-white/10 backdrop-blur-md rounded-xl border border-white/20 overflow-hidden"
             >
               <button
                 (click)="prevMonth()"
-                class="p-2 text-white hover:bg-white/20 transition-all duration-300 group"
+                class="cursor-pointer p-2 text-white hover:bg-white/20 transition-all duration-300 group"
                 aria-label="Mês anterior"
               >
                 <svg
@@ -102,7 +122,7 @@
 
               <button
                 (click)="nextMonth()"
-                class="p-2 text-white hover:bg-white/20 transition-all duration-300 group"
+                class="cursor-pointer p-2 text-white hover:bg-white/20 transition-all duration-300 group"
                 aria-label="Próximo mês"
               >
                 <svg
@@ -124,7 +144,7 @@
             <!-- Botão Hoje -->
             <button
               (click)="goToCurrentMonth()"
-              class="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-xl font-medium backdrop-blur-md border border-white/20 shadow-sm hover:shadow-md transition-all duration-300 transform hover:scale-[1.02] flex items-center"
+              class="cursor-pointer px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-xl font-medium backdrop-blur-md border border-white/20 shadow-sm hover:shadow-md transition-all duration-300 transform hover:scale-[1.02] flex items-center"
             >
               <svg
                 class="h-5 w-5 mr-2"
@@ -146,7 +166,7 @@
             <button
               (click)="downloadReport()"
               [disabled]="isExporting"
-              class="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl font-medium shadow-lg hover:shadow-emerald-500/30 transition-all duration-300 transform hover:scale-[1.02] flex items-center relative overflow-hidden"
+              class="cursor-pointer px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl font-medium shadow-lg hover:shadow-emerald-500/30 transition-all duration-300 transform hover:scale-[1.02] flex items-center relative overflow-hidden"
             >
               <span class="relative z-10 flex items-center">
                 @if (isExporting) {
@@ -613,11 +633,7 @@
               />
             </svg>
             <p class="text-[#5e6d72] mb-4">Nenhuma despesa categorizada</p>
-            <button
-              class="px-4 py-2 bg-[#1C6956] text-white rounded-lg text-sm font-medium hover:bg-[#013E4C] transition-colors"
-            >
-              Adicionar Categorias
-            </button>
+
             }
           </div>
           }
@@ -661,7 +677,8 @@
 
           <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
             <button
-              class="px-4 py-2 bg-[#1C6956] hover:bg-[#1a5e4d] text-white text-sm font-medium rounded-lg shadow-sm flex items-center justify-center space-x-2 transition-all duration-200 transform hover:scale-[1.02] active:scale-95"
+              (click)="openNovaTransacaoDialog()"
+              class="cursor-pointer px-4 py-2 bg-[#1C6956] hover:bg-[#1a5e4d] text-white text-sm font-medium rounded-lg shadow-sm flex items-center justify-center space-x-2 transition-all duration-200 transform hover:scale-[1.02] active:scale-95"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -918,27 +935,7 @@
               Parece que você ainda não tem movimentações registradas para
               {{ getMonthYear() | titlecase }}.
             </p>
-            <div class="mt-6">
-              <button
-                class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-lg text-white bg-[#1C6956] hover:bg-[#1a5e4d] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1C6956] transition-all duration-200 transform hover:scale-105 active:scale-95"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="-ml-1 mr-2 h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                  />
-                </svg>
-                Adicionar primeira transação
-              </button>
-            </div>
+            <div class="mt-6"></div>
           </div>
         </div>
       </div>
@@ -962,7 +959,7 @@
         <div class="flex items-center space-x-3">
           <button
             (click)="prevMonth()"
-            class="px-3 py-1 rounded-lg border border-[#E0E5E7] text-sm font-medium text-[#5e6d72] bg-white hover:bg-[#F8F7F5] flex items-center transition-all duration-200 hover:border-[#1C6956] hover:text-[#1C6956]"
+            class="cursor-pointer px-3 py-1 rounded-lg border border-[#E0E5E7] text-sm font-medium text-[#5e6d72] bg-white hover:bg-[#F8F7F5] flex items-center transition-all duration-200 hover:border-[#1C6956] hover:text-[#1C6956]"
           >
             <svg
               class="h-4 w-4 mr-1"
@@ -988,7 +985,7 @@
 
           <button
             (click)="nextMonth()"
-            class="px-3 py-1 rounded-lg border border-[#E0E5E7] text-sm font-medium text-[#5e6d72] bg-white hover:bg-[#F8F7F5] flex items-center transition-all duration-200 hover:border-[#1C6956] hover:text-[#1C6956]"
+            class="cursor-pointer px-3 py-1 rounded-lg border border-[#E0E5E7] text-sm font-medium text-[#5e6d72] bg-white hover:bg-[#F8F7F5] flex items-center transition-all duration-200 hover:border-[#1C6956] hover:text-[#1C6956]"
           >
             Próximo
             <svg
@@ -1008,29 +1005,102 @@
         </div>
       </div>
     </div>
+    <footer
+      class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg p-6 mt-8 border border-white/30 animate-fadeIn"
+    >
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div>
+          <h3 class="text-lg font-semibold text-[#013E4C] mb-4">
+            BolsoSeguro Dashboard
+          </h3>
+          <p class="text-[#5e6d72] text-sm">
+            Uma ferramenta completa para gerenciar suas finanças pessoais e
+            alcançar seus objetivos financeiros.
+          </p>
+        </div>
 
-    <!-- Adicione isso no seu CSS global ou no estilo do componente -->
-  </main>
+        <div>
+          <h3 class="text-lg font-semibold text-[#013E4C] mb-4">
+            Links Rápidos
+          </h3>
+          <ul class="space-y-2">
+            <li>
+              <a
+                (click)="alterarComponente('lancamentos')"
+                class="text-[#5e6d72] hover:text-[#1C6956] transition-colors cursor-pointer text-sm flex items-center"
+              >
+                <i class="fas fa-chevron-right text-xs mr-2 text-[#1C6956]"></i>
+                Transações
+              </a>
+            </li>
+            <li>
+              <a
+                (click)="mudarPagina('configuracoes', 'contas')"
+                class="text-[#5e6d72] hover:text-[#1C6956] transition-colors cursor-pointer text-sm flex items-center"
+              >
+                <i class="fas fa-chevron-right text-xs mr-2 text-[#1C6956]"></i>
+                Minhas Contas
+              </a>
+            </li>
+            <li>
+              <a
+                (click)="mudarPagina('configuracoes', 'metas')"
+                class="text-[#5e6d72] hover:text-[#1C6956] transition-colors cursor-pointer text-sm flex items-center"
+              >
+                <i class="fas fa-chevron-right text-xs mr-2 text-[#1C6956]"></i>
+                Metas Financeiras
+              </a>
+            </li>
+          </ul>
+        </div>
 
-  <footer class="bg-white border-t border-gray-200 mt-8">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-      <div class="flex flex-col md:flex-row justify-between items-center">
-        <p class="text-sm text-gray-500">
-          &copy; {{ currentDate | date : "yyyy" }} Sistema Financeiro. Todos os
-          direitos reservados.
-        </p>
-        <div class="mt-4 md:mt-0 flex space-x-6">
-          <span class="text-sm text-gray-500">
-            Atualizado em {{ currentDate | date : "dd/MM/yyyy 'às' HH:mm" }}
-          </span>
-          <a href="#" class="text-sm text-emerald-600 hover:text-emerald-700"
-            >Ajuda</a
-          >
-          <a href="#" class="text-sm text-emerald-600 hover:text-emerald-700"
-            >Termos</a
-          >
+        <div>
+          <h3 class="text-lg font-semibold text-[#013E4C] mb-4">Contato</h3>
+          <ul class="space-y-2 text-sm text-[#5e6d72]">
+            <li class="flex items-center">
+              <i class="fas fa-envelope mr-2 text-[#1C6956]"></i>
+              contatofinancedashboard.com
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-globe mr-2 text-[#1C6956]"></i>
+              www.financedashboard.com
+            </li>
+          </ul>
+
+          <div class="mt-4 flex space-x-4">
+            <a
+              href="#"
+              class="text-[#5e6d72] hover:text-[#1C6956] transition-colors"
+            >
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a
+              href="#"
+              class="text-[#5e6d72] hover:text-[#1C6956] transition-colors"
+            >
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a
+              href="#"
+              class="text-[#5e6d72] hover:text-[#1C6956] transition-colors"
+            >
+              <i class="fab fa-instagram"></i>
+            </a>
+          </div>
         </div>
       </div>
-    </div>
-  </footer>
+
+      <div
+        class="border-t border-[#E0E5E7] mt-8 pt-6 text-center text-sm text-[#5e6d72]"
+      >
+        <p>
+          &copy; {{ currentDate | date : "yyyy" }} BolsoSeguro Dashboard. Todos
+          os direitos reservados.
+        </p>
+        <p class="mt-1">
+          Atualizado em {{ currentDate | date : "dd/MM/yyyy 'às' HH:mm" }}
+        </p>
+      </div>
+    </footer>
+  </main>
 </div>

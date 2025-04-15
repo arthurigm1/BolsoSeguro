@@ -74,7 +74,7 @@
             <!-- Botão Resetar -->
             <button
               (click)="limparFiltros()"
-              class="px-4 py-2.5 text-sm bg-white/80 hover:bg-[#D8EAE5] text-[#5e6d72] hover:text-[#1C6956] rounded-xl font-medium shadow-sm hover:shadow-md transition-all focus:outline-none focus:ring-2 focus:ring-[#1C6956]/50 flex items-center transform hover:scale-[1.02] active:scale-95"
+              class="cursor-pointer px-4 py-2.5 text-sm bg-white/80 hover:bg-[#D8EAE5] text-[#5e6d72] hover:text-[#1C6956] rounded-xl font-medium shadow-sm hover:shadow-md transition-all focus:outline-none focus:ring-2 focus:ring-[#1C6956]/50 flex items-center transform hover:scale-[1.02] active:scale-95"
             >
               <i class="fas fa-sync-alt mr-2 animate-spin-slow"></i>
               Resetar
@@ -246,7 +246,7 @@
         </h3>
         <button
           (click)="toggleFiltrosAvancados()"
-          class="text-sm text-[#1C6956] hover:text-[#013E4C] flex items-center transition-colors"
+          class="cursor-pointer text-sm text-[#1C6956] hover:text-[#013E4C] flex items-center transition-colors"
         >
           <i
             class="fas fa-chevron-{{ filtrosAvancados ? 'up' : 'down' }} mr-1"
@@ -423,7 +423,7 @@
         <button
           *ngFor="let view of views"
           (click)="mudarVisualizacao(view.id)"
-          class="px-4 py-2 rounded-lg flex items-center gap-2 transition-all duration-300 text-sm"
+          class="cursor-pointer px-4 py-2 rounded-lg flex items-center gap-2 transition-all duration-300 text-sm"
           [ngClass]="{
             'bg-gradient-to-r from-[#1C6956] to-[#013E4C] text-white shadow-md transform -translate-y-0.5':
               activeView === view.id,
