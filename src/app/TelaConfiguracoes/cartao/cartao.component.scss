@@ -9,10 +9,7 @@
     }
 }
 
-button:hover {
-    transform: translateY(-4px);
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
+
 
 // Animação para o empty state
 .empty-state {
@@ -50,5 +47,112 @@ button:hover {
 
     &:hover::after {
         opacity: 1;
+    }
+}
+
+.cartoes-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.main-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+
+    mat-spinner {
+        margin-bottom: 16px;
+    }
+
+    p {
+        color: #666;
+    }
+}
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    text-align: center;
+
+    mat-icon {
+        font-size: 48px;
+        width: 48px;
+        height: 48px;
+        color: #666;
+        margin-bottom: 16px;
+    }
+
+    p {
+        color: #666;
+        margin-bottom: 16px;
+    }
+}
+
+.cartoes-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.cartao-card {
+    transition: transform 0.2s ease-in-out;
+
+    &:hover {
+        transform: translateY(-4px);
+    }
+
+    mat-card-header {
+        margin-bottom: 16px;
+
+        img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+        }
+    }
+
+    .cartao-info {
+        display: grid;
+        gap: 12px;
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .label {
+                color: #666;
+                font-size: 14px;
+            }
+
+            .value {
+                font-weight: 500;
+                color: #333;
+            }
+        }
+    }
+
+    mat-card-actions {
+        padding: 8px 16px;
+        border-top: 1px solid #eee;
     }
 }

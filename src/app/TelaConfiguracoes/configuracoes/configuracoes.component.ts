@@ -87,7 +87,6 @@ export class ConfiguracoesComponent {
         this.addMeta();
         break;
       case 'cartao':
-        this.addCard();
         break;
       default:
         break;
@@ -117,23 +116,11 @@ export class ConfiguracoesComponent {
     type: 'expense',
   };
 
-  newCard = {
-    nome: '',
-    limiteTotal: 0,
-    bandeira: '',
-    vencimentoFatura: 0,
-    diaFechamentoFatura: 0,
-  };
-
   newGoal = {
     name: '',
     targetValue: 0,
     currentValue: 0,
   };
-
-  selectBandeira(bandeira: string) {
-    this.newCard.bandeira = bandeira;
-  }
 
   setActive(component: string) {
     this.activeComponent = component;
@@ -161,13 +148,6 @@ export class ConfiguracoesComponent {
   resetForms() {
     this.newCategory = { name: '', type: 'expense' };
     this.newGoal = { name: '', targetValue: 0, currentValue: 0 };
-    this.newCard = {
-      nome: '',
-      limiteTotal: 0,
-      bandeira: '',
-      vencimentoFatura: 0,
-      diaFechamentoFatura: 0,
-    };
   }
 
   onCancel() {
@@ -198,42 +178,6 @@ export class ConfiguracoesComponent {
   }
   dias: number[] = Array.from({ length: 31 }, (_, i) => i + 1);
 
-  addCard() {
-    this.isSaving = true;
-
-    const diaFechamento = +this.newCard.diaFechamentoFatura;
-
-    // Criar o vencimento da fatura como um número (exemplo: mês de vencimento)
-    const vencimento = new Date();
-    vencimento.setMonth(vencimento.getMonth() + 1); // Define para o próximo mês
-    vencimento.setDate(diaFechamento); // Define o dia conforme o valor de diaFechamentoFatura
-
-    // Usando o mês como o número para vencimento (1-12)
-    const vencimentoFaturaNumero = vencimento.getMonth() + 1; // Mês (1-12)
-
-    const cartaoDTO: CartaoDTO = {
-      nome: this.newCard.nome,
-      limiteTotal: this.newCard.limiteTotal,
-      bandeira: this.newCard.bandeira,
-      vencimentoFatura: vencimentoFaturaNumero, // Passando o mês como número
-      diaFechamentoFatura: diaFechamento, // Passa o dia também
-    };
-
-    // Chamada ao serviço para criar o cartão
-    this.cartaoService.criarCartao(cartaoDTO).subscribe({
-      next: () => {
-        this.toastrService.success('Cartão criado com sucesso!');
-        this.cartaoComponent.buscarCartoes();
-        this.cartaoAtualizado.emit();
-        this.closeGlobalModal();
-        this.isSaving = false;
-      },
-      error: (err) => {
-        this.toastrService.error('Erro ao criar cartão!');
-        this.isSaving = false;
-      },
-    });
-  }
   getActiveTitle() {
     const activeItem = this.menuItems.find(
       (item) => item.id === this.activeComponent

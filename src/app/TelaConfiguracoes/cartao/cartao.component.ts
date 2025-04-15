@@ -1,80 +1,73 @@
-import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { CartaoResponseDTO } from '../../Interface/CartaoDTO.interface';
-import { CartaoService } from '../../Services/CartaoService/cartao.service';
-import Swal from 'sweetalert2';
 import { MatDialog } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatCardModule } from '@angular/material/card';
+import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
+import { CartaoService } from '../../Services/CartaoService/cartao.service';
+import { CartaoResponseDTO } from '../../Interface/CartaoDTO.interface';
+import { NovoCartaoDialogComponent } from '../../Dialog/novo-cartao-dialog/novo-cartao-dialog.component';
+import Swal from 'sweetalert2';
 import { EditCardDialogComponent } from '../../Dialog/edit-card-dialog/edit-card-dialog.component';
 
 @Component({
   selector: 'app-cartao',
-  imports: [CommonModule],
   templateUrl: './cartao.component.html',
   styleUrls: ['./cartao.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatCardModule,
+  ],
 })
 export class CartaoComponent implements OnInit {
   creditCards: CartaoResponseDTO[] = [];
-  isAddingCard = false;
-  isLoadingPage = false;
-  deletingCardId: string | null = null;
-  cartoes: any[] = [];
+  isLoading = false;
+  isAddingCartao = false;
+  @Output() showFaturaEvent = new EventEmitter<string>();
   constructor(
-    private dialog: MatDialog,
     private cartaoService: CartaoService,
-
+    private dialog: MatDialog,
     private toastr: ToastrService
   ) {}
-  @Output() openModalEvent = new EventEmitter<void>();
-  @Output() showFaturaEvent = new EventEmitter<string>();
-  verDetalhesFatura(cartaoId: string): void {
-    this.showFaturaEvent.emit(cartaoId);
+
+  ngOnInit(): void {
+    this.carregarCartoes();
   }
-  isLoading = true;
-  editarCartao(card: any) {
-    const dialogRef = this.dialog.open(EditCardDialogComponent, {
+
+  carregarCartoes(): void {
+    this.isLoading = true;
+    this.cartaoService.buscarCartoesPorUsuario().subscribe({
+      next: (cartoes: CartaoResponseDTO[]) => {
+        this.creditCards = cartoes;
+        this.isLoading = false;
+      },
+      error: (error: Error) => {
+        this.toastr.error('Erro ao carregar cartões', 'Erro');
+        this.isLoading = false;
+      },
+    });
+  }
+
+  openModal(): void {
+    this.isAddingCartao = true;
+    const dialogRef = this.dialog.open(NovoCartaoDialogComponent, {
       width: '500px',
-      data: { card },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
+      this.isAddingCartao = false;
       if (result) {
-        this.atualizarCartao(card.id, result);
+        this.carregarCartoes();
       }
     });
   }
-  atualizarCartao(id: string, dados: any) {
-    this.cartaoService.updateCartao(id, dados).subscribe({
-      next: () => {
-        this.toastr.success('Cartão atualizado com sucesso!');
-        this.buscarCartoes();
-      },
-      error: (err) => {
-        this.toastr.error('Erro ao atualizar cartão!');
-      },
-    });
-  }
-  openModal() {
-    this.openModalEvent.emit();
-  }
-  ngOnInit() {
-    this.buscarCartoes();
-  }
-  buscarCartoes() {
-    this.isLoading = true;
-    this.cartaoService.buscarCartoesPorUsuario().subscribe(
-      (response: CartaoResponseDTO[]) => {
-        this.creditCards = response;
-        this.isLoading = false;
-      },
-      (error) => {
-        this.toastr.error(
-          'Erro ao carregar os cartões. Tente novamente mais tarde.'
-        );
-        this.isLoading = false;
-      }
-    );
-  }
+
   deletarCartao(id: string) {
     Swal.fire({
       title:
@@ -95,7 +88,7 @@ export class CartaoComponent implements OnInit {
               'O cartão foi removido com sucesso.',
               'success'
             );
-            this.buscarCartoes();
+            this.carregarCartoes();
           },
           error: () => {
             Swal.fire('Erro!', 'Ocorreu um erro ao deletar o cartão.', 'error');
@@ -122,5 +115,41 @@ export class CartaoComponent implements OnInit {
       default:
         return 'assets/logos/default.png'; // Logo padrão
     }
+  }
+
+  getTotalAvailableLimit(): number {
+    return this.creditCards.reduce(
+      (total, card) => total + card.limiteDisponivel,
+      0
+    );
+  }
+
+  verDetalhesFatura(cartaoId: string): void {
+    this.showFaturaEvent.emit(cartaoId);
+  }
+
+  editarCartao(card: any) {
+    const dialogRef = this.dialog.open(EditCardDialogComponent, {
+      width: '500px',
+      data: { card },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.atualizarCartao(card.id, result);
+      }
+    });
+  }
+
+  atualizarCartao(id: string, dados: any) {
+    this.cartaoService.updateCartao(id, dados).subscribe({
+      next: () => {
+        this.toastr.success('Cartão atualizado com sucesso!');
+        this.carregarCartoes();
+      },
+      error: (err) => {
+        this.toastr.error('Erro ao atualizar cartão!');
+      },
+    });
   }
 }

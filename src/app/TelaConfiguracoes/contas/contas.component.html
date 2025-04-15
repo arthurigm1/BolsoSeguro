@@ -130,11 +130,13 @@
           >
             <div class="flex items-center justify-between">
               <div class="flex items-center space-x-4">
-                <div class="bank-icon-container">
+                <div
+                  class="p-2 bg-white rounded-full shadow-md border-2 border-gray-200"
+                >
                   <img
                     [src]="getBankIcon(account.bancoTipo)"
                     [alt]="account.bancoTipo"
-                    class="bank-icon"
+                    class="w-12 h-12 object-contain hover:scale-110 transition-transform"
                   />
                 </div>
 

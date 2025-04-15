@@ -45,7 +45,6 @@
 
           <app-cartao
             *ngSwitchCase="'cartoes'"
-            (openModalEvent)="openGlobalModal('cartao')"
             (showFaturaEvent)="showFaturaDetails($event)"
           ></app-cartao>
 
@@ -245,60 +244,6 @@
           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
           required
         />
-      </div>
-      } @else if (modalType === 'cartao') {
-      <div class="mb-4">
-        <label class="block text-sm font-medium text-gray-700"
-          >Nome do Cartão</label
-        >
-        <input
-          type="text"
-          [(ngModel)]="newCard.nome"
-          name="cardName"
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-          required
-        />
-      </div>
-      <div class="mb-4">
-        <label class="block text-sm font-medium text-gray-700"
-          >Limite Total</label
-        >
-        <input
-          type="number"
-          [(ngModel)]="newCard.limiteTotal"
-          name="limit"
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-          required
-        />
-      </div>
-      <div class="mb-4">
-        <label class="block text-sm font-medium text-gray-700">Bandeira</label>
-        <select
-          [(ngModel)]="newCard.bandeira"
-          name="brand"
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-          required
-        >
-          <option value="VISA">Visa</option>
-          <option value="MASTERCARD">Mastercard</option>
-          <option value="ELO">Elo</option>
-          <option value="AMEX">American Express</option>
-        </select>
-      </div>
-      <div class="mb-4">
-        <label class="block text-sm font-medium text-gray-700"
-          >Dia do Fechamento</label
-        >
-        <select
-          [(ngModel)]="newCard.diaFechamentoFatura"
-          name="closingDay"
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-          required
-        >
-          @for (dia of dias; track dia) {
-          <option [value]="dia">{{ dia }}</option>
-          }
-        </select>
       </div>
       }
 
