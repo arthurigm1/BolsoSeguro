@@ -30,7 +30,7 @@ export class CartaoService {
   }
 
   updateCartao(id: string, cartao: CartaoUpdateDTO): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/${id}`, cartao, {
+    return this.http.put<void>(`${this.apiUrl}/${id}`, cartao, {
       headers: this.getAuthHeaders(),
     });
   }
